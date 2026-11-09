@@ -1,4 +1,5 @@
 import React from 'react';
+import {Part1Test} from './Part1Test';
 import {Composition, AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 
 const Test: React.FC = () => {
@@ -12,5 +13,8 @@ const Test: React.FC = () => {
 };
 
 export const Root: React.FC = () => (
+  <>
+  <Composition id="Part1Test" component={Part1Test} durationInFrames={420} fps={30} width={1080} height={1920} />
   <Composition id="Test" component={Test} durationInFrames={60} fps={30} width={1920} height={1080} />
+  </>
 );
