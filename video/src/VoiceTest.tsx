@@ -25,9 +25,9 @@ const Captions: React.FC = () => {
   if (!sent) return null;
   return (
     <div style={{position: 'absolute', bottom: 200, left: 60, right: 60, textAlign: 'center', fontFamily: font,
-      fontSize: 62, lineHeight: 1.3, textShadow: '0 4px 20px #000'}}>
+      fontSize: 62, lineHeight: 1.3, minHeight: 240, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'flex-end', gap: '0 16px', textShadow: '0 4px 20px #000'}}>
       {sent.map((w, i) => (
-        <span key={i} style={{color: t >= w.s && t <= w.e + 0.05 ? GOLD : '#fff', fontWeight: t >= w.s && t <= w.e ? 700 : 400}}>{w.t} </span>
+        <span key={i} style={{color: t >= w.s && t <= w.e + 0.05 ? GOLD : '#fff', fontWeight: 700}}>{w.t}</span>
       ))}
     </div>
   );
