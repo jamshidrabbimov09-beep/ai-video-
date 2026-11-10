@@ -1,11 +1,12 @@
-"""Part 1, version 3: beat-aligned voice timeline + slower soft-dissolve edit.
+"""Part 1, final edit (V4): beat-aligned narration, slow soft-dissolve image edit, full synchronized subtitles.
 
-Music is 80 BPM with beats at 0.031 + 0.75 k s (measured). Every sentence of the narration starts on a half-beat (0.375 s grid),
-pauses are 0.4-0.8 s, cuts are snapped to the beat grid. Writes:
-  public/voice/voice3.wav   re-timed narration
-  src/edit3.json            shots + overlays for Remotion (Part1V3)
-  edit/sfx_plan4.json       sparse sound accents
-Run: python3 edit/edit2.py
+Music (edit/music.mp3) is 80 BPM with beats at 0.031 + 0.75 k s (measured). Every sentence of the narration starts on a
+half-beat (0.375 s grid), pauses are 0.4-0.8 s, cuts are snapped to the beat grid, no shot is shorter than ~2.3 s.
+Inputs:  edit/transcript.json (sentence timings), src/words.json (word timings), public/voice/all.mp3 (narration)
+Outputs: public/voice/voice4.wav  re-timed narration (sentences cut at the quietest point of each pause)
+         src/edit4.json           shots + overlays + subtitle chunks for Remotion (composition Part1V4)
+         edit/sfx_plan4.json      sparse sound accents (rendered by edit/sfx4.py)
+Run: python3 edit/edit4.py      (or the whole pipeline: edit/build_part1.sh)
 """
 import json, math, pathlib, subprocess, wave
 import numpy as np
