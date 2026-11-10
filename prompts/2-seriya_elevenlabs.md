@@ -10,7 +10,7 @@ Yolg'iz yigit hech kimni yenga olmaydi. [short pause] Temur buni erta tushundi. 
 
 ## B
 ```
-1360-yil. [short pause] Movarounnahr parchalangan. Mo'g'ul xoni Tug'luq Temur lashkar bilan kirib keladi. Mahalliy amirlar yo qochadi, yo bo'ysunadi. [short pause] Qarshilik qilish esa o'limni anglatardi. Yosh Temur ham uning xizmatiga o'tadi. [short pause] Bu majburiyatmi yoki hisob-kitobmi? Tarixchilar hanuzgacha bahslashadi.
+1360-yil. [short pause] Movarounnahr parchalangan. Mo'g'ul xoni Tug'luq Temur lashkar bilan kirib keladi. Mahalliy amirlar yo qochadi, yo bo'ysunadi. [short pause] Qarshilik qilish esa juda xavfli edi. Yosh Temur ham uning xizmatiga o'tadi. [short pause] Bu majburiyatmi yoki hisob-kitobmi? Tarixchilar hanuzgacha bahslashadi.
 ```
 
 ## C
@@ -25,7 +25,7 @@ Tez orada u yo'lini o'zgartiradi. [short pause] Uning yonida Amir Husayn bor edi
 
 ## E
 ```
-Keyingi yillarda ular mamlakatni qaytarib oldi. [short pause] Lekin g'alaba do'stlikni saqlamadi. Husayn tobora o'zboshimcha bo'lib bordi. U Temurning buyrug'ini ham ado etmay qo'ydi. [short pause] Ikki amir o'rtasida ishonch yo'qoldi. Ikkalasi ham bir narsani bilardi: bir taxtga ikki hukmdor sig'maydi. [short pause] Kelishmovchilik ochiq urushga aylanadi.
+Keyingi yillarda ular mamlakatni qaytarib oldi. [short pause] Lekin g'alaba do'stlikni saqlamadi. Husayn tobora o'zboshimcha bo'lib bordi. Ba'zi manbalarga ko'ra, Loy jangida u Temurga yordam bermagan. [short pause] Ikki amir o'rtasida ishonch yo'qoldi. Ikkalasi ham bir narsani bilardi: bir yurtga ikki hukmdor sig'maydi. [short pause] Kelishmovchilik ochiq urushga aylanadi.
 ```
 
 ## F
