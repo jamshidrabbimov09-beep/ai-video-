@@ -45,8 +45,8 @@ f1 = ImageFont.truetype(B, fs); f2 = ImageFont.truetype(I, 50); f3 = ImageFont.t
 d.text((tx, cy - 138), 'UNUTILGAN QISSALAR', font=f1, fill=GOLD)
 tw = d.textbbox((0, 0), 'UNUTILGAN QISSALAR', font=f1)[2]
 d.line((tx, cy + 5, tx + tw, cy + 5), fill=GOLD, width=3)
-d.text((tx, cy + 28), 'Tarix kitoblarida yozilmagan qissalar', font=f2, fill=CREAM)
-d.text((tx, cy + 100), 'BUYUK SHAXSLAR  •  UNUTILGAN VOQEALAR', font=f3, fill=(200, 185, 150))
+d.text((tx, cy + 28), 'Darsliklarda yozilmagan tarix', font=f2, fill=CREAM)
+d.text((tx, cy + 100), 'BUYUK SHAXSLAR  •  KATTA VOQEALAR', font=f3, fill=(200, 185, 150))
 print('text right edge', tx + tw, 'safe', W // 2 - 773, W // 2 + 773)
 img.convert('RGB').save(out / 'banner_2560x1440.png')
 # preview of the mobile-safe crop

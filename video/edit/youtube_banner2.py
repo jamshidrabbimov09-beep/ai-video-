@@ -46,13 +46,13 @@ def draw(d, shadow):
         else:
             d.text((x, y), text, font=font, fill=(0, 0, 0, 255) if shadow else fill)
         return w
-    c('TARIX  •  QISSALAR  •  SHAXSLAR', f3, cy - 178, (215, 200, 160, 255), sp=7)
+    c('TARIX  •  SHAXSLAR  •  VOQEALAR', f3, cy - 178, (215, 200, 160, 255), sp=7)
     w = c('UNUTILGAN QISSALAR', f1, cy - 118, GOLD + (255,))
     if not shadow:
         d.line(((W - w) / 2, cy + 30, (W - 150) / 2, cy + 30), fill=GOLD + (255,), width=3)
         d.line(((W + 150) / 2, cy + 30, (W + w) / 2, cy + 30), fill=GOLD + (255,), width=3)
         d.regular_polygon((W / 2, cy + 30, 13), 4, rotation=0, outline=GOLD + (255,), width=3)
-    c('Tarix kitoblarida yozilmagan qissalar', f2, cy + 62, CREAM + (255,))
+    c('Darsliklarda yozilmagan tarix', f2, cy + 62, CREAM + (255,))
 im = Image.alpha_composite(im, text_layer(draw))
 (root / 'youtube').mkdir(exist_ok=True)
 im.convert('RGB').save(root / 'youtube/banner2_2560x1440.jpg', quality=95)
