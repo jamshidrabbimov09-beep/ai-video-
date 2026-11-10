@@ -110,6 +110,9 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 - Part 2 script, then narration, images, edit.
 - Review Part 1 Reel statistics (where viewers drop off) once the user sends a screenshot.
+- Idea, postponed by the user on 2026-11-10 ("hozir emas"): a separate channel of modern-day moral short stories
+  ("ibratli hikoyalar"), after two Russian AI-animated reference videos they liked. Fully animated clips are too costly;
+  offered a free test video made from stills in the Part 1 way. Do not start unless the user brings it up.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
   Part 1 Reel posted with the cover, caption, Samarqand location, AI label and high-quality upload. Suggested pinned
