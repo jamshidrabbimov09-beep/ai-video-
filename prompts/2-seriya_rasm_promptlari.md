@@ -1,7 +1,7 @@
 # 2-qism: rasm promptlari (38 ta)
 
 Flow: Nano Banana, 9:16, x1. Har bir promptni ALOHIDA xabar qilib yuboring.
-Belgi: T = Temur referensi (`video/public/p1img/i04.jpg`) yuklanadi; H = Husayn referensi (4-rasm tayyor bo'lgach, o'sha rasm) yuklanadi; T+H = ikkalasi.
+Belgi: T = Temur referensi (`video/public/p1img/i04.jpg`) yuklanadi; H = Husayn referensi yuklanadi: 4-rasm uchun `video/public/husayn_ref.jpg` (1-qismdagi Husayn), keyin tayyor bo'lgan 4-rasmning o'zi; T+H = ikkalasi.
 Fayl nomlari: j01.jpg ... j38.jpg.
 
 ## 01 (blok A, referens: -)
@@ -16,22 +16,22 @@ Close portrait of the man from the reference image (Temur, late 20s, short dark 
 
 ## 03 (blok A, referens: T)
 ```
-the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) on horseback meets another rider on the open steppe, the two men clasp forearms in greeting, seen from the side, warm low sun. The other rider is Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt). Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) on horseback meets another rider on the open steppe, the two men clasp forearms in greeting, seen from the side, warm low sun. The other rider is Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim). Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
-## 04 (blok A, referens: H*)
+## 04 (blok A, referens: husayn_ref.jpg)
 ```
-Portrait of Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt), proud confident look, standing in front of a rich tent, soft daylight, chest-up. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+Front-facing portrait of the man from the reference image, (Amir Husayn, young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim), proud confident look, standing in front of a rich tent, soft daylight, chest-up. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 05 (blok A, referens: T+H)
 ```
-the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) riding side by side on horses, both looking toward the horizon, golden hour, friendly mood. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) riding side by side on horses, both looking toward the horizon, golden hour, friendly mood. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 06 (blok A, referens: T+H)
 ```
-the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) standing face to face in a dark tent, cold distrustful stares, one side of each face in shadow, hands near sword hilts, tense. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) standing face to face in a dark tent, cold distrustful stares, one side of each face in shadow, hands near sword hilts, tense. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 07 (blok B, referens: -)
@@ -76,12 +76,12 @@ the man from the reference image (Temur, late 20s, short dark beard, black felt 
 
 ## 15 (blok C, referens: H)
 ```
-Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) on horseback waiting with a small group of armed riders in front of a mud-brick fortress gate, morning light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) on horseback waiting with a small group of armed riders in front of a mud-brick fortress gate, morning light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 16 (blok C, referens: H)
 ```
-Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) seated on cushions in a luxurious tent with carpets and gold vessels, chin raised, proud and ambitious expression. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) seated on cushions in a luxurious tent with carpets and gold vessels, chin raised, proud and ambitious expression. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 17 (blok C, referens: T)
@@ -91,12 +91,12 @@ A 14th-century Central Asian wedding in a festive yurt: the man from the referen
 
 ## 18 (blok C, referens: T+H)
 ```
-the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) clasp hands firmly at a feast table, smiling, noblemen watching in the background, warm light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) clasp hands firmly at a feast table, smiling, noblemen watching in the background, warm light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 19 (blok C, referens: T+H)
 ```
-the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) riding at the head of a small band of about thirty horsemen across the steppe, banners, dust, seen from the front. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) riding at the head of a small band of about thirty horsemen across the steppe, banners, dust, seen from the front. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 20 (blok C, referens: -)
@@ -136,7 +136,7 @@ Close-up of the man from the reference image (Temur, late 20s, short dark beard,
 
 ## 27 (blok D, referens: T+H)
 ```
-the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) sitting by a small fire at night among ruins, wet cloaks, tired but determined faces, looking at each other. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) and Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) sitting by a small fire at night among ruins, wet cloaks, tired but determined faces, looking at each other. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 28 (blok E, referens: -)
@@ -146,12 +146,12 @@ A victorious army of horsemen entering the gate of a 14th-century mud-brick wall
 
 ## 29 (blok E, referens: T+H)
 ```
-Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) sitting on a high seat surrounded by gold and servants, arrogant; the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) stands aside in the shadow watching him with a serious face. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) sitting on a high seat surrounded by gold and servants, arrogant; the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) stands aside in the shadow watching him with a serious face. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 30 (blok E, referens: T+H)
 ```
-A long dark tent: the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) stands at one end and Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) at the other, backs half turned to each other, wide empty space between them, cold light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+A long dark tent: the man from the reference image (Temur, late 20s, short dark beard, black felt cap, dark grey-brown wool robe, leather belt) stands at one end and Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) at the other, backs half turned to each other, wide empty space between them, cold light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 31 (blok E, referens: -)
@@ -171,7 +171,7 @@ The ancient mud-brick fortress city of Balkh under siege: attackers with ladders
 
 ## 34 (blok F, referens: H)
 ```
-Amir Husayn (stout nobleman about 35, round face, thick black moustache and short trimmed beard, white turban, deep red silk robe with gold-embroidered belt) alone in a dark hall of a fortress, defeated, head lowered, turban loosened, a shaft of light from a small window. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) alone in a dark hall of a fortress, defeated, head lowered, turban loosened, a shaft of light from a small window. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 35 (blok F, referens: T)
