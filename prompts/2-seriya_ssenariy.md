@@ -21,7 +21,7 @@ Tez orada u yo'lini o'zgartiradi. Uning yonida Amir Husayn bor edi. Yirik amir a
 Keyingi yillarda ular mamlakatni qaytarib oldi. Lekin g'alaba do'stlikni saqlamadi. Husayn tobora o'zboshimcha bo'lib bordi. Ba'zi manbalarga ko'ra, Loy jangida u Temurga yordam bermagan. Ikki amir o'rtasida ishonch yo'qoldi. Ikkalasi ham bir narsani bilardi: bir yurtga ikki hukmdor sig'maydi. Kelishmovchilik ochiq urushga aylanadi.
 
 **F (1370, Balx)**
-1370-yil. Temur Balxni qamal qiladi. Husayn mag'lub bo'ladi va o'ldiriladi. [long pause] Bir paytlar yelkama-yelka turgan do'st endi yo'q edi. Endi Temurning yo'lida hech kim turmasdi. Do'stlik tugadi, lekin Temurning eng katta yo'li endi boshlanayotgan edi. Va shu yili u o'zini Movarounnahr hukmdori deb e'lon qiladi. Keyingi qismda.
+1370-yil. Temur Balxni qamal qiladi. Husayn mag'lub bo'ladi va o'ldiriladi. [long pause] Bir paytlar yelkama-yelka turgan do'st endi yo'q edi. Endi Temurning yo'lida hech kim turmasdi. Do'stlik tugadi, lekin Temurning eng katta yo'li endi boshlanayotgan edi. Va shu yili u Movarounnahr hukmdori deb e'lon qilinadi. Ammo u xon bo'la olmasdi: u Chingiz avlodi emas edi. Unda Temur qanday qilib butun yurtni boshqardi? Keyingi qismda.
 
 ## Fakt tekshiruvi
 
