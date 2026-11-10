@@ -36,14 +36,14 @@ def text_layer(draw_fn):
     fg = Image.new('RGBA', (W, H), (0, 0, 0, 0)); draw_fn(ImageDraw.Draw(fg), False)
     return Image.alpha_composite(sh.filter(ImageFilter.GaussianBlur(9)), fg)
 FD = root / 'fonts'
-STY = {'cinzel': ('cinzel-latin-700-normal.woff', 'cormorant-garamond-latin-500-italic.woff', 'cinzel-latin-700-normal.woff', 66),
-       'playfair': ('playfair-display-latin-700-normal.woff', 'playfair-display-latin-400-italic.woff', 'playfair-display-latin-700-normal.woff', 54),
-       'cormorant': ('cormorant-garamond-latin-700-normal.woff', 'cormorant-garamond-latin-500-italic.woff', 'cormorant-garamond-latin-700-normal.woff', 66)}
+STY = {'cinzel': ('cinzel-latin-700-normal.woff', 'cormorant-garamond-latin-500-italic.woff', 'cinzel-latin-700-normal.woff', 54),
+       'playfair': ('playfair-display-latin-700-normal.woff', 'playfair-display-latin-400-italic.woff', 'playfair-display-latin-700-normal.woff', 44),
+       'cormorant': ('cormorant-garamond-latin-700-normal.woff', 'cormorant-garamond-latin-500-italic.woff', 'cormorant-garamond-latin-700-normal.woff', 54)}
 style = sys.argv[2] if len(sys.argv) > 2 else 'cinzel'
 t1, t2, t3, s2 = STY[style]
 fs = 150
-while ImageFont.truetype(str(FD / t1), fs).getlength('UNUTILGAN QISSALAR') > 1380: fs -= 2
-f1 = ImageFont.truetype(str(FD / t1), fs); f2 = ImageFont.truetype(str(FD / t2), s2); f3 = ImageFont.truetype(str(FD / t3), 28)
+while ImageFont.truetype(str(FD / t1), fs).getlength('UNUTILGAN QISSALAR') > 980: fs -= 2
+f1 = ImageFont.truetype(str(FD / t1), fs); f2 = ImageFont.truetype(str(FD / t2), s2); f3 = ImageFont.truetype(str(FD / t3), 24)
 a1 = f1.getbbox('UNUTILGAN QISSALAR')
 def draw(d, shadow):
     def c(text, font, y, fill, sp=0):
@@ -55,13 +55,13 @@ def draw(d, shadow):
         else:
             d.text((x, y), text, font=font, fill=(0, 0, 0, 255) if shadow else fill)
         return w
-    c('TARIX  •  SHAXSLAR  •  VOQEALAR', f3, cy - 170 - f3.getbbox('T')[1], (215, 200, 160, 255), sp=7)
-    w = c('UNUTILGAN QISSALAR', f1, cy - 105 - a1[1], GOLD + (255,))
+    c('TARIX  •  SHAXSLAR  •  VOQEALAR', f3, cy - 128 - f3.getbbox('T')[1], (215, 200, 160, 255), sp=7)
+    w = c('UNUTILGAN QISSALAR', f1, cy - 78 - a1[1], GOLD + (255,))
     if not shadow:
         d.line(((W - w) / 2, cy + 30, (W - 150) / 2, cy + 30), fill=GOLD + (255,), width=3)
         d.line(((W + 150) / 2, cy + 30, (W + w) / 2, cy + 30), fill=GOLD + (255,), width=3)
         d.regular_polygon((W / 2, cy + 30, 13), 4, rotation=0, outline=GOLD + (255,), width=3)
-    c('Darsliklarda yozilmagan tarix', f2, cy + 68 - f2.getbbox('D')[1], CREAM + (255,))
+    c('Darsliklarda yozilmagan tarix', f2, cy + 62 - f2.getbbox('D')[1], CREAM + (255,))
 im = Image.alpha_composite(im, text_layer(draw))
 (root / 'youtube').mkdir(exist_ok=True)
 im.convert('RGB').save(root / f'youtube/banner2_{style}.jpg', quality=95)
