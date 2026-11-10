@@ -30,5 +30,5 @@ Keyingi yillarda ular mamlakatni qaytarib oldi. [short pause] Lekin g'alaba do's
 
 ## F
 ```
-1370-yil. Temur Balxni qamal qiladi. [short pause] Husayn mag'lub bo'ladi va o'ldiriladi. [long pause] Bir paytlar yelkama-yelka turgan do'st endi yo'q edi. Endi Temurning yo'lida hech kim turmasdi. [short pause] Do'stlik tugadi, lekin Temurning eng katta yo'li endi boshlanayotgan edi. Va shu yili u Movarounnahr hukmdori deb e'lon qilinadi. [short pause] Ammo u xon bo'la olmasdi: u Chingiz avlodi emas edi. [short pause] Unda Temur qanday qilib butun yurtni boshqardi? Keyingi qismda.
+1370-yil. Temur Balxni qamal qiladi. [short pause] Husayn mag'lub bo'ladi va o'ldiriladi. [long pause] Bir paytlar yelkama-yelka turgan do'st endi yo'q edi. Movarounnahrda Temurga teng keladigan raqib qolmadi. [short pause] Do'stlik tugadi. Ammo Temurning katta yo'li endi boshlanayotgan edi. Shu yili Balxda u hukmdor deb e'lon qilinadi. [short pause] Lekin bitta to'siq bor edi: u Chingiz avlodi emas, demak, xon bo'la olmaydi. [short pause] Xon bo'lmagan odam qanday qilib butun yurtni boshqardi? Keyingi qismda.
 ```
