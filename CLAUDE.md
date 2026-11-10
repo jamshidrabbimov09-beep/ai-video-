@@ -3,6 +3,12 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
+The full text of that first conversation (user messages and Claude's replies, no tool output) is in
+`suhbat/1-chat_amir-temur-1-qism.md`. The user plans one chat per part and wants each new chat to know everything
+from the previous ones: read this file first, and search the conversation log when a detail is missing here.
+At the end of each chat, export its conversation the same way (`video/edit/export_chat.py`) into `suhbat/` and
+update this file.
+
 ## The project
 
 - "Unutilgan Qissalar": an Uzbek-language history channel (Instagram `@unutilgan_qissalar`, later YouTube Shorts/TikTok).
@@ -90,7 +96,10 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 ## Repository
 
-- Work lives on branch `claude/busy-hamilton-6qdlnb`; it has not been merged into `main` and no pull request was opened.
+- Part 1 work was done on branch `claude/busy-hamilton-6qdlnb`; pull request #2 into `main` was opened on 2026-11-10 and
+  the user was asked to merge it. If `main` lacks `prompts/` and `video/`, the merge has not happened: base the work on
+  that branch instead. (PR #1 belongs to an unrelated earlier chat.)
+- `suhbat/`: exported conversation logs, one file per chat.
 - `prompts/`: script, image prompts, clip prompts for Part 1. `video/`: the Remotion project and all media.
 - The Russian files at the repo root (`ИНСТРУКЦИЯ.md`, `СТИЛЬ.md`, `СТРУКТУРА.md`, `ИСТОЧНИКИ.md`,
   `Семейные драмы.txt`) belong to an unrelated earlier project (family-drama stories) and are not used here.
@@ -100,3 +109,6 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 - Part 2 script, then narration, images, edit.
 - Review Part 1 Reel statistics (where viewers drop off) once the user sends a screenshot.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
+- Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
+  Part 1 Reel posted with the cover, caption, Samarqand location, AI label and high-quality upload. Suggested pinned
+  first comments are in the conversation log.
