@@ -5,7 +5,9 @@ so a new session can continue without that conversation.
 
 The full text of that first conversation (user messages and Claude's replies, no tool output) is in
 `suhbat/1-chat_amir-temur-1-qism.md`. The user plans one chat per part and wants each new chat to know everything
-from the previous ones: read this file first, and search the conversation log when a detail is missing here.
+from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
+search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
+re-reading large files and images, and do not poll long jobs more often than needed.
 At the end of each chat, export its conversation the same way (`video/edit/export_chat.py`) into `suhbat/` and
 update this file.
 
