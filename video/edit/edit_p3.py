@@ -147,14 +147,14 @@ def accent(k, i0, text, sub=None, dur=3.4, sub_at=None):
     d = dict(k=k, t0=round(W(i0), 3), t1=round(W(i0) + dur, 3), text=text)
     if sub: d['sub'] = sub; d['sub_t'] = round(W(sub_at) - W(i0), 3) if sub_at is not None else 0.5
     over.append(d)
-# fewer words on screen (user, chat 4): name cards without a second line, end card only after the last subtitle
+# name cards appear exactly when the name is spoken (user, chat 4); fewer words on screen: name cards without a second line, end card only after the last subtitle
 # top cards never repeat what the subtitle says at the same moment (the user found double text confusing)
 over.append(dict(k='tag', t0=0.3, t1=5.3, text="3-QISM"))
 accent('date', 27, "1370", "BAHOR. BALX", dur=4.2, sub_at=32)
-accent('name', 110, "SUYURG'ATMISH", dur=3.0)
-accent('name', 141, "SAROYMULKXONIM", dur=3.0)
-accent('name', 157, "KO'RAGON", dur=3.0)
-accent('name', 211, "TO'XTAMISH", dur=3.2)
+accent('name', 105, "SUYURG'ATMISH", dur=3.0)
+accent('name', 132, "SAROYMULKXONIM", dur=3.0)
+accent('name', 153, "KO'RAGON", dur=3.0)
+accent('name', 210, "TO'XTAMISH", dur=3.0)
 over.append(dict(k='end', t0=round(SE(36) + 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
 for a, b in ((SS(6), SE(6) + 0.3), (W(224), SE(35) + 0.4)):
     over.append(dict(k='bars', t0=round(a, 3), t1=round(b, 3)))
