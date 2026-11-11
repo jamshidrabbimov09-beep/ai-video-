@@ -142,10 +142,12 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   `zafar.pdf` and Manz's "The Rise and Rule of Tamerlane" as `the riser .pdf` (scan, needs OCR) on `main` (not merged into work
   branches). The user's rule from now on: every script is checked against these two books, Manz wins where they differ. Notes with
   page references are in `prompts/manbalar_konspekt.md`: read them first, add to them when reading new chapters.
-- Part 3 "Xon emas, hukmdor": script confirmed by the user 2026-11-11 (`prompts/3-seriya_ssenariy.md`, checked against Yazdi and Manz).
-  Ready for the user: ElevenLabs text `prompts/3-seriya_elevenlabs.md`, 36 image prompts `prompts/3-seriya_rasm_promptlari.md`,
-  Flow packets `prompts/3-seriya_flow_paketlar.md` (images k01..k36; references: Temur i04, khan = k18, Saray Mulk = k22,
-  Tokhtamysh = k34). Waiting for narration (A-F mp3) and images; then build like Part 2 (`public/audio3`, `p3img`, `edit_p3.py`, `Part3.tsx`).
+- Part 3 "Xon emas, hukmdor" (chat 4, 2026-11-11): script confirmed and checked against Yazdi and Manz (`prompts/3-seriya_ssenariy.md`),
+  ElevenLabs text, 36 image prompts and Flow packets in `prompts/3-seriya_*`. Narration recorded as one file `public/audio3/all_raw.mp3`;
+  block E was re-recorded (`audio3/E_fix.mp3`, "Saroy Mulk xonim" written apart so the k is spoken) and spliced into
+  `public/voice3/all.mp3`; word times for E are interpolated (see `edit/transcript3.json` note). 35 images `public/p3img/k01..k36`
+  (k09 missing, k07 and k15 unused). Timeline `edit/edit_p3.py`, composition `src/Part3.tsx`, build `edit/build_part3.sh`
+  (130 s). Exports `video/exports/part3_xon_emas_hukmdor_1080p*.mp4`.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
