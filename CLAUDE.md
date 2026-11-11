@@ -106,6 +106,18 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 - The Russian files at the repo root (`ИНСТРУКЦИЯ.md`, `СТИЛЬ.md`, `СТРУКТУРА.md`, `ИСТОЧНИКИ.md`,
   `Семейные драмы.txt`) belong to an unrelated earlier project (family-drama stories) and are not used here.
 
+## Donghua dublyaj tool (separate from the history channel)
+
+- Requested 2026-11-11: the user wants to dub 21-25 minute Chinese donghua episodes into Uzbek with AI voices, keeping
+  music, effects and laughter, and to receive WAV files (full mix, and Uzbek voices only, placed at the right times).
+- Built in `dublyaj/`: `dublyaj.py` (Demucs separation, faster-whisper zh transcription, pitch plus resemblyzer speaker
+  grouping, free Google translate, edge-tts voices `uz-UZ-SardorNeural`/`uz-UZ-MadinaNeural`, mix, Gradio UI) and
+  `Donghua_Dublyaj.ipynb`, a self-contained Colab notebook with the code embedded: regenerate the notebook's
+  `%%writefile` cell whenever `dublyaj.py` changes.
+- Only translation parsing, segment splitting, the mix and the UI construction were tested in the cloud session (TTS,
+  Hugging Face and model hosts are blocked there). The full pipeline has not yet been run on Colab: expect to fix
+  dependency or tuning issues from the user's first screenshots (speaker clustering threshold 0.45 is a guess).
+
 ## Open items
 
 - Part 2 script, then narration, images, edit.

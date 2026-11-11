@@ -1,0 +1,497 @@
+"""Donghua dublyaj: xitoycha videoni o'zbekcha AI ovozga o'tkazadi.
+
+Bosqichlar:
+  1. ffmpeg: videodan tovushni oladi.
+  2. Demucs: ovoz (aktyorlar) va fon (musiqa, shovqin, effektlar) ni ajratadi.
+  3. faster-whisper: xitoycha gaplarni va ularning vaqtini aniqlaydi.
+  4. Ovoz tahlili: har gap erkak yoki ayol ovozi ekanini, kim gapirayotganini taxmin qiladi.
+  5. Google Translate (bepul): xitoychadan o'zbekchaga.
+  6. edge-tts: o'zbekcha ovoz (Sardor - erkak, Madina - ayol), gap vaqtiga sig'diriladi.
+  7. Mix: fon + (kulgi, qichqiriq kabi tarjima qilinmagan asl ovoz) + o'zbekcha ovoz.
+
+Ishga tushirish: Colab daftari `Donghua_Dublyaj.ipynb` (Gradio oynasi) yoki
+  python dublyaj.py video.mp4            # hammasi birdan, natija ./dub_out/
+"""
+import asyncio
+import json
+import os
+import re
+import subprocess
+import sys
+
+import numpy as np
+import soundfile as sf
+
+SR = 44100
+VOICES = {"E": "uz-UZ-SardorNeural", "A": "uz-UZ-MadinaNeural"}
+# Bir xil ikki ovozdan bir nechta personaj chiqarish uchun balandlik variantlari (Hz).
+PITCH = {"E": [0, -14, 12, -24], "A": [0, 18, -12, 32]}
+KEEP = "ASL"  # shu gap dublyaj qilinmaydi, asl ovoz qoladi
+LAUGH = re.compile(r"^[哈呵嘿嘻啊呀哦噢嗯唔哼呜哇欸诶咦唉哎嗨呃额\W\s]+$")
+COLS = ["№", "boshi", "oxiri", "ovoz", "xitoycha", "o'zbekcha"]
+
+
+def sh(*args):
+    r = subprocess.run([str(a) for a in args], capture_output=True, text=True)
+    if r.returncode:
+        raise RuntimeError(f"{args[0]} xato: {r.stderr[-600:]}")
+
+
+def note(progress, frac, text):
+    print(f"[{int(frac * 100):3d}%] {text}", flush=True)
+    if progress:
+        progress(frac, desc=text)
+
+
+# ---------------------------------------------------------------- 1-2. tovush va ajratish
+def extract_audio(src, wd):
+    out = os.path.join(wd, "asl.wav")
+    sh("ffmpeg", "-y", "-i", src, "-vn", "-ac", 2, "-ar", SR, "-c:a", "pcm_s16le", out)
+    return out
+
+
+def separate(wav_path, wd):
+    """Demucs bilan ovoz/fon. torchaudio o'rniga soundfile ishlatiladi (versiya muammolari bo'lmasin)."""
+    import torch
+    from demucs.apply import apply_model
+    from demucs.pretrained import get_model
+
+    model = get_model("htdemucs")
+    model.eval()
+    dev = "cuda" if torch.cuda.is_available() else "cpu"
+    audio, _ = sf.read(wav_path, dtype="float32", always_2d=True)
+    wav = torch.from_numpy(np.ascontiguousarray(audio.T))
+    ref = wav.mean(0)
+    mean, std = ref.mean(), ref.std() + 1e-8
+    with torch.no_grad():
+        out = apply_model(model, ((wav - mean) / std)[None], device=dev, split=True, overlap=0.25)[0]
+    voc = (out[model.sources.index("vocals")] * std + mean).numpy().T
+    del out, model
+    if dev == "cuda":
+        torch.cuda.empty_cache()
+    sf.write(os.path.join(wd, "ovoz.wav"), voc, SR, subtype="PCM_16")
+    sf.write(os.path.join(wd, "fon.wav"), audio - voc, SR, subtype="PCM_16")
+    sh("ffmpeg", "-y", "-i", os.path.join(wd, "ovoz.wav"), "-ac", 1, "-ar", 16000, os.path.join(wd, "ovoz16k.wav"))
+
+
+# ---------------------------------------------------------------- 3. xitoycha matn va vaqt
+def transcribe(wd, model_name="large-v3"):
+    from faster_whisper import WhisperModel
+
+    try:
+        model = WhisperModel(model_name, device="cuda", compute_type="float16")
+    except Exception as e:  # GPU yo'q yoki kutubxona mos emas
+        print("GPU whisper ishlamadi, CPU ga o'tildi:", e)
+        model = WhisperModel("medium", device="cpu", compute_type="int8")
+    segs, _ = model.transcribe(
+        os.path.join(wd, "ovoz16k.wav"), language="zh", word_timestamps=True, vad_filter=True,
+        vad_parameters={"min_silence_duration_ms": 300}, condition_on_previous_text=False, beam_size=5,
+    )
+    words = [(w.start, w.end, w.word.strip()) for s in segs for w in (s.words or []) if w.word.strip()]
+    return split_words(words)
+
+
+def split_words(words, gap=0.45, max_len=9.0):
+    """So'zlardan gaplar: pauza, tinish belgisi yoki juda uzun bo'lsa bo'linadi."""
+    out, cur = [], []
+    for i, w in enumerate(words):
+        cur.append(w)
+        nxt = words[i + 1] if i + 1 < len(words) else None
+        dur = w[1] - cur[0][0]
+        if (nxt is None or nxt[0] - w[1] > gap or dur > max_len
+                or (w[2][-1] in "。！？!?…" and dur > 0.8)):
+            text = "".join(x[2] for x in cur)
+            if re.search(r"\w", text):
+                out.append({"start": round(cur[0][0], 2), "end": round(w[1], 2), "zh": text})
+            cur = []
+    return out
+
+
+# ---------------------------------------------------------------- 4. kim gapiryapti
+def median_pitch(clip):
+    import librosa
+
+    if len(clip) < 2048:
+        return 0.0
+    f0 = librosa.yin(clip, fmin=70, fmax=450, sr=16000, frame_length=1024, hop_length=256)
+    rms = librosa.feature.rms(y=clip, frame_length=1024, hop_length=256)[0]
+    n = min(len(f0), len(rms))
+    f0, rms = f0[:n], rms[:n]
+    loud = f0[rms > 0.5 * rms.max()] if rms.max() > 0 else f0
+    return float(np.median(loud)) if len(loud) else 0.0
+
+
+def assign_voices(wd, segs, split_hz=165.0):
+    """Har gapga ovoz kodi: E1..E4 (erkak), A1..A4 (ayol), ASL (asl ovoz qoladi)."""
+    v16, _ = sf.read(os.path.join(wd, "ovoz16k.wav"), dtype="float32")
+    clips = [v16[int(s["start"] * 16000):int(s["end"] * 16000)] for s in segs]
+    pitch = np.array([median_pitch(c) for c in clips])
+    labels = np.full(len(segs), -1)
+    try:  # ovoz "barmoq izi" bo'yicha personajlarga guruhlash
+        from resemblyzer import VoiceEncoder
+        from sklearn.cluster import AgglomerativeClustering
+
+        idx = [i for i, c in enumerate(clips) if len(c) >= 16000 * 0.8]
+        if len(idx) >= 4:
+            enc = VoiceEncoder(verbose=False)
+            emb = np.array([enc.embed_utterance(clips[i] / (np.abs(clips[i]).max() + 1e-6)) for i in idx])
+            cl = AgglomerativeClustering(n_clusters=None, distance_threshold=0.45, metric="cosine", linkage="average")
+            labels[idx] = cl.fit_predict(emb)
+    except Exception as e:
+        print("Personajlarga guruhlash o'tkazib yuborildi:", e)
+
+    variant = {}
+    order = sorted(set(labels[labels >= 0]), key=lambda k: -(labels == k).sum())
+    count = {"E": 0, "A": 0}
+    for k in order:
+        ps = pitch[(labels == k) & (pitch > 0)]
+        g = "E" if len(ps) and np.median(ps) < split_hz else "A"
+        variant[k] = f"{g}{count[g] % 4 + 1}"
+        count[g] += 1
+    for i, s in enumerate(segs):
+        if LAUGH.match(s["zh"]):
+            s["voice"] = KEEP
+        elif labels[i] >= 0:
+            s["voice"] = variant[labels[i]]
+        else:
+            s["voice"] = "E1" if 0 < pitch[i] < split_hz else "A1"
+    return segs
+
+
+# ---------------------------------------------------------------- 5. tarjima
+def gtranslate(text, src="zh-CN", dst="uz"):
+    import time
+
+    import requests
+
+    for attempt in range(4):
+        r = requests.get("https://translate.googleapis.com/translate_a/single", timeout=30,
+                         headers={"User-Agent": "Mozilla/5.0"},
+                         params={"client": "gtx", "sl": src, "tl": dst, "dt": "t", "q": text})
+        if r.status_code == 200:
+            return "".join(part[0] for part in r.json()[0] if part[0])
+        time.sleep(2 * (attempt + 1))
+    from deep_translator import GoogleTranslator  # zaxira yo'l
+
+    return GoogleTranslator(source=src, target=dst).translate(text) or ""
+
+
+def translate(segs):
+    todo = [s for s in segs if s["voice"] != KEEP]
+    batch, size = [], 0
+    def flush():
+        if not batch:
+            return
+        try:
+            res = gtranslate("\n".join(s["zh"] for s in batch)).split("\n")
+            if len(res) != len(batch):
+                raise ValueError
+        except Exception:
+            res = []
+            for s in batch:
+                try:
+                    res.append(gtranslate(s["zh"]))
+                except Exception:
+                    res.append("")
+        for s, t in zip(batch, res):
+            s["uz"] = t.strip()
+        batch.clear()
+    for s in todo:
+        if size + len(s["zh"]) > 1200 or len(batch) >= 25:
+            flush()
+            size = 0
+        batch.append(s)
+        size += len(s["zh"]) + 1
+    flush()
+    for s in segs:
+        s.setdefault("uz", "")
+    return segs
+
+
+# ---------------------------------------------------------------- 6. o'zbekcha ovoz
+def parse_voice(code):
+    code = (code or "").strip().upper()
+    if not code or code == KEEP or code[0] not in VOICES:
+        return None
+    n = int(code[1:]) if code[1:].isdigit() else 1
+    return VOICES[code[0]], PITCH[code[0]][(n - 1) % 4]
+
+
+async def _tts_all(jobs, rate, tick):
+    import edge_tts
+
+    sem = asyncio.Semaphore(6)
+    done = 0
+
+    async def one(path, text, voice, hz):
+        nonlocal done
+        async with sem:
+            for attempt in range(4):
+                try:
+                    await edge_tts.Communicate(text, voice, rate=f"{rate:+d}%", pitch=f"{hz:+d}Hz").save(path)
+                    break
+                except Exception as e:
+                    if attempt == 3:
+                        print("TTS xato:", text[:40], e)
+                    await asyncio.sleep(1.5 * (attempt + 1))
+        done += 1
+        tick(done, len(jobs))
+
+    await asyncio.gather(*(one(*j) for j in jobs))
+
+
+def run_async(coro):
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(coro)
+    import threading  # Colab/Gradio ichida allaqachon loop ishlayotgan bo'lsa
+
+    box = {}
+    t = threading.Thread(target=lambda: box.setdefault("r", asyncio.run(coro)))
+    t.start()
+    t.join()
+    return box.get("r")
+
+
+def synth(wd, segs, rate=8, tick=lambda a, b: None):
+    """Har gap uchun mp3 yasaydi; allaqachon bor va matni o'zgarmagan bo'lsa qayta yasamaydi."""
+    d = os.path.join(wd, "tts")
+    os.makedirs(d, exist_ok=True)
+    jobs = []
+    for i, s in enumerate(segs):
+        s["tts"] = None
+        v = parse_voice(s["voice"])
+        if not v or not s["uz"].strip():
+            continue
+        path = os.path.join(d, f"{i:04d}.mp3")
+        tag = json.dumps([s["uz"], s["voice"], rate], ensure_ascii=False)
+        s["tts"] = path
+        if os.path.exists(path) and os.path.getsize(path) > 500 and _read(path + ".txt") == tag:
+            continue
+        open(path + ".txt", "w", encoding="utf-8").write(tag)
+        jobs.append((path, s["uz"], v[0], v[1]))
+    if jobs:
+        run_async(_tts_all(jobs, rate, tick))
+    return segs
+
+
+def _read(p):
+    try:
+        return open(p, encoding="utf-8").read()
+    except OSError:
+        return None
+
+
+def load_clip(path, speed=1.0):
+    """mp3 -> float32 mono, kerak bo'lsa tezlashtirib (ohang o'zgarmaydi)."""
+    cmd = ["ffmpeg", "-v", "error", "-i", path]
+    if speed > 1.01:
+        cmd += ["-filter:a", f"atempo={speed:.3f}"]
+    cmd += ["-ac", "1", "-ar", str(SR), "-f", "f32le", "-"]
+    raw = subprocess.run(cmd, capture_output=True).stdout
+    a = np.frombuffer(raw, dtype=np.float32).copy()
+    loud = np.flatnonzero(np.abs(a) > 0.01)  # bosh va oxiridagi jimlikni kesish
+    return a[max(0, loud[0] - 400):loud[-1] + 2000] if len(loud) else a[:0]
+
+
+def ramp_gate(n, spans, fade=0.04):
+    """spans ichida 0, tashqarida 1 bo'lgan, chekkalari yumshoq niqob."""
+    g = np.ones(n, dtype=np.float32)
+    f = int(fade * SR)
+    for a, b in spans:
+        a, b = max(0, int(a * SR)), min(n, int(b * SR))
+        if b <= a:
+            continue
+        g[a:b] = 0
+        la = min(f, a)
+        g[a - la:a] = np.minimum(g[a - la:a], np.linspace(1, 0, la, dtype=np.float32))
+        lb = min(f, n - b)
+        g[b:b + lb] = np.minimum(g[b:b + lb], np.linspace(0, 1, lb, dtype=np.float32))
+    return g
+
+
+# ---------------------------------------------------------------- 7. mix
+def mix(wd, segs, out_dir, src=None, keep_original=True, max_speed=1.6, voice_gain=1.0):
+    os.makedirs(out_dir, exist_ok=True)
+    fon, _ = sf.read(os.path.join(wd, "fon.wav"), dtype="float32", always_2d=True)
+    voc, _ = sf.read(os.path.join(wd, "ovoz.wav"), dtype="float32", always_2d=True)
+    n = len(fon)
+    dub = np.zeros(n, dtype=np.float32)
+    spans, levels = [], []
+    live = [s for s in segs if s.get("tts") and os.path.exists(s["tts"])]
+    for s in live:
+        a, b = int(s["start"] * SR), int(s["end"] * SR)
+        seg = voc[a:b]
+        if len(seg):
+            levels.append(float(np.sqrt((seg ** 2).mean())))
+    target = float(np.clip(np.median(levels) if levels else 0.08, 0.05, 0.2)) * voice_gain
+    starts = sorted(s["start"] for s in segs)
+    for s in live:
+        later = [t for t in starts if t > s["start"] + 0.01]
+        room = (later[0] if later else n / SR) - s["start"] - 0.06
+        allowed = max(0.4, min(room, (s["end"] - s["start"]) + 1.2))
+        clip = load_clip(s["tts"])
+        if len(clip) / SR > allowed:
+            clip = load_clip(s["tts"], min(max_speed, len(clip) / SR / allowed))
+        if len(clip) / SR > allowed:  # baribir sig'masa, oxiri yumshoq kesiladi
+            clip = clip[:int(allowed * SR)]
+            k = min(len(clip), int(0.08 * SR))
+            clip[-k:] *= np.linspace(1, 0, k, dtype=np.float32)
+        if not len(clip):
+            continue
+        rms = float(np.sqrt((clip ** 2).mean())) + 1e-6
+        clip *= target / rms
+        a = int(s["start"] * SR)
+        clip = clip[:n - a]
+        dub[a:a + len(clip)] += clip
+        spans.append((s["start"] - 0.05, max(s["end"], s["start"] + len(clip) / SR) + 0.05))
+        s["dub_end"] = round(s["start"] + len(clip) / SR, 2)
+
+    bed = fon + voc * ramp_gate(n, spans)[:, None] if keep_original else fon.copy()
+    full = bed + dub[:, None]
+    peak = float(np.abs(full).max())
+    if peak > 0.98:
+        full *= 0.98 / peak
+    paths = {
+        "toliq": os.path.join(out_dir, "dublyaj_toliq.wav"),
+        "ovoz": os.path.join(out_dir, "faqat_uzbek_ovoz.wav"),
+        "fon": os.path.join(out_dir, "fon_va_asl_tovushlar.wav"),
+        "srt": os.path.join(out_dir, "uzbekcha.srt"),
+    }
+    sf.write(paths["toliq"], full, SR, subtype="PCM_16")
+    sf.write(paths["ovoz"], np.clip(dub, -1, 1), SR, subtype="PCM_16")
+    sf.write(paths["fon"], np.clip(bed, -1, 1), SR, subtype="PCM_16")
+    write_srt(segs, paths["srt"])
+    if src and has_video(src):
+        paths["video"] = os.path.join(out_dir, "dublyaj_video.mp4")
+        sh("ffmpeg", "-y", "-i", src, "-i", paths["toliq"], "-map", "0:v:0", "-map", "1:a:0",
+           "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-shortest", paths["video"])
+    return paths
+
+
+def has_video(src):
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+                        "stream=codec_type", "-of", "csv=p=0", src], capture_output=True, text=True)
+    return "video" in r.stdout
+
+
+def write_srt(segs, path):
+    def ts(t):
+        ms = int(round(t * 1000))
+        return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
+    rows = [s for s in segs if s["uz"].strip()]
+    with open(path, "w", encoding="utf-8") as f:
+        for i, s in enumerate(rows, 1):
+            f.write(f"{i}\n{ts(s['start'])} --> {ts(s['end'])}\n{s['uz']}\n\n")
+
+
+# ---------------------------------------------------------------- umumiy bosqichlar
+def analyse(src, wd, progress=None):
+    os.makedirs(wd, exist_ok=True)
+    note(progress, 0.02, "Videodan tovush olinmoqda")
+    wav = extract_audio(src, wd)
+    note(progress, 0.08, "Ovoz va fon ajratilmoqda (eng uzun bosqich)")
+    separate(wav, wd)
+    note(progress, 0.55, "Xitoycha gaplar aniqlanmoqda")
+    segs = transcribe(wd)
+    note(progress, 0.8, "Ovozlar tahlil qilinmoqda (erkak/ayol, personajlar)")
+    assign_voices(wd, segs)
+    note(progress, 0.9, "O'zbekchaga tarjima qilinmoqda")
+    translate(segs)
+    json.dump({"src": src, "segs": segs}, open(os.path.join(wd, "segs.json"), "w", encoding="utf-8"),
+              ensure_ascii=False, indent=1)
+    note(progress, 1.0, f"Tayyor: {len(segs)} ta gap")
+    return segs
+
+
+def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_speed=1.6, voice_gain=1.0):
+    note(progress, 0.02, "O'zbekcha ovozlar yozilmoqda")
+    synth(wd, segs, rate, lambda a, b: progress and progress(0.02 + 0.7 * a / b, desc=f"Ovoz {a}/{b}"))
+    note(progress, 0.75, "Fon bilan birlashtirilmoqda")
+    paths = mix(wd, segs, out_dir, src, keep_original, max_speed, voice_gain)
+    note(progress, 1.0, "Tayyor")
+    return paths
+
+
+def to_rows(segs):
+    return [[i + 1, s["start"], s["end"], s["voice"], s["zh"], s["uz"]] for i, s in enumerate(segs)]
+
+
+def from_rows(rows):
+    segs = []
+    for r in rows:
+        try:
+            a, b = float(r[1]), float(r[2])
+        except (TypeError, ValueError):
+            continue
+        if b > a:
+            segs.append({"start": a, "end": b, "voice": str(r[3] or "").strip().upper() or KEEP,
+                         "zh": str(r[4] or ""), "uz": str(r[5] or "")})
+    return sorted(segs, key=lambda s: s["start"])
+
+
+# ---------------------------------------------------------------- Gradio oynasi
+HELP = """**Ovoz ustuni:** `E1`-`E4` erkak ovozlari, `A1`-`A4` ayol ovozlari, `ASL` = bu joyda asl (xitoycha) ovoz qoladi
+(kulgi, qichqiriq, qo'shiq uchun). **O'zbekcha** ustunidagi tarjimani xohlagancha tuzating, keyin 2-tugmani bosing.
+Qayta bosganda faqat o'zgargan gaplar qayta yoziladi."""
+
+
+def ui(wd="/content/dub_work", out_dir="/content/dub_out"):
+    import gradio as gr
+
+    def do_analyse(video, path, progress=gr.Progress()):
+        video = (path or "").strip() or video
+        if not video or not os.path.exists(video):
+            raise gr.Error("Avval video yuklang yoki to'g'ri fayl yo'lini yozing")
+        segs = analyse(video, wd, progress)
+        msg = f"{len(segs)} ta gap topildi. Jadvalni tekshiring, keyin 2-tugmani bosing."
+        if segs and sum(1 for s in segs if s["uz"]) < len(segs) / 2:
+            msg += " **Diqqat: tarjima xizmati javob bermadi, bir ozdan keyin 1-tugmani qayta bosing.**"
+        return to_rows(segs), msg
+
+    def do_dub(rows, keep, rate, speed, gain, progress=gr.Progress()):
+        meta = os.path.join(wd, "segs.json")
+        if not os.path.exists(meta):
+            raise gr.Error("Avval 1-bosqichni bajaring")
+        rows = rows.values.tolist() if hasattr(rows, "values") else rows
+        segs = from_rows(rows)
+        p = dub(json.load(open(meta, encoding="utf-8"))["src"], wd, segs, out_dir, progress,
+                keep, int(rate), float(speed), float(gain))
+        return p["toliq"], p["ovoz"], p["fon"], p["srt"], p.get("video"), p.get("video")
+
+    with gr.Blocks(title="Donghua dublyaj") as app:
+        gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha")
+        video = gr.File(label="Video yoki audio fayl (mp4, mkv, wav...)", type="filepath")
+        path = gr.Textbox(label="yoki Colab/Google Drive'dagi fayl yo'li (katta fayllar uchun tezroq)",
+                          placeholder="/content/drive/MyDrive/qism1.mp4")
+        b1 = gr.Button("1. Tahlil qilish va tarjima", variant="primary")
+        status = gr.Markdown()
+        gr.Markdown(HELP)
+        table = gr.Dataframe(headers=COLS, datatype=["number", "number", "number", "str", "str", "str"],
+                             interactive=True, wrap=True, row_count=(1, "dynamic"))
+        with gr.Accordion("Sozlamalar", open=False):
+            keep = gr.Checkbox(True, label="Kulgi, qichqiriq va tarjima qilinmagan asl ovozlarni qoldirish")
+            rate = gr.Slider(-10, 30, 8, step=1, label="Gapirish tezligi, %")
+            speed = gr.Slider(1.0, 2.0, 1.6, step=0.05, label="Vaqtga sig'dirish uchun eng ko'p tezlashtirish")
+            gain = gr.Slider(0.5, 2.0, 1.0, step=0.05, label="O'zbekcha ovoz balandligi")
+        b2 = gr.Button("2. Dublyaj qilish", variant="primary")
+        preview = gr.Video(label="Tayyor video")
+        o1 = gr.File(label="To'liq dublyaj (ovoz + fon), WAV")
+        o2 = gr.File(label="Faqat o'zbekcha ovoz (joyiga qo'yilgan), WAV")
+        o3 = gr.File(label="Fon va asl tovushlar, WAV")
+        o4 = gr.File(label="O'zbekcha subtitr, SRT")
+        o5 = gr.File(label="Dublyajli video, MP4")
+        b1.click(do_analyse, [video, path], [table, status])
+        b2.click(do_dub, [table, keep, rate, speed, gain], [o1, o2, o3, o4, o5, preview])
+    return app
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        source = sys.argv[1]
+        work = os.path.abspath("dub_work")
+        result = dub(source, work, analyse(source, work), os.path.abspath("dub_out"))
+        print(json.dumps(result, ensure_ascii=False, indent=1))
+    else:
+        ui().queue().launch(share=True, debug=True)
