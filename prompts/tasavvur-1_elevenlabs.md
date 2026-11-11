@@ -1,19 +1,11 @@
-# "Tasavvur qil" 1-qism: ElevenLabs uchun tayyor matn
+# "Tasavvur qil" 1-qism: ElevenLabs matni (jonli versiya)
 
-Eleven v4, Temur qismlaridagi ovoz (yoki jonliroq ovoz). Har blokni alohida yozing: A.mp3, B.mp3, C.mp3.
-Teg o'qib yuborilsa, o'rniga `...` qo'ying. Pauzalarni montajda ritmga o'zim moslayman.
+Namuna (egrivoy videosi) bilan solishtirish: ovoz yoshroq va balandroq (o'rtacha 213 Hz, bizda 154 Hz), jimlik atigi 4%
+(bizda 22%), temp taxminan 1.5 baravar tez. Shuning uchun pauza teglari olib tashlandi, emotsiya teglari qo'yildi.
 
-## A
-```
-Sen Amir Temurning askarisan. [short pause] Faqat bir kun. [short pause] Tirik qolasanmi? [long pause] Endi tasavvur qil: tong. Hali qorong'i. Nog'ora va karnay ovozidan uyg'onasan. [short pause] Sen yolg'iz emassan. Sen o'nlikdasan: o'nta askar, boshingda o'nboshi. [short pause] O'nliklar yuzlikka, yuzliklar minglikka, mingliklar esa tumanga birlashadi. Bitta tumanda o'n ming askar.
-```
+Sozlamalar: yosh, energiyali erkak ovozi; Stability past (Creative yoki 30-40%), Style yuqoriroq, Speed 1.1.
+Teg o'qib yuborilsa, o'shani o'chiring.
 
-## B
 ```
-Avval tekshiruv. [short pause] Har bir askarda ikki ot, kamon, o'qdon, qilich, bolta va arqon bo'lishi shart. [short pause] Ovqat oddiy: quritilgan go'sht va qurut. [short pause] Keyin yo'l. Kun bo'yi egarda. Bitta ot charchasa, ikkinchisiga o'tasan. [short pause] Tinch kunlarda ham dam yo'q. Katta ov aslida jangga mashq edi: minglab chavandozlar halqa bo'lib, ovni o'rtaga haydaydi.
-```
-
-## C
-```
-Maoshing qancha? [short pause] Aytishlaricha, oddiy askarning maoshi otining narxiga teng bo'lgan. [short pause] Kechasi navbatchilik. Sen qorovulsan. Uxlab qolsang, butun qo'shin xavf ostida. [long pause] Ertaga jang. Tanla. [short pause] Birinchi yo'l: oldingi saf. Shon-shuhrat katta, xavf ham katta. [short pause] Ikkinchi yo'l: orqa safdagi kamonchilar. [short pause] Sen qaysini tanlarding? Izohda yoz: bir yoki ikki. [long pause] Keyingi safar Bek boshqa zamonga tushadi. Qaysi zamonga? Obuna bo'l, bilib olasan.
+[excited] Sen Amir Temurning askarisan! Faqat bir kun. [curious] Tirik qolasanmi? Endi tasavvur qil: tong, hali qorong'i. [excited] Nog'ora! Karnay! Sakrab turasan! Sen yolg'iz emassan, sen o'nlikdasan: o'nta askar, boshingda o'nboshi. O'nliklar yuzlikka, yuzliklar minglikka, mingliklar esa tumanga birlashadi. Bitta tumanda o'n ming askar! [serious] Avval tekshiruv. Ikki ot, kamon, o'qdon, qilich, bolta, arqon. Hammasi joyida bo'lishi shart! [sighs] Nonushta? Quritilgan go'sht va qurut. Shu, xolos. Keyin yo'l. Kun bo'yi egarda! Bitta ot charchadimi? Ikkinchisiga o'tasan. Tinch kunlarda ham dam yo'q. Katta ov aslida jangga mashq: minglab chavandozlar halqa bo'lib, ovni o'rtaga haydaydi! [curious] Maoshing qancha? Aytishlaricha... otingning narxicha! [whispers] Kechasi sen qorovulsan. Uxlab qolsang... butun qo'shin xavf ostida. [serious] Ertaga jang. Tanla! Birinchi: oldingi saf. Shon-shuhrat katta, xavf ham katta. Ikkinchi: orqadagi kamonchilar. [excited] Sen qaysini tanlarding? Izohda yoz: bir yoki ikki! Keyingi safar Bek boshqa zamonga tushadi. Qaysi zamonga? Obuna bo'l, bilib olasan!
 ```
