@@ -2518,3 +2518,36 @@ Bitta ish qoldi: 2-qismning hamma fayllari hozir alohida shoxda turibdi. Keyingi
 ### **Siz** (06:40 UTC)
 
 ha githubdan qilaak muammo bolmaydimi qisqa javob ber
+
+### **Claude** (06:41 UTC)
+
+You've hit your 5-hour limit · resets 7:20am (UTC)
+
+Muammo bo'lmaydi. PR ochildi: [jamshidrabbimov09-beep/ai-video-#3](https://github.com/jamshidrabbimov09-beep/ai-video-/pull/3)
+
+Siz qiladigan ish: havolani oching → pastdagi yashil **"Merge pull request"** → **"Confirm merge"**.
+
+Loyiha xotirasini (CLAUDE.md) ham yangiladim va bu suhbatni saqlab qo'ydim, keyingi chat 2-qism bo'yicha hammasini biladi.
+
+Xohlasangiz, bu PR'ni kuzatib turaman (izoh yoki xato chiqsa javob beraman). Kerakmi?
+
+### **Siz** (12:15 UTC)
+
+claude - mem skilini qanday qoshadi shunda manimcha qayta saqlash kerak emas boladi hamma narsani esingda qoladi yangi chatta xam
+
+### **Claude** (12:15 UTC)
+
+Qisqasi: sizga **claude-mem kerak emas**, chunki xotira allaqachon ishlayapti.
+
+**Hozir qanday ishlaydi:** repodagi `CLAUDE.md` fayli har bir yangi chat boshlanganda avtomatik o'qiladi. Unda loyiha bo'yicha hamma narsa yozilgan: uslub, 1- va 2-qism, statistika, sizning talablaringiz. Shuning uchun:
+- PR #3 ni merge qilsangiz, yangi chat 2-qismgacha bo'lgan hamma narsani o'zi biladi.
+- "Bilim fayli"ni har safar qayta yuklashingiz shart emas.
+- Yagona shart: yangi chatni shu repo (`ai-video-`) bilan oching.
+
+**Nega claude-mem bu yerda ishlamaydi:** u uchinchi tomon plagini bo'lib, xotirani kompyuterning o'zida saqlaydi. Bizning chatlar esa bulutdagi vaqtinchalik kompyuterda ishlaydi va chat tugagach u o'chiriladi, xotira ham birga yo'qoladi. U faqat o'z kompyuteringizda terminal orqali Claude Code ishlatganda foyda beradi. Buni o'zim sinab ko'rmaganman, bilganim shu.
+
+Men har bir chat oxirida `CLAUDE.md` ni yangilab boraman. Sizdan faqat PR'ni merge qilish kerak bo'ladi.
+
+### **Siz** (12:18 UTC)
+
+axa chatni yangila va sala va mnga nima qilishimni et yangi chatga otish uchun

@@ -3,8 +3,8 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
-The full text of that first conversation (user messages and Claude's replies, no tool output) is in
-`suhbat/1-chat_amir-temur-1-qism.md`. The user plans one chat per part and wants each new chat to know everything
+The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1) and
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -97,9 +97,11 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 ## Repository
 
-- Part 1 work was done on branch `claude/busy-hamilton-6qdlnb`; pull request #2 into `main` was opened on 2026-11-10 and
-  the user was asked to merge it. If `main` lacks `prompts/` and `video/`, the merge has not happened: base the work on
-  that branch instead. (PR #1 belongs to an unrelated earlier chat.)
+- Part 1 is in `main` (PR #2, merged). Part 2 work is on branch `claude/ecstatic-hamilton-v1cpx7`, pull request #3 into `main`
+  (opened 2026-11-11, the user was asked to merge it). If `main` lacks `video/src/Part2.tsx`, the merge has not happened: base
+  the work on that branch instead. (PR #1 belongs to an unrelated earlier chat.)
+- This file is the project's memory: it loads automatically in every new chat opened on this repository, so the user does not
+  need to upload a knowledge file. (They asked about the third-party claude-mem plugin: not useful in cloud sessions.)
 - `suhbat/`: exported conversation logs, one file per chat.
 - `prompts/`: script, image prompts, clip prompts for Part 1. `video/`: the Remotion project and all media.
 - The Russian files at the repo root (`ИНСТРУКЦИЯ.md`, `СТИЛЬ.md`, `СТРУКТУРА.md`, `ИСТОЧНИКИ.md`,
@@ -138,7 +140,6 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 - Part 3 (Balx 1370, rise to power; puppet khans): script first, confirmed by the user before recording.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
-- Review Part 1 Reel statistics (where viewers drop off) once the user sends a screenshot.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
   Part 1 Reel posted with the cover, caption, Samarqand location, AI label and high-quality upload. Suggested pinned
