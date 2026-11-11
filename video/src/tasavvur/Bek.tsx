@@ -232,14 +232,20 @@ const SoldierBody: React.FC<{swing: number}> = ({swing}) => {
   );
 };
 
-export const Bek: React.FC<Props> = ({outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, armSwing = 0}) => (
-  <svg viewBox="-20 -10 440 760" width="100%" height="100%" style={{overflow: 'visible'}}>
-    <ellipse cx={200} cy={732} rx={110} ry={14} fill="#000" opacity={0.25} />
+// Bek as an SVG group in his own 400x800 coordinate space (for use inside other SVG scenes).
+export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, armSwing = 0, shadow = true}) => (
+  <g>
+    {shadow && <ellipse cx={200} cy={732} rx={110} ry={14} fill="#000" opacity={0.25} />}
     {outfit === 'soldier' && <Aventail />}
     {outfit === 'modern' ? <ModernBody swing={armSwing} /> : <SoldierBody swing={armSwing} />}
-    {/* neck */}
     {outfit === 'modern' && <rect x={180} y={300} width={40} height={26} fill={SKIN_SH} stroke={INK} strokeWidth={SW} />}
     <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'soldier' && <Helmet />}
+  </g>
+);
+
+export const Bek: React.FC<Props> = (p) => (
+  <svg viewBox="-20 -10 440 760" width="100%" height="100%" style={{overflow: 'visible'}}>
+    <BekG {...p} />
   </svg>
 );
