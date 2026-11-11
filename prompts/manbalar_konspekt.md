@@ -43,7 +43,7 @@ Havolalar qo'lyozma varaqlari bo'yicha (matn chetida "54b", "57a" kabi belgilang
   Husaynning o'ng qanotini yorib, Husayngacha yetadi.
 - Shamsuddin-bek qarshilik qiladi; Temur 17 qo'shun bilan hujum qilib uni chekintiradi.
 - Temur Husaynga ikki marta chopar yuboradi: "birga oldinga yuraylik". Husayn choparlarni urib, so'kadi, yurmaydi.
-- Ertasi: Jete chekinadi, ta'qib boshlanadi; Shamsuddin tug' ko'tarib qochganlarni to'playdi va qayta hujum qiladi.
+- Keyin: Jete chekinadi, ta'qib boshlanadi; Shamsuddin tug' ko'tarib qochganlarni to'playdi va qayta hujum qiladi.
   Temur-Husayn qo'shini qochadi, ko'pi loyda qoladi. "O'n ming kishi halok bo'ldi" (Yazdiy raqami, bo'rttirilgan bo'lishi mumkin).
 - Sana: 766-yil ramazon boshi (22.05.1365).
 - Qo'shinlarning umumiy soni Yazdiyda AYTILMAGAN (faqat "17 qo'shun" va "o'n ming halok"). Raqam to'qib bo'lmaydi.
