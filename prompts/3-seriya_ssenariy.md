@@ -1,6 +1,6 @@
 # 3-seriya: "Xon emas, hukmdor" (Amir Temur) — ssenariy va fakt tekshiruvi
 
-Holat: ssenariy taklifi (2-variant: Yazdiy "Zafarnoma"si bo'yicha tekshirilgan), foydalanuvchi hali TASDIQLAMAGAN, ovoz yozilmagan. 6 blok (A-F), oldingi qismlardagi kabi.
+Holat: ssenariy taklifi (3-variant: Yazdiy va Manz kitoblari bo'yicha tekshirilgan), foydalanuvchi hali TASDIQLAMAGAN, ovoz yozilmagan. 6 blok (A-F), oldingi qismlardagi kabi.
 Pauza teglari: `[short pause]`, `[long pause]`. ElevenLabs: Stability 40-50%, Similarity ~75%.
 
 ## Ovoz matni (taklif)
@@ -9,7 +9,7 @@ Pauza teglari: `[short pause]`, `[long pause]`. ElevenLabs: Stability 40-50%, Si
 U ulkan saltanat qurdi. Lekin umrining oxirigacha o'zini xon deb atamadi. [short pause] Nega? Chunki bunga uning haqqi yo'q edi. Bu Amir Temur hokimiyatni qanday qo'lga olgani haqidagi qissa.
 
 **B (1370, Balx)**
-1370-yil, bahor. Balx. Amir Husayn endi yo'q. Temurga teng keladigan raqib qolmadi. Chig'atoy ulusining amirlari Balxda to'planadi. Ular bir ovozdan Temurni hukmdor deb tan oladi va unga qasamyod qiladi. [short pause] Temur o'ttiz to'rt yoshda edi. Go'yo hammasi hal bo'lgandek edi.
+1370-yil, bahor. Balx. Amir Husayn endi yo'q. Temurga teng keladigan raqib qolmadi. Chig'atoy ulusining amirlari Balxda to'planadi va Temurni o'z yetakchisi deb tan oladi. [short pause] Go'yo hammasi hal bo'lgandek edi.
 
 **C (to'siq)**
 Lekin bitta to'siq bor edi. Chingizxon zamonidan beri bir qoida amal qilardi: xon faqat Chingiz avlodidan bo'ladi. Temur esa barlos urug'idan edi. Lashkari bor, kuchi bor, ammo xon bo'lishga haqqi yo'q. [short pause] Temur bu qoidani buzmadi. U boshqa yo'l topdi.
@@ -21,9 +21,27 @@ Balxga yetmasdanoq u Chingiz avlodidan bo'lgan Suyurg'atmishni xon qilib ko'targ
 Ikkinchi qadam. Temur Saroymulkxonimga uylanadi. U Chingiz avlodidan bo'lgan Qozonxonning qizi va Amir Husaynning bevasi edi. Shu nikoh bilan Temur yangi unvon oladi: Ko'ragon, ya'ni xon kuyovi. [short pause] O'zi esa umrining oxirigacha bitta unvon bilan qoladi: Amir.
 
 **F (Samarqand, keyingi qismga ilgak)**
-Poytaxt qilib u Samarqandni tanlaydi. U yerda qal'a va saroylar qurdiradi. [short pause] Xon emas, lekin xondan kuchli. Temur endi Movarounnahrning haqiqiy hukmdori edi. [long pause] Oradan bir necha yil o'tib, uning huzuriga bir qochoq shahzoda keladi. Ismi To'xtamish. Temur unga yordam beradi. [short pause] Bu yordam keyin unga juda qimmatga tushadi. Keyingi qismda.
+Poytaxt qilib u Samarqandni tanlaydi. Shahar atrofida mustahkam devorlar qurdiradi. [short pause] Xon emas, lekin xondan kuchli. Temur endi Movarounnahrning haqiqiy hukmdori edi. Lekin bu hokimiyatni saqlab qolish uchun u hali ko'p yil kurashadi. [long pause] Oradan bir necha yil o'tib, uning huzuriga bir qochoq shahzoda keladi. Ismi To'xtamish. Temur unga yordam beradi. [short pause] Bu yordam keyin unga juda qimmatga tushadi. Keyingi qismda.
 
-## Kitob bo'yicha tekshiruv (4-chat, 2026-11-11)
+## Ikkinchi kitob bo'yicha tekshiruv: Manz (4-chat, 2026-11-11)
+
+Manba: Beatrice Forbes Manz, "The Rise and Rule of Tamerlane" (Cambridge, 1989), 1, 14-15, 56-58, 69-betlar.
+
+- Tasdiqlandi: xon faqat Chingiz avlodidan bo'lishi mumkin edi, Temur bunga qat'iy amal qilib "amir" unvoni bilan
+  qolgan (14-bet); qo'g'irchoq xon qo'yib, uning nomidan boshqargan (14-15); xonni Balxga hujumdan oldin ko'targan (56);
+  Saroymulkxonim Qozonxonning qizi (57); "ko'ragon" unvoni Chingiziy malikaga uylangani tufayli (15, 57): bu jumla endi
+  kitob bilan tasdiqlangan; Samarqandni poytaxtga aylantirib, atrofida istehkom qurgan (57-58); sana 12-ramazon 771 /
+  9-aprel 1370 (58); To'xtamish 1375-77-yillarda Temur huzuriga qochib kelgan, Temur uni qo'llagan (69).
+- Tuzatildi: (1) "34 yoshda" olib tashlandi: Manz bo'yicha Temur "ehtimol 1320- yoki 1330-yillarda" tug'ilgan (1-bet),
+  yosh faqat Yazdiyda. (2) "bir ovozdan ... qasamyod" olib tashlandi: bu tantanali bayon faqat Yazdiyda (62-izoh),
+  Shomiyda esa bu marosim qo'g'irchoq xonni qayta tasdiqlash sifatida berilgan (63-izoh); amirlar Temurning mavqeini tan
+  olgani Manzda ham bor. (3) Oxiriga qo'shildi: hokimiyatni saqlash uchun hali ko'p yil kurashgani (Manz: birinchi
+  12 yil mavqei mustahkam bo'lmagan, 58-bet). (4) "qal'a va saroylar" o'rniga "devorlar" (Manz: istehkomlar).
+- Eslatma: Husayn o'limi. Manz: Temuriy tarixchilar Temurni oqlaydi; Temur Kayxusrav qasosidan foydalangan bo'lishi
+  ehtimol, javobgarligi noaniq (56-57). Matnda kim o'ldirgani aytilmaydi: to'g'ri qaror.
+- Manz: Yazdiy Temur qo'ygan xonlar haqidagi eslatmalarni muntazam qisqartirgan (63-izoh).
+
+## Kitob bo'yicha tekshiruv: Yazdiy (4-chat, 2026-11-11)
 
 Manba: Sharafuddin Ali Yazdiy, "Zafar-name", ruscha tarjima A. Ahmedov, Toshkent, 2008 (foydalanuvchi yuklagan PDF),
 qo'lyozma varaqlari 54b-57b. Konspekt: `prompts/manbalar_konspekt.md`.

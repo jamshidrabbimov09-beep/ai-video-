@@ -139,9 +139,10 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 ## Open items
 
 - Sources: the user distrusts Wikipedia and wants scripts checked against books. They uploaded Yazdi's "Zafar-name" (Russian, 2008) as
-  `zafar.pdf` on `main` (not merged into work branches); notes with folio references are in `prompts/manbalar_konspekt.md`: add to
-  them when reading new chapters. Manz's book was not found.
-- Part 3 "Xon emas, hukmdor": script draft checked against Yazdi in `prompts/3-seriya_ssenariy.md` (chat 4, 2026-11-11), waiting for the user's
+  `zafar.pdf` and Manz's "The Rise and Rule of Tamerlane" as `the riser .pdf` (scan, needs OCR) on `main` (not merged into work
+  branches). The user's rule from now on: every script is checked against these two books, Manz wins where they differ. Notes with
+  page references are in `prompts/manbalar_konspekt.md`: read them first, add to them when reading new chapters.
+- Part 3 "Xon emas, hukmdor": script draft checked against Yazdi and Manz in `prompts/3-seriya_ssenariy.md` (chat 4, 2026-11-11), waiting for the user's
   confirmation before recording. Next: ElevenLabs text, image prompts (about 35), then build like Part 2.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.

@@ -41,3 +41,29 @@ Havolalar qo'lyozma varaqlari bo'yicha (matn chetida "54b", "57a" kabi belgilang
 
 O'qilmagan: kitobning qolgan qismi (1370-yilgacha va undan keyingi yurishlar). Keyingi qismlar uchun kerakli boblar
 o'sha paytda o'qilib, shu yerga qo'shiladi.
+
+## Manz, "The Rise and Rule of Tamerlane" (Cambridge, 1989)
+
+Fayl: foydalanuvchi `main` ga `the riser .pdf` qilib yuklagan (16 MB, 119 ta ikki betli skan, matn qatlami YO'Q:
+`pdfimages` + ikkiga bo'lish + `tesseract -l eng` bilan o'qiladi; `apt-get update && apt-get install tesseract-ocr`).
+Zamonaviy ilmiy tadqiqot: Yazdiy bilan zid kelsa, Manzga tayanamiz. Havolalar kitob betlari bo'yicha.
+
+- Temur "ehtimol 1320- yoki 1330-yillarda" Samarqand yaqinida tug'ilgan (1-bet): aniq yosh aytmaslik kerak.
+- Qonuniylik (14-15): mo'g'ul an'anasiga ko'ra faqat Chingiz avlodi xon bo'la olardi; Temur bunga qat'iy amal qilgan,
+  "amir" (ba'zan "buzurg", "kalon") unvonini ishlatgan; qo'g'irchoq xon nomidan boshqargan; Chingiziy malikaga
+  uylangani uchun "ko'ragon" (xon kuyovi) unvonini olgan.
+- Amir Qazag'on va Husayn ham qo'g'irchoq xon tutgan: bu Temur o'ylab topgan narsa emas, ulusdagi odat (21, 43-44, 57).
+- 1370 (56-58): Sayyid Baraka Temurga nog'ora va bayroq taqdim etgan (57-izoh); deyarli barcha amirlar Temur tomonida;
+  Balxga hujumdan oldin o'z nomzodini xon qilgan; ikki kunlik jangdan keyin Husayn taslim bo'lgan, qochgan, tutilgan.
+  Husayn o'limida Temurning javobgarligi noaniq; Temuriy tarixchilar uni oqlaydi. Husaynning ikki o'g'li va uning
+  Chingiziy xoni o'ldirilgan.
+- Husayn xotinlari taqsimoti siyosiy maqsadda: Temur to'rttasini olgan (Saroymulkxonim: Chig'atoy sulolasiga bog'lanish;
+  Ulus og'a va Islom og'a: qabilaviy ittifoqlar) (57).
+- Amirlarning Temurni e'tirof etishi tantanasi faqat Yazdiyda bor (62-izoh). 12-ramazon 771 / 9-aprel 1370:
+  hokimiyati rasman tasdiqlangan; Shomiyda bu qo'g'irchoq xonni tasdiqlash sifatida (63-izoh). Yazdiy xonlar haqidagi
+  eslatmalarni muntazam qisqartirgan.
+- 1370-dan keyin (58): qabila boshliqlari tez orada Temurga qarshi chiqqan, birinchi 12 yil mavqei mustahkam bo'lmagan.
+- To'xtamish (69): 777 yoki 778 / 1375-77-yillarda Temur huzuriga qochib kelgan; Temur uni topshirishdan bosh tortib,
+  O'rusxonga qarshi yurgan; To'xtamish xon bo'lgan; 1385-86 qishida Tabrizga hujum qilgan. 4-qism uchun to'liq o'qilsin.
+
+O'qilmagan: kitobning qolgan qismi.
