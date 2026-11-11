@@ -541,7 +541,8 @@ async def _tts_all(jobs, tick):
         async with sem:
             for attempt in range(4):
                 try:
-                    await edge_tts.Communicate(text, voice, rate=f"{rate:+d}%", pitch=f"{hz:+d}Hz").save(path)
+                    await edge_tts.Communicate(text, voice, rate=f"{rate:+d}%", pitch=f"{hz:+d}Hz",
+                                               proxy=os.environ.get("HTTPS_PROXY") or None).save(path)
                     break
                 except Exception as e:
                     if attempt == 3:
@@ -930,6 +931,10 @@ def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_s
         ov_free()
     note(progress, 0.72, "Oddiy ovozlar yozilmoqda")
     synth(wd, segs, rate, lambda a, b: progress and progress(0.72 + 0.1 * a / b, desc=f"Ovoz {a}/{b}"))
+    lost = [s for s in segs if s["voice"] != KEEP and s["uz"].strip()
+            and not (s.get("tts") and os.path.exists(s["tts"]) and os.path.getsize(s["tts"]) > 500)]
+    if lost:
+        info += f" Diqqat: {len(lost)} ta gap ovozga aylanmadi (internetni tekshirib, qayta bosing)."
     note(progress, 0.85, "Fon bilan birlashtirilmoqda")
     paths = mix(wd, segs, out_dir, src, keep_original, max_speed, voice_gain)
     paths["info"] = info
