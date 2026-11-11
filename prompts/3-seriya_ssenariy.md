@@ -15,7 +15,7 @@ U ulkan saltanat qurdi. Lekin umrining oxirigacha o'zini xon deb atamadi. [short
 Lekin bitta to'siq bor edi. Chingizxon zamonidan beri bir qoida amal qilardi: xon faqat Chingiz avlodidan bo'ladi. Temur esa barlos urug'idan edi. Lashkari bor, kuchi bor, ammo xon bo'lishga haqqi yo'q. [short pause] Temur bu qoidani buzmadi. U boshqa yo'l topdi.
 
 **D (qo'g'irchoq xon)**
-Balxga yurish oldidanoq u Chingiz avlodidan bo'lgan Suyurg'atmishni xon qilib ko'targan edi. Xon taxtda o'tiradi. Temur esa uning nomidan hukm yuritadi. [short pause] Aslida xon faqat nom edi. Butun hokimiyat Temurning qo'lida edi.
+Balxga yetmasdanoq u Chingiz avlodidan bo'lgan Suyurg'atmishni xon qilib ko'targan edi. Xon taxtda o'tiradi. Temur esa uning nomidan hukm yuritadi. [short pause] Aslida xon faqat nom edi. Butun hokimiyat Temurning qo'lida edi.
 
 **E (Ko'ragon)**
 Ikkinchi qadam. Temur Saroymulkxonimga uylanadi. U Chingiz avlodidan bo'lgan Qozonxonning qizi va Amir Husaynning bevasi edi. Shu nikoh bilan Temur yangi unvon oladi: Ko'ragon, ya'ni xon kuyovi. [short pause] O'zi esa umrining oxirigacha bitta unvon bilan qoladi: Amir.
