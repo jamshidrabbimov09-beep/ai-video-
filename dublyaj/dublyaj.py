@@ -8,7 +8,7 @@ Bosqichlar:
   5. Claude: butun qismni kontekst bilan tarjima qiladi, keyin tarjimani tahlil qilib tuzatadi
      (API kalit bilan avtomatik, kalitsiz: fayl orqali Claude chatida).
   6. edge-tts: o'zbekcha ovoz (Sardor - erkak, Madina - ayol), gap vaqtiga sig'diriladi.
-  6b. Ixtiyoriy: `ovozlar` papkasidagi namunalar bo'yicha ovoz klonlash (coqui-tts, OpenVoice v2).
+  6b. OmniVoice: har gap xitoycha aktyorning o'sha gapidan klonlanib, o'zbekcha aytiladi (oddiy ovoz zaxira).
   7. Mix: fon + (kulgi, qichqiriq kabi tarjima qilinmagan asl ovoz) + o'zbekcha ovoz.
 
 Ishga tushirish: Windowsda `Dublyaj.bat`, telefonda Colab daftari `Donghua_Dublyaj.ipynb`, yoki
@@ -573,6 +573,8 @@ def synth(wd, segs, rate=8, tick=lambda a, b: None):
     os.makedirs(d, exist_ok=True)
     jobs = []
     for i, s in enumerate(segs):
+        if s.get("ov") and s.get("tts"):
+            continue  # klonlangan ovozda yozilgan
         s["tts"] = None
         v = parse_voice(s["voice"], s.get("who", ""))
         if not v or not s["uz"].strip():
@@ -626,10 +628,13 @@ def ramp_gate(n, spans, fade=0.04):
     return g
 
 
-# ---------------------------------------------------------------- 6b. ovoz klonlash
-VC_MODEL = "voice_conversion_models/multilingual/multi-dataset/openvoice_v2"
+# ---------------------------------------------------------------- 6b. ovoz klonlash (OmniVoice)
+# OmniVoice (k2-fsa/OmniVoice, VoiceStudio ham shuni ishlatadi): 600+ til, o'zbekcha ham bor. Qisqa yozuvdan
+# ovozni klonlaydi va gapni aniq berilgan uzunlikda aytadi. Har gap uchun xitoycha aktyorning aynan o'sha gapi
+# namuna qilinadi: ovoz ham, ohang (baqiriq, shivir, yig'i) ham o'sha gapdan olinadi.
 AUDIO_EXT = (".wav", ".mp3", ".m4a", ".ogg", ".flac", ".aac")
-_vc = {}
+OV_AGE = {"bola": "child", "yosh": "young adult", "katta": "middle-aged", "qari": "elderly"}
+_ov = {}
 
 
 def sample_dir():
@@ -651,12 +656,43 @@ def find_sample(files, who, voice):
     return None
 
 
-def build_samples(wd, segs, min_sec=4.0, want_sec=25.0):
-    """Har yangi personaj uchun asl (xitoycha) ovozidan namuna yig'adi va loyihada saqlaydi.
-    Namunasi bor personajga tegilmaydi: keyingi qismlarda ham ovozi o'sha-o'sha qoladi."""
-    files, groups, made = samples(), {}, []
+def sample_text(path):
+    """Namunadagi gap matni (klonlash aniqroq bo'ladi). Bo'lmasa, Whisper bilan bir marta yozib olinadi."""
+    txt = os.path.splitext(path)[0] + ".txt"
+    if os.path.exists(txt):
+        return _read(txt).strip() or None
+    try:
+        from faster_whisper import WhisperModel
+
+        segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(path, vad_filter=True)
+        text = "".join(s.text for s in segs).strip()
+    except Exception as e:
+        print("Namuna matnini aniqlab bo'lmadi:", e)
+        text = ""
+    open(txt, "w", encoding="utf-8").write(text)
+    return text or None
+
+
+def main_cluster(segs):
+    """Har personajning eng ko'p uchragan ovoz guruhi (boshqa odam ovozi aralashmasin)."""
+    out = {}
     for s in segs:
-        if s["voice"] != KEEP and clean_name(s.get("who")) and s["uz"].strip():
+        if s.get("cl", -1) >= 0 and clean_name(s.get("who")):
+            out.setdefault(clean_name(s["who"]), []).append(s["cl"])
+    return {k: max(set(v), key=v.count) for k, v in out.items()}
+
+
+def own_voice(s, mains):
+    m = mains.get(clean_name(s.get("who")))
+    return m is None or s.get("cl", -1) in (-1, m)
+
+
+def build_samples(wd, segs, min_sec=3.0, want_sec=9.0):
+    """Har yangi personaj uchun asl (xitoycha) ovozidan 3-10 soniyalik namuna va uning matnini saqlaydi.
+    Namunasi bor personajga tegilmaydi: keyingi qismlarda ham ovozi o'sha-o'sha qoladi."""
+    files, groups, made, mains = samples(), {}, [], main_cluster(segs)
+    for s in segs:
+        if s["voice"] != KEEP and clean_name(s.get("who")) and own_voice(s, mains):
             groups.setdefault(clean_name(s["who"]), []).append(s)
     path = os.path.join(wd, "ovoz.wav")
     if not groups or not os.path.exists(path):
@@ -665,61 +701,109 @@ def build_samples(wd, segs, min_sec=4.0, want_sec=25.0):
         for who, ss in groups.items():
             if who.lower() in files:
                 continue
-            cls = [s["cl"] for s in ss if s.get("cl", -1) >= 0]
-            if cls:  # matn bo'yicha taxmin adashgan bo'lishi mumkin: eng ko'p uchragan ovoz guruhini olamiz
-                top = max(set(cls), key=cls.count)
-                ss = [s for s in ss if s.get("cl") == top]
-            ss = sorted(ss, key=lambda s: (s.get("mood") in ("baqiriq", "shivir"), s["start"] - s["end"]))
-            parts, total = [], 0.0
+            ss = sorted(ss, key=lambda s: (s.get("mood") not in ("oddiy", "hurmat"), s["start"] - s["end"]))
+            parts, texts, total = [], [], 0.0
             for s in ss:
                 if total >= want_sec:
                     break
                 f.seek(int(s["start"] * SR))
                 parts.append(f.read(int((s["end"] - s["start"]) * SR), dtype="float32", always_2d=True).mean(1))
-                parts.append(np.zeros(int(0.25 * SR), dtype=np.float32))
+                parts.append(np.zeros(int(0.2 * SR), dtype=np.float32))
+                texts.append(s["zh"])
                 total += s["end"] - s["start"]
             if total < min_sec:
                 continue  # juda kam gapirgan: keyingi qismlarda yig'iladi
             sf.write(os.path.join(sample_dir(), who + ".wav"), np.concatenate(parts), SR, subtype="PCM_16")
+            open(os.path.join(sample_dir(), who + ".txt"), "w", encoding="utf-8").write("".join(texts))
             made.append(who)
     return made
 
 
-def clone_all(wd, segs, tick=lambda a, b: None):
-    """Loyihaning `ovozlar` papkasida namuna bo'lsa, yozilgan gaplarni shu ovoz tembriga o'tkazadi.
-    Kutubxona o'rnatilmagan yoki xato bo'lsa, oddiy ovoz qoladi."""
-    files = samples()
-    todo = [(s, find_sample(files, s.get("who"), s["voice"])) for s in segs if s.get("tts")]
-    todo = [(s, f) for s, f in todo if f]
+def ov_model():
+    if "m" not in _ov:
+        import torch
+        from omnivoice import OmniVoice
+
+        gpu = torch.cuda.is_available()
+        _ov["m"] = OmniVoice.from_pretrained("k2-fsa/OmniVoice", device_map="cuda:0" if gpu else "cpu",
+                                             dtype=torch.float16 if gpu else torch.float32)
+    return _ov["m"]
+
+
+def ov_free():
+    if _ov.pop("m", None) is not None:
+        try:
+            import torch
+
+            torch.cuda.empty_cache()
+        except Exception:
+            pass
+
+
+def slot_of(s, segs, total):
+    """Gap qancha vaqtga sig'ishi kerak: asl gap uzunligi, kerak bo'lsa keyingi gapgacha bo'lgan pauza ham."""
+    later = [x["start"] for x in segs if x["start"] > s["start"] + 0.01]
+    room = (min(later) if later else total) - s["start"] - 0.06
+    slot = s["end"] - s["start"]
+    allowed = max(0.5, min(room, slot + 1.2))
+    natural = len(s["uz"]) / 14.0  # o'zbekcha tabiiy tezlik: sekundiga ~14 belgi
+    return round(float(min(allowed, max(slot * 0.9, natural, 0.5))), 2)
+
+
+def ov_synth(wd, segs, per_line=True, tick=lambda a, b: None):
+    """Klonlangan o'zbekcha ovoz. Muvaffaqiyatli gaplarga s['tts'] qo'yiladi, qolganlari oddiy ovozda yoziladi."""
+    todo = [(i, s) for i, s in enumerate(segs) if s["voice"] != KEEP and s["uz"].strip()]
     if not todo:
         return ""
     try:
-        if "m" not in _vc:
-            import torch
-            from TTS.api import TTS
-
-            _vc["m"] = TTS(VC_MODEL).to("cuda" if torch.cuda.is_available() else "cpu")
+        model = ov_model()
     except Exception as e:
-        print("Ovoz klonlash yuklanmadi:", e)
-        return "Ovoz klonlash ishlamadi (o'rnatilmagan bo'lishi mumkin), oddiy ovozlar ishlatildi."
-    refs, n = {}, 0
-    for k, (s, f) in enumerate(todo):
-        out = s["tts"][:-4] + ".vc.wav"
-        tag = f"{_read(s['tts'] + '.txt')}|{os.path.basename(f)}|{os.path.getmtime(f)}"
+        print("OmniVoice yuklanmadi:", e)
+        return f"Klonlash ishlamadi ({type(e).__name__}: {str(e)[:200]}), oddiy ovozlar ishlatildi."
+    d = os.path.join(wd, "tts")
+    os.makedirs(d, exist_ok=True)
+    files, mains = samples(), main_cluster(segs)
+    total = sf.info(os.path.join(wd, "ovoz.wav")).duration
+    vf = sf.SoundFile(os.path.join(wd, "ovoz.wav"))
+    n = 0
+    for k, (i, s) in enumerate(todo):
+        out = os.path.join(d, f"{i:04d}.ov.wav")
+        dur = slot_of(s, segs, total)
+        ref = ref_text = instruct = None
+        if per_line and s["end"] - s["start"] >= 1.6 and own_voice(s, mains):
+            ref, ref_text = os.path.join(d, f"{i:04d}.ref.wav"), s["zh"]
+            mode = f"line|{s['start']}|{s['end']}"
+        else:
+            ref = find_sample(files, s.get("who"), s["voice"])
+            if ref:
+                ref_text, mode = sample_text(ref), f"sample|{os.path.basename(ref)}|{os.path.getmtime(ref)}"
+            else:
+                g = "male" if s["voice"].startswith("e") else "female"
+                age = OV_AGE[next((a for a in OV_AGE if a in s["voice"]), "katta")]
+                instruct = f"{g}, {age}" + (", whisper" if s.get("mood") == "shivir" else "")
+                mode = "design|" + instruct
+        tag = json.dumps([s["uz"], dur, mode], ensure_ascii=False)
         try:
             if not (os.path.exists(out) and _read(out + ".txt") == tag):
-                if f not in refs:
-                    refs[f] = os.path.join(wd, "tts", f"namuna_{len(refs)}.wav")
-                    sh("ffmpeg", "-y", "-i", f, "-ac", 1, "-ar", 22050, "-t", 60, refs[f])
-                src = s["tts"][:-4] + ".src.wav"
-                sh("ffmpeg", "-y", "-i", s["tts"], "-ac", 1, "-ar", 22050, src)
-                _vc["m"].voice_conversion_to_file(source_wav=src, target_wav=refs[f], file_path=out)
+                if mode.startswith("line"):
+                    a = max(0, int((s["start"] - 0.05) * SR))
+                    vf.seek(a)
+                    clip = vf.read(int((s["end"] - s["start"] + 0.1) * SR), dtype="float32", always_2d=True).mean(1)
+                    sf.write(ref, clip, SR, subtype="PCM_16")
+                kw = dict(text=s["uz"], language="uz", duration=dur)
+                if instruct:
+                    kw["instruct"] = instruct
+                else:
+                    kw.update(ref_audio=ref, ref_text=ref_text or None)
+                audio = model.generate(**kw)[0]
+                sf.write(out, audio, model.sampling_rate, subtype="PCM_16")
                 open(out + ".txt", "w", encoding="utf-8").write(tag)
-            s["tts"] = out
+            s["tts"], s["ov"] = out, True
             n += 1
         except Exception as e:
             print("Klonlash xato:", s["uz"][:40], e)
         tick(k + 1, len(todo))
+    vf.close()
     return f"{n} ta gap klonlangan ovozda yozildi."
 
 
@@ -753,7 +837,10 @@ def mix(wd, segs, out_dir, src=None, keep_original=True, max_speed=1.6, voice_ga
         if not len(clip):
             continue
         rms = float(np.sqrt((clip ** 2).mean())) + 1e-6
-        clip *= target / rms * MOODS.get(s.get("mood"), MOODS["oddiy"])[2]
+        # Klonlangan gapda ovoz kuchi asl gapdan keladi; oddiy ovozda his-tuyg'u kuchi qo'shiladi.
+        loud = float(np.sqrt((voc[int(s["start"] * SR):int(s["end"] * SR)] ** 2).mean() + 1e-9)) if s.get("ov") else 0
+        clip *= (float(np.clip(loud / (target / voice_gain), 0.6, 1.8)) * target if loud else
+                 target * MOODS.get(s.get("mood"), MOODS["oddiy"])[2]) / rms
         a = int(s["start"] * SR)
         clip = clip[:n - a]
         dub[a:a + len(clip)] += clip
@@ -827,16 +914,23 @@ def analyse(src, wd, progress=None, api_key="", rules=""):
 
 
 def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_speed=1.6, voice_gain=1.0,
-        clone=True):
-    note(progress, 0.02, "O'zbekcha ovozlar yozilmoqda")
-    synth(wd, segs, rate, lambda a, b: progress and progress(0.02 + 0.55 * a / b, desc=f"Ovoz {a}/{b}"))
-    note(progress, 0.6, "Ovoz namunalari tekshirilmoqda")
+        clone=True, per_line=True):
     info = ""
+    for s in segs:
+        s.pop("ov", None)
+        s["tts"] = None
     if clone:
+        note(progress, 0.02, "Personaj ovozlari tayyorlanmoqda")
         made = build_samples(wd, segs)
-        info = (f"Yangi personaj ovozlari saqlandi: {', '.join(made)}. " if made else "") + clone_all(
-            wd, segs, lambda a, b: progress and progress(0.6 + 0.15 * a / b, desc=f"Ovoz klonlash {a}/{b}"))
-    note(progress, 0.75, "Fon bilan birlashtirilmoqda")
+        if made:
+            info = f"Yangi personaj ovozlari saqlandi: {', '.join(made)}. "
+        note(progress, 0.05, "Klonlangan o'zbekcha ovozlar yozilmoqda (birinchi safar model yuklanadi)")
+        info += ov_synth(wd, segs, per_line, lambda a, b: progress and progress(
+            0.05 + 0.65 * a / b, desc=f"Klonlangan ovoz {a}/{b}"))
+        ov_free()
+    note(progress, 0.72, "Oddiy ovozlar yozilmoqda")
+    synth(wd, segs, rate, lambda a, b: progress and progress(0.72 + 0.1 * a / b, desc=f"Ovoz {a}/{b}"))
+    note(progress, 0.85, "Fon bilan birlashtirilmoqda")
     paths = mix(wd, segs, out_dir, src, keep_original, max_speed, voice_gain)
     paths["info"] = info
     note(progress, 1.0, "Tayyor")
@@ -879,17 +973,24 @@ def remember_key(key):
 
 
 def ui():
+    import functools
+    import traceback
+
     import gradio as gr
 
-    need_claude = ("Tarjima uchun: **Qo'shimcha sozlamalar** bo'limidagi `claude_uchun.txt` faylini Claude chatiga "
-                   "yuboring, javobini 'Claude javobi' maydoniga qo'ying va 'Tarjimani qo'yib, dublyaj qilish' ni bosing.")
+    need_claude = ("Tarjima uchun **Tarjima va tuzatish** bo'limidagi `claude_uchun.txt` faylini Claude chatiga "
+                   "yuboring, javobini o'sha yerga qo'yib, **Tarjimani qo'yib, dublyaj qilish** ni bosing.")
+
+    def cast_rows():
+        cast, files = cast_load(), samples()
+        rows = [[k, "erkak" if v.get("jins") == "E" else "ayol", v.get("yosh", ""),
+                 "bor" if k.lower() in files else "yo'q", v.get("tavsif", "")] for k, v in cast.items()]
+        return rows or [["", "", "", "", ""]]
 
     def project_info():
-        cast = cast_load()
-        names = [os.path.basename(f) for f in samples().values()]
-        return (f"**Loyiha:** {os.path.basename(PROJ['dir'])}. **Eslab qolingan personajlar:** "
-                + (", ".join(cast) if cast else "hali yo'q") + ". **Ovoz namunalari:** "
-                + (", ".join(names) if names else "hali yo'q") + ".")
+        cast, n = cast_load(), len(samples())
+        return (f"<div class='pinfo'><b>{os.path.basename(PROJ['dir'])}</b> · personajlar: <b>{len(cast)}</b> · "
+                f"ovoz namunalari: <b>{n}</b></div>")
 
     def use_project(name):
         if not clean_name(name):
@@ -898,18 +999,22 @@ def ui():
             open_project(name)
 
     def pick_project(name):
+        if not clean_name(name):
+            return "", "", cast_rows() if PROJ["dir"] else [["", "", "", "", ""]]
         use_project(name)
-        return project_info(), _read(proj_file("qoidalar.txt")) or ""
+        return project_info(), _read(proj_file("qoidalar.txt")) or "", cast_rows()
 
     def save_rules(rules):
         open(proj_file("qoidalar.txt"), "w", encoding="utf-8").write(rules or "")
 
     def outputs(p, rows, msg):
         tfile = os.path.join(PROJ["wd"], "claude_uchun.txt") if PROJ["wd"] else None
+        info = (msg + " " + p.get("info", "")).strip()
         return (p.get("toliq"), p.get("toliq"), p.get("ovoz"), p.get("fon"), p.get("srt"), p.get("video"),
-                rows, (msg + " " + p.get("info", "")).strip(), tfile, project_info())
+                rows, info, tfile, project_info(), cast_rows())
 
-    def run_dub(segs, keep, rate, speed, gain, clone, progress):
+    def run_dub(segs, opts, progress):
+        keep, rate, speed, gain, engine, per_line = opts
         meta = os.path.join(PROJ["wd"] or "", "segs.json")
         if not os.path.exists(meta):
             raise gr.Error("Avval videoni yuklab, katta tugmani bosing")
@@ -918,32 +1023,32 @@ def ui():
             for s, old in zip(segs, saved["segs"]):
                 s["cl"] = old.get("cl", -1)
         return dub(saved["src"], PROJ["wd"], segs, PROJ["out"], progress, keep, int(rate), float(speed),
-                   float(gain), clone)
+                   float(gain), engine.startswith("Klon"), bool(per_line))
 
-    def do_all(project, video, path, key, rules, keep, rate, speed, gain, clone, progress=gr.Progress()):
+    def do_all(project, video, path, key, rules, *opts, progress=gr.Progress()):
         use_project(project)
         video = (path or "").strip().strip('"') or video
         if not video or not os.path.exists(video):
-            raise gr.Error("Avval video yuklang")
+            raise gr.Error("Avval qism faylini tanlang")
         save_rules(rules)
         wd, out = start_episode(video)
         video = local_copy(video, wd)
         segs, info = analyse(video, wd, progress, remember_key(key), rules)
         if not any(s["uz"] for s in segs):
             return outputs({}, to_rows(segs), f"{len(segs)} ta gap topildi. {info} {need_claude}")
-        p = run_dub(segs, keep, rate, speed, gain, clone, progress)
-        return outputs(p, to_rows(segs), f"Tayyor: {len(segs)} ta gap. Fayllar papkasi: `{out}`. {info}")
+        p = run_dub(segs, opts, progress)
+        return outputs(p, to_rows(segs), f"Tayyor: {len(segs)} ta gap. Papka: `{out}`. {info}")
 
-    def do_redub(project, rows, pasted, keep, rate, speed, gain, clone, progress=gr.Progress()):
+    def do_redub(project, rows, pasted, *opts, progress=gr.Progress()):
         use_project(project)
         rows = rows.values.tolist() if hasattr(rows, "values") else rows
         segs = from_rows(rows)
         n = apply_manual(segs, pasted)
-        p = run_dub(segs, keep, rate, speed, gain, clone, progress)
-        msg = f"Tayyor. Fayllar papkasi: `{PROJ['out']}`." + (f" Claude javobidan {n} ta gap olindi." if n else "")
+        p = run_dub(segs, opts, progress)
+        msg = f"Tayyor. Papka: `{PROJ['out']}`." + (f" Claude javobidan {n} ta gap olindi." if n else "")
         return outputs(p, to_rows(segs), msg)
 
-    def do_fix(project, rows, notes, key, rules, keep, rate, speed, gain, clone, progress=gr.Progress()):
+    def do_fix(project, rows, notes, key, rules, *opts, progress=gr.Progress()):
         use_project(project)
         if not (notes or "").strip():
             raise gr.Error("Avval xatoni yozing")
@@ -959,20 +1064,29 @@ def ui():
         except RuntimeError as e:
             raise gr.Error(str(e))
         memory_add("Foydalanuvchi tuzatishi: " + notes.strip())
-        return outputs(run_dub(segs, keep, rate, speed, gain, clone, progress), to_rows(segs), info)
+        return outputs(run_dub(segs, opts, progress), to_rows(segs), info)
 
     def add_sample(project, file, name):
         use_project(project)
         name = clean_name(name)
         if not file or not name:
             raise gr.Error("Ovoz faylini tanlang va kimga ekanini yozing")
-        for old in [f for k, f in samples().items() if k == name.lower()]:
-            os.remove(old)
-        shutil.copy(file, os.path.join(sample_dir(), name + os.path.splitext(file)[1].lower()))
-        return project_info()
+        for k, f in list(samples().items()):
+            if k == name.lower():
+                os.remove(f)
+                if os.path.exists(os.path.splitext(f)[0] + ".txt"):
+                    os.remove(os.path.splitext(f)[0] + ".txt")
+        dst = os.path.join(sample_dir(), name + ".wav")
+        sh("ffmpeg", "-y", "-i", file, "-ac", 1, "-ar", 24000, "-t", 10, dst)  # klonlash uchun 3-10 soniya eng yaxshi
+        sample_text(dst)
+        return project_info(), cast_rows()
 
-    import functools
-    import traceback
+    def play_sample(project, name):
+        use_project(project)
+        f = find_sample(samples(), name, "")
+        if not f:
+            raise gr.Error("Bu personajning ovoz namunasi hali yo'q")
+        return f
 
     def shown(fn):
         """Har qanday xato ekranda o'qiladigan matn bo'lib chiqsin va xatolar.txt ga yozilsin."""
@@ -992,59 +1106,107 @@ def ui():
                 raise gr.Error(f"{type(e).__name__}: {str(e)[-700:]}")
         return run
 
-    with gr.Blocks(title="Donghua dublyaj") as app:
-        gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha")
-        project = gr.Dropdown(projects(), allow_custom_value=True, value=None,
-                              label="Loyiha: donghua nomini yozing yoki ro'yxatdan tanlang",
-                              info="Har bir donghua alohida loyiha. Personajlar va ularning ovozlari shu loyihada "
-                                   "eslab qolinadi va keyingi qismlarda o'zgarmaydi.")
-        pinfo = gr.Markdown()
-        video = gr.File(label="Qism: video yoki audio fayl", type="filepath")
-        key = gr.Textbox(label="Claude API kaliti (bir marta yoziladi; bo'lmasa tarjima Claude chati orqali)",
-                         type="password", placeholder="sk-ant-...", value="" if ON_COLAB else remember_key(""))
-        go = gr.Button("Dublyaj qilish", variant="primary", size="lg")
-        status = gr.Markdown()
-        player = gr.Audio(label="Tayyor dublyaj", type="filepath", interactive=False)
-        o1 = gr.File(label="To'liq dublyaj (ovoz + fon), WAV")
-        o2 = gr.File(label="Faqat o'zbekcha ovoz (joyiga qo'yilgan), WAV")
-        with gr.Accordion("Qo'shimcha fayllar", open=False):
-            o3 = gr.File(label="Fon va asl tovushlar, WAV")
-            o4 = gr.File(label="O'zbekcha subtitr, SRT")
-            o5 = gr.File(label="Dublyajli video, MP4")
-        with gr.Accordion("Qo'shimcha sozlamalar va xatolarni tuzatish", open=False):
-            rules = gr.Textbox(
-                label="Shu loyihaning doimiy qoidalari (har safar Claude shularga amal qiladi)", lines=4,
-                placeholder="Masalan: Dushmanlar bir-biriga faqat sensirab gapiradi. Ustozga doim siz. Bosh qahramon 16 yoshli o'g'il bola.")
-            fix = gr.Textbox(label="Xatoni yozing, Claude butun ssenariyda tuzatadi va eslab qoladi", lines=3,
-                             placeholder="Masalan: 45-gapda u dushmaniga sizlab gapiryapti, sensirasin. Falonchi qiz bola, erkak ovoz qo'yilgan.")
-            fixb = gr.Button("Claude tuzatsin va qayta dublyaj qilsin")
-            clone = gr.Checkbox(True, label="Personaj ovozini asl ovozidan klonlash (har yangi personaj uchun namuna "
-                                            "o'zi yig'iladi va loyihada saqlanadi)")
-            gr.Markdown("**Ovozni almashtirish.** Personajga boshqa ovoz bermoqchi bo'lsangiz, 15-30 soniyalik toza "
-                        "yozuv yuklang. Kimga: personaj nomi (jadvaldagi `kim`), yoki `erkak-katta` kabi tur, "
-                        "yoki shunchaki `erkak` / `ayol`.")
-            sfile = gr.File(label="Ovoz namunasi (wav, mp3)", type="filepath")
-            sname = gr.Textbox(label="Kimga")
-            sbtn = gr.Button("Namunani saqlash")
-            path = gr.Textbox(label="Fayl yo'li (yuklash o'rniga, katta fayllar uchun)")
-            tfile = gr.File(label="claude_uchun.txt: API kalit bo'lmasa shu faylni Claude chatiga yuboring")
-            pasted = gr.Textbox(label="Claude javobi (raqam | kim | jins-yosh | his | o'zbekcha matn)", lines=5)
-            gr.Markdown(HELP)
-            table = gr.Dataframe(headers=COLS, interactive=True, wrap=True, row_count=(1, "dynamic"),
-                                 datatype=["number", "number", "number", "str", "str", "str", "str", "str"])
-            keep = gr.Checkbox(True, label="Kulgi, qichqiriq va tarjima qilinmagan asl ovozlarni qoldirish")
-            rate = gr.Slider(-10, 30, 8, step=1, label="Gapirish tezligi, %")
-            speed = gr.Slider(1.0, 2.0, 1.6, step=0.05, label="Vaqtga sig'dirish uchun eng ko'p tezlashtirish")
-            gain = gr.Slider(0.5, 2.0, 1.0, step=0.05, label="O'zbekcha ovoz balandligi")
-            redo = gr.Button("Tarjimani qo'yib, dublyaj qilish / Jadval bo'yicha qayta dublyaj")
-        outs = [player, o1, o2, o3, o4, o5, table, status, tfile, pinfo]
-        opts = [keep, rate, speed, gain, clone]
-        project.change(shown(pick_project), project, [pinfo, rules])
+    css = """
+    .gradio-container {max-width: 1100px !important; margin: auto}
+    #hero {padding: 22px 26px; border-radius: 16px; margin-bottom: 6px;
+           background: linear-gradient(135deg, #7c2d12 0%, #c2410c 55%, #f59e0b 100%); color: #fff}
+    #hero h1 {margin: 0; font-size: 28px; color: #fff}
+    #hero p {margin: 6px 0 0; opacity: .92; color: #fff}
+    .pinfo {padding: 8px 12px; border-radius: 10px; background: rgba(245,158,11,.12)}
+    #go {height: 56px; font-size: 18px}
+    .step {font-weight: 600; opacity: .8; margin: 4px 0 -4px}
+    """
+    theme = gr.themes.Soft(primary_hue="orange", secondary_hue="amber", neutral_hue="stone",
+                           font=[gr.themes.GoogleFont("Inter"), "sans-serif"])
+    new_gradio = int(gr.__version__.split(".")[0]) >= 6  # Gradio 6 da ko'rinish launch() ga beriladi
+    with gr.Blocks(title="Donghua dublyaj", **({} if new_gradio else dict(theme=theme, css=css))) as app:
+        gr.HTML("<div id='hero'><h1>🎬 Donghua dublyaj</h1><p>Xitoycha qism → o'zbekcha dublyaj. Personajlar o'z "
+                "ovozida, musiqa va effektlar joyida.</p></div>")
+        with gr.Tabs():
+            with gr.Tab("🎙️ Dublyaj"):
+                with gr.Row(equal_height=False):
+                    with gr.Column(scale=5):
+                        gr.Markdown("<p class='step'>1. Loyiha (donghua nomi)</p>")
+                        project = gr.Dropdown(projects(), allow_custom_value=True, value=None, show_label=False,
+                                              info="Har donghua alohida loyiha: personajlar va ovozlar eslab qolinadi.")
+                        pinfo = gr.HTML()
+                        gr.Markdown("<p class='step'>2. Qism fayli</p>")
+                        video = gr.File(show_label=False, type="filepath", height=120)
+                        go = gr.Button("▶  Dublyaj qilish", variant="primary", elem_id="go")
+                        status = gr.Markdown()
+                    with gr.Column(scale=6):
+                        gr.Markdown("<p class='step'>3. Natija</p>")
+                        player = gr.Audio(label="Tayyor dublyaj", type="filepath", interactive=False)
+                        o1 = gr.File(label="To'liq dublyaj (ovoz + fon), WAV", height=90)
+                        o2 = gr.File(label="Faqat o'zbekcha ovoz (joyiga qo'yilgan), WAV", height=90)
+                        with gr.Accordion("Boshqa fayllar", open=False):
+                            o3 = gr.File(label="Fon va asl tovushlar, WAV")
+                            o4 = gr.File(label="O'zbekcha subtitr, SRT")
+                            o5 = gr.File(label="Dublyajli video, MP4")
+            with gr.Tab("👥 Personajlar va ovozlar"):
+                gr.Markdown("Personajlar va ularning ovoz namunalari birinchi uchraganda o'zi saqlanadi va keyingi "
+                            "qismlarda o'zgarmaydi. Namuna yoqmasa, boshqasini yuklang.")
+                cast = gr.Dataframe(headers=["personaj", "jinsi", "yoshi", "ovoz namunasi", "kim u"],
+                                    interactive=False, wrap=True)
+                with gr.Row():
+                    pname = gr.Textbox(label="Personaj nomi", scale=3)
+                    pplay = gr.Button("Namunani eshitish", scale=1)
+                paudio = gr.Audio(label="Namuna", type="filepath", interactive=False)
+                with gr.Accordion("Ovozni almashtirish", open=False):
+                    gr.Markdown("3-10 soniyalik toza yozuv. Kimga: personaj nomi, yoki `erkak-katta` kabi tur, yoki "
+                                "`erkak` / `ayol` (namunasi yo'q hamma personajlar uchun).")
+                    sfile = gr.File(label="Ovoz namunasi (wav, mp3)", type="filepath")
+                    sname = gr.Textbox(label="Kimga")
+                    sbtn = gr.Button("Namunani saqlash")
+            with gr.Tab("✍️ Tarjima va tuzatish"):
+                key = gr.Textbox(label="Claude API kaliti (bir marta yoziladi; bo'lmasa tarjima Claude chati orqali)",
+                                 type="password", placeholder="sk-ant-...", value="" if ON_COLAB else remember_key(""))
+                rules = gr.Textbox(label="Shu loyihaning doimiy qoidalari (Claude har safar amal qiladi)", lines=3,
+                                   placeholder="Masalan: Dushmanlar bir-biriga faqat sensirab gapiradi. Ustozga doim siz.")
+                fix = gr.Textbox(label="Xatoni yozing: Claude butun qismda tuzatadi va eslab qoladi", lines=3,
+                                 placeholder="Masalan: 45-gapda dushmaniga sizlab gapiryapti, sensirasin.")
+                fixb = gr.Button("Claude tuzatsin va qayta dublyaj qilsin", variant="primary")
+                with gr.Accordion("Kalitsiz tarjima: Claude chati orqali", open=False):
+                    tfile = gr.File(label="claude_uchun.txt: shu faylni Claude chatiga yuboring")
+                    pasted = gr.Textbox(label="Claude javobi (raqam | kim | jins-yosh | his | o'zbekcha matn)", lines=5)
+                gr.Markdown(HELP)
+                table = gr.Dataframe(headers=COLS, interactive=True, wrap=True, row_count=(1, "dynamic"),
+                                     datatype=["number", "number", "number", "str", "str", "str", "str", "str"])
+                redo = gr.Button("Tarjimani qo'yib, dublyaj qilish / Jadval bo'yicha qayta dublyaj")
+            with gr.Tab("⚙️ Sozlamalar"):
+                engine = gr.Radio(["Klonlangan ovoz (OmniVoice)", "Oddiy ovoz (Microsoft Sardor/Madina)"],
+                                  value="Klonlangan ovoz (OmniVoice)", label="Ovoz turi")
+                per_line = gr.Checkbox(True, label="Har gapni xitoycha aktyorning aynan o'sha gapidan klonlash "
+                                                   "(baqiriq, shivir, his-tuyg'u saqlanadi)")
+                keep = gr.Checkbox(True, label="Kulgi, qichqiriq va tarjima qilinmagan asl ovozlarni qoldirish")
+                gain = gr.Slider(0.5, 2.0, 1.0, step=0.05, label="O'zbekcha ovoz balandligi")
+                speed = gr.Slider(1.0, 2.0, 1.6, step=0.05, label="Vaqtga sig'dirish uchun eng ko'p tezlashtirish")
+                rate = gr.Slider(-10, 30, 8, step=1, label="Oddiy ovoz tezligi, %")
+                path = gr.Textbox(label="Fayl yo'li (yuklash o'rniga, juda katta fayllar uchun)")
+        outs = [player, o1, o2, o3, o4, o5, table, status, tfile, pinfo, cast]
+        opts = [keep, rate, speed, gain, engine, per_line]
+        project.change(shown(pick_project), project, [pinfo, rules, cast])
         go.click(shown(do_all), [project, video, path, key, rules] + opts, outs)
         redo.click(shown(do_redub), [project, table, pasted] + opts, outs)
         fixb.click(shown(do_fix), [project, table, fix, key, rules] + opts, outs)
-        sbtn.click(shown(add_sample), [project, sfile, sname], pinfo)
+        sbtn.click(shown(add_sample), [project, sfile, sname], [pinfo, cast])
+        pplay.click(shown(play_sample), [project, pname], paudio)
+    app.look = dict(theme=theme, css=css) if new_gradio else {}
     return app
+
+
+PIP_NEEDS = {"omnivoice": "omnivoice", "faster_whisper": "faster-whisper", "demucs": "demucs",
+             "edge_tts": "edge-tts", "anthropic": "anthropic", "librosa": "librosa", "sklearn": "scikit-learn"}
+
+
+def ensure_packages():
+    """Kompyuterda: yangi versiyaga kerakli kutubxona yo'q bo'lsa, o'zi o'rnatadi (bir marta)."""
+    import importlib.util
+
+    missing = [pkg for mod, pkg in PIP_NEEDS.items() if importlib.util.find_spec(mod) is None]
+    if missing and not ON_COLAB:
+        print("Yangi kutubxonalar o'rnatilmoqda:", ", ".join(missing), "(bir necha daqiqa)", flush=True)
+        subprocess.call([sys.executable, "-m", "pip", "install", *missing])
 
 
 UPDATE_URL = ("https://raw.githubusercontent.com/jamshidrabbimov09-beep/ai-video-/"
@@ -1080,4 +1242,6 @@ if __name__ == "__main__":
         print(json.dumps(result, ensure_ascii=False, indent=1))
     else:
         self_update()
-        ui().queue().launch(share=ON_COLAB, debug=ON_COLAB, inbrowser=not ON_COLAB, show_error=True)
+        ensure_packages()
+        app = ui()
+        app.queue().launch(share=ON_COLAB, debug=ON_COLAB, inbrowser=not ON_COLAB, show_error=True, **app.look)

@@ -23,7 +23,7 @@ cells = [
 
 Tarjimani Claude qiladi: API kalit bo'lsa avtomatik, bo'lmasa `claude_uchun.txt` faylini Claude chatiga yuborasiz."""),
     code("""# 1. O'rnatish
-!pip install -q demucs faster-whisper edge-tts anthropic gradio soundfile webrtcvad-wheels
+!pip install -q demucs faster-whisper edge-tts anthropic gradio soundfile webrtcvad-wheels omnivoice
 !pip install -q --no-deps resemblyzer
 !apt-get -qq install -y ffmpeg > /dev/null"""),
     code("""# (ixtiyoriy) Google Drive'ni ulash: katta videoni Drive'dan olish va natijani saqlash uchun
@@ -45,6 +45,6 @@ print("daftar yangilandi")
 import zipfile
 
 with zipfile.ZipFile(os.path.join(here, "Dublyaj_windows.zip"), "w", zipfile.ZIP_DEFLATED) as z:
-    for name in ("dublyaj.py", "Dublyaj.bat", "Ovoz_klonlash.bat", "README.md"):
+    for name in ("dublyaj.py", "Dublyaj.bat", "README.md"):
         z.write(os.path.join(here, name), "dublyaj/" + name)
 print("zip yangilandi")

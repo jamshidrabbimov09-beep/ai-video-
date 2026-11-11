@@ -37,28 +37,30 @@ Claude tarjima bilan birga har gap uchun kim gapirayotganini, jinsi va yoshini (
 his-tuyg'usini (hurmat, g'azab, baqiriq, uyat, shivirlash, qayg'u, quvonch, qo'rquv) aniqlaydi. Sen/siz munosabatga
 qarab tanlanadi: dushmanlar va haqoratda sensirash, ustoz va kattalarga siz.
 
-"Qo'shimcha sozlamalar va xatolarni tuzatish" bo'limida:
+"Tarjima va tuzatish" bo'limida:
 - **Doimiy qoidalar**: bir marta yozasiz, har safar amal qilinadi (ilova eslab qoladi).
 - **Xatoni yozing**: oddiy so'z bilan yozasiz, Claude butun ssenariyda tuzatib, qayta dublyaj qiladi (API kalit kerak).
 - Jadvalni qo'lda ham tuzatish mumkin.
 
-Bepul o'zbekcha ovozlarda tayyor "hissiyot" yo'q: his-tuyg'u tezlik, ohang balandligi va ovoz kuchi bilan beriladi.
+Klonlangan ovozda his-tuyg'u asl gapdan keladi. Oddiy ovozda esa tezlik, ohang balandligi va ovoz kuchi bilan beriladi.
 
 ## Loyihalar va personaj ovozlari
 
-Har bir donghua alohida loyiha: oynaning tepasida nomini yozasiz yoki ro'yxatdan tanlaysiz. Loyiha eslab qoladi:
+Har bir donghua alohida loyiha: "Dublyaj" bo'limining tepasida nomini yozasiz yoki ro'yxatdan tanlaysiz. Loyiha
+personajlarni (ismi, jinsi, yoshi, kim kimga sen yoki siz deydi), ovoz namunalarini, qoidalar va tuzatishlarni eslab
+qoladi. Hammasi `loyihalar/<nom>/` papkasida, tayyor qismlar `loyihalar/<nom>/natija/` da.
 
-- personajlar (ismi, jinsi, yoshi, kim kimga sen yoki siz deydi) va Claude'ning eslatmalari;
-- har personajning ovoz namunasi: birinchi uchraganda asl ovozidan o'zi yig'iladi (`ovozlar` papkasi), keyingi
-  qismlarda o'sha namuna ishlatiladi, shuning uchun ovoz qismdan qismga o'zgarmaydi. Yangi personaj qo'shilsa, u ham
-  saqlanadi. Namunani o'zingiz almashtirishingiz mumkin ("Ovozni almashtirish");
-- loyihaning doimiy qoidalari va siz yozgan tuzatishlar.
+## Ovoz: OmniVoice bilan klonlash (bepul)
 
-Hammasi `loyihalar/<nom>/` papkasida, tayyor qismlar `loyihalar/<nom>/natija/` da.
+OmniVoice (VoiceStudio ilovasi ham shuni ishlatadi) o'zbekcha gapiradi va qisqa yozuvdan ovozni klonlaydi.
 
-Klonlash ovoz tembrini o'tkazadi. Baqiriq va his-tuyg'u tezlik, ohang va ovoz kuchi bilan beriladi; kulgi va
-qichqiriqlar asl ovozdan qoladi. Klonlash ishlamasa (`Ovoz_klonlash.bat` bilan qayta o'rnatib ko'ring), oddiy
-ovozlar ishlatiladi.
+- Har gap xitoycha aktyorning aynan o'sha gapidan klonlanadi: ovoz tembri ham, baqiriq, shivir, his-tuyg'u ham
+  o'sha gapdan olinadi. Gap asl gap uzunligiga moslab aytiladi.
+- Juda qisqa gaplar uchun personajning saqlangan namunasi ishlatiladi (birinchi uchraganda o'zi yig'iladi,
+  "Personajlar va ovozlar" bo'limida eshitish va almashtirish mumkin).
+- Klonlash ishlamasa, o'sha gaplar oddiy Microsoft ovozida (Sardor, Madina) yoziladi.
+- Xitoycha namunadan klonlanganda o'zbekcha nutqda biroz xitoycha talaffuz qolishi mumkin. Shunday bo'lsa,
+  personajga o'zbekcha gapiradigan odamning 3-10 soniyalik yozuvini namuna qilib qo'ying.
 
 ## Natija fayllari
 
@@ -69,6 +71,7 @@ ovozlar ishlatiladi.
 
 ## Cheklovlar
 
-- O'zbekcha bepul ovoz ikkita (Sardor, Madina); personajlar ohang balandligi bilan farqlanadi.
+- Klonlash uchun NVIDIA videokarta tavsiya etiladi; usiz juda sekin ishlaydi.
+- Ilova har ochilganda GitHub'dan o'zini yangilaydi va yetishmayotgan kutubxonalarni o'rnatadi.
 - Erkak/ayol aniqlash xato qilishi mumkin: jadvalda tuzatiladi.
 - `dublyaj.py` o'zgargach `python make_notebook.py` ni ishga tushiring (kod daftar ichiga ko'chirilgan).

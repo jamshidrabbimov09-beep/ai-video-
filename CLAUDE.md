@@ -123,21 +123,23 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   from gender plus age, emotion only through rate, pitch and gain (the free Uzbek edge-tts voices have no styles).
   The UI has "Doimiy qoidalar" (standing rules, saved) and a free-text correction box that Claude applies to the
   whole script (API key needed). The user wants the tool polished before installing or trying it.
-- Projects and voice cloning (requested 2026-11-11): one project per donghua, chosen by name at the top of the UI,
-  stored in `dublyaj/loyihalar/<name>/` (`ovozlar/` samples, `personajlar.json` cast, `xotira.txt` Claude notes,
-  `qoidalar.txt` rules, `ish/` work files of the current episode only, `natija/<episode>/` outputs). The cast and
-  notes are fed to Claude in later episodes so labels, gender, age and sen/siz stay fixed. At the user's request each
-  new character's voice sample is cut automatically from the original (Chinese) vocals of the lines Claude attributed
-  to them (dominant resemblyzer cluster only, at least 4 s) and reused in later episodes; the edge-tts lines are then
-  converted to that timbre with coqui-tts voice conversion (`openvoice_v2`). Falls back to plain voices on failure.
-  Never run for real: the coqui-tts call is written from memory. It only transfers timbre, not acting; the user
-  was told this, and that publishing dubs of a show is a rights question for them. The user agreed to buy an
-  Anthropic API key and will test on the PC first.
-- First PC run (2026-11-12): install via `Dublyaj.bat` worked and the UI opened; pressing the button gave a bare
-  "Error". Fixes pushed: subprocess output decoded as UTF-8 (the episode file name was Chinese), the upload is copied
-  to `ish/<episode>/asl.*`, every handler error is shown with its message and appended to `dublyaj/xatolar.txt`.
-  `dublyaj.py` now updates itself from the branch's raw GitHub URL on start (`self_update`), and the .bat does too,
-  so later fixes reach the PC without a new zip. Ask the user for the black console window screenshot when errors occur.
+- Projects (requested 2026-11-11): one project per donghua, chosen by name in the UI, stored in
+  `dublyaj/loyihalar/<name>/` (`ovozlar/` samples `<who>.wav` + `<who>.txt` transcript, `personajlar.json` cast,
+  `xotira.txt` Claude notes, `qoidalar.txt` rules, `ish/` work files of the current episode only, `natija/<episode>/`).
+  Cast and notes are fed to Claude in later episodes so labels, gender, age and sen/siz stay fixed.
+- Voice (2026-11-12): the user found VoiceStudio (github.com/debpalash/VoiceStudio, AGPL desktop app) and asked to
+  clone each character from the Chinese original and speak Uzbek in that voice and tone. Its engine, OmniVoice
+  (`pip install omnivoice`, model `k2-fsa/OmniVoice`, Uzbek `uz` with 115 h training data), is now built in
+  (`ov_synth`): each line is cloned from the original vocals of that same line (keeps shouting/whisper), with
+  `ref_text` = the Chinese transcript and `duration` = the slot length (`slot_of`). Lines shorter than 1.6 s or
+  from another voice cluster use the character's saved sample; with no sample, OmniVoice voice design
+  (`instruct` "male, elderly" etc.). Failures fall back to edge-tts. coqui-tts and `Ovoz_klonlash.bat` were removed.
+  Cross-lingual cloning keeps some Chinese accent (OmniVoice README says so).
+- UI redesigned (orange theme, tabs: Dublyaj, Personajlar va ovozlar, Tarjima va tuzatish, Sozlamalar).
+  `ensure_packages()` pip-installs missing modules on the PC at start, so code changes can add dependencies.
+- The cloud session now runs on a personal environment `ai-video-` that also allows speech.platform.bing.com and
+  Hugging Face hosts (edge-tts needs `proxy=$HTTPS_PROXY` and `SSL_CERT_FILE=/root/.ccr/ca-bundle.crt` here).
+  download.pytorch.org is not allowed: install torch from PyPI in the cloud.
 - `make_notebook.py` also builds `dublyaj/Dublyaj_windows.zip` (the small download for the PC): rerun after changes.
 - Translation: the user rejected Google translate and wants Claude to translate with context and then review the
   translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then
