@@ -152,6 +152,10 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   to a part but watchable alone (how the battle went, numbers, details the part skipped), built ENTIRELY by Claude as motion
   design in Remotion (map, moving units, counters; no Flow images); the user only records the voice. First topic proposed:
   Loy jangi 1365 (notes in `prompts/manbalar_konspekt.md`). Use only numbers the books give; army totals are often absent.
+  DONE 2026-11-11: "Loy jangi" (81 s): script `prompts/loy_jangi_ssenariy.md`, timing `edit/edit_loy.py` (aligns the script to the
+  transcript words, voice is used uncut), composition `src/LoyJangi.tsx` (units as moving soldier icons, rain, arrows, counters),
+  build `edit/build_loy.sh`, exports `video/exports/loy_jangi_1080p*.mp4`. Reuse this as the template for the next battle videos.
+  Creative Claw: 23 credits left.
 - Lessons from Part 3 fixes: never cut the voice where there is no real pause (check added in `edit_p3.py`); name cards must
   appear at the moment the name is spoken, one line only; the end card comes after the last subtitle.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
