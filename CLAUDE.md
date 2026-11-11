@@ -111,11 +111,15 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 - Requested 2026-11-11: the user wants to dub 21-25 minute Chinese donghua episodes into Uzbek with AI voices, keeping
   music, effects and laughter, and to receive WAV files (full mix, and Uzbek voices only, placed at the right times).
 - Built in `dublyaj/`: `dublyaj.py` (Demucs separation, faster-whisper zh transcription, pitch plus resemblyzer speaker
-  grouping, free Google translate, edge-tts voices `uz-UZ-SardorNeural`/`uz-UZ-MadinaNeural`, mix, Gradio UI) and
-  `Donghua_Dublyaj.ipynb`, a self-contained Colab notebook with the code embedded: regenerate the notebook's
-  `%%writefile` cell whenever `dublyaj.py` changes.
-- Only translation parsing, segment splitting, the mix and the UI construction were tested in the cloud session (TTS,
-  Hugging Face and model hosts are blocked there). The full pipeline has not yet been run on Colab: expect to fix
+  grouping, Claude translation, edge-tts voices `uz-UZ-SardorNeural`/`uz-UZ-MadinaNeural`, mix, Gradio UI) and
+  `Donghua_Dublyaj.ipynb`, a self-contained Colab notebook with the code embedded: run `dublyaj/make_notebook.py`
+  whenever `dublyaj.py` changes.
+- Translation: the user rejected Google translate and wants Claude to translate with context and then review the
+  translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then
+  editor review, `claude-opus-5-5`), or free: the app writes `claude_uchun.txt`, the user sends it to a Claude chat and
+  pastes back `number | uzbek text` lines. If the user sends that file in a chat, translate it in that format.
+- Only segment splitting, the mix, the UI construction and the Claude translation flow against a mock client were tested in the cloud session (TTS,
+  Hugging Face and model hosts are blocked there, and there was no API key). The full pipeline has not yet been run on Colab: expect to fix
   dependency or tuning issues from the user's first screenshots (speaker clustering threshold 0.45 is a guess).
 
 ## Open items

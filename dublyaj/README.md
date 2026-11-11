@@ -9,8 +9,18 @@ aynan o'sha joylarga qo'yadi. Musiqa, effektlar, kulgi va qichqiriqlar asl holic
    (ochilmasa: `Donghua_Dublyaj.ipynb` faylini yuklab oling va colab.research.google.com da "Upload" qiling).
 2. Runtime → Change runtime type → **T4 GPU**. Keyin Runtime → **Run all**.
 3. Pastda chiqqan `gradio.live` havolasini oching, videoni yuklang, **1. Tahlil qilish** ni bosing.
-4. Jadvalda tarjimani va ovozni (E1-E4 erkak, A1-A4 ayol, ASL = asl ovoz qolsin) tuzating.
+4. Tarjima (pastdagi bo'limga qarang). Jadvalda tarjimani va ovozni (E1-E4 erkak, A1-A4 ayol, ASL = asl ovoz qolsin) tuzating.
 5. **2. Dublyaj qilish** ni bosing va fayllarni yuklab oling.
+
+## Tarjima: Claude
+
+Google tarjima ishlatilmaydi. Claude butun qismni o'qib, kontekst bilan tarjima qiladi, keyin muharrir sifatida
+qayta tahlil qilib tuzatadi (javob oldingi gapga mos, ismlar bir xil, gap vaqtga sig'adi).
+
+- **Bepul yo'l:** 1-tugmadan keyin `claude_uchun.txt` faylini yuklab oling, Claude chatiga yuboring, javobini
+  "Claude javobi" maydoniga qo'yib, "Tarjimani jadvalga qo'yish" ni bosing.
+- **Avtomatik yo'l (pullik):** Claude API kalitini (console.anthropic.com) maydonga yozing. Bu Claude obunasidan
+  alohida hisob; bitta qism taxminan 1 dollar atrofida.
 
 ## Natija fayllari
 
@@ -22,5 +32,5 @@ aynan o'sha joylarga qo'yadi. Musiqa, effektlar, kulgi va qichqiriqlar asl holic
 ## Cheklovlar
 
 - O'zbekcha bepul ovoz ikkita (Sardor, Madina); personajlar ohang balandligi bilan farqlanadi.
-- Avtomatik tarjima (Google) va erkak/ayol aniqlash xato qilishi mumkin: jadvalda tuzatiladi.
-- `dublyaj.py` faylini o'zgartirgandan keyin daftarni qayta yig'ish kerak (kod daftar ichiga ko'chirilgan).
+- Erkak/ayol aniqlash xato qilishi mumkin: jadvalda tuzatiladi.
+- `dublyaj.py` o'zgargach `python make_notebook.py` ni ishga tushiring (kod daftar ichiga ko'chirilgan).
