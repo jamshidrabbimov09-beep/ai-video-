@@ -17,8 +17,7 @@ update this file.
   Vertical, AI-illustrated narrated videos of about 2 minutes.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
-- **Part 1 "Cho'loq yigit" is finished and was posted as a Reel on 2026-11-10.** Next: Part 2 (alliance with Amir Husayn,
-  1360-1370).
+- **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" is finished (2026-11-11).** Next: Part 3.
 
 ## The user
 
@@ -106,9 +105,39 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 - The Russian files at the repo root (`ИНСТРУКЦИЯ.md`, `СТИЛЬ.md`, `СТРУКТУРА.md`, `ИСТОЧНИКИ.md`,
   `Семейные драмы.txt`) belong to an unrelated earlier project (family-drama stories) and are not used here.
 
+## Part 2 "Do'st va dushman" (finished 2026-11-11, chat 3)
+
+- Files: script `prompts/2-seriya_ssenariy.md` (fact check inside), ElevenLabs text `prompts/2-seriya_elevenlabs.md`, image prompts
+  `prompts/2-seriya_rasm_promptlari.md` (38) and `prompts/2-seriya_flow_paketlar.md` (5 per message for the Flow agent), images
+  `video/public/p2img/j01..j38.jpg` (768x1376, upscaled in `edit/bake_p2.sh`), narration `video/public/audio2/` and
+  `public/voice2/all.mp3`, timeline `edit/edit_p2.py`, composition `src/Part2.tsx`, build `edit/build_part2.sh`
+  (prep, audio, render, final), exports `video/exports/part2_dost_va_dushman_1080p*.mp4` (146 s, about 97 MiB each: GitHub accepts
+  files under 100 MiB), cover `instagram/cover_part2.png`, captions and comment texts `instagram/post_part2.md`.
+- The recorded narration kept two sentences the fact check wanted changed (the user chose not to re-record): "Qarshilik qilish esa
+  o'limni anglatardi" (no source) and "U Temurning buyrug'ini ham ado etmay qo'ydi" (Husayn was the senior amir). From Part 3 on,
+  get the final text confirmed BEFORE the user records. Part 2 ends on the hook for Part 3: Temur was not a Chingizid and could not
+  be khan, so how did he rule?
+- Amir Husayn's look is fixed by Part 1: young, lean, short dark beard, dark blue silk robe, grey fur-brimmed felt cap. Reference
+  portrait: `video/public/p2img/j04.jpg` (and `public/husayn_ref.jpg`). Temur reference stays `public/p1img/i04.jpg`.
+- Flow: several prompts in one message only work with the agent switched on (PC); plain numbered prompts with no shared header,
+  both reference images attached. The Nano Banana Pro daily quota ran out; 2.1 was used.
+- Changes to the approved style, all asked for or accepted by the user: louder, clearer mix (-14 LUFS, presence lift on the voice,
+  less music bass); music extended on the bar grid (song section repeated); subtitles split into balanced 2-5 word chunks with a
+  dark outline; a top card never repeats what the subtitle says at the same moment (the user found text at top and bottom
+  confusing); opening shot is a face, the voice starts at 0.4 s, short end card.
+- Part 1 Reel after one day: 3,249 views, average watch time 53 s of 2:01, about 30% reached the end, likes 9.2%, shares 0.6%,
+  1 comment, 89 followers, 99.5% non-followers, 90% from the Reels tab, mostly aged 25-44. Losses: about 30% in the first 3-5 s
+  and a drop on the end card; views stopped growing after 6-8 hours. Weak points: comments and shares.
+- YouTube channel `@unutilgan_qissalar` opened 2026-11-11 (banner `video/youtube/banner2_cinzel.jpg`, script
+  `edit/youtube_banner2.py`); Part 1 uploaded as a Short with the altered-content label on.
+- The user cannot use the phone between 18:00 and 22:00: post about 17:15-17:45. Large files do not download from the chat on
+  the phone: always deliver through a GitHub link.
+- Creative Claw: 27 credits left.
+
 ## Open items
 
-- Part 2 script, then narration, images, edit.
+- Part 3 (Balx 1370, rise to power; puppet khans): script first, confirmed by the user before recording.
+- Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Review Part 1 Reel statistics (where viewers drop off) once the user sends a screenshot.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
