@@ -10,6 +10,7 @@ venv\Scripts\python -m pip install --upgrade pip
 venv\Scripts\python -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu121
 venv\Scripts\python -m pip install demucs faster-whisper edge-tts anthropic gradio soundfile librosa scikit-learn static-ffmpeg webrtcvad-wheels
 venv\Scripts\python -m pip install --no-deps resemblyzer
+venv\Scripts\python -m pip install coqui-tts
 :run
 echo Ilova ochilmoqda. Brauzerda oyna chiqadi. Bu qora oynani yopmang.
 venv\Scripts\python dublyaj.py

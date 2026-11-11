@@ -123,11 +123,16 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   from gender plus age, emotion only through rate, pitch and gain (the free Uzbek edge-tts voices have no styles).
   The UI has "Doimiy qoidalar" (standing rules, saved) and a free-text correction box that Claude applies to the
   whole script (API key needed). The user wants the tool polished before installing or trying it.
-- Voice cloning (requested 2026-11-11, free): optional step `clone_all` converts the edge-tts lines to the timbre of
-  sample recordings in `dublyaj/ovozlar/` (named by character label, by class such as `erkak-katta`, or `erkak`/`ayol`)
-  using coqui-tts voice conversion (`openvoice_v2`). Installed separately by `Ovoz_klonlash.bat`; falls back to the
-  plain voices on any failure. Never run for real: the coqui-tts API call is written from memory. The user was told
-  to use only their own or consenting people's voices. The user agreed to buy an Anthropic API key.
+- Projects and voice cloning (requested 2026-11-11): one project per donghua, chosen by name at the top of the UI,
+  stored in `dublyaj/loyihalar/<name>/` (`ovozlar/` samples, `personajlar.json` cast, `xotira.txt` Claude notes,
+  `qoidalar.txt` rules, `ish/` work files of the current episode only, `natija/<episode>/` outputs). The cast and
+  notes are fed to Claude in later episodes so labels, gender, age and sen/siz stay fixed. At the user's request each
+  new character's voice sample is cut automatically from the original (Chinese) vocals of the lines Claude attributed
+  to them (dominant resemblyzer cluster only, at least 4 s) and reused in later episodes; the edge-tts lines are then
+  converted to that timbre with coqui-tts voice conversion (`openvoice_v2`). Falls back to plain voices on failure.
+  Never run for real: the coqui-tts call is written from memory. It only transfers timbre, not acting; the user
+  was told this, and that publishing dubs of a show is a rights question for them. The user agreed to buy an
+  Anthropic API key and will test on the PC first.
 - `make_notebook.py` also builds `dublyaj/Dublyaj_windows.zip` (the small download for the PC): rerun after changes.
 - Translation: the user rejected Google translate and wants Claude to translate with context and then review the
   translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then

@@ -12,7 +12,7 @@ Bosqichlar:
   7. Mix: fon + (kulgi, qichqiriq kabi tarjima qilinmagan asl ovoz) + o'zbekcha ovoz.
 
 Ishga tushirish: Windowsda `Dublyaj.bat`, telefonda Colab daftari `Donghua_Dublyaj.ipynb`, yoki
-  python dublyaj.py video.mp4            # hammasi birdan, natija ./dub_out/
+  python dublyaj.py <loyiha nomi> video.mp4      # natija loyihalar/<loyiha>/natija/
 """
 import asyncio
 import json
@@ -58,6 +58,89 @@ def note(progress, frac, text):
     print(f"[{int(frac * 100):3d}%] {text}", flush=True)
     if progress:
         progress(frac, desc=text)
+
+
+# ---------------------------------------------------------------- loyihalar (har donghua uchun alohida xotira)
+ON_COLAB = os.path.isdir("/content")
+BASE = "/content" if ON_COLAB else os.path.dirname(os.path.abspath(__file__))
+PROJ = {"dir": None, "wd": None, "out": None}
+
+
+def clean_name(name):
+    return re.sub(r'[\\/:*?"<>|]', "", str(name or "")).strip().strip(".")
+
+
+def projects():
+    d = os.path.join(BASE, "loyihalar")
+    return sorted(x for x in os.listdir(d) if os.path.isdir(os.path.join(d, x))) if os.path.isdir(d) else []
+
+
+def open_project(name):
+    """Loyiha papkasi: ovozlar/ (personaj ovoz namunalari), personajlar.json, xotira.txt, qoidalar.txt,
+    ish/ (vaqtinchalik fayllar), natija/ (tayyor qismlar)."""
+    d = os.path.join(BASE, "loyihalar", clean_name(name) or "umumiy")
+    for sub in ("ovozlar", "ish", "natija"):
+        os.makedirs(os.path.join(d, sub), exist_ok=True)
+    PROJ.update(dir=d, wd=None, out=None)
+    done = [x for x in os.listdir(os.path.join(d, "ish")) if os.path.exists(os.path.join(d, "ish", x, "segs.json"))]
+    if done:  # oxirgi ishlangan qismni davom ettirish mumkin bo'lsin
+        last = max(done, key=lambda x: os.path.getmtime(os.path.join(d, "ish", x, "segs.json")))
+        PROJ.update(wd=os.path.join(d, "ish", last), out=os.path.join(d, "natija", last))
+    return d
+
+
+def start_episode(src):
+    """Yangi qism uchun ish papkasi. Oldingi qismlarning katta vaqtinchalik fayllari o'chiriladi (natijalar qoladi)."""
+    if not PROJ["dir"]:
+        open_project("umumiy")
+    name = clean_name(os.path.splitext(os.path.basename(src))[0]) or "qism"
+    ish = os.path.join(PROJ["dir"], "ish")
+    for other in os.listdir(ish):
+        if other != name:
+            shutil.rmtree(os.path.join(ish, other), ignore_errors=True)
+    PROJ.update(wd=os.path.join(ish, name), out=os.path.join(PROJ["dir"], "natija", name))
+    os.makedirs(PROJ["wd"], exist_ok=True)
+    return PROJ["wd"], PROJ["out"]
+
+
+def proj_file(name):
+    return os.path.join(PROJ["dir"] or open_project("umumiy"), name)
+
+
+def cast_load():
+    try:
+        return json.load(open(proj_file("personajlar.json"), encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def cast_merge(rows):
+    cast = cast_load()
+    for r in rows or []:
+        if str(r.get("kim", "")).strip():
+            cast[r["kim"].strip()] = {"jins": r.get("jins", ""), "yosh": r.get("yosh", ""), "tavsif": r.get("tavsif", "")}
+    json.dump(cast, open(proj_file("personajlar.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+
+def memory_add(text):
+    if (text or "").strip():
+        old = _read(proj_file("xotira.txt")) or ""
+        open(proj_file("xotira.txt"), "w", encoding="utf-8").write((old + "\n" + text.strip())[-6000:])
+
+
+def memory_block():
+    """Shu donghuaning oldingi qismlaridan ma'lum bo'lgan personajlar va eslatmalar (Claude uchun)."""
+    out = ""
+    cast = cast_load()
+    if cast:
+        rows = "\n".join(f"- {k} | {'male' if v.get('jins') == 'E' else 'female'} | {v.get('yosh')} | {v.get('tavsif')}"
+                         for k, v in cast.items())
+        out += ("Known cast of this series from earlier episodes. When one of them speaks, use exactly the same label, "
+                f"gender and age, and keep their established sen/siz relations:\n{rows}\n\n")
+    notes = (_read(proj_file("xotira.txt")) or "").strip()
+    if notes:
+        out += f"Editor's notes from earlier episodes (names, terms, relations):\n{notes}\n\n"
+    return out
 
 
 # ---------------------------------------------------------------- 1-2. tovush va ajratish
@@ -184,7 +267,7 @@ def assign_voices(wd, segs, split_hz=165.0):
         ps = pitch[(labels == k) & (pitch > 0)]
         variant[k] = ("erkak-katta" if len(ps) and np.median(ps) < split_hz else "ayol-katta", f"ovoz {num}")
     for i, s in enumerate(segs):
-        s["mood"] = "oddiy"
+        s["mood"], s["cl"] = "oddiy", int(labels[i])
         if LAUGH.match(s["zh"]):
             s["voice"], s["who"] = KEEP, ""
         elif labels[i] >= 0:
@@ -202,7 +285,8 @@ donghua episode.
 You receive the episode's dialogue as numbered lines: `number | audio guess | seconds | Chinese text`.
 The Chinese text was transcribed automatically from audio, so it contains recognition mistakes (wrong homophones,
 broken names, split or merged sentences). The audio guess (erkak = male, ayol = female) comes from voice pitch and is
-often wrong, especially for boys, young men and deep-voiced women. `seconds` is how long the original line lasts.
+often wrong, especially for boys, young men and deep-voiced women. It may be followed by `ovoz N`, an automatic
+grouping of similar-sounding voices: lines with the same number were probably, not certainly, spoken by one person. `seconds` is how long the original line lasts.
 
 For every line return the Uzbek text plus who says it and how.
 
@@ -233,6 +317,10 @@ what is said about a character), using the audio guess only as a hint:
   threatening), baqiriq (shouting), uyat (shy, embarrassed), shivir (whisper), qaygu (sad), quvonch (happy, excited),
   qorquv (frightened). Pick what the scene calls for; most lines are oddiy.
 
+Also return `personajlar`: every character who speaks in the lines you return, with gender, age and `tavsif`, one
+sentence in Uzbek saying who they are and whom they address with sen or siz. This list is remembered for the next
+episodes of the series, so when a known cast is given, reuse its labels exactly for returning characters.
+
 Return every line number exactly once and never merge or split lines."""
 TR_REVIEW = """Below is the same dialogue with a draft: `=> kim | jins-yosh | his | Uzbek text`. Act as the editor
 who signs off the dub script. Check each line against the Chinese and against its neighbours: is the meaning right in
@@ -257,14 +345,20 @@ TR_SCHEMA = {
                 "yosh": {"type": "string", "enum": list(AGES)},
                 "his": {"type": "string", "enum": list(MOODS)}},
             "required": ["n", "uz", "kim", "jins", "yosh", "his"], "additionalProperties": False}},
+        "personajlar": {"type": "array", "items": {
+            "type": "object",
+            "properties": {"kim": {"type": "string"}, "jins": {"type": "string", "enum": ["E", "A"]},
+                           "yosh": {"type": "string", "enum": list(AGES)}, "tavsif": {"type": "string"}},
+            "required": ["kim", "jins", "yosh", "tavsif"], "additionalProperties": False}},
         "izoh": {"type": "string"},
     },
-    "required": ["lines", "izoh"], "additionalProperties": False,
+    "required": ["lines", "personajlar", "izoh"], "additionalProperties": False,
 }
 
 
 def script_line(i, s, draft=False):
-    row = f"{i + 1} | {s['voice'].split('-')[0]} | {s['end'] - s['start']:.1f}s | {s['zh']}"
+    hint = s["voice"].split("-")[0] + (f", ovoz {s['cl'] + 1}" if s.get("cl", -1) >= 0 else "")
+    row = f"{i + 1} | {hint} | {s['end'] - s['start']:.1f}s | {s['zh']}"
     if draft:
         row += f" => {s.get('who', '')} | {s['voice']} | {s.get('mood', 'oddiy')} | {s.get('uz', '')}"
     return row
@@ -300,7 +394,9 @@ def ask_claude(client, user_text):
         raise RuntimeError("Claude bu matnni tarjima qilishdan bosh tortdi")
     if msg.stop_reason == "max_tokens":
         raise RuntimeError("Javob juda uzun bo'lib kesildi")
-    return json.loads(next(b.text for b in msg.content if b.type == "text"))
+    data = json.loads(next(b.text for b in msg.content if b.type == "text"))
+    cast_merge(data.get("personajlar"))
+    return data
 
 
 def claude_errors(fn):
@@ -324,7 +420,8 @@ def claude_errors(fn):
 
 def rules_block(rules):
     rules = (rules or "").strip()
-    return f"The user's standing rules for this dub. They override your own choices:\n{rules}\n\n" if rules else ""
+    return memory_block() + (
+        f"The user's standing rules for this dub. They override your own choices:\n{rules}\n\n" if rules else "")
 
 
 @claude_errors
@@ -347,6 +444,7 @@ def claude_translate(segs, api_key, rules="", chunk=200, note_fn=lambda t: None)
             apply_lines(segs, data["lines"])
             if stage and data.get("izoh"):
                 notes.append(data["izoh"])
+    memory_add(" ".join(notes))
     return " ".join(notes)
 
 
@@ -519,17 +617,14 @@ def ramp_gate(n, spans, fade=0.04):
     return g
 
 
-# ---------------------------------------------------------------- 6b. ovoz klonlash (ixtiyoriy)
+# ---------------------------------------------------------------- 6b. ovoz klonlash
 VC_MODEL = "voice_conversion_models/multilingual/multi-dataset/openvoice_v2"
 AUDIO_EXT = (".wav", ".mp3", ".m4a", ".ogg", ".flac", ".aac")
 _vc = {}
 
 
 def sample_dir():
-    base = "/content" if os.path.isdir("/content") else os.path.dirname(os.path.abspath(__file__))
-    d = os.path.join(base, "ovozlar")
-    os.makedirs(d, exist_ok=True)
-    return d
+    return proj_file("ovozlar")
 
 
 def samples():
@@ -541,14 +636,48 @@ def samples():
 def find_sample(files, who, voice):
     """Namuna tanlash tartibi: personaj nomi, keyin 'erkak-katta' kabi tur, keyin 'erkak' / 'ayol'."""
     voice = (voice or "").lower()
-    for name in ((who or "").strip().lower(), voice, voice.split("-")[0]):
+    for name in (clean_name(who).lower(), voice, voice.split("-")[0]):
         if name and name in files:
             return files[name]
     return None
 
 
+def build_samples(wd, segs, min_sec=4.0, want_sec=25.0):
+    """Har yangi personaj uchun asl (xitoycha) ovozidan namuna yig'adi va loyihada saqlaydi.
+    Namunasi bor personajga tegilmaydi: keyingi qismlarda ham ovozi o'sha-o'sha qoladi."""
+    files, groups, made = samples(), {}, []
+    for s in segs:
+        if s["voice"] != KEEP and clean_name(s.get("who")) and s["uz"].strip():
+            groups.setdefault(clean_name(s["who"]), []).append(s)
+    path = os.path.join(wd, "ovoz.wav")
+    if not groups or not os.path.exists(path):
+        return made
+    with sf.SoundFile(path) as f:
+        for who, ss in groups.items():
+            if who.lower() in files:
+                continue
+            cls = [s["cl"] for s in ss if s.get("cl", -1) >= 0]
+            if cls:  # matn bo'yicha taxmin adashgan bo'lishi mumkin: eng ko'p uchragan ovoz guruhini olamiz
+                top = max(set(cls), key=cls.count)
+                ss = [s for s in ss if s.get("cl") == top]
+            ss = sorted(ss, key=lambda s: (s.get("mood") in ("baqiriq", "shivir"), s["start"] - s["end"]))
+            parts, total = [], 0.0
+            for s in ss:
+                if total >= want_sec:
+                    break
+                f.seek(int(s["start"] * SR))
+                parts.append(f.read(int((s["end"] - s["start"]) * SR), dtype="float32", always_2d=True).mean(1))
+                parts.append(np.zeros(int(0.25 * SR), dtype=np.float32))
+                total += s["end"] - s["start"]
+            if total < min_sec:
+                continue  # juda kam gapirgan: keyingi qismlarda yig'iladi
+            sf.write(os.path.join(sample_dir(), who + ".wav"), np.concatenate(parts), SR, subtype="PCM_16")
+            made.append(who)
+    return made
+
+
 def clone_all(wd, segs, tick=lambda a, b: None):
-    """`ovozlar` papkasida namuna bo'lsa, yozilgan gaplarni shu ovoz tembriga o'tkazadi.
+    """Loyihaning `ovozlar` papkasida namuna bo'lsa, yozilgan gaplarni shu ovoz tembriga o'tkazadi.
     Kutubxona o'rnatilmagan yoki xato bo'lsa, oddiy ovoz qoladi."""
     files = samples()
     todo = [(s, find_sample(files, s.get("who"), s["voice"])) for s in segs if s.get("tts")]
@@ -687,11 +816,16 @@ def analyse(src, wd, progress=None, api_key="", rules=""):
     return segs, info
 
 
-def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_speed=1.6, voice_gain=1.0):
+def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_speed=1.6, voice_gain=1.0,
+        clone=True):
     note(progress, 0.02, "O'zbekcha ovozlar yozilmoqda")
     synth(wd, segs, rate, lambda a, b: progress and progress(0.02 + 0.55 * a / b, desc=f"Ovoz {a}/{b}"))
     note(progress, 0.6, "Ovoz namunalari tekshirilmoqda")
-    info = clone_all(wd, segs, lambda a, b: progress and progress(0.6 + 0.15 * a / b, desc=f"Ovoz klonlash {a}/{b}"))
+    info = ""
+    if clone:
+        made = build_samples(wd, segs)
+        info = (f"Yangi personaj ovozlari saqlandi: {', '.join(made)}. " if made else "") + clone_all(
+            wd, segs, lambda a, b: progress and progress(0.6 + 0.15 * a / b, desc=f"Ovoz klonlash {a}/{b}"))
     note(progress, 0.75, "Fon bilan birlashtirilmoqda")
     paths = mix(wd, segs, out_dir, src, keep_original, max_speed, voice_gain)
     paths["info"] = info
@@ -724,9 +858,7 @@ HELP = """**kim**: personaj nomi (bir personajga bir xil nom, ovozi ham bir xil 
 **ovoz**: `erkak` yoki `ayol`, keyin `-bola`, `-yosh`, `-katta` yoki `-qari` (masalan `ayol-yosh`); `ASL` = shu joyda
 asl ovoz qoladi. **his**: oddiy, hurmat, gazab, baqiriq, uyat, shivir, qaygu, quvonch, qorquv.
 Jadvalni qo'lda tuzatib, "Jadval bo'yicha qayta dublyaj" ni bosing: faqat o'zgargan gaplar qayta yoziladi."""
-ON_COLAB = os.path.isdir("/content")
 KEY_FILE = os.path.join(os.path.expanduser("~"), ".dublyaj_kalit")
-RULES_FILE = os.path.join(os.path.expanduser("~"), ".dublyaj_qoidalar.txt")
 
 
 def remember_key(key):
@@ -736,77 +868,106 @@ def remember_key(key):
     return key or (_read(KEY_FILE) or "").strip()
 
 
-def ui(wd=None, out_dir=None):
+def ui():
     import gradio as gr
 
-    base = "/content" if ON_COLAB else os.path.dirname(os.path.abspath(__file__))
-    wd = wd or os.path.join(base, "dub_work")
-    out_dir = out_dir or os.path.join(base, "natija")
-    need_claude = ("Tarjima uchun: **Qo'shimcha sozlamalar** bo'limidagi `claude_uchun.txt` faylini Claude chatiga yuboring, "
-                   "javobini 'Claude javobi' maydoniga qo'ying va 'Tarjimani qo'yib, dublyaj qilish' ni bosing.")
+    need_claude = ("Tarjima uchun: **Qo'shimcha sozlamalar** bo'limidagi `claude_uchun.txt` faylini Claude chatiga "
+                   "yuboring, javobini 'Claude javobi' maydoniga qo'ying va 'Tarjimani qo'yib, dublyaj qilish' ni bosing.")
 
-    def outputs(p, rows, msg, tfile):
+    def project_info():
+        cast = cast_load()
+        names = [os.path.basename(f) for f in samples().values()]
+        return (f"**Loyiha:** {os.path.basename(PROJ['dir'])}. **Eslab qolingan personajlar:** "
+                + (", ".join(cast) if cast else "hali yo'q") + ". **Ovoz namunalari:** "
+                + (", ".join(names) if names else "hali yo'q") + ".")
+
+    def use_project(name):
+        if not clean_name(name):
+            raise gr.Error("Avval loyiha nomini yozing yoki tanlang (masalan donghua nomi)")
+        if PROJ["dir"] != os.path.join(BASE, "loyihalar", clean_name(name)):
+            open_project(name)
+
+    def pick_project(name):
+        use_project(name)
+        return project_info(), _read(proj_file("qoidalar.txt")) or ""
+
+    def save_rules(rules):
+        open(proj_file("qoidalar.txt"), "w", encoding="utf-8").write(rules or "")
+
+    def outputs(p, rows, msg):
+        tfile = os.path.join(PROJ["wd"], "claude_uchun.txt") if PROJ["wd"] else None
         return (p.get("toliq"), p.get("toliq"), p.get("ovoz"), p.get("fon"), p.get("srt"), p.get("video"),
-                rows, (msg + " " + p.get("info", "")).strip(), tfile)
+                rows, (msg + " " + p.get("info", "")).strip(), tfile, project_info())
 
-    def run_dub(segs, keep, rate, speed, gain, progress):
-        meta = os.path.join(wd, "segs.json")
+    def run_dub(segs, keep, rate, speed, gain, clone, progress):
+        meta = os.path.join(PROJ["wd"] or "", "segs.json")
         if not os.path.exists(meta):
             raise gr.Error("Avval videoni yuklab, katta tugmani bosing")
-        return dub(json.load(open(meta, encoding="utf-8"))["src"], wd, segs, out_dir, progress,
-                   keep, int(rate), float(speed), float(gain))
+        saved = json.load(open(meta, encoding="utf-8"))
+        if len(saved["segs"]) == len(segs):  # jadvalda yo'q ichki ma'lumot (ovoz guruhi) qaytariladi
+            for s, old in zip(segs, saved["segs"]):
+                s["cl"] = old.get("cl", -1)
+        return dub(saved["src"], PROJ["wd"], segs, PROJ["out"], progress, keep, int(rate), float(speed),
+                   float(gain), clone)
 
-    def do_all(video, path, key, rules, keep, rate, speed, gain, progress=gr.Progress()):
+    def do_all(project, video, path, key, rules, keep, rate, speed, gain, clone, progress=gr.Progress()):
+        use_project(project)
         video = (path or "").strip().strip('"') or video
         if not video or not os.path.exists(video):
             raise gr.Error("Avval video yuklang")
-        open(RULES_FILE, "w", encoding="utf-8").write(rules or "")
+        save_rules(rules)
+        wd, out = start_episode(video)
         segs, info = analyse(video, wd, progress, remember_key(key), rules)
-        tfile = os.path.join(wd, "claude_uchun.txt")
         if not any(s["uz"] for s in segs):
-            return outputs({}, to_rows(segs), f"{len(segs)} ta gap topildi. {info} {need_claude}", tfile)
-        p = run_dub(segs, keep, rate, speed, gain, progress)
-        return outputs(p, to_rows(segs), f"Tayyor: {len(segs)} ta gap. Fayllar papkasi: `{out_dir}`. {info}", tfile)
+            return outputs({}, to_rows(segs), f"{len(segs)} ta gap topildi. {info} {need_claude}")
+        p = run_dub(segs, keep, rate, speed, gain, clone, progress)
+        return outputs(p, to_rows(segs), f"Tayyor: {len(segs)} ta gap. Fayllar papkasi: `{out}`. {info}")
 
-    def do_redub(rows, pasted, keep, rate, speed, gain, progress=gr.Progress()):
+    def do_redub(project, rows, pasted, keep, rate, speed, gain, clone, progress=gr.Progress()):
+        use_project(project)
         rows = rows.values.tolist() if hasattr(rows, "values") else rows
         segs = from_rows(rows)
         n = apply_manual(segs, pasted)
-        p = run_dub(segs, keep, rate, speed, gain, progress)
-        msg = f"Tayyor. Fayllar papkasi: `{out_dir}`." + (f" Claude javobidan {n} ta gap olindi." if n else "")
-        return outputs(p, to_rows(segs), msg, os.path.join(wd, "claude_uchun.txt"))
+        p = run_dub(segs, keep, rate, speed, gain, clone, progress)
+        msg = f"Tayyor. Fayllar papkasi: `{PROJ['out']}`." + (f" Claude javobidan {n} ta gap olindi." if n else "")
+        return outputs(p, to_rows(segs), msg)
 
-    def do_fix(rows, notes, key, rules, keep, rate, speed, gain, progress=gr.Progress()):
+    def do_fix(project, rows, notes, key, rules, keep, rate, speed, gain, clone, progress=gr.Progress()):
+        use_project(project)
         if not (notes or "").strip():
             raise gr.Error("Avval xatoni yozing")
         key = remember_key(key)
         if not key:
             raise gr.Error("Bu tugma Claude API kaliti bilan ishlaydi. Kalitsiz: jadvalni qo'lda tuzating "
                            "yoki tuzatishni Claude chatiga yozing.")
-        open(RULES_FILE, "w", encoding="utf-8").write(rules or "")
+        save_rules(rules)
         rows = rows.values.tolist() if hasattr(rows, "values") else rows
         segs = from_rows(rows)
         try:
             info = claude_fix(segs, key, notes, rules)
         except RuntimeError as e:
             raise gr.Error(str(e))
-        p = run_dub(segs, keep, rate, speed, gain, progress)
-        return outputs(p, to_rows(segs), info, os.path.join(wd, "claude_uchun.txt"))
+        memory_add("Foydalanuvchi tuzatishi: " + notes.strip())
+        return outputs(run_dub(segs, keep, rate, speed, gain, clone, progress), to_rows(segs), info)
 
-    def sample_list():
-        names = [os.path.basename(f) for f in samples().values()]
-        return "**Saqlangan ovoz namunalari:** " + (", ".join(names) if names else "hali yo'q (oddiy ovozlar ishlatiladi)")
-
-    def add_sample(file, name):
-        name = re.sub(r'[\\/:*?"<>|]', "", (name or "").strip())
+    def add_sample(project, file, name):
+        use_project(project)
+        name = clean_name(name)
         if not file or not name:
             raise gr.Error("Ovoz faylini tanlang va kimga ekanini yozing")
+        for old in [f for k, f in samples().items() if k == name.lower()]:
+            os.remove(old)
         shutil.copy(file, os.path.join(sample_dir(), name + os.path.splitext(file)[1].lower()))
-        return sample_list()
+        return project_info()
 
     with gr.Blocks(title="Donghua dublyaj") as app:
-        gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha\nVideoni tanlang va tugmani bosing. Tayyor audio pastda chiqadi.")
-        video = gr.File(label="Video yoki audio fayl", type="filepath")
+        gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha")
+        project = gr.Dropdown(projects(), allow_custom_value=True, value=None,
+                              label="Loyiha: donghua nomini yozing yoki ro'yxatdan tanlang",
+                              info="Har bir donghua alohida loyiha. Personajlar va ularning ovozlari shu loyihada "
+                                   "eslab qolinadi va keyingi qismlarda o'zgarmaydi.")
+        pinfo = gr.Markdown()
+        video = gr.File(label="Qism: video yoki audio fayl", type="filepath")
         key = gr.Textbox(label="Claude API kaliti (bir marta yoziladi; bo'lmasa tarjima Claude chati orqali)",
                          type="password", placeholder="sk-ant-...", value="" if ON_COLAB else remember_key(""))
         go = gr.Button("Dublyaj qilish", variant="primary", size="lg")
@@ -820,43 +981,45 @@ def ui(wd=None, out_dir=None):
             o5 = gr.File(label="Dublyajli video, MP4")
         with gr.Accordion("Qo'shimcha sozlamalar va xatolarni tuzatish", open=False):
             rules = gr.Textbox(
-                label="Doimiy qoidalar (har safar Claude shularga amal qiladi; ilova eslab qoladi)", lines=4,
-                value=_read(RULES_FILE) or "",
-                placeholder="Masalan: Dushmanlar bir-biriga faqat sensirab gapiradi. Ustozga doim siz. Lin Fan - o'g'il bola, 16 yosh.")
-            fix = gr.Textbox(label="Xatoni yozing, Claude butun ssenariyda tuzatadi", lines=3,
-                             placeholder="Masalan: 45-gapda u dushmaniga sizlab gapiryapti, sensirasin. Syao Yu qiz bola, erkak ovoz qo'yilgan.")
+                label="Shu loyihaning doimiy qoidalari (har safar Claude shularga amal qiladi)", lines=4,
+                placeholder="Masalan: Dushmanlar bir-biriga faqat sensirab gapiradi. Ustozga doim siz. Bosh qahramon 16 yoshli o'g'il bola.")
+            fix = gr.Textbox(label="Xatoni yozing, Claude butun ssenariyda tuzatadi va eslab qoladi", lines=3,
+                             placeholder="Masalan: 45-gapda u dushmaniga sizlab gapiryapti, sensirasin. Falonchi qiz bola, erkak ovoz qo'yilgan.")
             fixb = gr.Button("Claude tuzatsin va qayta dublyaj qilsin")
-            gr.Markdown("**Ovoz klonlash.** 15-30 soniyalik toza ovoz yozuvini yuklang (o'zingizniki yoki roziligi bor "
-                        "odamniki). Kimga: personaj nomi (jadvaldagi `kim`), yoki `erkak-katta`, `ayol-yosh` kabi tur, "
+            clone = gr.Checkbox(True, label="Personaj ovozini asl ovozidan klonlash (har yangi personaj uchun namuna "
+                                            "o'zi yig'iladi va loyihada saqlanadi)")
+            gr.Markdown("**Ovozni almashtirish.** Personajga boshqa ovoz bermoqchi bo'lsangiz, 15-30 soniyalik toza "
+                        "yozuv yuklang. Kimga: personaj nomi (jadvaldagi `kim`), yoki `erkak-katta` kabi tur, "
                         "yoki shunchaki `erkak` / `ayol`.")
             sfile = gr.File(label="Ovoz namunasi (wav, mp3)", type="filepath")
-            sname = gr.Textbox(label="Kimga", placeholder="Lin Fan yoki erkak-qari")
+            sname = gr.Textbox(label="Kimga")
             sbtn = gr.Button("Namunani saqlash")
-            slist = gr.Markdown(sample_list())
-            sbtn.click(add_sample, [sfile, sname], slist)
             path = gr.Textbox(label="Fayl yo'li (yuklash o'rniga, katta fayllar uchun)")
             tfile = gr.File(label="claude_uchun.txt: API kalit bo'lmasa shu faylni Claude chatiga yuboring")
-            pasted = gr.Textbox(label="Claude javobi (raqam | o'zbekcha matn)", lines=5)
+            pasted = gr.Textbox(label="Claude javobi (raqam | kim | jins-yosh | his | o'zbekcha matn)", lines=5)
             gr.Markdown(HELP)
-            table = gr.Dataframe(headers=COLS, datatype=["number", "number", "number", "str", "str", "str", "str", "str"],
-                                 interactive=True, wrap=True, row_count=(1, "dynamic"))
+            table = gr.Dataframe(headers=COLS, interactive=True, wrap=True, row_count=(1, "dynamic"),
+                                 datatype=["number", "number", "number", "str", "str", "str", "str", "str"])
             keep = gr.Checkbox(True, label="Kulgi, qichqiriq va tarjima qilinmagan asl ovozlarni qoldirish")
             rate = gr.Slider(-10, 30, 8, step=1, label="Gapirish tezligi, %")
             speed = gr.Slider(1.0, 2.0, 1.6, step=0.05, label="Vaqtga sig'dirish uchun eng ko'p tezlashtirish")
             gain = gr.Slider(0.5, 2.0, 1.0, step=0.05, label="O'zbekcha ovoz balandligi")
             redo = gr.Button("Tarjimani qo'yib, dublyaj qilish / Jadval bo'yicha qayta dublyaj")
-        outs = [player, o1, o2, o3, o4, o5, table, status, tfile]
-        go.click(do_all, [video, path, key, rules, keep, rate, speed, gain], outs)
-        fixb.click(do_fix, [table, fix, key, rules, keep, rate, speed, gain], outs)
-        redo.click(do_redub, [table, pasted, keep, rate, speed, gain], outs)
+        outs = [player, o1, o2, o3, o4, o5, table, status, tfile, pinfo]
+        opts = [keep, rate, speed, gain, clone]
+        project.change(pick_project, project, [pinfo, rules])
+        go.click(do_all, [project, video, path, key, rules] + opts, outs)
+        redo.click(do_redub, [project, table, pasted] + opts, outs)
+        fixb.click(do_fix, [project, table, fix, key, rules] + opts, outs)
+        sbtn.click(add_sample, [project, sfile, sname], pinfo)
     return app
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        source = sys.argv[1]
-        work = os.path.abspath("dub_work")
-        result = dub(source, work, analyse(source, work)[0], os.path.abspath("natija"))
+    if len(sys.argv) > 2:  # python dublyaj.py <loyiha nomi> <video>
+        open_project(sys.argv[1])
+        work, out_path = start_episode(sys.argv[2])
+        result = dub(sys.argv[2], work, analyse(sys.argv[2], work)[0], out_path)
         print(json.dumps(result, ensure_ascii=False, indent=1))
     else:
         ui().queue().launch(share=ON_COLAB, debug=ON_COLAB, inbrowser=not ON_COLAB)

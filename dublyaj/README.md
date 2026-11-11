@@ -7,8 +7,8 @@ aynan o'sha joylarga qo'yadi. Musiqa, effektlar, kulgi va qichqiriqlar asl holic
 
 1. `Dublyaj_windows.zip` faylini yuklab oling, oching (Extract All) va ichidagi `dublyaj` papkasiga kiring.
 2. `Dublyaj.bat` faylini ikki marta bosing. Birinchi safar o'zi hamma narsani o'rnatadi (15-30 daqiqa, 5 GB atrofida).
-3. Brauzerda oyna ochiladi: videoni tanlang, **Dublyaj qilish** ni bosing. Tayyor audio shu oynada va `natija`
-   papkasida chiqadi. Keyingi safar faqat `Dublyaj.bat` ni ochasiz.
+3. Brauzerda oyna ochiladi: videoni tanlang, **Dublyaj qilish** ni bosing. Tayyor audio shu oynada va
+   `loyihalar/<nom>/natija` papkasida chiqadi. Keyingi safar faqat `Dublyaj.bat` ni ochasiz.
 
 ## Telefonda (Google Colab orqali)
 
@@ -44,16 +44,21 @@ qarab tanlanadi: dushmanlar va haqoratda sensirash, ustoz va kattalarga siz.
 
 Bepul o'zbekcha ovozlarda tayyor "hissiyot" yo'q: his-tuyg'u tezlik, ohang balandligi va ovoz kuchi bilan beriladi.
 
-## Ovoz klonlash (ixtiyoriy, bepul)
+## Loyihalar va personaj ovozlari
 
-Avval ilova oddiy ovozlar bilan ishlashini tekshiring. Keyin:
+Har bir donghua alohida loyiha: oynaning tepasida nomini yozasiz yoki ro'yxatdan tanlaysiz. Loyiha eslab qoladi:
 
-1. `Ovoz_klonlash.bat` ni bir marta ishga tushiring (qo'shimcha kutubxona o'rnatadi).
-2. Ilovadagi "Qo'shimcha sozlamalar" bo'limida 15-30 soniyalik toza ovoz yozuvini yuklang va kimga ekanini yozing:
-   personaj nomi, yoki `erkak-katta` kabi tur, yoki shunchaki `erkak` / `ayol`. Namunalar `ovozlar` papkasida turadi.
-3. Dublyajda shu personajning gaplari namunadagi ovoz tembrida chiqadi.
+- personajlar (ismi, jinsi, yoshi, kim kimga sen yoki siz deydi) va Claude'ning eslatmalari;
+- har personajning ovoz namunasi: birinchi uchraganda asl ovozidan o'zi yig'iladi (`ovozlar` papkasi), keyingi
+  qismlarda o'sha namuna ishlatiladi, shuning uchun ovoz qismdan qismga o'zgarmaydi. Yangi personaj qo'shilsa, u ham
+  saqlanadi. Namunani o'zingiz almashtirishingiz mumkin ("Ovozni almashtirish");
+- loyihaning doimiy qoidalari va siz yozgan tuzatishlar.
 
-Faqat o'zingizning yoki roziligi bor odamning ovozini ishlating.
+Hammasi `loyihalar/<nom>/` papkasida, tayyor qismlar `loyihalar/<nom>/natija/` da.
+
+Klonlash ovoz tembrini o'tkazadi. Baqiriq va his-tuyg'u tezlik, ohang va ovoz kuchi bilan beriladi; kulgi va
+qichqiriqlar asl ovozdan qoladi. Klonlash ishlamasa (`Ovoz_klonlash.bat` bilan qayta o'rnatib ko'ring), oddiy
+ovozlar ishlatiladi.
 
 ## Natija fayllari
 
