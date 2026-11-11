@@ -137,7 +137,7 @@ const Field: React.FC = () => {
   const cam = {
     x: kf(fr, [[0, 300], [a('s1', 4), 420], [a('s2'), 540], [mid2, 560], [z('s2'), 780], [I1 + 20, 780], [T0, 540], [a('s5', 1.2), 300], [(a('s5') + z('s5')) / 2 + 12, 780], [a('s6'), 540], [a('s8'), 540], [a('s8', 1.5), 330], [a('s9', -0.3), 330], [a('s9', 1), 760], [a('s10'), 760], [a('s10', 1.5), 580], [a('s11'), 680], [a('s12'), 560], [a('s13'), 540]]),
     y: kf(fr, [[0, 1500], [a('s1', 4), 1150], [a('s2'), 950], [mid2, 930], [z('s2'), 1230], [I1 + 20, 1230], [T0, 800], [a('s5', 1.2), 1120], [(a('s5') + z('s5')) / 2 + 12, 1120], [a('s6'), 860], [a('s6', 3), 880], [a('s8'), 880], [a('s8', 1.5), 700], [a('s9', -0.3), 660], [a('s9', 1), 1010], [a('s10'), 1010], [a('s10', 1.5), 760], [a('s11'), 900], [a('s12'), 640], [z('s12'), 720], [a('s13', 2), 980], [z('s13'), 1000]]),
-    z: kf(fr, [[0, 2.3], [a('s1', 4), 1.7], [a('s2'), 1.15], [mid2, 1.2], [z('s2'), 2.0], [I1 + 20, 2.1], [T0, 1.0], [a('s5', 1.2), 1.7], [(a('s5') + z('s5')) / 2 + 12, 1.7], [a('s6'), 1.1], [a('s6', 3), 1.3], [a('s8'), 1.35], [a('s8', 1.5), 1.8], [a('s9', -0.3), 1.9], [a('s9', 1), 1.8], [a('s10'), 1.85], [a('s10', 1.5), 1.6], [a('s11'), 1.5], [a('s12'), 1.45], [z('s12'), 1.5], [a('s13', 2), 1.25], [z('s13'), 1.15]]),
+    z: kf(fr, [[0, 2.0], [a('s1', 4), 1.6], [a('s2'), 1.15], [mid2, 1.2], [z('s2'), 1.85], [I1 + 20, 1.9], [T0, 1.0], [a('s5', 1.2), 1.7], [(a('s5') + z('s5')) / 2 + 12, 1.7], [a('s6'), 1.1], [a('s6', 3), 1.3], [a('s8'), 1.35], [a('s8', 1.5), 1.8], [a('s9', -0.3), 1.9], [a('s9', 1), 1.8], [a('s10'), 1.85], [a('s10', 1.5), 1.6], [a('s11'), 1.5], [a('s12'), 1.45], [z('s12'), 1.5], [a('s13', 2), 1.25], [z('s13'), 1.15]]),
   };
   const drift = Math.sin(fr / 47) * 10;
   const sepia = fade(fr, a('s7'), z('s7', 0.2), 12);
@@ -211,7 +211,7 @@ const Field: React.FC = () => {
   return (
     <AbsoluteFill style={{background: '#0f0d0a', perspective: 1500, perspectiveOrigin: '540px 620px', overflow: 'hidden'}}>
       <div style={{position: 'absolute', left: 540 + drift, top: 1020, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `scale(${cam.z}) rotateX(${TILT}deg) translate3d(${-cam.x}px, ${-cam.y}px, 0px)`}}>
-        <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', left: -900, top: -1500, width: 2900, height: 4200}} />
+        <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', left: -640, top: -1000, width: 2360, height: 3300}} />
         <Img src={staticFile('loy/mud.jpg')} style={{position: 'absolute', left: -1500, top: -2400, width: 4100, height: 5600, opacity: mud}} />
         <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
           <defs><Marker col={GOLD} /><Marker col="#e0392b" />

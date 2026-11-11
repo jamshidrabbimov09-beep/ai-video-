@@ -23,7 +23,7 @@ if [[ $STAGE == all || $STAGE == audio ]]; then
   fi
 fi
 if [[ $STAGE == all || $STAGE == render ]]; then
-  npx remotion render src/index.ts LoyJangi out/video_loy_raw.mp4 --browser-executable="$CHROME" --concurrency=4 --crf=14 --codec=h264 --muted
+  npx remotion render src/index.ts LoyJangi out/video_loy_raw.mp4 --browser-executable="$CHROME" --concurrency=3 --timeout=180000 --crf=14 --codec=h264 --muted
 fi
 if [[ $STAGE == all || $STAGE == final ]]; then
   ffmpeg -v error -y -i out/video_loy_raw.mp4 -i out/audio_loy.m4a -vf "noise=alls=4:allf=t" -t "$T" "${ENC[@]}" exports/loy_jangi_1080p_logosiz.mp4
