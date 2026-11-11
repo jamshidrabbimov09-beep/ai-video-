@@ -20,7 +20,7 @@ def snap_near(t): return PH + round((t - PH) / GRID) * GRID
 placed = []
 prev_end = None
 for i, s in enumerate(sents):
-    ns = 0.781 if i == 0 else snap_up(prev_end + TAIL + MIN_GAP)
+    ns = 0.406 if i == 0 else snap_up(prev_end + TAIL + MIN_GAP)
     ne = ns + (s['end'] - s['start'])
     placed.append(dict(os=s['start'], oe=s['end'], ns=ns, ne=ne))
     prev_end = ne
@@ -42,7 +42,7 @@ SE = lambda n: placed[n - 1]['ne']          # sentence n end
 # ---------- 2. voice track (cut at the quietest point inside every pause -> no clipped word starts) ----------
 raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(root / 'public/voice2/all.mp3'), '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'], capture_output=True).stdout
 src = np.frombuffer(raw, dtype='<i2').astype(np.float32) / 32768
-END_HOLD = 3.2
+END_HOLD = 1.9   # short end card: Part 1 retention dropped on the long black card
 TOTAL = SE(len(sents)) + END_HOLD
 out = np.zeros(int(TOTAL * SR) + SR)
 def quiet_point(a, b):
@@ -78,7 +78,7 @@ def bound(a):
     return t
 
 spec = [  # (anchor, img, move, transition, grade)
-    (('t', 0), '01', 'inslow', 'dip', 'cold'),
+    (('t', 0), '02', 'in2', 'dip', 'warm'),   # a face in the first frame: Part 1 lost ~30% of viewers in the first 3 s
     (('s', 3), '03', 'in', 'fade', 'warm'),
     (('s', 4), '05', 'inslow', 'fade', 'warm'),
     (('w', 30), '06', 'in', 'fade', 'cold'),
@@ -115,7 +115,7 @@ spec = [  # (anchor, img, move, transition, grade)
     (('s', 36), '38', 'inslow', 'fade', 'warm'),
     (('s', 37), '36', 'in', 'fade', 'warm'),
     (('s', 38), '37', 'inslow', 'fade', 'warm'),
-    (('s', 40), '02', 'in2', 'fade', 'cold'),
+    (('s', 40), '12', 'in2', 'fade', 'cold'),
     (('s', 41), None, 'none', 'dip', 'warm'),
 ]
 bounds = []
@@ -147,7 +147,7 @@ def accent(k, i0, text, sub=None, dur=3.4, sub_at=None):
     if sub: d['sub'] = sub; d['sub_t'] = round(W(sub_at) - W(i0), 3) if sub_at is not None else 0.5
     over.append(d)
 # top cards never repeat what the subtitle says at the same moment (the user found double text confusing)
-over.append(dict(k='name', t0=0.5, t1=5.3, text="DO'ST VA DUSHMAN", sub="2-qism", sub_t=0.7))
+over.append(dict(k='tag', t0=0.3, t1=5.3, text="2-QISM"))
 accent('date', 40, "1360", dur=2.6)
 accent('name', 88, "AMIR HUSAYN", dur=3.2)
 accent('date', 132, "1365", "LOY JANGI", dur=4.2, sub_at=139)
@@ -198,7 +198,7 @@ for k, ch in enumerate(chunks):
 (root / 'src' / 'edit_p2.json').write_text(json.dumps(dict(fps=30, end=round(TOTAL, 3), shots=shots, over=over), ensure_ascii=False))
 
 # ---------- 5. sparse sound accents ----------
-sfx = [dict(k='boom', t=0.9), dict(k='boom', t=round(W(132), 3)), dict(k='boom', t=round(W(203), 3)),
+sfx = [dict(k='boom', t=round(W(132), 3)), dict(k='boom', t=round(W(203), 3)),
        dict(k='heart', t=round(W(30), 3), dur=round(SE(5) - W(30) + 0.3, 3)), dict(k='heart', t=round(SS(29), 3), dur=round(SE(31) - SS(29) + 0.5, 3))]
 (root / 'edit' / 'sfx_plan_p2.json').write_text(json.dumps(dict(total=round(TOTAL + 2, 2), items=sfx)))
 
