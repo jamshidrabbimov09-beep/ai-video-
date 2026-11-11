@@ -7,7 +7,7 @@ Hikoya "sen" deb aytiladi, ekranda Bek ko'rinadi. Oxirida tanlov savoli: izohga 
 
 Sen Amir Temurning askarisan. Faqat bir kun. Tirik qolasanmi?
 
-Tong. Hali qorong'i. Nog'ora va karnay ovozidan uyg'onasan.
+Endi tasavvur qil: tong. Hali qorong'i. Nog'ora va karnay ovozidan uyg'onasan.
 
 Sen yolg'iz emassan. Sen o'nlikdasan: o'nta askar, boshingda o'nboshi.
 
