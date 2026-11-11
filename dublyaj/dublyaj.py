@@ -738,6 +738,7 @@ def ov_model():
 
 
 def ov_free():
+    _ov.pop("w", None)
     if _ov.pop("m", None) is not None:
         try:
             import torch
@@ -753,11 +754,41 @@ def slot_of(s, segs, total):
     room = (min(later) if later else total) - s["start"] - 0.06
     slot = s["end"] - s["start"]
     allowed = max(0.5, min(room, slot + 1.2))
-    natural = len(s["uz"]) / 14.0  # o'zbekcha tabiiy tezlik: sekundiga ~14 belgi
+    natural = len(s["uz"]) / 13.0  # o'zbekcha tabiiy tezlik: sekundiga ~13 belgi
     return round(float(min(allowed, max(slot * 0.9, natural, 0.5))), 2)
 
 
-def ov_synth(wd, segs, per_line=True, tick=lambda a, b: None):
+CYR = dict(zip("абвгдеёжзийклмнопрстуфхцчшщъыьэюяўқғҳ",
+               ["a", "b", "v", "g", "d", "e", "yo", "j", "z", "i", "y", "k", "l", "m", "n", "o", "p", "r", "s", "t",
+                "u", "f", "x", "ts", "ch", "sh", "sh", "", "i", "", "e", "yu", "ya", "o", "q", "g", "h"]))
+
+
+def norm_uz(text):
+    text = "".join(CYR.get(c, c) for c in (text or "").lower())
+    return re.sub(r"[^a-z]", "", text)
+
+
+def checker():
+    """Yozilgan gapni eshitib tekshirish uchun kichik Whisper (CPU)."""
+    if "w" not in _ov:
+        from faster_whisper import WhisperModel
+
+        _ov["w"] = WhisperModel("small", device="cpu", compute_type="int8", cpu_threads=os.cpu_count() or 4)
+    return _ov["w"]
+
+
+def heard_score(audio, sr, text):
+    """0..1: Whisper eshitgan matn yozilishi kerak bo'lgan matnga qanchalik o'xshaydi."""
+    import difflib
+
+    n = int(len(audio) * 16000 / sr)
+    a16 = np.interp(np.linspace(0, len(audio) - 1, n), np.arange(len(audio)), audio).astype(np.float32)
+    segs, _ = checker().transcribe(a16, language="uz", beam_size=1)
+    got = norm_uz("".join(x.text for x in segs))
+    return difflib.SequenceMatcher(None, got, norm_uz(text)).ratio()
+
+
+def ov_synth(wd, segs, per_line=True, tick=lambda a, b: None, tries=3):
     """Klonlangan o'zbekcha ovoz. Muvaffaqiyatli gaplarga s['tts'] qo'yiladi, qolganlari oddiy ovozda yoziladi."""
     todo = [(i, s) for i, s in enumerate(segs) if s["voice"] != KEEP and s["uz"].strip()]
     if not todo:
@@ -802,8 +833,20 @@ def ov_synth(wd, segs, per_line=True, tick=lambda a, b: None):
                     kw["instruct"] = instruct
                 else:
                     kw.update(ref_audio=ref, ref_text=ref_text or None)
-                audio = model.generate(**kw)[0]
-                sf.write(out, audio, model.sampling_rate, subtype="PCM_16")
+                best, best_score = None, -1.0
+                for _ in range(max(1, tries)):  # model har safar biroz boshqacha aytadi: eng tushunarlisini olamiz
+                    audio = model.generate(**kw)[0]
+                    try:
+                        score = heard_score(audio, model.sampling_rate, s["uz"]) if tries > 1 else 1.0
+                    except Exception as e:
+                        print("Tekshiruv ishlamadi:", e)
+                        score, tries = 1.0, 1
+                    if score > best_score:
+                        best, best_score = audio, score
+                    if score >= 0.6:
+                        break
+                s["score"] = round(best_score, 2)
+                sf.write(out, best, model.sampling_rate, subtype="PCM_16")
                 open(out + ".txt", "w", encoding="utf-8").write(tag)
             s["tts"], s["ov"] = out, True
             n += 1
@@ -811,7 +854,10 @@ def ov_synth(wd, segs, per_line=True, tick=lambda a, b: None):
             print("Klonlash xato:", s["uz"][:40], e)
         tick(k + 1, len(todo))
     vf.close()
-    return f"{n} ta gap klonlangan ovozda yozildi."
+    weak = [str(i + 1) for i, s in todo if s.get("score", 1) < 0.5]
+    return f"{n} ta gap klonlangan ovozda yozildi." + (
+        f" Tushunarsizroq chiqqan bo'lishi mumkin: {', '.join(weak)}-gaplar (jadvalda matnini biroz o'zgartirib, "
+        "qayta dublyaj qilsangiz qayta yoziladi)." if weak else "")
 
 
 # ---------------------------------------------------------------- 7. mix
