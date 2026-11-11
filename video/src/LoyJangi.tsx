@@ -198,8 +198,8 @@ const City: React.FC<{x: number; y: number; n: string; fr: number; f0: number; b
 };
 const MapScene: React.FC = () => {
   const fr = useCurrentFrame();
-  const zz = kf(fr, [[0, 1.0], [a('s4'), 1.06], [z('s4'), 1.35]]);
-  const cx = kf(fr, [[a('s4'), 540], [z('s4'), 650]]), cy = kf(fr, [[a('s4'), 900], [z('s4'), 720]]);
+  const zz = kf(fr, [[0, 1.0], [a('s4'), 1.06], [z('s4'), 1.2]]);
+  const cx = kf(fr, [[a('s4'), 540], [z('s4'), 620]]), cy = kf(fr, [[a('s4'), 900], [z('s4'), 830]]);
   const pulse = (fr % 40) / 40;
   const bt = a('s4', 2.6);
   return (
