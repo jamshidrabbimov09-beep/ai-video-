@@ -8,6 +8,7 @@ Bosqichlar:
   5. Claude: butun qismni kontekst bilan tarjima qiladi, keyin tarjimani tahlil qilib tuzatadi
      (API kalit bilan avtomatik, kalitsiz: fayl orqali Claude chatida).
   6. edge-tts: o'zbekcha ovoz (Sardor - erkak, Madina - ayol), gap vaqtiga sig'diriladi.
+  6b. Ixtiyoriy: `ovozlar` papkasidagi namunalar bo'yicha ovoz klonlash (coqui-tts, OpenVoice v2).
   7. Mix: fon + (kulgi, qichqiriq kabi tarjima qilinmagan asl ovoz) + o'zbekcha ovoz.
 
 Ishga tushirish: Windowsda `Dublyaj.bat`, telefonda Colab daftari `Donghua_Dublyaj.ipynb`, yoki
@@ -518,6 +519,72 @@ def ramp_gate(n, spans, fade=0.04):
     return g
 
 
+# ---------------------------------------------------------------- 6b. ovoz klonlash (ixtiyoriy)
+VC_MODEL = "voice_conversion_models/multilingual/multi-dataset/openvoice_v2"
+AUDIO_EXT = (".wav", ".mp3", ".m4a", ".ogg", ".flac", ".aac")
+_vc = {}
+
+
+def sample_dir():
+    base = "/content" if os.path.isdir("/content") else os.path.dirname(os.path.abspath(__file__))
+    d = os.path.join(base, "ovozlar")
+    os.makedirs(d, exist_ok=True)
+    return d
+
+
+def samples():
+    d = sample_dir()
+    return {os.path.splitext(f)[0].strip().lower(): os.path.join(d, f)
+            for f in sorted(os.listdir(d)) if f.lower().endswith(AUDIO_EXT)}
+
+
+def find_sample(files, who, voice):
+    """Namuna tanlash tartibi: personaj nomi, keyin 'erkak-katta' kabi tur, keyin 'erkak' / 'ayol'."""
+    voice = (voice or "").lower()
+    for name in ((who or "").strip().lower(), voice, voice.split("-")[0]):
+        if name and name in files:
+            return files[name]
+    return None
+
+
+def clone_all(wd, segs, tick=lambda a, b: None):
+    """`ovozlar` papkasida namuna bo'lsa, yozilgan gaplarni shu ovoz tembriga o'tkazadi.
+    Kutubxona o'rnatilmagan yoki xato bo'lsa, oddiy ovoz qoladi."""
+    files = samples()
+    todo = [(s, find_sample(files, s.get("who"), s["voice"])) for s in segs if s.get("tts")]
+    todo = [(s, f) for s, f in todo if f]
+    if not todo:
+        return ""
+    try:
+        if "m" not in _vc:
+            import torch
+            from TTS.api import TTS
+
+            _vc["m"] = TTS(VC_MODEL).to("cuda" if torch.cuda.is_available() else "cpu")
+    except Exception as e:
+        print("Ovoz klonlash yuklanmadi:", e)
+        return "Ovoz klonlash ishlamadi (o'rnatilmagan bo'lishi mumkin), oddiy ovozlar ishlatildi."
+    refs, n = {}, 0
+    for k, (s, f) in enumerate(todo):
+        out = s["tts"][:-4] + ".vc.wav"
+        tag = f"{_read(s['tts'] + '.txt')}|{os.path.basename(f)}|{os.path.getmtime(f)}"
+        try:
+            if not (os.path.exists(out) and _read(out + ".txt") == tag):
+                if f not in refs:
+                    refs[f] = os.path.join(wd, "tts", f"namuna_{len(refs)}.wav")
+                    sh("ffmpeg", "-y", "-i", f, "-ac", 1, "-ar", 22050, "-t", 60, refs[f])
+                src = s["tts"][:-4] + ".src.wav"
+                sh("ffmpeg", "-y", "-i", s["tts"], "-ac", 1, "-ar", 22050, src)
+                _vc["m"].voice_conversion_to_file(source_wav=src, target_wav=refs[f], file_path=out)
+                open(out + ".txt", "w", encoding="utf-8").write(tag)
+            s["tts"] = out
+            n += 1
+        except Exception as e:
+            print("Klonlash xato:", s["uz"][:40], e)
+        tick(k + 1, len(todo))
+    return f"{n} ta gap klonlangan ovozda yozildi."
+
+
 # ---------------------------------------------------------------- 7. mix
 def mix(wd, segs, out_dir, src=None, keep_original=True, max_speed=1.6, voice_gain=1.0):
     os.makedirs(out_dir, exist_ok=True)
@@ -622,9 +689,12 @@ def analyse(src, wd, progress=None, api_key="", rules=""):
 
 def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_speed=1.6, voice_gain=1.0):
     note(progress, 0.02, "O'zbekcha ovozlar yozilmoqda")
-    synth(wd, segs, rate, lambda a, b: progress and progress(0.02 + 0.7 * a / b, desc=f"Ovoz {a}/{b}"))
+    synth(wd, segs, rate, lambda a, b: progress and progress(0.02 + 0.55 * a / b, desc=f"Ovoz {a}/{b}"))
+    note(progress, 0.6, "Ovoz namunalari tekshirilmoqda")
+    info = clone_all(wd, segs, lambda a, b: progress and progress(0.6 + 0.15 * a / b, desc=f"Ovoz klonlash {a}/{b}"))
     note(progress, 0.75, "Fon bilan birlashtirilmoqda")
     paths = mix(wd, segs, out_dir, src, keep_original, max_speed, voice_gain)
+    paths["info"] = info
     note(progress, 1.0, "Tayyor")
     return paths
 
@@ -677,7 +747,7 @@ def ui(wd=None, out_dir=None):
 
     def outputs(p, rows, msg, tfile):
         return (p.get("toliq"), p.get("toliq"), p.get("ovoz"), p.get("fon"), p.get("srt"), p.get("video"),
-                rows, msg, tfile)
+                rows, (msg + " " + p.get("info", "")).strip(), tfile)
 
     def run_dub(segs, keep, rate, speed, gain, progress):
         meta = os.path.join(wd, "segs.json")
@@ -723,6 +793,17 @@ def ui(wd=None, out_dir=None):
         p = run_dub(segs, keep, rate, speed, gain, progress)
         return outputs(p, to_rows(segs), info, os.path.join(wd, "claude_uchun.txt"))
 
+    def sample_list():
+        names = [os.path.basename(f) for f in samples().values()]
+        return "**Saqlangan ovoz namunalari:** " + (", ".join(names) if names else "hali yo'q (oddiy ovozlar ishlatiladi)")
+
+    def add_sample(file, name):
+        name = re.sub(r'[\\/:*?"<>|]', "", (name or "").strip())
+        if not file or not name:
+            raise gr.Error("Ovoz faylini tanlang va kimga ekanini yozing")
+        shutil.copy(file, os.path.join(sample_dir(), name + os.path.splitext(file)[1].lower()))
+        return sample_list()
+
     with gr.Blocks(title="Donghua dublyaj") as app:
         gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha\nVideoni tanlang va tugmani bosing. Tayyor audio pastda chiqadi.")
         video = gr.File(label="Video yoki audio fayl", type="filepath")
@@ -745,6 +826,14 @@ def ui(wd=None, out_dir=None):
             fix = gr.Textbox(label="Xatoni yozing, Claude butun ssenariyda tuzatadi", lines=3,
                              placeholder="Masalan: 45-gapda u dushmaniga sizlab gapiryapti, sensirasin. Syao Yu qiz bola, erkak ovoz qo'yilgan.")
             fixb = gr.Button("Claude tuzatsin va qayta dublyaj qilsin")
+            gr.Markdown("**Ovoz klonlash.** 15-30 soniyalik toza ovoz yozuvini yuklang (o'zingizniki yoki roziligi bor "
+                        "odamniki). Kimga: personaj nomi (jadvaldagi `kim`), yoki `erkak-katta`, `ayol-yosh` kabi tur, "
+                        "yoki shunchaki `erkak` / `ayol`.")
+            sfile = gr.File(label="Ovoz namunasi (wav, mp3)", type="filepath")
+            sname = gr.Textbox(label="Kimga", placeholder="Lin Fan yoki erkak-qari")
+            sbtn = gr.Button("Namunani saqlash")
+            slist = gr.Markdown(sample_list())
+            sbtn.click(add_sample, [sfile, sname], slist)
             path = gr.Textbox(label="Fayl yo'li (yuklash o'rniga, katta fayllar uchun)")
             tfile = gr.File(label="claude_uchun.txt: API kalit bo'lmasa shu faylni Claude chatiga yuboring")
             pasted = gr.Textbox(label="Claude javobi (raqam | o'zbekcha matn)", lines=5)

@@ -123,6 +123,12 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   from gender plus age, emotion only through rate, pitch and gain (the free Uzbek edge-tts voices have no styles).
   The UI has "Doimiy qoidalar" (standing rules, saved) and a free-text correction box that Claude applies to the
   whole script (API key needed). The user wants the tool polished before installing or trying it.
+- Voice cloning (requested 2026-11-11, free): optional step `clone_all` converts the edge-tts lines to the timbre of
+  sample recordings in `dublyaj/ovozlar/` (named by character label, by class such as `erkak-katta`, or `erkak`/`ayol`)
+  using coqui-tts voice conversion (`openvoice_v2`). Installed separately by `Ovoz_klonlash.bat`; falls back to the
+  plain voices on any failure. Never run for real: the coqui-tts API call is written from memory. The user was told
+  to use only their own or consenting people's voices. The user agreed to buy an Anthropic API key.
+- `make_notebook.py` also builds `dublyaj/Dublyaj_windows.zip` (the small download for the PC): rerun after changes.
 - Translation: the user rejected Google translate and wants Claude to translate with context and then review the
   translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then
   editor review, `claude-opus-5-5`), or free: the app writes `claude_uchun.txt`, the user sends it to a Claude chat and

@@ -40,3 +40,11 @@ nb = {"cells": cells, "nbformat": 4, "nbformat_minor": 0,
                    "kernelspec": {"display_name": "Python 3", "name": "python3"}, "language_info": {"name": "python"}}}
 json.dump(nb, open(os.path.join(here, "Donghua_Dublyaj.ipynb"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("daftar yangilandi")
+
+# Windows uchun kichik ZIP: butun repozitoriyni (250 MB) yuklab olish shart emas.
+import zipfile
+
+with zipfile.ZipFile(os.path.join(here, "Dublyaj_windows.zip"), "w", zipfile.ZIP_DEFLATED) as z:
+    for name in ("dublyaj.py", "Dublyaj.bat", "Ovoz_klonlash.bat", "README.md"):
+        z.write(os.path.join(here, name), "dublyaj/" + name)
+print("zip yangilandi")

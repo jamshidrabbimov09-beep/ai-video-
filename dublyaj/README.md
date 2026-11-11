@@ -5,7 +5,7 @@ aynan o'sha joylarga qo'yadi. Musiqa, effektlar, kulgi va qichqiriqlar asl holic
 
 ## Windows kompyuterda (eng oddiy)
 
-1. GitHub'dan repozitoriyni ZIP qilib yuklab oling va oching, `dublyaj` papkasiga kiring.
+1. `Dublyaj_windows.zip` faylini yuklab oling, oching (Extract All) va ichidagi `dublyaj` papkasiga kiring.
 2. `Dublyaj.bat` faylini ikki marta bosing. Birinchi safar o'zi hamma narsani o'rnatadi (15-30 daqiqa, 5 GB atrofida).
 3. Brauzerda oyna ochiladi: videoni tanlang, **Dublyaj qilish** ni bosing. Tayyor audio shu oynada va `natija`
    papkasida chiqadi. Keyingi safar faqat `Dublyaj.bat` ni ochasiz.
@@ -43,6 +43,17 @@ qarab tanlanadi: dushmanlar va haqoratda sensirash, ustoz va kattalarga siz.
 - Jadvalni qo'lda ham tuzatish mumkin.
 
 Bepul o'zbekcha ovozlarda tayyor "hissiyot" yo'q: his-tuyg'u tezlik, ohang balandligi va ovoz kuchi bilan beriladi.
+
+## Ovoz klonlash (ixtiyoriy, bepul)
+
+Avval ilova oddiy ovozlar bilan ishlashini tekshiring. Keyin:
+
+1. `Ovoz_klonlash.bat` ni bir marta ishga tushiring (qo'shimcha kutubxona o'rnatadi).
+2. Ilovadagi "Qo'shimcha sozlamalar" bo'limida 15-30 soniyalik toza ovoz yozuvini yuklang va kimga ekanini yozing:
+   personaj nomi, yoki `erkak-katta` kabi tur, yoki shunchaki `erkak` / `ayol`. Namunalar `ovozlar` papkasida turadi.
+3. Dublyajda shu personajning gaplari namunadagi ovoz tembrida chiqadi.
+
+Faqat o'zingizning yoki roziligi bor odamning ovozini ishlating.
 
 ## Natija fayllari
 
