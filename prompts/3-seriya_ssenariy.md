@@ -1,6 +1,6 @@
 # 3-seriya: "Xon emas, hukmdor" (Amir Temur) — ssenariy va fakt tekshiruvi
 
-Holat: ssenariy taklifi (3-variant: Yazdiy va Manz kitoblari bo'yicha tekshirilgan), foydalanuvchi hali TASDIQLAMAGAN, ovoz yozilmagan. 6 blok (A-F), oldingi qismlardagi kabi.
+Holat: foydalanuvchi TASDIQLADI (2026-11-11, Yazdiy va Manz kitoblari bo'yicha tekshirilgan), ovoz hali yozilmagan. 6 blok (A-F), oldingi qismlardagi kabi.
 Pauza teglari: `[short pause]`, `[long pause]`. ElevenLabs: Stability 40-50%, Similarity ~75%.
 
 ## Ovoz matni (taklif)

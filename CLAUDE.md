@@ -142,8 +142,10 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   `zafar.pdf` and Manz's "The Rise and Rule of Tamerlane" as `the riser .pdf` (scan, needs OCR) on `main` (not merged into work
   branches). The user's rule from now on: every script is checked against these two books, Manz wins where they differ. Notes with
   page references are in `prompts/manbalar_konspekt.md`: read them first, add to them when reading new chapters.
-- Part 3 "Xon emas, hukmdor": script draft checked against Yazdi and Manz in `prompts/3-seriya_ssenariy.md` (chat 4, 2026-11-11), waiting for the user's
-  confirmation before recording. Next: ElevenLabs text, image prompts (about 35), then build like Part 2.
+- Part 3 "Xon emas, hukmdor": script confirmed by the user 2026-11-11 (`prompts/3-seriya_ssenariy.md`, checked against Yazdi and Manz).
+  Ready for the user: ElevenLabs text `prompts/3-seriya_elevenlabs.md`, 36 image prompts `prompts/3-seriya_rasm_promptlari.md`,
+  Flow packets `prompts/3-seriya_flow_paketlar.md` (images k01..k36; references: Temur i04, khan = k18, Saray Mulk = k22,
+  Tokhtamysh = k34). Waiting for narration (A-F mp3) and images; then build like Part 2 (`public/audio3`, `p3img`, `edit_p3.py`, `Part3.tsx`).
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
