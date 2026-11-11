@@ -3,3 +3,5 @@ out/
 video/public/p1g/
 video/out/
 video/public/p2g/
+# 2-qism eksportlari: 100 MB dan katta, foydalanuvchi GitHub-ga yuklamaslikni so'ragan
+video/exports/part2_*.mp4

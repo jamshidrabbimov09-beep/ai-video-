@@ -7,7 +7,7 @@ mkdir -p out exports
 STAGE="${1:-all}"
 CHROME="${CHROME:-/opt/pw-browsers/chromium}"
 total() { python3 -c "import json;print(json.load(open('src/edit_p2.json'))['end'])"; }
-ENC=(-c:v libx264 -crf 21 -preset medium -maxrate 7M -bufsize 14M -pix_fmt yuv420p -c:a copy -movflags +faststart)
+ENC=(-c:v libx264 -crf 21 -preset medium -maxrate 5500k -bufsize 11M -pix_fmt yuv420p -c:a copy -movflags +faststart)
 
 if [[ $STAGE == all || $STAGE == prep ]]; then
   ./edit/bake_p2.sh
