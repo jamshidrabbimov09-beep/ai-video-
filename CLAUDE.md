@@ -138,7 +138,8 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 ## Open items
 
-- Part 3 (Balx 1370, rise to power; puppet khans): script first, confirmed by the user before recording.
+- Part 3 "Xon emas, hukmdor": script draft with fact check in `prompts/3-seriya_ssenariy.md` (chat 4, 2026-11-11), waiting for the user's
+  confirmation before recording. Next: ElevenLabs text, image prompts (about 35), then build like Part 2.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
