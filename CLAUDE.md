@@ -151,5 +151,9 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   for comments). Do not copy its mascot; ours is **Bek**: a modern teen (mustard hoodie) who lands in a different era each episode.
 - Character drawn in code: `video/src/tasavvur/Bek.tsx` (outfits modern/soldier, moods, blink, look, arm swing); sheet
   composition `BekSheet`, preview `video/tasavvur/bek_qahramon.png`. No Flow images needed for this series.
-- Episode 1 "Sen Temurning askarisan: 1 kun": script `prompts/tasavvur-1_ssenariy.md` (50-60 s), waiting for the user to
-  confirm the text and record it in ElevenLabs.
+- Episode 1 "Sen Temurning askarisan: 1 kun": final text `prompts/tasavvur-1_elevenlabs.md` (fast, no pauses, emotion tags,
+  "Tasavvur qil" opens, ends on "Sen nima qilarding? Izohda yoz!", no source names or next-episode talk in the voice).
+  Voice `video/public/tq1/raw.mp3` (61 s), word timings `src/tasavvur/tq1_words.json` (Scribe, 3 credits; 22 left),
+  composition `src/tasavvur/TQ1.tsx` (11 SVG scenes, one big Oswald word at the top, red key words, "1-KUN" day clock),
+  sound `edit/tq1_sfx.py` (synthesised accents) + ffmpeg mix (music from 36 s, ducked, -16 LUFS: the user worried about
+  loudness), export `video/exports/tasavvur1_temur_askari_1080p.mp4` (62 s, 23 MB). Render ~4 min at concurrency 4.
