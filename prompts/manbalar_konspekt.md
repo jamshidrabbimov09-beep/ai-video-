@@ -31,6 +31,24 @@ Havolalar qo'lyozma varaqlari bo'yicha (matn chetida "54b", "57a" kabi belgilang
 - Balxdan Keshga (ikki oy turadi, beklarga lavozim va viloyat beradi), keyin Samarqandga; uni poytaxt qiladi,
   qal'a, saroylar va bog'lar qurdiradi (57b).
 
+### Loy jangi, 1365 (Yazdiy, varaq 27b-29b) — "jang tahlili" videosi uchun
+
+- 1365-yil bahori: Jete (Mo'g'uliston) qo'shini yana keladi. Temur qo'shin yig'adi, Husayn ham katta qo'shin bilan keladi.
+- Joy: Chinoz bilan Toshkent orasi, daryo bo'yi. Dushman Kandibodom daryosi bo'yida to'xtagan.
+- Saf: o'ng qanotda Husayn (kanbul: Tilanchi Arlot; hirovul: O'ljaytu Apardi, Sher Bahrom, Po'lod Bug'a va b.);
+  chap qanotda Temur (hirovul: Temur Xo'ja o'g'lon; kanbulda Joku, Sayfiddin, Murod Barlos, Abbos Bahodir).
+- RIVOYAT: Jete "yada toshi" bilan sehr qilib yomg'ir yog'dirgan. Fakt qismi: kuchli jala, maydon loyga aylangan,
+  otlar yura olmagan; askarlar yopinchiq ostida turgan.
+- Temur chap qanotda bosib boradi, Shingum No'yon va Ilyosxo'ja qochadi. Jetening chap qanoti (Shiravul, Hojibek)
+  Husaynning o'ng qanotini yorib, Husayngacha yetadi.
+- Shamsuddin-bek qarshilik qiladi; Temur 17 qo'shun bilan hujum qilib uni chekintiradi.
+- Temur Husaynga ikki marta chopar yuboradi: "birga oldinga yuraylik". Husayn choparlarni urib, so'kadi, yurmaydi.
+- Ertasi: Jete chekinadi, ta'qib boshlanadi; Shamsuddin tug' ko'tarib qochganlarni to'playdi va qayta hujum qiladi.
+  Temur-Husayn qo'shini qochadi, ko'pi loyda qoladi. "O'n ming kishi halok bo'ldi" (Yazdiy raqami, bo'rttirilgan bo'lishi mumkin).
+- Sana: 766-yil ramazon boshi (22.05.1365).
+- Qo'shinlarning umumiy soni Yazdiyda AYTILMAGAN (faqat "17 qo'shun" va "o'n ming halok"). Raqam to'qib bo'lmaydi.
+- Jangdan keyin: Husayn Amudaryo ortiga ketadi; Temur 15 qo'shun to'playdi, 7 qo'shunli avangardi mag'lub bo'ladi.
+
 ### Boshqa joylar
 
 - Saroymulkxonim Muso-bekning opasining qizi.

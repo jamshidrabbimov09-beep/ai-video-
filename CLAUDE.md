@@ -148,6 +148,12 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   `public/voice3/all.mp3`; word times for E are interpolated (see `edit/transcript3.json` note). 35 images `public/p3img/k01..k36`
   (k09 missing, k07 and k15 unused). Timeline `edit/edit_p3.py`, composition `src/Part3.tsx`, build `edit/build_part3.sh`
   (130 s). Exports `video/exports/part3_xon_emas_hukmdor_1080p*.mp4`.
+- New format asked for by the user (chat 4): the parts feel "dry", so between parts make spin-off "battle breakdown" videos tied
+  to a part but watchable alone (how the battle went, numbers, details the part skipped), built ENTIRELY by Claude as motion
+  design in Remotion (map, moving units, counters; no Flow images); the user only records the voice. First topic proposed:
+  Loy jangi 1365 (notes in `prompts/manbalar_konspekt.md`). Use only numbers the books give; army totals are often absent.
+- Lessons from Part 3 fixes: never cut the voice where there is no real pause (check added in `edit_p3.py`); name cards must
+  appear at the moment the name is spoken, one line only; the end card comes after the last subtitle.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
