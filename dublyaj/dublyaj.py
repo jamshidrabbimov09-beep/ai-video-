@@ -213,8 +213,10 @@ def transcribe(wd, model_name="large-v3"):
     except Exception as e:
         print("Whisper CPU da ishlaydi:", e)
         model = WhisperModel("medium", device="cpu", compute_type="int8", cpu_threads=os.cpu_count() or 4)
+    # Tovush o'zimiz o'qib beriladi: faster-whisper ning fayl o'qishi `av` ning yangi versiyalarida buziladi.
+    audio16, _ = sf.read(os.path.join(wd, "ovoz16k.wav"), dtype="float32")
     segs, _ = model.transcribe(
-        os.path.join(wd, "ovoz16k.wav"), language="zh", word_timestamps=True, vad_filter=True,
+        audio16, language="zh", word_timestamps=True, vad_filter=True,
         vad_parameters={"min_silence_duration_ms": 300}, condition_on_previous_text=False, beam_size=5,
     )
     words = [(w.start, w.end, w.word.strip()) for s in segs for w in (s.words or []) if w.word.strip()]
@@ -665,7 +667,11 @@ def sample_text(path):
     try:
         from faster_whisper import WhisperModel
 
-        segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(path, vad_filter=True)
+        tmp = os.path.splitext(path)[0] + ".16k.wav"
+        sh("ffmpeg", "-y", "-i", path, "-ac", 1, "-ar", 16000, tmp)
+        audio16, _ = sf.read(tmp, dtype="float32")
+        os.remove(tmp)
+        segs, _ = WhisperModel("small", device="cpu", compute_type="int8").transcribe(audio16, vad_filter=True)
         text = "".join(s.text for s in segs).strip()
     except Exception as e:
         print("Namuna matnini aniqlab bo'lmadi:", e)
