@@ -52,7 +52,8 @@ const units: Unit[] = [
     x: [[0, 800]], y: [[0, 150], [I1, 660], [T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s9'), 700], [z('s9'), 900], [a('s10', 2), 900], [z('s10'), 640], [a('s12', 2), 640], [z('s12'), 840], [a('s13', 1), 840], [z('s13'), 1010]]},
 ];
 const HORSE = ['#3b2a1c', '#57391f', '#241a14', '#6e4a2a', '#8a8378', '#2c2622'];
-const Rider: React.FC<{u: Unit; i: number; fr: number; mud: number}> = ({u, i, fr, mud}) => {
+type Proj = (x: number, y: number) => {sx: number; sy: number; k: number};
+const rider = (u: Unit, i: number, fr: number, mud: number, proj: Proj): {y: number; el: React.ReactNode} | null => {
   const lag = random(u.id + 'l' + i) * 16;
   const t = fr - lag;
   const cx = kf(t, u.x), cy = kf(t, u.y);
@@ -73,9 +74,10 @@ const Rider: React.FC<{u: Unit; i: number; fr: number; mud: number}> = ({u, i, f
   const l1 = 12 + Math.sin(gait) * 5 * moving, l2 = 12 - Math.sin(gait) * 5 * moving;
   const o = u.o ? kf(fr, u.o) : 1;
   if (o <= 0.01) return null;
-  return (
-    <div style={{position: 'absolute', left: cx + ox, top: cy + oy, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `rotateX(${-TILT}deg)`, opacity: o}}>
-      <svg width={64} height={84} viewBox="-32 -78 64 84" style={{position: 'absolute', left: -32, top: -78, overflow: 'visible'}}>
+  const pr = proj(cx + ox, cy + oy);
+  if (pr.sy < -60 || pr.sy > 2100 || pr.sx < -80 || pr.sx > 1160) return null;
+  return {y: cy + oy, el: (
+    <g key={u.id + i} transform={`translate(${pr.sx.toFixed(1)} ${pr.sy.toFixed(1)}) scale(${pr.k.toFixed(3)})`} opacity={o}>
         <ellipse cx={0} cy={1} rx={15} ry={4} fill="rgba(0,0,0,0.35)" />
         <g transform={`translate(0 ${-bob}) rotate(${lean})`}>
           <line x1={-7} y1={-14} x2={-8} y2={-14 + l1} stroke={hc} strokeWidth={4} strokeLinecap="round" />
@@ -90,14 +92,14 @@ const Rider: React.FC<{u: Unit; i: number; fr: number; mud: number}> = ({u, i, f
           <line x1={10} y1={-26} x2={12} y2={-78} stroke="#1c1610" strokeWidth={1.8} />
           {i % 6 === 0 && <path d={`M 12 -78 l ${10 + Math.sin(fr / 4 + ph) * 3} 4 l -10 5 z`} fill={u.col} />}
         </g>
-      </svg>
-    </div>
-  );
+    </g>
+  )};
 };
-const Billboard: React.FC<{x: number; y: number; children: React.ReactNode; o?: number}> = ({x, y, children, o = 1}) => (
-  <div style={{position: 'absolute', left: x, top: y, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `rotateX(${-TILT}deg)`, opacity: o}}>{children}</div>
-);
-const UnitLabel: React.FC<{u: Unit; fr: number}> = ({u, fr}) => {
+const Billboard: React.FC<{x: number; y: number; children: React.ReactNode; o?: number; proj: Proj}> = ({x, y, children, o = 1, proj}) => {
+  const pr = proj(x, y);
+  return <g transform={`translate(${pr.sx.toFixed(1)} ${pr.sy.toFixed(1)}) scale(${pr.k.toFixed(3)})`} opacity={o}>{children}</g>;
+};
+const UnitLabel: React.FC<{u: Unit; fr: number; proj: Proj}> = ({u, fr, proj}) => {
   if (!u.label) return null;
   const x = kf(fr, u.x), y = kf(fr, u.y);
   const from = u.id === 'EC' ? a('s10', -0.3) : a('s5');
@@ -106,12 +108,12 @@ const UnitLabel: React.FC<{u: Unit; fr: number}> = ({u, fr}) => {
   if (o <= 0) return null;
   const w = u.label.length * 23 + 50;
   return (
-    <Billboard x={x} y={y} o={o}>
-      <svg width={w} height={60} style={{position: 'absolute', left: -w / 2, top: -210, overflow: 'visible'}}>
+    <Billboard x={x} y={y} o={o} proj={proj}>
+      <g transform={`translate(${-w / 2} -210)`}>
         <rect x={0} y={0} width={w} height={56} rx={9} fill="rgba(12,10,8,0.8)" stroke={u.up ? u.col : '#e39a8e'} strokeWidth={2.5} />
         <text x={w / 2} y={40} textAnchor="middle" fontFamily={font} fontSize={34} fontWeight={700} letterSpacing={4} fill={u.up ? CREAM : '#f6d7d1'}>{u.label}</text>
         <line x1={w / 2} y1={56} x2={w / 2} y2={96} stroke={u.up ? u.col : '#e39a8e'} strokeWidth={2.5} />
-      </svg>
+      </g>
     </Billboard>
   );
 };
@@ -139,6 +141,14 @@ const Field: React.FC = () => {
   };
   const drift = Math.sin(fr / 47) * 10;
   const sepia = fade(fr, a('s7'), z('s7', 0.2), 12);
+  const cosT = Math.cos((TILT * Math.PI) / 180), sinT = Math.sin((TILT * Math.PI) / 180);
+  // same maths as the CSS 3D transform of the ground plane, so riders stand exactly on it
+  const proj: Proj = (x, y) => {
+    const X = x - cam.x, Y = y - cam.y;
+    const px = 540 + drift + cam.z * X, py = 1020 + cam.z * Y * cosT, pz = Y * sinT;
+    const f = 1500 / (1500 - pz);
+    return {sx: 540 + (px - 540) * f, sy: 620 + (py - 620) * f, k: cam.z * f};
+  };
   // messengers (s11)
   const mes: React.ReactNode[] = [], marks: React.ReactNode[] = [];
   const m0 = a('s11', 0.3), mlen = Math.max(60, (z('s11') - m0) / 2);
@@ -149,8 +159,8 @@ const Field: React.FC = () => {
     const p = t < go ? ease(t / go) : t < go + 8 ? 1 : Math.max(0, 1 - ease((t - go - 8) / back));
     const x = 640 + (770 - 640) * p, y = 800 + (975 - 800) * p;
     marks.push(<circle key={'r' + k} cx={x} cy={y} r={30} fill="none" stroke={CREAM} strokeWidth={4} opacity={0.9} />);
-    mes.push(<Billboard key={k} x={x} y={y}><svg width={60} height={90} viewBox="-30 -84 60 90" style={{position: 'absolute', left: -30, top: -84, overflow: 'visible'}}>
-      <g transform={`translate(0 ${-Math.abs(Math.sin(fr * 0.9)) * 6})`}><ellipse cx={0} cy={-22} rx={13} ry={13} fill="#f1e7cf" /><path d="M -8 -30 L 8 -30 L 6 -52 L -6 -52 Z" fill="#f5ecd5" stroke="#000" strokeWidth={1.5} /><circle cx={0} cy={-58} r={6} fill="#f5ecd5" stroke="#000" strokeWidth={1.5} /></g></svg></Billboard>);
+    mes.push(<Billboard key={k} x={x} y={y} proj={proj}>
+      <g transform={`translate(0 ${-Math.abs(Math.sin(fr * 0.9)) * 6})`}><ellipse cx={0} cy={-22} rx={13} ry={13} fill="#f1e7cf" /><path d="M -8 -30 L 8 -30 L 6 -52 L -6 -52 Z" fill="#f5ecd5" stroke="#000" strokeWidth={1.5} /><circle cx={0} cy={-58} r={6} fill="#f5ecd5" stroke="#000" strokeWidth={1.5} /></g></Billboard>);
     if (t > go && t < go + 34) {
       const q = (t - go) / 34;
       marks.push(<g key={'x' + k} opacity={1 - q} transform={`translate(770 975) scale(${1.4 + q})`}><line x1={-22} y1={-22} x2={22} y2={22} stroke="#ff4b3a" strokeWidth={9} strokeLinecap="round" /><line x1={22} y1={-22} x2={-22} y2={22} stroke="#ff4b3a" strokeWidth={9} strokeLinecap="round" /></g>);
@@ -196,11 +206,12 @@ const Field: React.FC = () => {
   const lt = (f: number, k: number) => Math.max(0, 1 - Math.abs(fr - f) / 5) * k;
   const lightning = lt(a('s6', 1.4), 0.3) + lt(a('s7', 0.6), 0.2) + lt(a('s2', 0.9), 0.32) + lt(a('s1', 2.2), 0.22);
   const riders: {y: number; el: React.ReactNode}[] = [];
-  units.forEach((u) => { for (let i = 0; i < u.n; i++) riders.push({y: 0, el: <Rider key={u.id + i} u={u} i={i} fr={fr} mud={mud} />}); });
+  units.forEach((u) => { for (let i = 0; i < u.n; i++) { const r = rider(u, i, fr, mud, proj); if (r) riders.push(r); } });
+  riders.sort((p, q) => p.y - q.y);
   return (
     <AbsoluteFill style={{background: '#0f0d0a', perspective: 1500, perspectiveOrigin: '540px 620px', overflow: 'hidden'}}>
       <div style={{position: 'absolute', left: 540 + drift, top: 1020, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `scale(${cam.z}) rotateX(${TILT}deg) translate3d(${-cam.x}px, ${-cam.y}px, 0px)`, filter: sepia > 0.01 ? `sepia(${0.75 * sepia})` : undefined}}>
-        <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', left: -1500, top: -2400, width: 4100, height: 5600}} />
+        <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', left: -900, top: -1500, width: 2900, height: 4200}} />
         <Img src={staticFile('loy/mud.jpg')} style={{position: 'absolute', left: -1500, top: -2400, width: 4100, height: 5600, opacity: mud}} />
         <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
           <defs><Marker col={GOLD} /><Marker col="#e0392b" />
@@ -222,16 +233,18 @@ const Field: React.FC = () => {
             <text x={300} y={1330}>CHAP QANOT</text><text x={780} y={1330}>O'NG QANOT</text>
           </g>}
         </svg>
+      </div>
+      <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0, filter: sepia > 0.01 ? `sepia(${0.75 * sepia})` : undefined}}>
         {riders.map((r) => r.el)}
-        {units.map((u) => <UnitLabel key={u.id} u={u} fr={fr} />)}
+        {units.map((u) => <UnitLabel key={u.id} u={u} fr={fr} proj={proj} />)}
         {mes}
-        {bn > 0 && <Billboard x={550} y={by} o={bn}><svg width={120} height={330} viewBox="-60 -320 120 330" style={{position: 'absolute', left: -60, top: -320, overflow: 'visible'}}>
+        {bn > 0 && <Billboard x={550} y={by} o={bn} proj={proj}><g>
           <line x1={0} y1={0} x2={0} y2={-300} stroke="#20150c" strokeWidth={8} />
           <path d={`M 0 -300 q ${28 + Math.sin(fr / 5) * 10} 40 ${Math.sin(fr / 6) * 12} 110 q -22 -44 0 -110`} fill="#0f0b08" />
           <path d={`M 0 -292 l ${54 + Math.sin(fr / 4) * 8} 16 l -54 22 z`} fill="#b3261e" />
           <circle cx={0} cy={-306} r={11} fill={GOLD} />
-        </svg></Billboard>}
-      </div>
+        </g></Billboard>}
+      </svg>
       <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(15,13,10,0.95) 0%, rgba(15,13,10,0.55) 14%, rgba(15,13,10,0) 30%)'}} />
       <AbsoluteFill style={{background: `rgba(18,24,34,${0.36 * rain})`}} />
       <svg width={1080} height={1920} style={{position: 'absolute', opacity: rain}}>{drops}</svg>
