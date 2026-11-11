@@ -135,6 +135,12 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   from another voice cluster use the character's saved sample; with no sample, OmniVoice voice design
   (`instruct` "male, elderly" etc.). Failures fall back to edge-tts. coqui-tts and `Ovoz_klonlash.bat` were removed.
   Cross-lingual cloning keeps some Chinese accent (OmniVoice README says so).
+- OmniVoice was run for real in the cloud (CPU, venv in the scratchpad): 5 test lines cloned from edge-tts Chinese
+  voices took about 3.5 min including model load. Output varies per call and is sometimes unintelligible, so each
+  line is checked with faster-whisper `small` (`heard_score`) and regenerated up to 3 times; with that all 5 lines
+  scored 0.72-0.89 and fit their slots. Uzbek comes out with an accent. Sample: `dublyaj/namuna_klon.mp3`.
+- av 19 breaks faster-whisper's file decoding (`metadata_errors`): the app now passes numpy arrays, and the .bat pins
+  `av<19`.
 - UI redesigned (orange theme, tabs: Dublyaj, Personajlar va ovozlar, Tarjima va tuzatish, Sozlamalar).
   `ensure_packages()` pip-installs missing modules on the PC at start, so code changes can add dependencies.
 - The cloud session now runs on a personal environment `ai-video-` that also allows speech.platform.bing.com and
