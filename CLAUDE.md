@@ -144,3 +144,12 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
   Part 1 Reel posted with the cover, caption, Samarqand location, AI label and high-quality upload. Suggested pinned
   first comments are in the conversation log.
+
+## New series "Tasavvur qil" (started 2026-11-11, chat 4)
+
+- Inspired by the viral Uzbek cartoon page `egrivoy` (code-drawn flat 2D, recurring mascot, "what if" hooks, choice questions
+  for comments). Do not copy its mascot; ours is **Bek**: a modern teen (mustard hoodie) who lands in a different era each episode.
+- Character drawn in code: `video/src/tasavvur/Bek.tsx` (outfits modern/soldier, moods, blink, look, arm swing); sheet
+  composition `BekSheet`, preview `video/tasavvur/bek_qahramon.png`. No Flow images needed for this series.
+- Episode 1 "Sen Temurning askarisan: 1 kun": script `prompts/tasavvur-1_ssenariy.md` (50-60 s), waiting for the user to
+  confirm the text and record it in ElevenLabs.
