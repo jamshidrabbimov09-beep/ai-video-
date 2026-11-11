@@ -62,6 +62,10 @@ for i, p in enumerate(placed):
     seg[:f] *= np.linspace(0, 1, f); seg[-f:] *= np.linspace(1, 0, f)
     st = int((p['ns'] - (p['os'] - cuts[i])) * SR)
     out[max(0, st):max(0, st) + n] += seg[max(0, -st):]
+# safety check (chat 4): a cut must fall in a real pause, otherwise a word is chopped
+for c in cuts[1:-1]:
+    i = int(c * SR); db = 10 * np.log10(np.mean(src[max(0, i - 400):i + 400] ** 2) + 1e-12)
+    if db > -45: print('WARNING: cut at %.2fs is not silent (%.0f dB)' % (c, db))
 with wave.open(str(root / 'public/voice3/voice_p3.wav'), 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((np.clip(out, -1, 1) * 32767).astype('<i2').tobytes())
@@ -103,17 +107,17 @@ spec = [  # (anchor, img, move, transition, grade)
     (('s', 23), '25', 'out', 'fade', 'warm'),
     (('s', 24), '26', 'in', 'fade', 'warm'),
     (('s', 25), '27', 'inslow', 'fade', 'warm'),
-    (('s', 27), '28', 'out', 'dip', 'warm'),
-    (('s', 28), '29', 'in', 'fade', 'warm'),
-    (('s', 29), '31', 'in', 'fade', 'warm'),
-    (('s', 30), '30', 'in', 'fade', 'warm'),
-    (('s', 31), '32', 'in', 'fade', 'warm'),
-    (('s', 32), '33', 'inslow', 'dip', 'cold'),
+    (('s', 26), '28', 'out', 'dip', 'warm'),
+    (('s', 27), '29', 'in', 'fade', 'warm'),
+    (('s', 28), '31', 'in', 'fade', 'warm'),
+    (('s', 29), '30', 'in', 'fade', 'warm'),
+    (('s', 30), '32', 'in', 'fade', 'warm'),
+    (('s', 31), '33', 'inslow', 'dip', 'cold'),
     (('w', 206), '34', 'in', 'fade', 'warm'),
-    (('s', 34), '35', 'out', 'fade', 'warm'),
-    (('s', 35), '36', 'inslow', 'fade', 'cold'),
-    (('s', 36), '01', 'in2', 'fade', 'cold'),
-    (('s', 37), None, 'none', 'dip', 'warm'),
+    (('s', 33), '35', 'out', 'fade', 'warm'),
+    (('s', 34), '36', 'inslow', 'fade', 'cold'),
+    (('s', 35), '01', 'in2', 'fade', 'cold'),
+    (('s', 36), None, 'none', 'dip', 'warm'),
 ]
 bounds = []
 for a, *_ in spec:
@@ -151,8 +155,8 @@ accent('name', 110, "SUYURG'ATMISH", dur=3.0)
 accent('name', 141, "SAROYMULKXONIM", dur=3.0)
 accent('name', 157, "KO'RAGON", dur=3.0)
 accent('name', 211, "TO'XTAMISH", dur=3.2)
-over.append(dict(k='end', t0=round(SE(37) + 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
-for a, b in ((SS(6), SE(6) + 0.3), (W(224), SE(36) + 0.4)):
+over.append(dict(k='end', t0=round(SE(36) + 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
+for a, b in ((SS(6), SE(6) + 0.3), (W(224), SE(35) + 0.4)):
     over.append(dict(k='bars', t0=round(a, 3), t1=round(b, 3)))
 
 # subtitle tokens: ASR spelling fixed against the script, spoken years shown as digits
@@ -198,7 +202,7 @@ for k, ch in enumerate(chunks):
 
 # ---------- 5. sparse sound accents ----------
 sfx = [dict(k='boom', t=round(W(27), 3)), dict(k='boom', t=round(W(224), 3)),
-       dict(k='heart', t=round(SS(35), 3), dur=round(SE(36) - SS(35) + 0.5, 3))]
+       dict(k='heart', t=round(SS(34), 3), dur=round(SE(35) - SS(34) + 0.5, 3))]
 (root / 'edit' / 'sfx_plan_p3.json').write_text(json.dumps(dict(total=round(TOTAL + 2, 2), items=sfx)))
 
 # ---------- 6. music extended on the bar grid: 0-96 s, the song section again (36 s onward), then the outro (96-112 s) ----------
