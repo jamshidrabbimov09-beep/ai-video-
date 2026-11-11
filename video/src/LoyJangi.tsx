@@ -27,80 +27,99 @@ const kf = (fr: number, k: [number, number][]) => {
 };
 const fade = (fr: number, f0: number, f1: number, d = 12) => Math.max(0, Math.min(interpolate(fr, [f0, f0 + d], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), interpolate(fr, [f1 - d, f1], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})));
 
-// ---------------- units ----------------
-type Unit = {id: string; n: number; cols: number; col: string; dark: string; up: boolean;
-  x: [number, number][]; y: [number, number][]; spread?: [number, number][]; o?: [number, number][]; label?: string; lo?: [number, number][]};
+// ---------------- units (v2: tilted 3D battlefield, every soldier is an upright horseman) ----------------
+type Unit = {id: string; n: number; cols: number; col: string; up: boolean;
+  x: [number, number][]; y: [number, number][]; spread?: [number, number][]; o?: [number, number][]; label?: string};
 const T0 = a('s5', -0.6);
+const I1 = a('s3', -0.4);      // end of the cold open (flash-forward into the battle)
+const TILT = 54;
 const units: Unit[] = [
-  {id: 'T', n: 84, cols: 12, col: '#e0b93c', dark: '#6b4a10', up: true, label: 'TEMUR',
-    x: [[0, 300]], y: [[T0, 1120], [a('s6'), 1120], [a('s6', 3), 1030], [a('s8'), 1030], [z('s8'), 800], [a('s13'), 800], [z('s13', -1), 1560]],
-    spread: [[a('s12'), 1], [a('s13'), 1.05], [z('s13', -1), 2.3]], o: [[a('s13', 1), 1], [z('s13'), 0]]},
-  {id: 'T17', n: 34, cols: 6, col: '#f3d77a', dark: '#6b4a10', up: true,
-    x: [[a('s10'), 330], [a('s10', 2.4), 610]], y: [[a('s10'), 800], [a('s10', 2.4), 740], [a('s13'), 740], [z('s13', -1), 1560]],
-    spread: [[a('s13'), 1], [z('s13', -1), 2.2]], o: [[a('s10', -0.2), 0], [a('s10', 0.3), 1], [a('s13', 1), 1], [z('s13'), 0]]},
-  {id: 'H', n: 84, cols: 12, col: '#5f8fd0', dark: '#1d3557', up: true, label: 'HUSAYN',
-    x: [[0, 780]], y: [[T0, 1120], [a('s6'), 1120], [a('s6', 3), 1030], [a('s9'), 1030], [z('s9'), 1170], [a('s10', 2), 1170], [z('s10'), 1090], [a('s13'), 1090], [z('s13', -1.4), 1600]],
-    spread: [[a('s9'), 1], [z('s9'), 1.7], [a('s10', 2), 1.7], [z('s10'), 1.05], [a('s13'), 1.05], [z('s13', -1.4), 2.3]], o: [[a('s13', 0.6), 1], [z('s13', -0.5), 0]]},
-  {id: 'ER', n: 64, cols: 8, col: '#8f2f2a', dark: '#2a0f0d', up: false, label: "ILYOSXO'JA",
-    x: [[0, 300]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s8'), 700], [z('s8'), 300], [a('s12'), 300], [a('s12', 2.5), 440], [z('s12'), 585], [a('s13', 1), 585], [z('s13'), 960]],
-    spread: [[a('s8'), 1], [z('s8'), 2.1], [a('s12'), 2.1], [a('s12', 2.5), 1]], o: [[a('s8', 1), 1], [z('s8'), 0.55], [a('s12'), 0.55], [a('s12', 2), 1]]},
-  {id: 'EC', n: 56, cols: 8, col: '#7a2622', dark: '#2a0f0d', up: false, label: 'SHAMSUDDIN',
-    x: [[0, 550]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 660], [a('s10', 1.6), 660], [z('s10'), 430], [a('s12', 2), 430], [z('s12'), 545], [a('s13', 1), 545], [z('s13'), 980]]},
-  {id: 'EL', n: 64, cols: 8, col: '#8f2f2a', dark: '#2a0f0d', up: false,
-    x: [[0, 800]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s9'), 700], [z('s9'), 900], [a('s10', 2), 900], [z('s10'), 640], [a('s12', 2), 640], [z('s12'), 840], [a('s13', 1), 840], [z('s13'), 1010]]},
+  {id: 'T', n: 72, cols: 12, col: '#e8b92e', up: true, label: 'TEMUR',
+    x: [[0, 300]], y: [[0, 1560], [I1, 1150], [T0, 1150], [a('s6'), 1150], [a('s6', 3), 1030], [a('s8'), 1030], [z('s8'), 800], [a('s13'), 800], [z('s13', -1), 1700]],
+    spread: [[a('s12'), 1], [a('s13'), 1.05], [z('s13', -1), 2.3]], o: [[a('s13', 1.5), 1], [z('s13'), 0]]},
+  {id: 'T17', n: 30, cols: 6, col: '#ffd95e', up: true,
+    x: [[a('s10'), 330], [a('s10', 2.4), 610]], y: [[a('s10'), 800], [a('s10', 2.4), 740], [a('s13'), 740], [z('s13', -1), 1700]],
+    spread: [[a('s13'), 1], [z('s13', -1), 2.2]], o: [[a('s10', -0.2), 0], [a('s10', 0.3), 1], [a('s13', 1.5), 1], [z('s13'), 0]]},
+  {id: 'H', n: 72, cols: 12, col: '#4f8fe6', up: true, label: 'HUSAYN',
+    x: [[0, 780]], y: [[0, 1230], [I1, 1230], [T0, 1150], [a('s6'), 1150], [a('s6', 3), 1030], [a('s9'), 1030], [z('s9'), 1170], [a('s10', 2), 1170], [z('s10'), 1090], [a('s13'), 1090], [z('s13', -1.4), 1750]],
+    spread: [[a('s9'), 1], [z('s9'), 1.7], [a('s10', 2), 1.7], [z('s10'), 1.05], [a('s13'), 1.05], [z('s13', -1.4), 2.3]], o: [[a('s13', 1.2), 1], [z('s13', -0.3), 0]]},
+  {id: 'ER', n: 48, cols: 8, col: '#b3261e', up: false, label: "ILYOSXO'JA",
+    x: [[0, 300]], y: [[0, 150], [I1, 640], [T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s8'), 700], [z('s8'), 300], [a('s12'), 300], [a('s12', 2.5), 440], [z('s12'), 585], [a('s13', 1), 585], [z('s13'), 960]],
+    spread: [[a('s8'), 1], [z('s8'), 2.1], [a('s12'), 2.1], [a('s12', 2.5), 1]], o: [[a('s8', 1), 1], [z('s8'), 0.6], [a('s12'), 0.6], [a('s12', 2), 1]]},
+  {id: 'EC', n: 48, cols: 8, col: '#96211b', up: false, label: 'SHAMSUDDIN',
+    x: [[0, 550]], y: [[0, 120], [I1, 620], [T0, 430], [a('s6'), 430], [a('s6', 3), 660], [a('s10', 1.6), 660], [z('s10'), 430], [a('s12', 2), 430], [z('s12'), 545], [a('s13', 1), 545], [z('s13'), 980]]},
+  {id: 'EL', n: 48, cols: 8, col: '#b3261e', up: false,
+    x: [[0, 800]], y: [[0, 150], [I1, 660], [T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s9'), 700], [z('s9'), 900], [a('s10', 2), 900], [z('s10'), 640], [a('s12', 2), 640], [z('s12'), 840], [a('s13', 1), 840], [z('s13'), 1010]]},
 ];
-const Soldiers: React.FC<{u: Unit; fr: number; mud: number}> = ({u, fr, mud}) => {
-  const out: React.ReactNode[] = [];
+const HORSE = ['#3b2a1c', '#57391f', '#241a14', '#6e4a2a', '#8a8378', '#2c2622'];
+const Rider: React.FC<{u: Unit; i: number; fr: number; mud: number}> = ({u, i, fr, mud}) => {
+  const lag = random(u.id + 'l' + i) * 16;
+  const t = fr - lag;
+  const cx = kf(t, u.x), cy = kf(t, u.y);
+  const sp = u.spread ? kf(t, u.spread) : 1;
   const rows = Math.ceil(u.n / u.cols);
-  for (let i = 0; i < u.n; i++) {
-    const lag = random(u.id + 'l' + i) * 16;
-    const t = fr - lag;
-    const cx = kf(t, u.x), cy = kf(t, u.y);
-    const sp = u.spread ? kf(t, u.spread) : 1;
-    const c = i % u.cols, r = Math.floor(i / u.cols);
-    const jx = (random(u.id + 'x' + i) - 0.5) * 9, jy = (random(u.id + 'y' + i) - 0.5) * 9;
-    const ox = ((c - (u.cols - 1) / 2) * 24 + jx) * (1 + (sp - 1) * (0.5 + random(u.id + 's' + i)));
-    const oy = ((r - (rows - 1) / 2) * 26 + jy) * (1 + (sp - 1) * (0.5 + random(u.id + 't' + i)));
-    const vy = kf(t + 4, u.y) - kf(t - 4, u.y), vx = kf(t + 4, u.x) - kf(t - 4, u.x);
-    const moving = Math.min(1, Math.hypot(vx, vy) / 6);
-    const ph = random(u.id + 'p' + i) * 6.28;
-    const bob = Math.sin(fr / (3.2 + mud * 2.5) + ph) * (0.8 + 2.4 * moving);
-    const sway = Math.sin(fr / 11 + ph * 2) * 1.4;
-    let ang = u.up ? -90 : 90;
-    if (moving > 0.15) ang = (Math.atan2(vy, vx) * 180) / Math.PI;
-    const x = cx + ox + sway, y = cy + oy + bob;
-    out.push(
-      <g key={i} transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(0)}) scale(1.3)`}>
-        <ellipse cx={0} cy={1.5} rx={8.5} ry={4.6} fill="rgba(0,0,0,0.35)" />
-        <ellipse cx={0} cy={0} rx={8} ry={4.2} fill={u.dark} />
-        <circle cx={7.5} cy={0} r={2.3} fill={u.dark} />
-        <circle cx={-0.5} cy={0} r={3.3} fill={u.col} />
-        <line x1={0} y1={-3.4} x2={12} y2={-3.4} stroke="rgba(20,16,10,0.8)" strokeWidth={0.9} />
-      </g>
-    );
-  }
+  const c = i % u.cols, r = Math.floor(i / u.cols);
+  const jx = (random(u.id + 'x' + i) - 0.5) * 12, jy = (random(u.id + 'y' + i) - 0.5) * 12;
+  const ox = ((c - (u.cols - 1) / 2) * 30 + jx) * (1 + (sp - 1) * (0.5 + random(u.id + 's' + i)));
+  const oy = ((r - (rows - 1) / 2) * 34 + jy) * (1 + (sp - 1) * (0.5 + random(u.id + 't' + i)));
+  const vy = kf(t + 4, u.y) - kf(t - 4, u.y), vx = kf(t + 4, u.x) - kf(t - 4, u.x);
+  const moving = Math.min(1, Math.hypot(vx, vy) / 5);
+  const ph = random(u.id + 'p' + i) * 6.28;
+  const gait = fr * (0.95 - 0.35 * mud) + ph;
+  const bob = Math.abs(Math.sin(gait)) * 5 * moving + Math.sin(fr / 13 + ph) * 0.8;
+  const away = moving > 0.12 ? vy < 0 : u.up;        // do we see the rider's back?
+  const lean = Math.max(-10, Math.min(10, vx * 2));
+  const hc = HORSE[Math.floor(random(u.id + 'h' + i) * HORSE.length)];
+  const l1 = 12 + Math.sin(gait) * 5 * moving, l2 = 12 - Math.sin(gait) * 5 * moving;
   const o = u.o ? kf(fr, u.o) : 1;
-  return <g opacity={o}>{out}</g>;
+  if (o <= 0.01) return null;
+  return (
+    <div style={{position: 'absolute', left: cx + ox, top: cy + oy, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `rotateX(${-TILT}deg)`, opacity: o}}>
+      <svg width={64} height={84} viewBox="-32 -78 64 84" style={{position: 'absolute', left: -32, top: -78, overflow: 'visible'}}>
+        <ellipse cx={0} cy={1} rx={15} ry={4} fill="rgba(0,0,0,0.35)" />
+        <g transform={`translate(0 ${-bob}) rotate(${lean})`}>
+          <line x1={-7} y1={-14} x2={-8} y2={-14 + l1} stroke={hc} strokeWidth={4} strokeLinecap="round" />
+          <line x1={7} y1={-14} x2={8} y2={-14 + l2} stroke={hc} strokeWidth={4} strokeLinecap="round" />
+          <ellipse cx={0} cy={-22} rx={12} ry={12} fill={hc} />
+          {away
+            ? <path d={`M 0 -18 q ${3 + Math.sin(gait) * 3} 10 ${Math.sin(gait) * 4} 18`} stroke="#15100c" strokeWidth={4} fill="none" strokeLinecap="round" />
+            : <g><ellipse cx={0} cy={-27} rx={5.5} ry={10} fill={hc} stroke="rgba(0,0,0,0.35)" strokeWidth={1} /><path d="M -5 -36 l -2 -6 l 5 3 z M 5 -36 l 2 -6 l -5 3 z" fill={hc} /></g>}
+          <path d="M -8 -30 L 8 -30 L 6 -50 L -6 -50 Z" fill={u.col} stroke="rgba(0,0,0,0.45)" strokeWidth={1.2} />
+          <circle cx={0} cy={-55} r={5.5} fill={away ? '#3a342c' : '#c9a27a'} />
+          <path d="M -6 -56 a 6 6 0 0 1 12 0 z" fill="#4a463e" /><line x1={0} y1={-62} x2={0} y2={-67} stroke="#4a463e" strokeWidth={2} />
+          <line x1={10} y1={-26} x2={12} y2={-78} stroke="#1c1610" strokeWidth={1.8} />
+          {i % 6 === 0 && <path d={`M 12 -78 l ${10 + Math.sin(fr / 4 + ph) * 3} 4 l -10 5 z`} fill={u.col} />}
+        </g>
+      </svg>
+    </div>
+  );
 };
+const Billboard: React.FC<{x: number; y: number; children: React.ReactNode; o?: number}> = ({x, y, children, o = 1}) => (
+  <div style={{position: 'absolute', left: x, top: y, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `rotateX(${-TILT}deg)`, opacity: o}}>{children}</div>
+);
 const UnitLabel: React.FC<{u: Unit; fr: number}> = ({u, fr}) => {
   if (!u.label) return null;
   const x = kf(fr, u.x), y = kf(fr, u.y);
   const from = u.id === 'EC' ? a('s10', -0.3) : a('s5');
-  const o = fade(fr, from, a('s13', 1.2), 14) * (u.o ? Math.min(1, kf(fr, u.o) * 1.6) : 1);
+  const intro = u.id === 'H' ? fade(fr, (a('s2') + z('s2')) / 2, I1, 10) : 0;
+  const o = Math.max(intro, fade(fr, from, u.id === 'EC' ? a('s12', 1.2) : a('s13', 1.2), 14) * (u.o ? Math.min(1, kf(fr, u.o) * 1.6) : 1));
   if (o <= 0) return null;
-  const w = u.label.length * 21 + 44;
+  const w = u.label.length * 23 + 50;
   return (
-    <g opacity={o} transform={`translate(${x} ${y})`}>
-      <rect x={-w / 2} y={-25} width={w} height={50} rx={8} fill="rgba(12,10,8,0.72)" stroke={u.up ? u.col : '#c98a80'} strokeWidth={2} />
-      <text x={0} y={11} textAnchor="middle" fontFamily={font} fontSize={30} fontWeight={700} letterSpacing={4} fill={u.up ? CREAM : '#f3d3cd'}>{u.label}</text>
-    </g>
+    <Billboard x={x} y={y} o={o}>
+      <svg width={w} height={60} style={{position: 'absolute', left: -w / 2, top: -210, overflow: 'visible'}}>
+        <rect x={0} y={0} width={w} height={56} rx={9} fill="rgba(12,10,8,0.8)" stroke={u.up ? u.col : '#e39a8e'} strokeWidth={2.5} />
+        <text x={w / 2} y={40} textAnchor="middle" fontFamily={font} fontSize={34} fontWeight={700} letterSpacing={4} fill={u.up ? CREAM : '#f6d7d1'}>{u.label}</text>
+        <line x1={w / 2} y1={56} x2={w / 2} y2={96} stroke={u.up ? u.col : '#e39a8e'} strokeWidth={2.5} />
+      </svg>
+    </Billboard>
   );
 };
-const Arrow: React.FC<{d: string; fr: number; f0: number; f1: number; col: string; w?: number}> = ({d, fr, f0, f1, col, w = 14}) => {
+const Arrow: React.FC<{d: string; fr: number; f0: number; f1: number; col: string; w?: number}> = ({d, fr, f0, f1, col, w = 16}) => {
   const p = interpolate(fr, [f0, f0 + 26], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic)});
   const o = fade(fr, f0, f1, 10);
   if (o <= 0) return null;
-  return <path d={d} fill="none" stroke={col} strokeWidth={w} strokeLinecap="round" pathLength={1} strokeDasharray={`${p} 1`} opacity={o * 0.85} markerEnd={p > 0.95 ? `url(#ah-${col.replace('#', '')})` : undefined} />;
+  return <path d={d} fill="none" stroke={col} strokeWidth={w} strokeLinecap="round" pathLength={1} strokeDasharray={`${p} 1`} opacity={o * 0.9} markerEnd={p > 0.95 ? `url(#ah-${col.replace('#', '')})` : undefined} />;
 };
 const Marker: React.FC<{col: string}> = ({col}) => (
   <marker id={`ah-${col.replace('#', '')}`} viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill={col} /></marker>
@@ -109,82 +128,112 @@ const Marker: React.FC<{col: string}> = ({col}) => (
 // ---------------- battlefield ----------------
 const Field: React.FC = () => {
   const fr = useCurrentFrame();
-  const mud = kf(fr, [[a('s6'), 0], [a('s6', 4.5), 1]]);
-  const rain = kf(fr, [[a('s6', -0.3), 0], [a('s6', 1.2), 1], [a('s8'), 1], [a('s9'), 0.6], [a('s12'), 0.5], [z('s13'), 0.35]]);
+  const intro = fr < I1 + 20;
+  const mud = intro ? 0.75 : kf(fr, [[a('s6'), 0], [a('s6', 4.5), 1]]);
+  const rain = intro ? kf(fr, [[0, 0.75], [a('s2'), 0.85], [a('s2', 1), 1]]) : kf(fr, [[a('s6', -0.3), 0], [a('s6', 1.2), 1], [a('s8'), 1], [a('s9'), 0.65], [a('s12'), 0.55], [z('s13'), 0.4]]);
+  const mid2 = (a('s2') + z('s2')) / 2;
   const cam = {
-    x: kf(fr, [[T0, 540], [a('s8'), 540], [a('s8', 1.5), 380], [a('s9', -0.3), 380], [a('s9', 1), 700], [a('s10'), 700], [a('s10', 1.5), 560], [a('s11'), 540], [a('s12'), 540]]),
-    y: kf(fr, [[T0, 840], [a('s6'), 840], [a('s6', 3), 870], [a('s8'), 860], [a('s8', 1.5), 640], [a('s9', -0.3), 640], [a('s9', 1), 980], [a('s10'), 980], [a('s10', 1.5), 800], [a('s11'), 900], [a('s12'), 760], [a('s13'), 900]]),
-    z: kf(fr, [[T0, 1.12], [a('s5', 2), 1], [a('s6'), 1], [a('s6', 3), 1.12], [a('s8'), 1.12], [a('s8', 1.5), 1.5], [a('s9', -0.3), 1.5], [a('s9', 1), 1.45], [a('s10'), 1.45], [a('s10', 1.5), 1.3], [a('s11'), 1.22], [a('s12'), 1.08], [a('s13'), 1.05]]),
+    x: kf(fr, [[0, 300], [a('s1', 4), 420], [a('s2'), 540], [mid2, 560], [z('s2'), 780], [I1 + 20, 780], [T0, 540], [a('s5', 1.2), 300], [(a('s5') + z('s5')) / 2 + 12, 780], [a('s6'), 540], [a('s8'), 540], [a('s8', 1.5), 330], [a('s9', -0.3), 330], [a('s9', 1), 760], [a('s10'), 760], [a('s10', 1.5), 580], [a('s11'), 680], [a('s12'), 560], [a('s13'), 540]]),
+    y: kf(fr, [[0, 1500], [a('s1', 4), 1150], [a('s2'), 950], [mid2, 930], [z('s2'), 1230], [I1 + 20, 1230], [T0, 800], [a('s5', 1.2), 1120], [(a('s5') + z('s5')) / 2 + 12, 1120], [a('s6'), 860], [a('s6', 3), 880], [a('s8'), 880], [a('s8', 1.5), 700], [a('s9', -0.3), 660], [a('s9', 1), 1010], [a('s10'), 1010], [a('s10', 1.5), 760], [a('s11'), 900], [a('s12'), 640], [z('s12'), 720], [a('s13', 2), 980], [z('s13'), 1000]]),
+    z: kf(fr, [[0, 2.3], [a('s1', 4), 1.7], [a('s2'), 1.15], [mid2, 1.2], [z('s2'), 2.0], [I1 + 20, 2.1], [T0, 1.0], [a('s5', 1.2), 1.7], [(a('s5') + z('s5')) / 2 + 12, 1.7], [a('s6'), 1.1], [a('s6', 3), 1.3], [a('s8'), 1.35], [a('s8', 1.5), 1.8], [a('s9', -0.3), 1.9], [a('s9', 1), 1.8], [a('s10'), 1.85], [a('s10', 1.5), 1.6], [a('s11'), 1.5], [a('s12'), 1.45], [z('s12'), 1.5], [a('s13', 2), 1.25], [z('s13'), 1.15]]),
   };
-  const shake = rain * 0.0;
+  const drift = Math.sin(fr / 47) * 10;
   const sepia = fade(fr, a('s7'), z('s7', 0.2), 12);
-  // messengers (s11): two riders go from Temur's detachment to Husayn and come back
-  const mes: React.ReactNode[] = [];
+  // messengers (s11)
+  const mes: React.ReactNode[] = [], marks: React.ReactNode[] = [];
   const m0 = a('s11', 0.3), mlen = Math.max(60, (z('s11') - m0) / 2);
   for (let k = 0; k < 2; k++) {
     const st = m0 + k * mlen, go = mlen * 0.42, back = mlen * 0.36;
     if (fr < st || fr > st + mlen) continue;
     const t = fr - st;
     const p = t < go ? ease(t / go) : t < go + 8 ? 1 : Math.max(0, 1 - ease((t - go - 8) / back));
-    const x = 610 + (760 - 610) * p, y = 760 + (1040 - 760) * p - Math.sin(p * Math.PI) * 30;
-    mes.push(<g key={k}><circle cx={x} cy={y} r={15} fill="none" stroke={CREAM} strokeWidth={2.5} opacity={0.8} /><circle cx={x} cy={y} r={7} fill={CREAM} /></g>);
+    const x = 640 + (770 - 640) * p, y = 800 + (975 - 800) * p;
+    marks.push(<circle key={'r' + k} cx={x} cy={y} r={30} fill="none" stroke={CREAM} strokeWidth={4} opacity={0.9} />);
+    mes.push(<Billboard key={k} x={x} y={y}><svg width={60} height={90} viewBox="-30 -84 60 90" style={{position: 'absolute', left: -30, top: -84, overflow: 'visible'}}>
+      <g transform={`translate(0 ${-Math.abs(Math.sin(fr * 0.9)) * 6})`}><ellipse cx={0} cy={-22} rx={13} ry={13} fill="#f1e7cf" /><path d="M -8 -30 L 8 -30 L 6 -52 L -6 -52 Z" fill="#f5ecd5" stroke="#000" strokeWidth={1.5} /><circle cx={0} cy={-58} r={6} fill="#f5ecd5" stroke="#000" strokeWidth={1.5} /></g></svg></Billboard>);
     if (t > go && t < go + 34) {
       const q = (t - go) / 34;
-      mes.push(<g key={'x' + k} opacity={1 - q} transform={`translate(760 1020) scale(${1 + q * 0.6})`}><line x1={-22} y1={-22} x2={22} y2={22} stroke="#e5483b" strokeWidth={8} strokeLinecap="round" /><line x1={22} y1={-22} x2={-22} y2={22} stroke="#e5483b" strokeWidth={8} strokeLinecap="round" /></g>);
+      marks.push(<g key={'x' + k} opacity={1 - q} transform={`translate(770 975) scale(${1.4 + q})`}><line x1={-22} y1={-22} x2={22} y2={22} stroke="#ff4b3a" strokeWidth={9} strokeLinecap="round" /><line x1={22} y1={-22} x2={-22} y2={22} stroke="#ff4b3a" strokeWidth={9} strokeLinecap="round" /></g>);
     }
   }
-  // banner (s12)
   const bn = fade(fr, a('s12', 1.2), z('s13'), 14);
-  const by = kf(fr, units[4].y) - 150;
-  // dead (s13)
+  const by = kf(fr, units[4].y);
   const deadO = kf(fr, [[a('s13', 1), 0], [a('s13', 3.5), 1]]);
   const dead: React.ReactNode[] = [];
-  for (let i = 0; i < 130; i++) {
-    const x = 170 + random('dx' + i) * 740, y = 800 + random('dy' + i) * 420, on = random('do' + i);
-    if (deadO > on) dead.push(<ellipse key={i} cx={x} cy={y} rx={8} ry={4} fill={i % 3 ? '#3a2b12' : '#16263d'} opacity={0.7} transform={`rotate(${random('dr' + i) * 180} ${x} ${y})`} />);
+  for (let i = 0; i < 150; i++) {
+    const x = 150 + random('dx' + i) * 780, y = 780 + random('dy' + i) * 460, on = random('do' + i);
+    if (deadO > on) dead.push(<g key={i} transform={`translate(${x} ${y}) rotate(${random('dr' + i) * 180})`} opacity={0.85}><ellipse rx={15} ry={7} fill="#2a1e14" /><ellipse cx={4} rx={7} ry={5} fill={i % 3 ? '#a8861f' : '#365f96'} /></g>);
   }
+  // dust / mud kicked up by moving units and sparks where the lines fight
+  const dust: React.ReactNode[] = [];
+  units.forEach((u) => {
+    const sp = Math.min(1, Math.abs(kf(fr + 4, u.y) - kf(fr - 4, u.y)) / 5 + Math.abs(kf(fr + 4, u.x) - kf(fr - 4, u.x)) / 5);
+    const uo = u.o ? kf(fr, u.o) : 1;
+    if (sp < 0.08 || uo < 0.1) return;
+    const ux = kf(fr, u.x), uy = kf(fr, u.y);
+    for (let i = 0; i < 16; i++) {
+      const life = ((fr + random(u.id + 'dl' + i) * 30) % 30) / 30;
+      dust.push(<circle key={u.id + i} cx={ux + (random(u.id + 'du' + i) - 0.5) * u.cols * 30} cy={uy + (random(u.id + 'dv' + i) - 0.5) * 220 + (u.up ? 60 : -60) * life} r={10 + life * 26} fill={mud > 0.4 ? '#3d2e22' : '#b9a57a'} opacity={(1 - life) * 0.4 * sp * uo} />);
+    }
+  });
+  const fights: [number, number, number, number, number][] = [[300, 865, 330, a('s6', 3), a('s8', 1)], [800, 865, 330, a('s6', 3), a('s10', 2)], [800, 1040, 330, z('s9', -0.5), a('s10', 2)], [600, 640, 200, a('s10', 2.2), z('s10')], [300, 695, 330, z('s12', -0.4), a('s13', 1.5)], [800, 965, 330, z('s12', -0.4), a('s13', 1.5)]];
+  const sparks: React.ReactNode[] = [];
+  fights.forEach(([x, y, w, f0, f1], k) => {
+    if (fr < f0 || fr > f1) return;
+    for (let i = 0; i < 14; i++) {
+      const on = random('sp' + k + '_' + i + '_' + Math.floor(fr / 3)) > 0.62;
+      if (!on) continue;
+      const sx = x + (random('sx' + k + i + Math.floor(fr / 3)) - 0.5) * w, sy = y + (random('sy' + k + i + Math.floor(fr / 3)) - 0.5) * 50;
+      sparks.push(<g key={k + '_' + i} transform={`translate(${sx} ${sy}) rotate(${random('sr' + k + i + fr) * 180})`}><line x1={-13} y1={0} x2={13} y2={0} stroke="#fff3c4" strokeWidth={3.5} strokeLinecap="round" /><line x1={0} y1={-8} x2={0} y2={8} stroke="#ffd36b" strokeWidth={2.5} strokeLinecap="round" /></g>);
+    }
+  });
   const drops: React.ReactNode[] = [];
-  if (rain > 0.01) for (let i = 0; i < 170; i++) {
+  if (rain > 0.01) for (let i = 0; i < 190; i++) {
     const sp = 46 + random('rs' + i) * 26;
     const y = ((random('ry' + i) * 2300 + fr * sp) % 2300) - 200, x = random('rx' + i) * 1500 - 200 - y * 0.16;
     drops.push(<line key={i} x1={x} y1={y} x2={x - 9} y2={y + 56} stroke="rgba(214,226,238,0.55)" strokeWidth={random('rw' + i) * 1.8 + 0.8} />);
   }
-  const lightning = Math.max(0, 1 - Math.abs(fr - a('s6', 1.4)) / 5) * 0.28 + Math.max(0, 1 - Math.abs(fr - a('s7', 0.6)) / 5) * 0.2;
+  const lt = (f: number, k: number) => Math.max(0, 1 - Math.abs(fr - f) / 5) * k;
+  const lightning = lt(a('s6', 1.4), 0.3) + lt(a('s7', 0.6), 0.2) + lt(a('s2', 0.9), 0.32) + lt(a('s1', 2.2), 0.22);
+  const riders: {y: number; el: React.ReactNode}[] = [];
+  units.forEach((u) => { for (let i = 0; i < u.n; i++) riders.push({y: 0, el: <Rider key={u.id + i} u={u} i={i} fr={fr} mud={mud} />}); });
   return (
-    <AbsoluteFill style={{background: '#14110c'}}>
-      <AbsoluteFill style={{transform: `translate(${540 - cam.x * cam.z + shake}px, ${960 - cam.y * cam.z}px) scale(${cam.z})`, transformOrigin: '0 0', filter: sepia > 0.01 ? `sepia(${0.75 * sepia}) saturate(${1 - 0.25 * sepia})` : undefined}}>
-        <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', width: 1080, height: 1920, top: -180, transform: 'scale(1.5)'}} />
-        <Img src={staticFile('loy/mud.jpg')} style={{position: 'absolute', width: 1080, height: 1920, top: -180, transform: 'scale(1.5)', opacity: mud}} />
-        <svg width={1080} height={1920} style={{position: 'absolute', overflow: 'visible'}}>
-          <defs><Marker col={GOLD} /><Marker col="#c0392b" /><Marker col="#5f8fd0" />
-            <linearGradient id="riv" x1="0" x2="1"><stop offset="0" stopColor="#2f5d7a" /><stop offset="1" stopColor="#4a86a6" /></linearGradient></defs>
-          <path d="M -160 -300 C 60 100, -120 500, 40 900 S -100 1500, 10 2100" fill="none" stroke="url(#riv)" strokeWidth={150} opacity={0.9} />
-          <path d="M -160 -300 C 60 100, -120 500, 40 900 S -100 1500, 10 2100" fill="none" stroke="rgba(220,240,250,0.25)" strokeWidth={5} strokeDasharray="60 90" strokeDashoffset={-fr * 1.6} />
-          {Array.from({length: 26}).map((_, i) => (
-            <ellipse key={i} cx={150 + random('px' + i) * 800} cy={420 + random('py' + i) * 900} rx={30 + random('pr' + i) * 60} ry={10 + random('pq' + i) * 16} fill="rgba(40,32,26,0.55)" opacity={mud * (0.5 + 0.5 * random('po' + i))} />
+    <AbsoluteFill style={{background: '#0f0d0a', perspective: 1500, perspectiveOrigin: '540px 620px', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', left: 540 + drift, top: 1020, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `scale(${cam.z}) rotateX(${TILT}deg) translate3d(${-cam.x}px, ${-cam.y}px, 0px)`, filter: sepia > 0.01 ? `sepia(${0.75 * sepia})` : undefined}}>
+        <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', left: -1500, top: -2400, width: 4100, height: 5600}} />
+        <Img src={staticFile('loy/mud.jpg')} style={{position: 'absolute', left: -1500, top: -2400, width: 4100, height: 5600, opacity: mud}} />
+        <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
+          <defs><Marker col={GOLD} /><Marker col="#e0392b" />
+            <linearGradient id="riv" x1="0" x2="1"><stop offset="0" stopColor="#2f6686" /><stop offset="1" stopColor="#5a9cc0" /></linearGradient></defs>
+          <path d="M -260 -2400 C 60 -800, -220 200, -40 900 S -200 1900, -80 3200" fill="none" stroke="url(#riv)" strokeWidth={230} opacity={0.95} />
+          <path d="M -260 -2400 C 60 -800, -220 200, -40 900 S -200 1900, -80 3200" fill="none" stroke="rgba(230,245,255,0.3)" strokeWidth={7} strokeDasharray="70 110" strokeDashoffset={-fr * 2} />
+          {Array.from({length: 34}).map((_, i) => (
+            <ellipse key={i} cx={120 + random('px' + i) * 860} cy={300 + random('py' + i) * 1100} rx={34 + random('pr' + i) * 70} ry={16 + random('pq' + i) * 26} fill="rgba(28,22,18,0.55)" opacity={mud * (0.5 + 0.5 * random('po' + i))} />
           ))}
-          {dead}
-          <Arrow d="M 300 960 L 300 640" fr={fr} f0={a('s8', 0.2)} f1={z('s8')} col={GOLD} />
-          <Arrow d="M 800 780 L 800 1010" fr={fr} f0={a('s9', 0.1)} f1={z('s9', 0.3)} col="#c0392b" />
-          <Arrow d="M 360 830 Q 480 800 590 690" fr={fr} f0={a('s10', 0.2)} f1={z('s10')} col={GOLD} />
-          <Arrow d="M 440 470 L 440 640" fr={fr} f0={a('s12', 2.6)} f1={z('s12', 0.6)} col="#c0392b" />
-          <Arrow d="M 690 470 L 690 640" fr={fr} f0={a('s12', 2.9)} f1={z('s12', 0.6)} col="#c0392b" />
-          {units.map((u) => <Soldiers key={u.id} u={u} fr={fr} mud={mud} />)}
-          {units.map((u) => <UnitLabel key={u.id} u={u} fr={fr} />)}
-          {bn > 0 && <g opacity={bn} transform={`translate(550 ${by})`}>
-            <circle r={40 + ((fr * 2.2) % 70)} fill="none" stroke="#e8c9a0" strokeWidth={3} opacity={1 - ((fr * 2.2) % 70) / 70} />
-            <line x1={0} y1={46} x2={0} y2={-62} stroke="#2a1c10" strokeWidth={6} />
-            <path d={`M 0 -62 q ${14 + Math.sin(fr / 5) * 5} 26 ${Math.sin(fr / 6) * 6} 58 q -10 -22 0 -58`} fill="#1b1410" />
-            <circle cx={0} cy={-66} r={7} fill={GOLD} />
-          </g>}
-          {mes}
-          {fade(fr, a('s5'), z('s5', 1), 12) > 0 && <g opacity={fade(fr, a('s5'), z('s5', 1), 12)} fontFamily={font} fontSize={34} letterSpacing={6} fill={GOLD} stroke="rgba(0,0,0,0.7)" strokeWidth={5} paintOrder="stroke" textAnchor="middle" fontStyle="italic">
-            <text x={300} y={985}>chap qanot</text><text x={780} y={985}>o'ng qanot</text>
-            <text x={550} y={262} fontStyle="normal" fill="#f0c9c2" fontSize={32}>MO'G'ULISTON QO'SHINI</text>
+          {dead}{dust}
+          <Arrow d="M 300 930 L 300 600" fr={fr} f0={a('s8', 0.2)} f1={z('s8')} col={GOLD} />
+          <Arrow d="M 800 800 L 800 1040" fr={fr} f0={a('s9', 0.1)} f1={z('s9', 0.3)} col="#e0392b" />
+          <Arrow d="M 360 830 Q 480 800 590 700" fr={fr} f0={a('s10', 0.2)} f1={z('s10')} col={GOLD} />
+          <Arrow d="M 440 470 L 440 650" fr={fr} f0={a('s12', 2.6)} f1={z('s12', 0.6)} col="#e0392b" />
+          <Arrow d="M 690 470 L 690 650" fr={fr} f0={a('s12', 2.9)} f1={z('s12', 0.6)} col="#e0392b" />
+          {sparks}{marks}
+          {bn > 0 && <circle cx={550} cy={by} r={60 + ((fr * 3) % 120)} fill="none" stroke="#ffe2a8" strokeWidth={5} opacity={bn * (1 - ((fr * 3) % 120) / 120)} />}
+          {fade(fr, a('s5'), z('s5', 1), 12) > 0 && <g opacity={fade(fr, a('s5'), z('s5', 1), 12)} fontFamily={font} fontSize={46} letterSpacing={8} fill={GOLD} stroke="rgba(0,0,0,0.75)" strokeWidth={6} paintOrder="stroke" textAnchor="middle" fontWeight={700}>
+            <text x={300} y={1330}>CHAP QANOT</text><text x={780} y={1330}>O'NG QANOT</text>
           </g>}
         </svg>
-      </AbsoluteFill>
-      <AbsoluteFill style={{background: `rgba(18,24,34,${0.42 * rain})`}} />
+        {riders.map((r) => r.el)}
+        {units.map((u) => <UnitLabel key={u.id} u={u} fr={fr} />)}
+        {mes}
+        {bn > 0 && <Billboard x={550} y={by} o={bn}><svg width={120} height={330} viewBox="-60 -320 120 330" style={{position: 'absolute', left: -60, top: -320, overflow: 'visible'}}>
+          <line x1={0} y1={0} x2={0} y2={-300} stroke="#20150c" strokeWidth={8} />
+          <path d={`M 0 -300 q ${28 + Math.sin(fr / 5) * 10} 40 ${Math.sin(fr / 6) * 12} 110 q -22 -44 0 -110`} fill="#0f0b08" />
+          <path d={`M 0 -292 l ${54 + Math.sin(fr / 4) * 8} 16 l -54 22 z`} fill="#b3261e" />
+          <circle cx={0} cy={-306} r={11} fill={GOLD} />
+        </svg></Billboard>}
+      </div>
+      <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(15,13,10,0.95) 0%, rgba(15,13,10,0.55) 14%, rgba(15,13,10,0) 30%)'}} />
+      <AbsoluteFill style={{background: `rgba(18,24,34,${0.36 * rain})`}} />
       <svg width={1080} height={1920} style={{position: 'absolute', opacity: rain}}>{drops}</svg>
       <AbsoluteFill style={{background: `rgba(235,240,255,${lightning})`}} />
     </AbsoluteFill>
@@ -199,7 +248,7 @@ const City: React.FC<{x: number; y: number; n: string; fr: number; f0: number; b
 const MapScene: React.FC = () => {
   const fr = useCurrentFrame();
   const zz = kf(fr, [[0, 1.0], [a('s4'), 1.06], [z('s4'), 1.2]]);
-  const cx = kf(fr, [[a('s4'), 540], [z('s4'), 620]]), cy = kf(fr, [[a('s4'), 900], [z('s4'), 830]]);
+  const cx = kf(fr, [[a('s3'), 500], [a('s4'), 540], [z('s4'), 620]]) + Math.sin(fr / 40) * 6, cy = kf(fr, [[a('s3'), 960], [a('s4'), 900], [z('s4'), 830]]);
   const pulse = (fr % 40) / 40;
   const bt = a('s4', 2.6);
   return (
@@ -217,6 +266,9 @@ const MapScene: React.FC = () => {
           <City x={610} y={770} n="CHINOZ" fr={fr} f0={a('s4', 1.8)} dx={-22} />
           <City x={390} y={1130} n="SAMARQAND" fr={fr} f0={a('s3', 0.5)} big />
           <City x={440} y={1300} n="KESH" fr={fr} f0={a('s3', 0.8)} />
+          {[["M 960 340 C 900 440, 800 500, 705 640", "#e0392b", a('s3', 1.6)], ["M 430 1270 C 420 1100, 520 950, 640 760", GOLD, a('s4', 0.2)], ["M 560 1420 C 640 1200, 700 980, 690 790", "#5f8fd0", a('s4', 0.7)]].map(([d, c, f0], k) => (
+            fr > (f0 as number) + 20 && <path key={k} d={d as string} fill="none" stroke="#fff" strokeWidth={6} strokeLinecap="round" strokeDasharray="2 26" strokeDashoffset={-fr * 2.2} opacity={0.75} />
+          ))}
           <Arrow d="M 960 340 C 900 440, 800 500, 705 640" fr={fr} f0={a('s3', 1.6)} f1={z('s4', 2)} col="#c0392b" w={18} />
           <Arrow d="M 430 1270 C 420 1100, 520 950, 640 760" fr={fr} f0={a('s4', 0.2)} f1={z('s4', 2)} col={GOLD} w={18} />
           <Arrow d="M 560 1420 C 640 1200, 700 980, 690 790" fr={fr} f0={a('s4', 0.7)} f1={z('s4', 2)} col="#5f8fd0" w={18} />
@@ -259,18 +311,25 @@ const TopCard: React.FC<{f0: number; f1: number; big: string; small?: string; co
 };
 const Title: React.FC = () => {
   const fr = useCurrentFrame();
-  const o = fade(fr, 4, a('s3', -0.2), 14);
-  if (o <= 0) return null;
-  const sc = interpolate(fr, [0, a('s3')], [1.0, 1.06]);
-  const q = fade(fr, a('s2'), a('s3', -0.2), 12);
+  const o = fade(fr, 2, a('s2', -0.1), 10);
+  const mid2 = (a('s2') + z('s2')) / 2;
+  const q1 = fade(fr, a('s2', 0.2), mid2 + 4, 8), q2 = fade(fr, mid2, I1, 8);
+  const letters = 'LOY JANGI'.split('');
+  const t0 = a('s1', 0.2);
   return (
-    <AbsoluteFill style={{background: `rgba(10,8,6,${0.55 * o})`, opacity: o, alignItems: 'center', justifyContent: 'center'}}>
-      <div style={{transform: `scale(${sc})`, textAlign: 'center', marginTop: -260}}>
-        <div style={{fontFamily: font, fontSize: 60, letterSpacing: 18, color: CREAM}}>1365</div>
-        <div style={{fontFamily: font, fontWeight: 700, fontSize: 138, letterSpacing: 8, color: GOLD, textShadow: '0 6px 30px #000', lineHeight: 1.1}}>LOY JANGI</div>
-        <div style={{width: 360, height: 3, background: GOLD, margin: '18px auto'}} />
-        <div style={{fontFamily: font, fontStyle: 'italic', fontSize: 50, color: CREAM, opacity: q}}>yomg'irmi yoki ittifoqchimi?</div>
-      </div>
+    <AbsoluteFill>
+      {o > 0 && <div style={{position: 'absolute', top: 250, left: 0, right: 0, textAlign: 'center', opacity: o}}>
+        <div style={{fontFamily: font, fontSize: 70, letterSpacing: interpolate(fr, [0, a('s2')], [10, 26]), color: CREAM, textShadow: '0 4px 20px #000'}}>1365</div>
+        <div style={{fontFamily: font, fontWeight: 700, fontSize: 150, color: GOLD, lineHeight: 1.1, textShadow: '0 6px 30px #000, 0 0 60px rgba(0,0,0,.8)'}}>
+          {letters.map((ch, i) => {
+            const p = interpolate(fr, [t0 + i * 4, t0 + i * 4 + 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.back(1.6))});
+            return <span key={i} style={{display: 'inline-block', opacity: p, transform: `translateY(${(1 - p) * 60}px) scale(${0.6 + 0.4 * p})`, minWidth: ch === ' ' ? 40 : undefined, letterSpacing: 6}}>{ch}</span>;
+          })}
+        </div>
+        <div style={{width: interpolate(fr, [t0 + 30, t0 + 60], [0, 420], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), height: 4, background: GOLD, margin: '14px auto'}} />
+      </div>}
+      {q1 > 0 && <div style={{position: 'absolute', top: 300, left: 0, right: 0, textAlign: 'center', opacity: q1, fontFamily: font, fontWeight: 700, fontSize: 120, letterSpacing: 6, color: '#cfe2f3', textShadow: '0 6px 30px #000', transform: `scale(${1 + 0.06 * q1})`}}>YOMG'IRMI?</div>}
+      {q2 > 0 && <div style={{position: 'absolute', top: 300, left: 0, right: 0, textAlign: 'center', opacity: q2, fontFamily: font, fontWeight: 700, fontSize: 104, letterSpacing: 4, color: '#8fbcf5', textShadow: '0 6px 30px #000', transform: `scale(${1 + 0.06 * q2})`}}>ITTIFOQCHIMI?</div>}
     </AbsoluteFill>
   );
 };
@@ -307,11 +366,11 @@ const Outro: React.FC = () => {
 export const LoyJangi: React.FC = () => {
   const fr = useCurrentFrame();
   const sw = a('s5', -0.5);
-  const mapO = interpolate(fr, [sw, sw + 16], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const mapO = Math.min(interpolate(fr, [sw, sw + 16], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}), interpolate(fr, [I1, I1 + 18], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
   const rivO = fade(fr, a('s7'), z('s7', 0.2), 10);
   return (
     <AbsoluteFill style={{background: '#000'}}>
-      {fr >= sw - 2 && <Field />}
+      {(fr >= sw - 2 || fr < I1 + 20) && <Field />}
       {mapO > 0 && <AbsoluteFill style={{opacity: mapO}}><MapScene /></AbsoluteFill>}
       <div style={{position: 'absolute', left: 0, right: 0, top: 1100, bottom: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.72))'}} />
       <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 420, background: 'linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0.55))'}} />
