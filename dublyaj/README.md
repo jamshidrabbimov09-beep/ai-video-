@@ -31,6 +31,19 @@ qayta tahlil qilib tuzatadi (javob oldingi gapga mos, ismlar bir xil, gap vaqtga
 - **Bir tugmali avtomatik yo'l (pullik):** Claude API kalitini (console.anthropic.com) maydonga yozing. Bu Claude obunasidan
   alohida hisob; bitta qism taxminan 1 dollar atrofida.
 
+## Rollar, hurmat va his-tuyg'u
+
+Claude tarjima bilan birga har gap uchun kim gapirayotganini, jinsi va yoshini (bola, yosh, katta, qari) hamda
+his-tuyg'usini (hurmat, g'azab, baqiriq, uyat, shivirlash, qayg'u, quvonch, qo'rquv) aniqlaydi. Sen/siz munosabatga
+qarab tanlanadi: dushmanlar va haqoratda sensirash, ustoz va kattalarga siz.
+
+"Qo'shimcha sozlamalar va xatolarni tuzatish" bo'limida:
+- **Doimiy qoidalar**: bir marta yozasiz, har safar amal qilinadi (ilova eslab qoladi).
+- **Xatoni yozing**: oddiy so'z bilan yozasiz, Claude butun ssenariyda tuzatib, qayta dublyaj qiladi (API kalit kerak).
+- Jadvalni qo'lda ham tuzatish mumkin.
+
+Bepul o'zbekcha ovozlarda tayyor "hissiyot" yo'q: his-tuyg'u tezlik, ohang balandligi va ovoz kuchi bilan beriladi.
+
 ## Natija fayllari
 
 - `dublyaj_toliq.wav`: o'zbekcha ovoz + fon, tayyor.

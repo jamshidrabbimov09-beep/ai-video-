@@ -118,6 +118,11 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   button ("Dublyaj qilish") with the table and settings under "Qo'lda tuzatish". `dublyaj/Dublyaj.bat` installs and
   runs it locally on Windows (venv, torch cu121, Whisper `medium` on CPU there, Demucs in 5-minute chunks for 8 GB RAM,
   output in `dublyaj/natija/`). The .bat has never been run on Windows. A phone can only use the Colab link.
+- Casting and register (requested 2026-11-11): Claude also returns speaker label, gender, age (bola/yosh/katta/qari)
+  and emotion per line; sen/siz must follow the relationship (no polite forms towards enemies). Voices are derived
+  from gender plus age, emotion only through rate, pitch and gain (the free Uzbek edge-tts voices have no styles).
+  The UI has "Doimiy qoidalar" (standing rules, saved) and a free-text correction box that Claude applies to the
+  whole script (API key needed). The user wants the tool polished before installing or trying it.
 - Translation: the user rejected Google translate and wants Claude to translate with context and then review the
   translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then
   editor review, `claude-opus-5-5`), or free: the app writes `claude_uchun.txt`, the user sends it to a Claude chat and

@@ -20,6 +20,7 @@ import re
 import shutil
 import subprocess
 import sys
+import zlib
 
 import numpy as np
 import soundfile as sf
@@ -38,7 +39,12 @@ VOICES = {"E": "uz-UZ-SardorNeural", "A": "uz-UZ-MadinaNeural"}
 PITCH = {"E": [0, -14, 12, -24], "A": [0, 18, -12, 32]}
 KEEP = "ASL"  # shu gap dublyaj qilinmaydi, asl ovoz qoladi
 LAUGH = re.compile(r"^[哈呵嘿嘻啊呀哦噢嗯唔哼呜哇欸诶咦唉哎嗨呃额\W\s]+$")
-COLS = ["№", "boshi", "oxiri", "ovoz", "xitoycha", "o'zbekcha"]
+# Yosh: (balandlik Hz, tezlik %). His-tuyg'u: (tezlik %, balandlik Hz, ovoz kuchi).
+AGES = {"bola": (38, 4), "yosh": (10, 2), "katta": (0, 0), "qari": (-22, -8)}
+MOODS = {"oddiy": (0, 0, 1.0), "hurmat": (-4, 0, 0.95), "gazab": (8, -6, 1.3), "baqiriq": (12, 18, 1.6),
+         "uyat": (-8, 8, 0.7), "shivir": (-6, 0, 0.5), "qaygu": (-12, -8, 0.85), "quvonch": (6, 14, 1.1),
+         "qorquv": (10, 12, 1.0)}
+COLS = ["№", "boshi", "oxiri", "kim", "ovoz", "his", "xitoycha", "o'zbekcha"]
 
 
 def sh(*args):
@@ -153,7 +159,7 @@ def median_pitch(clip):
 
 
 def assign_voices(wd, segs, split_hz=165.0):
-    """Har gapga ovoz kodi: E1..E4 (erkak), A1..A4 (ayol), ASL (asl ovoz qoladi)."""
+    """Ovozdan dastlabki taxmin: erkak/ayol va kim gapirayotgani. Yakuniy rollarni Claude belgilaydi."""
     v16, _ = sf.read(os.path.join(wd, "ovoz16k.wav"), dtype="float32")
     clips = [v16[int(s["start"] * 16000):int(s["end"] * 16000)] for s in segs]
     pitch = np.array([median_pitch(c) for c in clips])
@@ -173,70 +179,105 @@ def assign_voices(wd, segs, split_hz=165.0):
 
     variant = {}
     order = sorted(set(labels[labels >= 0]), key=lambda k: -(labels == k).sum())
-    count = {"E": 0, "A": 0}
-    for k in order:
+    for num, k in enumerate(order, 1):
         ps = pitch[(labels == k) & (pitch > 0)]
-        g = "E" if len(ps) and np.median(ps) < split_hz else "A"
-        variant[k] = f"{g}{count[g] % 4 + 1}"
-        count[g] += 1
+        variant[k] = ("erkak-katta" if len(ps) and np.median(ps) < split_hz else "ayol-katta", f"ovoz {num}")
     for i, s in enumerate(segs):
+        s["mood"] = "oddiy"
         if LAUGH.match(s["zh"]):
-            s["voice"] = KEEP
+            s["voice"], s["who"] = KEEP, ""
         elif labels[i] >= 0:
-            s["voice"] = variant[labels[i]]
+            s["voice"], s["who"] = variant[labels[i]]
         else:
-            s["voice"] = "E1" if 0 < pitch[i] < split_hz else "A1"
+            s["voice"], s["who"] = ("erkak-katta" if 0 < pitch[i] < split_hz else "ayol-katta"), ""
     return segs
 
 
 # ---------------------------------------------------------------- 5. tarjima
 CLAUDE_MODEL = "claude-opus-5-5"
-TR_SYSTEM = """You are the dubbing translator and script editor for an Uzbek fan dub of a Chinese donghua episode.
+TR_SYSTEM = """You are the dubbing translator, script editor and casting director for an Uzbek fan dub of a Chinese
+donghua episode.
 
-You receive the episode's dialogue as numbered lines: `number | voice | seconds | Chinese text`.
+You receive the episode's dialogue as numbered lines: `number | audio guess | seconds | Chinese text`.
 The Chinese text was transcribed automatically from audio, so it contains recognition mistakes (wrong homophones,
-broken names, split or merged sentences). The voice code is an automatic guess (E = male, A = female; the same code
-is usually, but not always, the same character). `seconds` is how long the original line lasts on screen.
+broken names, split or merged sentences). The audio guess (erkak = male, ayol = female) comes from voice pitch and is
+often wrong, especially for boys, young men and deep-voiced women. `seconds` is how long the original line lasts.
 
-Translate every line into natural spoken Uzbek (Latin script), the way a professional dubbing studio would:
+For every line return the Uzbek text plus who says it and how.
+
+Translation (`uz`), natural spoken Uzbek in Latin script, the way a professional dubbing studio would write it:
 - Read the whole episode first and work out who is talking to whom and what is going on. Translate the meaning in
   context, not word by word. When the transcript is clearly wrong, translate what the character evidently said.
 - The dialogue must hold together: a reply has to answer what the previous speaker actually said, questions and
   answers must match, and jokes, threats and emotions keep their tone.
+- Register follows the relationship, because in Uzbek sen/siz carries respect. Enemies, people insulting or
+  threatening each other, and anyone speaking with contempt use sen and blunt wording, never polite forms. Elders,
+  masters, parents, rulers and strangers being treated politely get siz. Close friends, siblings and adults talking
+  to children use sen. Decide the form once for each pair of characters in each direction and keep it, changing it
+  only where the story changes the relationship (a betrayal, a reveal, a drop of the mask).
 - Keep names, titles, places and special terms (sects, techniques, ranks) identical throughout the episode.
-  Keep sen/siz consistent for each pair of characters according to their relationship.
-- The line will be spoken by a voice actor in the same time slot. Aim for at most about 14 characters per second of
-  the original line; shorten wording rather than dropping meaning.
-- Write for the ear: no brackets, notes, Chinese characters or symbols that cannot be read aloud. Numbers as words.
-- Return every line number exactly once and never merge or split lines. If a line is only noise, a sound or
-  meaningless recognition garbage, return an empty string for it so the original sound is kept."""
-TR_REVIEW = """Below is the same dialogue with a draft Uzbek translation. Act as the editor who signs off the dub
-script. Check each line against the Chinese and against its neighbours: is the meaning right in this scene, does each
-reply fit the line before it, are names and terms identical everywhere, is sen/siz consistent, does it sound like
-real spoken Uzbek, and does it fit the time slot? Fix whatever fails and return the final script for all lines.
-In `izoh`, write two or three sentences in Uzbek for the user: the main names and terms you fixed and anything
-that stayed uncertain."""
+- The line will be spoken in the same time slot. Aim for at most about 14 characters per second of the original
+  line; shorten wording rather than dropping meaning.
+- Write for the ear: no brackets, notes, Chinese characters or unreadable symbols. Numbers as words.
+- If a line is only noise, a sound or meaningless recognition garbage, return an empty `uz` so the original sound
+  is kept.
+
+Casting, decided from the story (names, forms of address such as elder brother, grandfather, little girl, master,
+what is said about a character), using the audio guess only as a hint:
+- `kim`: a short stable label for the speaker, the character's name when known, otherwise a role such as
+  "qorovul 1". The same character must carry exactly the same label on every line.
+- `jins`: E for male, A for female.
+- `yosh`: bola (child), yosh (teen or young adult), katta (adult), qari (elderly).
+- `his`: how the line is delivered: oddiy (neutral), hurmat (respectful, deferential), gazab (angry, cold or
+  threatening), baqiriq (shouting), uyat (shy, embarrassed), shivir (whisper), qaygu (sad), quvonch (happy, excited),
+  qorquv (frightened). Pick what the scene calls for; most lines are oddiy.
+
+Return every line number exactly once and never merge or split lines."""
+TR_REVIEW = """Below is the same dialogue with a draft: `=> kim | jins-yosh | his | Uzbek text`. Act as the editor
+who signs off the dub script. Check each line against the Chinese and against its neighbours: is the meaning right in
+this scene, does each reply fit the line before it, are names and terms identical everywhere, does sen/siz match the
+relationship (no polite forms towards enemies or in insults, no sen towards respected elders unless the original is
+rude), is each character's label, gender and age the same on all their lines, does the emotion fit, does it sound like
+real spoken Uzbek, and does it fit the time slot? Fix whatever fails and return the final version of all lines.
+In `izoh`, write a few sentences in Uzbek for the user: the main characters with gender and age, who says sen or siz
+to whom, and anything that stayed uncertain."""
+TR_FIX = """Below is the current dub script: `=> kim | jins-yosh | his | Uzbek text`. The user reviewed it and wrote
+corrections. Apply them. A correction about one line usually states a rule (for example who must say sen or siz to
+whom, a character's gender or age, a name's spelling), so apply it to every other line it logically covers too.
+Return only the lines you changed, complete, and explain in `izoh` in Uzbek what you changed."""
 TR_SCHEMA = {
     "type": "object",
     "properties": {
         "lines": {"type": "array", "items": {
             "type": "object",
-            "properties": {"n": {"type": "integer"}, "uz": {"type": "string"}},
-            "required": ["n", "uz"], "additionalProperties": False}},
+            "properties": {
+                "n": {"type": "integer"}, "uz": {"type": "string"}, "kim": {"type": "string"},
+                "jins": {"type": "string", "enum": ["E", "A"]},
+                "yosh": {"type": "string", "enum": list(AGES)},
+                "his": {"type": "string", "enum": list(MOODS)}},
+            "required": ["n", "uz", "kim", "jins", "yosh", "his"], "additionalProperties": False}},
         "izoh": {"type": "string"},
     },
     "required": ["lines", "izoh"], "additionalProperties": False,
 }
 
 
-def script_lines(segs, with_uz=False):
-    out = []
-    for i, s in enumerate(segs, 1):
-        if s["voice"] == KEEP:
-            continue
-        row = f"{i} | {s['voice']} | {s['end'] - s['start']:.1f}s | {s['zh']}"
-        out.append(row + (f" => {s.get('uz', '')}" if with_uz else ""))
-    return "\n".join(out)
+def script_line(i, s, draft=False):
+    row = f"{i + 1} | {s['voice'].split('-')[0]} | {s['end'] - s['start']:.1f}s | {s['zh']}"
+    if draft:
+        row += f" => {s.get('who', '')} | {s['voice']} | {s.get('mood', 'oddiy')} | {s.get('uz', '')}"
+    return row
+
+
+def apply_lines(segs, rows):
+    n = 0
+    for row in rows:
+        if 1 <= row["n"] <= len(segs) and segs[row["n"] - 1]["voice"] != KEEP:
+            s = segs[row["n"] - 1]
+            s["uz"], s["who"], s["mood"] = row["uz"].strip(), row["kim"].strip(), row["his"]
+            s["voice"] = ("erkak" if row["jins"] == "E" else "ayol") + "-" + row["yosh"]
+            n += 1
+    return n
 
 
 def ask_claude(client, user_text):
@@ -261,94 +302,133 @@ def ask_claude(client, user_text):
     return json.loads(next(b.text for b in msg.content if b.type == "text"))
 
 
-def claude_translate(segs, api_key, chunk=250, note_fn=lambda t: None):
-    """Ikki bosqich: 1) butun qismni kontekst bilan tarjima, 2) muharrir sifatida tahlil va tuzatish."""
+def claude_errors(fn):
+    def wrapped(*a, **k):
+        import anthropic
+
+        try:
+            return fn(*a, **k)
+        except anthropic.AuthenticationError:
+            raise RuntimeError("Claude API kaliti noto'g'ri")
+        except anthropic.PermissionDeniedError:
+            raise RuntimeError("Bu kalitga ruxsat yo'q (hisobda mablag' yoki model ruxsati yo'q bo'lishi mumkin)")
+        except anthropic.RateLimitError:
+            raise RuntimeError("Claude limiti tugadi, bir ozdan keyin qayta urining")
+        except anthropic.APIStatusError as e:
+            raise RuntimeError(f"Claude xatosi {e.status_code}: {e.message}")
+        except anthropic.APIConnectionError:
+            raise RuntimeError("Claude serveriga ulanib bo'lmadi")
+    return wrapped
+
+
+def rules_block(rules):
+    rules = (rules or "").strip()
+    return f"The user's standing rules for this dub. They override your own choices:\n{rules}\n\n" if rules else ""
+
+
+@claude_errors
+def claude_translate(segs, api_key, rules="", chunk=200, note_fn=lambda t: None):
+    """Ikki bosqich: 1) butun qismni kontekst bilan tarjima va rollarni aniqlash, 2) muharrir tahlili."""
     import anthropic
 
     client = anthropic.Anthropic(api_key=api_key)
     todo = [i for i, s in enumerate(segs) if s["voice"] != KEEP]
     notes = []
-    try:
-        for stage, label in ((0, "tarjima"), (1, "tahlil va tuzatish")):
-            for c in range(0, len(todo), chunk):
-                part = [segs[i] for i in todo[c:c + chunk]]
-                first = todo[c]
-                note_fn(f"Claude: {label} ({c + len(part)}/{len(todo)} gap)")
-                numbered = "\n".join(
-                    f"{todo[c + k] + 1} | {s['voice']} | {s['end'] - s['start']:.1f}s | {s['zh']}"
-                    + (f" => {s.get('uz', '')}" if stage else "") for k, s in enumerate(part))
-                before = "\n".join(f"{i + 1} | {segs[i]['zh']} => {segs[i].get('uz', '')}" for i in todo[max(0, c - 40):c])
-                text = (TR_REVIEW + "\n\n" if stage else "") + (
-                    f"Earlier lines of this episode, already translated (context only, do not return them):\n{before}\n\n"
-                    if before else "") + f"Lines to return (numbers {first + 1} onward):\n{numbered}"
-                data = ask_claude(client, text)
-                for row in data["lines"]:
-                    if 1 <= row["n"] <= len(segs) and segs[row["n"] - 1]["voice"] != KEEP:
-                        segs[row["n"] - 1]["uz"] = row["uz"].strip()
-                if stage and data.get("izoh"):
-                    notes.append(data["izoh"])
-    except anthropic.AuthenticationError:
-        raise RuntimeError("Claude API kaliti noto'g'ri")
-    except anthropic.PermissionDeniedError:
-        raise RuntimeError("Bu kalitga ruxsat yo'q (hisobda mablag' yoki model ruxsati yo'q bo'lishi mumkin)")
-    except anthropic.RateLimitError:
-        raise RuntimeError("Claude limiti tugadi, bir ozdan keyin qayta urining")
-    except anthropic.APIStatusError as e:
-        raise RuntimeError(f"Claude xatosi {e.status_code}: {e.message}")
-    except anthropic.APIConnectionError:
-        raise RuntimeError("Claude serveriga ulanib bo'lmadi")
-    for s in segs:
-        s.setdefault("uz", "")
+    for stage, label in ((0, "tarjima va rollar"), (1, "tahlil va tuzatish")):
+        for c in range(0, len(todo), chunk):
+            ids = todo[c:c + chunk]
+            note_fn(f"Claude: {label} ({c + len(ids)}/{len(todo)} gap)")
+            before = "\n".join(script_line(i, segs[i], True) for i in todo[max(0, c - 40):c])
+            text = rules_block(rules) + (TR_REVIEW + "\n\n" if stage else "") + (
+                f"Earlier lines of this episode, already done (context only, do not return them):\n{before}\n\n"
+                if before else "") + "Lines to return:\n" + "\n".join(script_line(i, segs[i], bool(stage)) for i in ids)
+            data = ask_claude(client, text)
+            apply_lines(segs, data["lines"])
+            if stage and data.get("izoh"):
+                notes.append(data["izoh"])
     return " ".join(notes)
 
 
+@claude_errors
+def claude_fix(segs, api_key, corrections, rules=""):
+    """Foydalanuvchi yozgan tuzatishlarni butun ssenariyga qo'llaydi."""
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=api_key)
+    body = "\n".join(script_line(i, s, True) for i, s in enumerate(segs) if s["voice"] != KEEP)
+    data = ask_claude(client, f"{rules_block(rules)}{TR_FIX}\n\nUser's corrections:\n{corrections.strip()}\n\nScript:\n{body}")
+    n = apply_lines(segs, data["lines"])
+    return f"{n} ta gap o'zgartirildi. {data.get('izoh', '')}"
+
+
 MANUAL_HEAD = """Quyidagi xitoycha donghua dialogini o'zbekcha dublyaj uchun tarjima qil.
-Format: raqam | ovoz (E = erkak, A = ayol) | davomiyligi | xitoycha matn. Matn ovozdan avtomatik yozilgan, xatolari bor.
+Format: raqam | ovoz taxmini (ko'p xato qiladi) | davomiyligi | xitoycha matn. Matn ovozdan avtomatik yozilgan.
 
 Qoidalar:
 - Avval butun qismni o'qib, kim kimga gapirayotganini tushun. So'zma-so'z emas, ma'nosiga qarab tarjima qil.
-- Suhbat bog'lansin: javob oldingi gapga mos kelsin. Ismlar va atamalar hamma joyda bir xil, sen/siz izchil bo'lsin.
+- Suhbat bog'lansin: javob oldingi gapga mos kelsin. Ismlar va atamalar hamma joyda bir xil bo'lsin.
+- Sen/siz munosabatga qarab: dushmanlar, haqorat va tahdidda faqat sensirash, hurmat so'zlarisiz. Ustoz, kattalar,
+  ota-onaga siz. Do'stlar, aka-uka, bolalarga sen. Har juftlik uchun bir marta tanla va o'zgartirma.
 - Tabiiy og'zaki o'zbek tili (lotin). Gap o'z vaqtiga sig'sin: sekundiga ko'pi bilan taxminan 14 belgi.
+- Har gap uchun kim gapirayotganini (bir personajga doim bir xil nom), jinsi va yoshini, his-tuyg'usini aniqla.
 - Tarjimadan keyin o'zing muharrir sifatida qayta tekshir va tuzat.
-- Javobni faqat shu ko'rinishda ber, har qatorda bitta gap, hech narsa qo'shma:  raqam | o'zbekcha matn
+- Javobni faqat shu ko'rinishda ber, har qatorda bitta gap, boshqa hech narsa yozma:
+  raqam | kim | jins-yosh | his | o'zbekcha matn
+  jins-yosh: erkak yoki ayol, keyin bola, yosh, katta yoki qari (masalan erkak-qari).
+  his: oddiy, hurmat, gazab, baqiriq, uyat, shivir, qaygu, quvonch yoki qorquv.
 - Faqat shovqin yoki ma'nosiz qator bo'lsa, matnini bo'sh qoldir.
 
 """
 
 
-def manual_file(wd, segs):
+def manual_file(wd, segs, rules=""):
     """API kalitsiz yo'l: shu faylni Claude chatiga yuborib, javobini ilovaga qaytarish."""
     path = os.path.join(wd, "claude_uchun.txt")
-    open(path, "w", encoding="utf-8").write(MANUAL_HEAD + script_lines(segs) + "\n")
+    extra = f"Mening doimiy qoidalarim (bularga qat'iy amal qil):\n{rules.strip()}\n\n" if (rules or "").strip() else ""
+    body = "\n".join(script_line(i, s) for i, s in enumerate(segs) if s["voice"] != KEEP)
+    open(path, "w", encoding="utf-8").write(MANUAL_HEAD + extra + body + "\n")
     return path
 
 
 def apply_manual(segs, text):
     n = 0
     for line in (text or "").splitlines():
-        m = re.match(r"^\W*(\d+)\s*\|\s*(.*?)\s*$", line)
-        if m and 1 <= int(m.group(1)) <= len(segs):
-            segs[int(m.group(1)) - 1]["uz"] = m.group(2).split(" => ")[-1].strip()
-            n += 1
+        m = re.match(r"^\W*(\d+)\s*\|(.*)$", line)
+        if not m or not 1 <= int(m.group(1)) <= len(segs):
+            continue
+        s, parts = segs[int(m.group(1)) - 1], [p.strip() for p in m.group(2).split("|")]
+        if len(parts) >= 4:
+            s["who"], s["mood"], s["uz"] = parts[0], parts[2].lower(), "|".join(parts[3:]).strip()
+            if parse_voice(parts[1]) and s["voice"] != KEEP:
+                s["voice"] = parts[1].lower()
+        else:
+            s["uz"] = parts[-1]
+        n += 1
     return n
 
 
 # ---------------------------------------------------------------- 6. o'zbekcha ovoz
-def parse_voice(code):
-    code = (code or "").strip().upper()
-    if not code or code == KEEP or code[0] not in VOICES:
+def parse_voice(code, who=""):
+    """'erkak-qari', 'ayol-bola' (yoki eski 'E1') -> (edge ovozi, balandlik Hz, tezlik %). ASL -> None."""
+    code = (code or "").strip().lower()
+    if not code or code == KEEP.lower() or code[0] not in "ea":
         return None
-    n = int(code[1:]) if code[1:].isdigit() else 1
-    return VOICES[code[0]], PITCH[code[0]][(n - 1) % 4]
+    g = code[0].upper()
+    if code[1:].isdigit():
+        return VOICES[g], PITCH[g][(int(code[1:]) - 1) % 4], 0
+    hz, rate = AGES[next((a for a in AGES if a in code), "katta")]
+    if who.strip():  # bir xil turdagi personajlar bir-biridan ozgina farq qilsin
+        hz += (zlib.crc32(who.strip().lower().encode("utf-8")) % 5 - 2) * 5
+    return VOICES[g], hz, rate
 
 
-async def _tts_all(jobs, rate, tick):
+async def _tts_all(jobs, tick):
     import edge_tts
 
     sem = asyncio.Semaphore(6)
     done = 0
 
-    async def one(path, text, voice, hz):
+    async def one(path, text, voice, hz, rate):
         nonlocal done
         async with sem:
             for attempt in range(4):
@@ -380,24 +460,26 @@ def run_async(coro):
 
 
 def synth(wd, segs, rate=8, tick=lambda a, b: None):
-    """Har gap uchun mp3 yasaydi; allaqachon bor va matni o'zgarmagan bo'lsa qayta yasamaydi."""
+    """Har gap uchun mp3 yasaydi; allaqachon bor va hech narsasi o'zgarmagan bo'lsa qayta yasamaydi."""
     d = os.path.join(wd, "tts")
     os.makedirs(d, exist_ok=True)
     jobs = []
     for i, s in enumerate(segs):
         s["tts"] = None
-        v = parse_voice(s["voice"])
+        v = parse_voice(s["voice"], s.get("who", ""))
         if not v or not s["uz"].strip():
             continue
+        mood = MOODS.get(s.get("mood"), MOODS["oddiy"])
+        job = (s["uz"], v[0], int(v[1] + mood[1]), int(rate + v[2] + mood[0]))
         path = os.path.join(d, f"{i:04d}.mp3")
-        tag = json.dumps([s["uz"], s["voice"], rate], ensure_ascii=False)
+        tag = json.dumps(job, ensure_ascii=False)
         s["tts"] = path
         if os.path.exists(path) and os.path.getsize(path) > 500 and _read(path + ".txt") == tag:
             continue
         open(path + ".txt", "w", encoding="utf-8").write(tag)
-        jobs.append((path, s["uz"], v[0], v[1]))
+        jobs.append((path,) + job)
     if jobs:
-        run_async(_tts_all(jobs, rate, tick))
+        run_async(_tts_all(jobs, tick))
     return segs
 
 
@@ -466,7 +548,7 @@ def mix(wd, segs, out_dir, src=None, keep_original=True, max_speed=1.6, voice_ga
         if not len(clip):
             continue
         rms = float(np.sqrt((clip ** 2).mean())) + 1e-6
-        clip *= target / rms
+        clip *= target / rms * MOODS.get(s.get("mood"), MOODS["oddiy"])[2]
         a = int(s["start"] * SR)
         clip = clip[:n - a]
         dub[a:a + len(clip)] += clip
@@ -512,7 +594,7 @@ def write_srt(segs, path):
 
 
 # ---------------------------------------------------------------- umumiy bosqichlar
-def analyse(src, wd, progress=None, api_key=""):
+def analyse(src, wd, progress=None, api_key="", rules=""):
     os.makedirs(wd, exist_ok=True)
     note(progress, 0.02, "Videodan tovush olinmoqda")
     wav = extract_audio(src, wd)
@@ -528,10 +610,10 @@ def analyse(src, wd, progress=None, api_key=""):
     api_key = (api_key or os.environ.get("ANTHROPIC_API_KEY", "")).strip()
     if api_key:
         try:
-            info = claude_translate(segs, api_key, note_fn=lambda t: note(progress, 0.9, t))
+            info = claude_translate(segs, api_key, rules, note_fn=lambda t: note(progress, 0.9, t))
         except RuntimeError as e:
             info = f"Avtomatik tarjima bo'lmadi: {e}. Faylni Claude chatiga yuboring."
-    manual_file(wd, segs)
+    manual_file(wd, segs, rules)
     json.dump({"src": src, "segs": segs}, open(os.path.join(wd, "segs.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     note(progress, 1.0, f"Tayyor: {len(segs)} ta gap")
@@ -548,7 +630,8 @@ def dub(src, wd, segs, out_dir, progress=None, keep_original=True, rate=8, max_s
 
 
 def to_rows(segs):
-    return [[i + 1, s["start"], s["end"], s["voice"], s["zh"], s["uz"]] for i, s in enumerate(segs)]
+    return [[i + 1, s["start"], s["end"], s.get("who", ""), s["voice"], s.get("mood", "oddiy"), s["zh"], s["uz"]]
+            for i, s in enumerate(segs)]
 
 
 def from_rows(rows):
@@ -559,17 +642,21 @@ def from_rows(rows):
         except (TypeError, ValueError):
             continue
         if b > a:
-            segs.append({"start": a, "end": b, "voice": str(r[3] or "").strip().upper() or KEEP,
-                         "zh": str(r[4] or ""), "uz": str(r[5] or "")})
+            voice = str(r[4] or "").strip()
+            segs.append({"start": a, "end": b, "who": str(r[3] or "").strip(),
+                         "voice": KEEP if not voice or voice.upper() == KEEP else voice.lower(),
+                         "mood": str(r[5] or "oddiy").strip().lower(), "zh": str(r[6] or ""), "uz": str(r[7] or "")})
     return sorted(segs, key=lambda s: s["start"])
 
 
 # ---------------------------------------------------------------- Gradio oynasi
-HELP = """**Ovoz ustuni:** `E1`-`E4` erkak ovozlari, `A1`-`A4` ayol ovozlari, `ASL` = bu joyda asl (xitoycha) ovoz qoladi
-(kulgi, qichqiriq, qo'shiq uchun). **O'zbekcha** ustunidagi tarjimani xohlagancha tuzating, keyin
-"Jadval bo'yicha qayta dublyaj" ni bosing. Faqat o'zgargan gaplar qayta yoziladi."""
+HELP = """**kim**: personaj nomi (bir personajga bir xil nom, ovozi ham bir xil chiqadi).
+**ovoz**: `erkak` yoki `ayol`, keyin `-bola`, `-yosh`, `-katta` yoki `-qari` (masalan `ayol-yosh`); `ASL` = shu joyda
+asl ovoz qoladi. **his**: oddiy, hurmat, gazab, baqiriq, uyat, shivir, qaygu, quvonch, qorquv.
+Jadvalni qo'lda tuzatib, "Jadval bo'yicha qayta dublyaj" ni bosing: faqat o'zgargan gaplar qayta yoziladi."""
 ON_COLAB = os.path.isdir("/content")
 KEY_FILE = os.path.join(os.path.expanduser("~"), ".dublyaj_kalit")
+RULES_FILE = os.path.join(os.path.expanduser("~"), ".dublyaj_qoidalar.txt")
 
 
 def remember_key(key):
@@ -585,7 +672,7 @@ def ui(wd=None, out_dir=None):
     base = "/content" if ON_COLAB else os.path.dirname(os.path.abspath(__file__))
     wd = wd or os.path.join(base, "dub_work")
     out_dir = out_dir or os.path.join(base, "natija")
-    need_claude = ("Tarjima uchun: **Qo'lda tuzatish** bo'limidagi `claude_uchun.txt` faylini Claude chatiga yuboring, "
+    need_claude = ("Tarjima uchun: **Qo'shimcha sozlamalar** bo'limidagi `claude_uchun.txt` faylini Claude chatiga yuboring, "
                    "javobini 'Claude javobi' maydoniga qo'ying va 'Tarjimani qo'yib, dublyaj qilish' ni bosing.")
 
     def outputs(p, rows, msg, tfile):
@@ -599,11 +686,12 @@ def ui(wd=None, out_dir=None):
         return dub(json.load(open(meta, encoding="utf-8"))["src"], wd, segs, out_dir, progress,
                    keep, int(rate), float(speed), float(gain))
 
-    def do_all(video, path, key, keep, rate, speed, gain, progress=gr.Progress()):
+    def do_all(video, path, key, rules, keep, rate, speed, gain, progress=gr.Progress()):
         video = (path or "").strip().strip('"') or video
         if not video or not os.path.exists(video):
             raise gr.Error("Avval video yuklang")
-        segs, info = analyse(video, wd, progress, remember_key(key))
+        open(RULES_FILE, "w", encoding="utf-8").write(rules or "")
+        segs, info = analyse(video, wd, progress, remember_key(key), rules)
         tfile = os.path.join(wd, "claude_uchun.txt")
         if not any(s["uz"] for s in segs):
             return outputs({}, to_rows(segs), f"{len(segs)} ta gap topildi. {info} {need_claude}", tfile)
@@ -617,6 +705,23 @@ def ui(wd=None, out_dir=None):
         p = run_dub(segs, keep, rate, speed, gain, progress)
         msg = f"Tayyor. Fayllar papkasi: `{out_dir}`." + (f" Claude javobidan {n} ta gap olindi." if n else "")
         return outputs(p, to_rows(segs), msg, os.path.join(wd, "claude_uchun.txt"))
+
+    def do_fix(rows, notes, key, rules, keep, rate, speed, gain, progress=gr.Progress()):
+        if not (notes or "").strip():
+            raise gr.Error("Avval xatoni yozing")
+        key = remember_key(key)
+        if not key:
+            raise gr.Error("Bu tugma Claude API kaliti bilan ishlaydi. Kalitsiz: jadvalni qo'lda tuzating "
+                           "yoki tuzatishni Claude chatiga yozing.")
+        open(RULES_FILE, "w", encoding="utf-8").write(rules or "")
+        rows = rows.values.tolist() if hasattr(rows, "values") else rows
+        segs = from_rows(rows)
+        try:
+            info = claude_fix(segs, key, notes, rules)
+        except RuntimeError as e:
+            raise gr.Error(str(e))
+        p = run_dub(segs, keep, rate, speed, gain, progress)
+        return outputs(p, to_rows(segs), info, os.path.join(wd, "claude_uchun.txt"))
 
     with gr.Blocks(title="Donghua dublyaj") as app:
         gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha\nVideoni tanlang va tugmani bosing. Tayyor audio pastda chiqadi.")
@@ -632,12 +737,19 @@ def ui(wd=None, out_dir=None):
             o3 = gr.File(label="Fon va asl tovushlar, WAV")
             o4 = gr.File(label="O'zbekcha subtitr, SRT")
             o5 = gr.File(label="Dublyajli video, MP4")
-        with gr.Accordion("Qo'lda tuzatish: tarjima, ovozlar, sozlamalar", open=False):
+        with gr.Accordion("Qo'shimcha sozlamalar va xatolarni tuzatish", open=False):
+            rules = gr.Textbox(
+                label="Doimiy qoidalar (har safar Claude shularga amal qiladi; ilova eslab qoladi)", lines=4,
+                value=_read(RULES_FILE) or "",
+                placeholder="Masalan: Dushmanlar bir-biriga faqat sensirab gapiradi. Ustozga doim siz. Lin Fan - o'g'il bola, 16 yosh.")
+            fix = gr.Textbox(label="Xatoni yozing, Claude butun ssenariyda tuzatadi", lines=3,
+                             placeholder="Masalan: 45-gapda u dushmaniga sizlab gapiryapti, sensirasin. Syao Yu qiz bola, erkak ovoz qo'yilgan.")
+            fixb = gr.Button("Claude tuzatsin va qayta dublyaj qilsin")
             path = gr.Textbox(label="Fayl yo'li (yuklash o'rniga, katta fayllar uchun)")
             tfile = gr.File(label="claude_uchun.txt: API kalit bo'lmasa shu faylni Claude chatiga yuboring")
             pasted = gr.Textbox(label="Claude javobi (raqam | o'zbekcha matn)", lines=5)
             gr.Markdown(HELP)
-            table = gr.Dataframe(headers=COLS, datatype=["number", "number", "number", "str", "str", "str"],
+            table = gr.Dataframe(headers=COLS, datatype=["number", "number", "number", "str", "str", "str", "str", "str"],
                                  interactive=True, wrap=True, row_count=(1, "dynamic"))
             keep = gr.Checkbox(True, label="Kulgi, qichqiriq va tarjima qilinmagan asl ovozlarni qoldirish")
             rate = gr.Slider(-10, 30, 8, step=1, label="Gapirish tezligi, %")
@@ -645,7 +757,8 @@ def ui(wd=None, out_dir=None):
             gain = gr.Slider(0.5, 2.0, 1.0, step=0.05, label="O'zbekcha ovoz balandligi")
             redo = gr.Button("Tarjimani qo'yib, dublyaj qilish / Jadval bo'yicha qayta dublyaj")
         outs = [player, o1, o2, o3, o4, o5, table, status, tfile]
-        go.click(do_all, [video, path, key, keep, rate, speed, gain], outs)
+        go.click(do_all, [video, path, key, rules, keep, rate, speed, gain], outs)
+        fixb.click(do_fix, [table, fix, key, rules, keep, rate, speed, gain], outs)
         redo.click(do_redub, [table, pasted, keep, rate, speed, gain], outs)
     return app
 
