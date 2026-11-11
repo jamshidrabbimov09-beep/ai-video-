@@ -5,7 +5,7 @@ Hikoya "sen" deb aytiladi, ekranda Bek ko'rinadi. Oxirida tanlov savoli: izohga 
 
 ## ElevenLabs uchun matn (ovoz yozishdan oldin tasdiqlang)
 
-Tasavvur qil: sen Amir Temurning askarisan. Faqat bir kun. Tirik qolasanmi?
+Sen Amir Temurning askarisan. Faqat bir kun. Tirik qolasanmi?
 
 Tong. Hali qorong'i. Nog'ora va karnay ovozidan uyg'onasan.
 

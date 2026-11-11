@@ -5,7 +5,7 @@ Teg o'qib yuborilsa, o'rniga `...` qo'ying. Pauzalarni montajda ritmga o'zim mos
 
 ## A
 ```
-Tasavvur qil: sen Amir Temurning askarisan. [short pause] Faqat bir kun. [short pause] Tirik qolasanmi? [long pause] Tong. Hali qorong'i. Nog'ora va karnay ovozidan uyg'onasan. [short pause] Sen yolg'iz emassan. Sen o'nlikdasan: o'nta askar, boshingda o'nboshi. [short pause] O'nliklar yuzlikka, yuzliklar minglikka, mingliklar esa tumanga birlashadi. Bitta tumanda o'n ming askar.
+Sen Amir Temurning askarisan. [short pause] Faqat bir kun. [short pause] Tirik qolasanmi? [long pause] Tong. Hali qorong'i. Nog'ora va karnay ovozidan uyg'onasan. [short pause] Sen yolg'iz emassan. Sen o'nlikdasan: o'nta askar, boshingda o'nboshi. [short pause] O'nliklar yuzlikka, yuzliklar minglikka, mingliklar esa tumanga birlashadi. Bitta tumanda o'n ming askar.
 ```
 
 ## B
