@@ -17,7 +17,7 @@ cov = Image.alpha_composite(base.convert('RGBA'), ov); d = ImageDraw.Draw(cov)
 def centered(text, font, y, fill):
     w = d.textbbox((0, 0), text, font=font)[2]; d.text(((1080 - w) / 2, y), text, font=font, fill=fill, stroke_width=2, stroke_fill=(0, 0, 0))
 centered('3-QISM', ImageFont.truetype(B, 44), 1210, CREAM)
-centered("XON EMAS, HUKMDOR", ImageFont.truetype(B, 92), 1272, GOLD)
+centered("XON EMAS, HUKMDOR", ImageFont.truetype(B, 82), 1272, GOLD)
 d.line((300, 1410, 780, 1410), fill=GOLD, width=3)
 centered('Amir Temur', ImageFont.truetype(I, 72), 1432, CREAM)
 cov.convert('RGB').save(root / 'instagram/cover_part3.png')
