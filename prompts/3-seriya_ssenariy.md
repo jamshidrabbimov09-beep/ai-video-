@@ -21,7 +21,7 @@ Balxga yetmasdanoq u Chingiz avlodidan bo'lgan Suyurg'atmishni xon qilib ko'targ
 Ikkinchi qadam. Temur Saroymulkxonimga uylanadi. U Chingiz avlodidan bo'lgan Qozonxonning qizi va Amir Husaynning bevasi edi. Shu nikoh bilan Temur yangi unvon oladi: Ko'ragon, ya'ni xon kuyovi. [short pause] O'zi esa umrining oxirigacha bitta unvon bilan qoladi: Amir.
 
 **F (Samarqand, keyingi qismga ilgak)**
-Poytaxt qilib u Samarqandni tanlaydi. Shahar atrofida mustahkam devorlar qurdiradi. [short pause] Xon emas, lekin xondan kuchli. Temur endi Movarounnahrning haqiqiy hukmdori edi. Lekin bu hokimiyatni saqlab qolish uchun u hali ko'p yil kurashadi. [long pause] Oradan bir necha yil o'tib, uning huzuriga bir qochoq shahzoda keladi. Ismi To'xtamish. Temur unga yordam beradi. [short pause] Bu yordam keyin unga juda qimmatga tushadi. Keyingi qismda.
+Poytaxt qilib u Samarqandni tanlaydi. Shahar atrofida mustahkam devorlar qurdiradi. [short pause] Xon emas, lekin xondan kuchli. Temur endi Movarounnahrning haqiqiy hukmdori edi. Lekin bu hokimiyatni saqlab qolish uchun u hali ko'p yil kurashadi. [long pause] Oradan bir necha yil o'tib, uning huzuriga bir qochoq shahzoda keladi. Ismi To'xtamish. Temur uni quchoq ochib kutib oladi, himoya qiladi va xon bo'lishiga yordam beradi. [long pause] Bir kun kelib aynan shu odam Temurning eng xavfli raqibiga aylanadi. [short pause] O'zi xon qilgan odam nega unga qarshi chiqdi? [short pause] Buni keyingi qismda bilib olasiz.
 
 ## Ikkinchi kitob bo'yicha tekshiruv: Manz (4-chat, 2026-11-11)
 
@@ -40,6 +40,10 @@ Manba: Beatrice Forbes Manz, "The Rise and Rule of Tamerlane" (Cambridge, 1989),
 - Eslatma: Husayn o'limi. Manz: Temuriy tarixchilar Temurni oqlaydi; Temur Kayxusrav qasosidan foydalangan bo'lishi
   ehtimol, javobgarligi noaniq (56-57). Matnda kim o'ldirgani aytilmaydi: to'g'ri qaror.
 - Manz: Yazdiy Temur qo'ygan xonlar haqidagi eslatmalarni muntazam qisqartirgan (63-izoh).
+
+- Yakun (To'xtamish ilgagi, foydalanuvchi so'rovi bilan kuchaytirildi): Manz 69-71-betlar: To'xtamish Temurdan panoh so'ragan,
+  Temur uni xursand bo'lib qabul qilgan, O'rusxonga topshirmagan, xon bo'lishiga yordam bergan; keyin To'xtamish Oltin O'rdani
+  egallab, Temurning "asosiy raqobatchisi"ga aylangan. "Eng xavfli raqib" shu bahoga tayanadi.
 
 ## Kitob bo'yicha tekshiruv: Yazdiy (4-chat, 2026-11-11)
 

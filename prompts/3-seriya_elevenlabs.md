@@ -31,5 +31,5 @@ Ikkinchi qadam. [short pause] Temur Saroymulkxonimga uylanadi. U Chingiz avlodid
 
 ## F
 ```
-Poytaxt qilib u Samarqandni tanlaydi. Shahar atrofida mustahkam devorlar qurdiradi. [short pause] Xon emas, lekin xondan kuchli. Temur endi Movarounnahrning haqiqiy hukmdori edi. [short pause] Lekin bu hokimiyatni saqlab qolish uchun u hali ko'p yil kurashadi. [long pause] Oradan bir necha yil o'tib, uning huzuriga bir qochoq shahzoda keladi. Ismi To'xtamish. [short pause] Temur unga yordam beradi. [short pause] Bu yordam keyin unga juda qimmatga tushadi. [short pause] Keyingi qismda.
+Poytaxt qilib u Samarqandni tanlaydi. Shahar atrofida mustahkam devorlar qurdiradi. [short pause] Xon emas, lekin xondan kuchli. Temur endi Movarounnahrning haqiqiy hukmdori edi. [short pause] Lekin bu hokimiyatni saqlab qolish uchun u hali ko'p yil kurashadi. [long pause] Oradan bir necha yil o'tib, uning huzuriga bir qochoq shahzoda keladi. Ismi To'xtamish. [short pause] Temur uni quchoq ochib kutib oladi, himoya qiladi va xon bo'lishiga yordam beradi. [long pause] Bir kun kelib aynan shu odam Temurning eng xavfli raqibiga aylanadi. [short pause] O'zi xon qilgan odam nega unga qarshi chiqdi? [short pause] Buni keyingi qismda bilib olasiz.
 ```
