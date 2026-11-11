@@ -210,7 +210,7 @@ const Field: React.FC = () => {
   riders.sort((p, q) => p.y - q.y);
   return (
     <AbsoluteFill style={{background: '#0f0d0a', perspective: 1500, perspectiveOrigin: '540px 620px', overflow: 'hidden'}}>
-      <div style={{position: 'absolute', left: 540 + drift, top: 1020, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `scale(${cam.z}) rotateX(${TILT}deg) translate3d(${-cam.x}px, ${-cam.y}px, 0px)`, filter: sepia > 0.01 ? `sepia(${0.75 * sepia})` : undefined}}>
+      <div style={{position: 'absolute', left: 540 + drift, top: 1020, width: 0, height: 0, transformStyle: 'preserve-3d', transform: `scale(${cam.z}) rotateX(${TILT}deg) translate3d(${-cam.x}px, ${-cam.y}px, 0px)`}}>
         <Img src={staticFile('loy/field.jpg')} style={{position: 'absolute', left: -900, top: -1500, width: 2900, height: 4200}} />
         <Img src={staticFile('loy/mud.jpg')} style={{position: 'absolute', left: -1500, top: -2400, width: 4100, height: 5600, opacity: mud}} />
         <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0, overflow: 'visible'}}>
@@ -234,7 +234,7 @@ const Field: React.FC = () => {
           </g>}
         </svg>
       </div>
-      <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0, filter: sepia > 0.01 ? `sepia(${0.75 * sepia})` : undefined}}>
+      <svg width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0}}>
         {riders.map((r) => r.el)}
         {units.map((u) => <UnitLabel key={u.id} u={u} fr={fr} proj={proj} />)}
         {mes}
@@ -246,6 +246,7 @@ const Field: React.FC = () => {
         </g></Billboard>}
       </svg>
       <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(15,13,10,0.95) 0%, rgba(15,13,10,0.55) 14%, rgba(15,13,10,0) 30%)'}} />
+      <AbsoluteFill style={{background: `rgba(150,105,45,${0.3 * sepia})`, mixBlendMode: 'color'}} />
       <AbsoluteFill style={{background: `rgba(18,24,34,${0.36 * rain})`}} />
       <svg width={1080} height={1920} style={{position: 'absolute', opacity: rain}}>{drops}</svg>
       <AbsoluteFill style={{background: `rgba(235,240,255,${lightning})`}} />
