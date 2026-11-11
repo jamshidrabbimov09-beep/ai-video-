@@ -146,11 +146,10 @@ def accent(k, i0, text, sub=None, dur=3.4, sub_at=None):
     d = dict(k=k, t0=round(W(i0), 3), t1=round(W(i0) + dur, 3), text=text)
     if sub: d['sub'] = sub; d['sub_t'] = round(W(sub_at) - W(i0), 3) if sub_at is not None else 0.5
     over.append(d)
-over.append(dict(k='tag', t0=0.4, t1=round(SE(2) + 0.2, 3), text="2-QISM"))
-accent('title', 18, "DO'ST VA DUSHMAN", "Temur va Amir Husayn", dur=4.6, sub_at=21)
-accent('date', 40, "1360", "MOVAROUNNAHR", dur=4.2, sub_at=46)
-accent('name', 88, "AMIR HUSAYN", "Temurning ittifoqchisi", dur=4.0, sub_at=90)
-accent('date', 114, "1363", "ATROFIDA", dur=4.0, sub_at=121)
+# top cards never repeat what the subtitle says at the same moment (the user found double text confusing)
+over.append(dict(k='name', t0=0.5, t1=5.3, text="DO'ST VA DUSHMAN", sub="2-qism", sub_t=0.7))
+accent('date', 40, "1360", dur=2.6)
+accent('name', 88, "AMIR HUSAYN", dur=3.2)
 accent('date', 132, "1365", "LOY JANGI", dur=4.2, sub_at=139)
 accent('date', 203, "1370", "BALX", dur=4.4, sub_at=210)
 over.append(dict(k='end', t0=round(SS(41) - 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
@@ -165,26 +164,41 @@ while i < len(words):
     if i in MERGE:
         j, txt = MERGE[i]; toks.append((W(i), E(j), txt)); i = j + 1; continue
     toks.append((W(i), E(i), FIX.get(i, words[i]['t']))); i += 1
+# balanced chunks per sentence: 2-5 words, about 26 characters, no one-word leftovers, breaks preferred after commas
+def split_sentence(ts):
+    n = len(ts); L = [len(t[2]) for t in ts]
+    width = lambda i, j: sum(L[i:j]) + (j - i - 1)
+    if width(0, n) <= 30 and n <= 6: return [ts]
+    k = max(2, math.ceil(width(0, n) / 26))
+    target = width(0, n) / k
+    best = {0: (0.0, [])}
+    for j in range(1, n + 1):
+        cand = None
+        for i in range(max(0, j - 6), j):
+            if i not in best: continue
+            w = width(i, j)
+            if w > 36 and j - i > 1: continue
+            c = best[i][0] + (w - target) ** 2 + (500 if j - i == 1 else 0) - (80 if ts[j - 1][2].endswith(',') and j < n else 0) + (400 if j < n and ts[j - 1][2] in ('Amir', "Tug'luq") else 0)
+            if cand is None or c < cand[0]: cand = (c, best[i][1] + [(i, j)])
+        if cand: best[j] = cand
+    return [ts[i:j] for i, j in best[n][1]]
 chunks, cur = [], []
-def flush():
-    global cur
-    if cur: chunks.append(cur); cur = []
-for t0, t1, tx in toks:
-    cur.append((t0, t1, tx))
-    line = ' '.join(c[2] for c in cur)
-    end_sent = tx.endswith(('.', '?', '!', ':'))
-    if end_sent or (tx.endswith(',') and len(line) >= 15) or len(line) >= 30 or len(cur) >= 6: flush()
-flush()
+for tk in toks:
+    cur.append(tk)
+    if tk[2].endswith(('.', '?', '!', ':')):
+        chunks += split_sentence(cur); cur = []
+if cur: chunks += split_sentence(cur)
 for k, ch in enumerate(chunks):
     t0 = ch[0][0] - 0.04
     t1 = ch[-1][1] + 0.22
     if k + 1 < len(chunks): t1 = min(t1, chunks[k + 1][0][0] - 0.06)
+    if ' '.join(c[2] for c in ch) in ("1360-yil.", "1365-yil.", "Loy jangi.", "1370-yil."): continue  # shown by the date card instead
     over.append(dict(k='sub', t0=round(t0, 3), t1=round(max(t1, t0 + 0.5), 3), text=' '.join(c[2] for c in ch)))
 
 (root / 'src' / 'edit_p2.json').write_text(json.dumps(dict(fps=30, end=round(TOTAL, 3), shots=shots, over=over), ensure_ascii=False))
 
 # ---------- 5. sparse sound accents ----------
-sfx = [dict(k='boom', t=round(W(18), 3)), dict(k='boom', t=round(W(132), 3)), dict(k='boom', t=round(W(203), 3)),
+sfx = [dict(k='boom', t=0.9), dict(k='boom', t=round(W(132), 3)), dict(k='boom', t=round(W(203), 3)),
        dict(k='heart', t=round(W(30), 3), dur=round(SE(5) - W(30) + 0.3, 3)), dict(k='heart', t=round(SS(29), 3), dur=round(SE(31) - SS(29) + 0.5, 3))]
 (root / 'edit' / 'sfx_plan_p2.json').write_text(json.dumps(dict(total=round(TOTAL + 2, 2), items=sfx)))
 

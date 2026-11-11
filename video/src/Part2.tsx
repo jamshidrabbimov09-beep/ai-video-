@@ -146,7 +146,7 @@ const Name: React.FC<{o: Over; d: number}> = ({o, d}) => {
       <div style={{position: 'absolute', left: 30, right: 30, top: 345, textAlign: 'center', opacity: a}}>
         <div style={{fontFamily: font, color: GOLD, fontSize: (o.text || '').length > 13 ? 80 : 92, letterSpacing: (o.text || '').length > 13 ? 5 : 8, fontWeight: 700, textShadow: '0 4px 30px #000, 0 0 60px #000'}}>{o.text}</div>
         <div style={{margin: '12px 0'}}><Rule w={190} /></div>
-        <div style={{fontFamily: font, fontStyle: 'italic', color: CREAM, fontSize: 56, letterSpacing: 3, opacity: subA, textShadow: '0 3px 16px #000'}}>{o.sub}</div>
+{o.sub && <div style={{fontFamily: font, fontStyle: 'italic', color: CREAM, fontSize: 56, letterSpacing: 3, opacity: subA, textShadow: '0 3px 16px #000'}}>{o.sub}</div>}
       </div>
     </AbsoluteFill>
   );
@@ -159,7 +159,7 @@ const Sub: React.FC<{o: Over; d: number}> = ({o, d}) => {
   return (
     <AbsoluteFill>
       <Shade o={a} top={1150} />
-      <div style={{position: 'absolute', left: 70, right: 70, top: 1440, textAlign: 'center', opacity: a, fontFamily: font, fontSize: 56, fontWeight: 700, lineHeight: 1.25, letterSpacing: 1.5, color: CREAM, textShadow: '0 3px 18px #000, 0 0 34px rgba(0,0,0,.85)'}}>
+      <div style={{position: 'absolute', left: 70, right: 70, top: 1440, textAlign: 'center', opacity: a, fontFamily: font, fontSize: 56, fontWeight: 700, lineHeight: 1.25, letterSpacing: 1.5, color: CREAM, WebkitTextStroke: '5px rgba(0,0,0,0.6)', paintOrder: 'stroke fill', textShadow: '0 0 10px #000, 0 3px 18px #000, 0 0 34px rgba(0,0,0,.9)'}}>
         {words.map((w, i) => {
           const key = w.toLowerCase().replace(/[.,?!:]+$/g, '');
           return <span key={i} style={{color: HL.has(key) ? GOLD : CREAM}}>{w}{i < words.length - 1 ? ' ' : ''}</span>;
