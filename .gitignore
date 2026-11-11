@@ -2,3 +2,7 @@ node_modules/
 out/
 video/public/p1g/
 video/out/
+dublyaj/venv/
+dublyaj/dub_work/
+dublyaj/natija/
+__pycache__/

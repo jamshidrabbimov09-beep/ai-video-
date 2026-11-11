@@ -114,6 +114,10 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   grouping, Claude translation, edge-tts voices `uz-UZ-SardorNeural`/`uz-UZ-MadinaNeural`, mix, Gradio UI) and
   `Donghua_Dublyaj.ipynb`, a self-contained Colab notebook with the code embedded: run `dublyaj/make_notebook.py`
   whenever `dublyaj.py` changes.
+- The user then asked for something simpler than Colab steps: open, pick the file, get the audio. The UI is now one
+  button ("Dublyaj qilish") with the table and settings under "Qo'lda tuzatish". `dublyaj/Dublyaj.bat` installs and
+  runs it locally on Windows (venv, torch cu121, Whisper `medium` on CPU there, Demucs in 5-minute chunks for 8 GB RAM,
+  output in `dublyaj/natija/`). The .bat has never been run on Windows. A phone can only use the Colab link.
 - Translation: the user rejected Google translate and wants Claude to translate with context and then review the
   translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then
   editor review, `claude-opus-5-5`), or free: the app writes `claude_uchun.txt`, the user sends it to a Claude chat and

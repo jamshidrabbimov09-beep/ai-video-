@@ -3,23 +3,32 @@
 Xitoycha videoni yuklaysiz, ilova aktyorlar ovozini fondan ajratadi, gaplarni tarjima qiladi va o'zbekcha AI ovozni
 aynan o'sha joylarga qo'yadi. Musiqa, effektlar, kulgi va qichqiriqlar asl holicha qoladi.
 
-## Ishlatish (bepul, Google Colab)
+## Windows kompyuterda (eng oddiy)
+
+1. GitHub'dan repozitoriyni ZIP qilib yuklab oling va oching, `dublyaj` papkasiga kiring.
+2. `Dublyaj.bat` faylini ikki marta bosing. Birinchi safar o'zi hamma narsani o'rnatadi (15-30 daqiqa, 5 GB atrofida).
+3. Brauzerda oyna ochiladi: videoni tanlang, **Dublyaj qilish** ni bosing. Tayyor audio shu oynada va `natija`
+   papkasida chiqadi. Keyingi safar faqat `Dublyaj.bat` ni ochasiz.
+
+## Telefonda (Google Colab orqali)
+
+Telefonning o'zi bu ishni bajara olmaydi, shuning uchun bepul Google serverida ishlaydi:
 
 1. Oching: https://colab.research.google.com/github/jamshidrabbimov09-beep/ai-video-/blob/main/dublyaj/Donghua_Dublyaj.ipynb
-   (ochilmasa: `Donghua_Dublyaj.ipynb` faylini yuklab oling va colab.research.google.com da "Upload" qiling).
-2. Runtime → Change runtime type → **T4 GPU**. Keyin Runtime → **Run all**.
-3. Pastda chiqqan `gradio.live` havolasini oching, videoni yuklang, **1. Tahlil qilish** ni bosing.
-4. Tarjima (pastdagi bo'limga qarang). Jadvalda tarjimani va ovozni (E1-E4 erkak, A1-A4 ayol, ASL = asl ovoz qolsin) tuzating.
-5. **2. Dublyaj qilish** ni bosing va fayllarni yuklab oling.
+2. Runtime → Change runtime type → **T4 GPU**, keyin Runtime → **Run all**.
+3. Pastda chiqqan `gradio.live` havolasini oching, videoni tanlang, **Dublyaj qilish** ni bosing.
+
+Tarjima va ovozlarni tuzatish kerak bo'lsa: oynadagi "Qo'lda tuzatish" bo'limi (E1-E4 erkak, A1-A4 ayol,
+ASL = asl ovoz qolsin).
 
 ## Tarjima: Claude
 
 Google tarjima ishlatilmaydi. Claude butun qismni o'qib, kontekst bilan tarjima qiladi, keyin muharrir sifatida
 qayta tahlil qilib tuzatadi (javob oldingi gapga mos, ismlar bir xil, gap vaqtga sig'adi).
 
-- **Bepul yo'l:** 1-tugmadan keyin `claude_uchun.txt` faylini yuklab oling, Claude chatiga yuboring, javobini
-  "Claude javobi" maydoniga qo'yib, "Tarjimani jadvalga qo'yish" ni bosing.
-- **Avtomatik yo'l (pullik):** Claude API kalitini (console.anthropic.com) maydonga yozing. Bu Claude obunasidan
+- **Bepul yo'l:** tugmani bosgach "Qo'lda tuzatish" bo'limidan `claude_uchun.txt` faylini yuklab oling, Claude
+  chatiga yuboring, javobini "Claude javobi" maydoniga qo'yib, "Tarjimani qo'yib, dublyaj qilish" ni bosing.
+- **Bir tugmali avtomatik yo'l (pullik):** Claude API kalitini (console.anthropic.com) maydonga yozing. Bu Claude obunasidan
   alohida hisob; bitta qism taxminan 1 dollar atrofida.
 
 ## Natija fayllari

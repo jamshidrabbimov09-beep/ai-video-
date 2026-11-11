@@ -10,18 +10,27 @@ Bosqichlar:
   6. edge-tts: o'zbekcha ovoz (Sardor - erkak, Madina - ayol), gap vaqtiga sig'diriladi.
   7. Mix: fon + (kulgi, qichqiriq kabi tarjima qilinmagan asl ovoz) + o'zbekcha ovoz.
 
-Ishga tushirish: Colab daftari `Donghua_Dublyaj.ipynb` (Gradio oynasi) yoki
+Ishga tushirish: Windowsda `Dublyaj.bat`, telefonda Colab daftari `Donghua_Dublyaj.ipynb`, yoki
   python dublyaj.py video.mp4            # hammasi birdan, natija ./dub_out/
 """
 import asyncio
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 
 import numpy as np
 import soundfile as sf
+
+if not shutil.which("ffmpeg"):  # Windows: ffmpeg o'rnatilmagan bo'lsa, pip paketidan olinadi
+    try:
+        import static_ffmpeg
+
+        static_ffmpeg.add_paths()
+    except Exception as e:
+        print("ffmpeg topilmadi:", e)
 
 SR = 44100
 VOICES = {"E": "uz-UZ-SardorNeural", "A": "uz-UZ-MadinaNeural"}
@@ -51,8 +60,8 @@ def extract_audio(src, wd):
     return out
 
 
-def separate(wav_path, wd):
-    """Demucs bilan ovoz/fon. torchaudio o'rniga soundfile ishlatiladi (versiya muammolari bo'lmasin)."""
+def separate(wav_path, wd, tick=lambda f: None):
+    """Demucs bilan ovoz/fon. 5 daqiqalik bo'laklarda ishlaydi (8 GB xotirali kompyuterga ham sig'adi)."""
     import torch
     from demucs.apply import apply_model
     from demucs.pretrained import get_model
@@ -60,18 +69,35 @@ def separate(wav_path, wd):
     model = get_model("htdemucs")
     model.eval()
     dev = "cuda" if torch.cuda.is_available() else "cpu"
-    audio, _ = sf.read(wav_path, dtype="float32", always_2d=True)
-    wav = torch.from_numpy(np.ascontiguousarray(audio.T))
-    ref = wav.mean(0)
-    mean, std = ref.mean(), ref.std() + 1e-8
-    with torch.no_grad():
-        out = apply_model(model, ((wav - mean) / std)[None], device=dev, split=True, overlap=0.25)[0]
-    voc = (out[model.sources.index("vocals")] * std + mean).numpy().T
-    del out, model
+    vi = model.sources.index("vocals")
+    n = sf.info(wav_path).frames
+    step, over = 300 * SR, 2 * SR
+    voc = np.zeros((n, 2), dtype=np.float32)
+    with sf.SoundFile(wav_path) as f:
+        pos = 0
+        while pos < n:
+            a, b = max(0, pos - over), min(n, pos + step)
+            f.seek(a)
+            wav = torch.from_numpy(np.ascontiguousarray(f.read(b - a, dtype="float32", always_2d=True).T))
+            ref = wav.mean(0)
+            mean, std = ref.mean(), ref.std() + 1e-8
+            with torch.no_grad():
+                out = apply_model(model, ((wav - mean) / std)[None], device=dev, split=True, overlap=0.25)[0]
+            v = (out[vi] * std + mean).numpy().T
+            k = pos - a
+            if k:  # bo'laklar chegarasida yumshoq o'tish
+                ramp = np.linspace(0, 1, k, dtype=np.float32)[:, None]
+                voc[a:pos] = voc[a:pos] * (1 - ramp) + v[:k] * ramp
+            voc[pos:b] = v[k:]
+            pos = b
+            tick(pos / n)
+    del model
     if dev == "cuda":
         torch.cuda.empty_cache()
+    audio, _ = sf.read(wav_path, dtype="float32", always_2d=True)
     sf.write(os.path.join(wd, "ovoz.wav"), voc, SR, subtype="PCM_16")
     sf.write(os.path.join(wd, "fon.wav"), audio - voc, SR, subtype="PCM_16")
+    del audio, voc
     sh("ffmpeg", "-y", "-i", os.path.join(wd, "ovoz.wav"), "-ac", 1, "-ar", 16000, os.path.join(wd, "ovoz16k.wav"))
 
 
@@ -79,11 +105,15 @@ def separate(wav_path, wd):
 def transcribe(wd, model_name="large-v3"):
     from faster_whisper import WhisperModel
 
+    # Windowsda GPU kutubxonalari (cuDNN) ko'pincha yo'q: u yerda ishonchli CPU rejimi, Colabda GPU.
+    use_gpu = os.environ.get("DUB_WHISPER", "gpu" if os.name != "nt" else "cpu") == "gpu"
     try:
+        if not use_gpu:
+            raise RuntimeError("CPU rejimi tanlangan")
         model = WhisperModel(model_name, device="cuda", compute_type="float16")
-    except Exception as e:  # GPU yo'q yoki kutubxona mos emas
-        print("GPU whisper ishlamadi, CPU ga o'tildi:", e)
-        model = WhisperModel("medium", device="cpu", compute_type="int8")
+    except Exception as e:
+        print("Whisper CPU da ishlaydi:", e)
+        model = WhisperModel("medium", device="cpu", compute_type="int8", cpu_threads=os.cpu_count() or 4)
     segs, _ = model.transcribe(
         os.path.join(wd, "ovoz16k.wav"), language="zh", word_timestamps=True, vad_filter=True,
         vad_parameters={"min_silence_duration_ms": 300}, condition_on_previous_text=False, beam_size=5,
@@ -487,7 +517,7 @@ def analyse(src, wd, progress=None, api_key=""):
     note(progress, 0.02, "Videodan tovush olinmoqda")
     wav = extract_audio(src, wd)
     note(progress, 0.08, "Ovoz va fon ajratilmoqda (eng uzun bosqich)")
-    separate(wav, wd)
+    separate(wav, wd, lambda f: progress and progress(0.08 + 0.45 * f, desc=f"Ovoz va fon ajratilmoqda {int(f * 100)}%"))
     note(progress, 0.55, "Xitoycha gaplar aniqlanmoqda")
     segs = transcribe(wd)
     note(progress, 0.8, "Ovozlar tahlil qilinmoqda (erkak/ayol, personajlar)")
@@ -536,73 +566,87 @@ def from_rows(rows):
 
 # ---------------------------------------------------------------- Gradio oynasi
 HELP = """**Ovoz ustuni:** `E1`-`E4` erkak ovozlari, `A1`-`A4` ayol ovozlari, `ASL` = bu joyda asl (xitoycha) ovoz qoladi
-(kulgi, qichqiriq, qo'shiq uchun). **O'zbekcha** ustunidagi tarjimani xohlagancha tuzating, keyin 2-tugmani bosing.
-Qayta bosganda faqat o'zgargan gaplar qayta yoziladi."""
+(kulgi, qichqiriq, qo'shiq uchun). **O'zbekcha** ustunidagi tarjimani xohlagancha tuzating, keyin
+"Jadval bo'yicha qayta dublyaj" ni bosing. Faqat o'zgargan gaplar qayta yoziladi."""
+ON_COLAB = os.path.isdir("/content")
+KEY_FILE = os.path.join(os.path.expanduser("~"), ".dublyaj_kalit")
 
 
-def ui(wd="/content/dub_work", out_dir="/content/dub_out"):
+def remember_key(key):
+    key = (key or "").strip()
+    if key and not ON_COLAB:
+        open(KEY_FILE, "w").write(key)
+    return key or (_read(KEY_FILE) or "").strip()
+
+
+def ui(wd=None, out_dir=None):
     import gradio as gr
 
-    def do_analyse(video, path, key, progress=gr.Progress()):
-        video = (path or "").strip() or video
-        if not video or not os.path.exists(video):
-            raise gr.Error("Avval video yuklang yoki to'g'ri fayl yo'lini yozing")
-        segs, info = analyse(video, wd, progress, key)
-        msg = f"{len(segs)} ta gap topildi. "
-        if any(x["uz"] for x in segs):
-            msg += "Claude tarjima qildi va tahlil qilib tuzatdi. Jadvalni ko'rib, 2-tugmani bosing. " + info
-        else:
-            msg += (info + " Tarjima uchun: pastdagi **claude_uchun.txt** faylini yuklab oling, Claude chatiga "
-                    "yuboring, javobini 'Claude javobi' maydoniga qo'yib, 'Tarjimani jadvalga qo'yish' ni bosing.")
-        return to_rows(segs), msg, os.path.join(wd, "claude_uchun.txt")
+    base = "/content" if ON_COLAB else os.path.dirname(os.path.abspath(__file__))
+    wd = wd or os.path.join(base, "dub_work")
+    out_dir = out_dir or os.path.join(base, "natija")
+    need_claude = ("Tarjima uchun: **Qo'lda tuzatish** bo'limidagi `claude_uchun.txt` faylini Claude chatiga yuboring, "
+                   "javobini 'Claude javobi' maydoniga qo'ying va 'Tarjimani qo'yib, dublyaj qilish' ni bosing.")
 
-    def do_paste(rows, text):
-        rows = rows.values.tolist() if hasattr(rows, "values") else rows
-        segs = from_rows(rows)
-        n = apply_manual(segs, text)
-        return to_rows(segs), f"{n} ta gap tarjimasi jadvalga qo'yildi."
+    def outputs(p, rows, msg, tfile):
+        return (p.get("toliq"), p.get("toliq"), p.get("ovoz"), p.get("fon"), p.get("srt"), p.get("video"),
+                rows, msg, tfile)
 
-    def do_dub(rows, keep, rate, speed, gain, progress=gr.Progress()):
+    def run_dub(segs, keep, rate, speed, gain, progress):
         meta = os.path.join(wd, "segs.json")
         if not os.path.exists(meta):
-            raise gr.Error("Avval 1-bosqichni bajaring")
+            raise gr.Error("Avval videoni yuklab, katta tugmani bosing")
+        return dub(json.load(open(meta, encoding="utf-8"))["src"], wd, segs, out_dir, progress,
+                   keep, int(rate), float(speed), float(gain))
+
+    def do_all(video, path, key, keep, rate, speed, gain, progress=gr.Progress()):
+        video = (path or "").strip().strip('"') or video
+        if not video or not os.path.exists(video):
+            raise gr.Error("Avval video yuklang")
+        segs, info = analyse(video, wd, progress, remember_key(key))
+        tfile = os.path.join(wd, "claude_uchun.txt")
+        if not any(s["uz"] for s in segs):
+            return outputs({}, to_rows(segs), f"{len(segs)} ta gap topildi. {info} {need_claude}", tfile)
+        p = run_dub(segs, keep, rate, speed, gain, progress)
+        return outputs(p, to_rows(segs), f"Tayyor: {len(segs)} ta gap. Fayllar papkasi: `{out_dir}`. {info}", tfile)
+
+    def do_redub(rows, pasted, keep, rate, speed, gain, progress=gr.Progress()):
         rows = rows.values.tolist() if hasattr(rows, "values") else rows
         segs = from_rows(rows)
-        p = dub(json.load(open(meta, encoding="utf-8"))["src"], wd, segs, out_dir, progress,
-                keep, int(rate), float(speed), float(gain))
-        return p["toliq"], p["ovoz"], p["fon"], p["srt"], p.get("video"), p.get("video")
+        n = apply_manual(segs, pasted)
+        p = run_dub(segs, keep, rate, speed, gain, progress)
+        msg = f"Tayyor. Fayllar papkasi: `{out_dir}`." + (f" Claude javobidan {n} ta gap olindi." if n else "")
+        return outputs(p, to_rows(segs), msg, os.path.join(wd, "claude_uchun.txt"))
 
     with gr.Blocks(title="Donghua dublyaj") as app:
-        gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha")
-        video = gr.File(label="Video yoki audio fayl (mp4, mkv, wav...)", type="filepath")
-        path = gr.Textbox(label="yoki Colab/Google Drive'dagi fayl yo'li (katta fayllar uchun tezroq)",
-                          placeholder="/content/drive/MyDrive/qism1.mp4")
-        key = gr.Textbox(label="Claude API kaliti (ixtiyoriy, pullik: bo'lsa tarjima avtomatik bo'ladi)",
-                         type="password", placeholder="sk-ant-...")
-        b1 = gr.Button("1. Tahlil qilish va tarjima", variant="primary")
+        gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha\nVideoni tanlang va tugmani bosing. Tayyor audio pastda chiqadi.")
+        video = gr.File(label="Video yoki audio fayl", type="filepath")
+        key = gr.Textbox(label="Claude API kaliti (bir marta yoziladi; bo'lmasa tarjima Claude chati orqali)",
+                         type="password", placeholder="sk-ant-...", value="" if ON_COLAB else remember_key(""))
+        go = gr.Button("Dublyaj qilish", variant="primary", size="lg")
         status = gr.Markdown()
-        with gr.Accordion("Kalitsiz (bepul) tarjima: Claude chati orqali", open=False):
-            tfile = gr.File(label="claude_uchun.txt: shu faylni Claude chatiga yuboring")
-            pasted = gr.Textbox(label="Claude javobi (raqam | o'zbekcha matn)", lines=6)
-            b3 = gr.Button("Tarjimani jadvalga qo'yish")
-        gr.Markdown(HELP)
-        table = gr.Dataframe(headers=COLS, datatype=["number", "number", "number", "str", "str", "str"],
-                             interactive=True, wrap=True, row_count=(1, "dynamic"))
-        with gr.Accordion("Sozlamalar", open=False):
+        player = gr.Audio(label="Tayyor dublyaj", type="filepath", interactive=False)
+        o1 = gr.File(label="To'liq dublyaj (ovoz + fon), WAV")
+        o2 = gr.File(label="Faqat o'zbekcha ovoz (joyiga qo'yilgan), WAV")
+        with gr.Accordion("Qo'shimcha fayllar", open=False):
+            o3 = gr.File(label="Fon va asl tovushlar, WAV")
+            o4 = gr.File(label="O'zbekcha subtitr, SRT")
+            o5 = gr.File(label="Dublyajli video, MP4")
+        with gr.Accordion("Qo'lda tuzatish: tarjima, ovozlar, sozlamalar", open=False):
+            path = gr.Textbox(label="Fayl yo'li (yuklash o'rniga, katta fayllar uchun)")
+            tfile = gr.File(label="claude_uchun.txt: API kalit bo'lmasa shu faylni Claude chatiga yuboring")
+            pasted = gr.Textbox(label="Claude javobi (raqam | o'zbekcha matn)", lines=5)
+            gr.Markdown(HELP)
+            table = gr.Dataframe(headers=COLS, datatype=["number", "number", "number", "str", "str", "str"],
+                                 interactive=True, wrap=True, row_count=(1, "dynamic"))
             keep = gr.Checkbox(True, label="Kulgi, qichqiriq va tarjima qilinmagan asl ovozlarni qoldirish")
             rate = gr.Slider(-10, 30, 8, step=1, label="Gapirish tezligi, %")
             speed = gr.Slider(1.0, 2.0, 1.6, step=0.05, label="Vaqtga sig'dirish uchun eng ko'p tezlashtirish")
             gain = gr.Slider(0.5, 2.0, 1.0, step=0.05, label="O'zbekcha ovoz balandligi")
-        b2 = gr.Button("2. Dublyaj qilish", variant="primary")
-        preview = gr.Video(label="Tayyor video")
-        o1 = gr.File(label="To'liq dublyaj (ovoz + fon), WAV")
-        o2 = gr.File(label="Faqat o'zbekcha ovoz (joyiga qo'yilgan), WAV")
-        o3 = gr.File(label="Fon va asl tovushlar, WAV")
-        o4 = gr.File(label="O'zbekcha subtitr, SRT")
-        o5 = gr.File(label="Dublyajli video, MP4")
-        b1.click(do_analyse, [video, path, key], [table, status, tfile])
-        b3.click(do_paste, [table, pasted], [table, status])
-        b2.click(do_dub, [table, keep, rate, speed, gain], [o1, o2, o3, o4, o5, preview])
+            redo = gr.Button("Tarjimani qo'yib, dublyaj qilish / Jadval bo'yicha qayta dublyaj")
+        outs = [player, o1, o2, o3, o4, o5, table, status, tfile]
+        go.click(do_all, [video, path, key, keep, rate, speed, gain], outs)
+        redo.click(do_redub, [table, pasted, keep, rate, speed, gain], outs)
     return app
 
 
@@ -610,7 +654,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         source = sys.argv[1]
         work = os.path.abspath("dub_work")
-        result = dub(source, work, analyse(source, work)[0], os.path.abspath("dub_out"))
+        result = dub(source, work, analyse(source, work)[0], os.path.abspath("natija"))
         print(json.dumps(result, ensure_ascii=False, indent=1))
     else:
-        ui().queue().launch(share=True, debug=True)
+        ui().queue().launch(share=ON_COLAB, debug=ON_COLAB, inbrowser=not ON_COLAB)
