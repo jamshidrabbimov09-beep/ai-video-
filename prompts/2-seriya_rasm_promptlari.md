@@ -171,7 +171,7 @@ The ancient mud-brick fortress city of Balkh under siege: attackers with ladders
 
 ## 34 (blok F, referens: H)
 ```
-Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) alone in a dark hall of a fortress, defeated, head lowered, turban loosened, a shaft of light from a small window. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
+Amir Husayn (young nobleman in his late 20s, lean face, short dark beard, dark blue silk robe with a leather belt, grey felt cap with a fur brim) alone in a dark hall of a fortress, defeated, head lowered, his felt cap fallen on the floor beside him, a shaft of light from a small window. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, vertical 9:16.
 ```
 
 ## 35 (blok F, referens: T)
