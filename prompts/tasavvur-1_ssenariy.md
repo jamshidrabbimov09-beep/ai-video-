@@ -13,7 +13,7 @@ Sen yolg'iz emassan. Sen o'nlikdasan: o'nta askar, boshingda o'nboshi.
 
 O'nliklar yuzlikka, yuzliklar minglikka, mingliklar esa tumanga birlashadi. Bitta tumanda o'n ming askar.
 
-Avval tekshiruv. "Temur tuzuklari"da yozilishicha, har bir askarda ikki ot, kamon, o'qdon, qilich, bolta va arqon bo'lishi kerak.
+Avval tekshiruv. Har bir askarda ikki ot, kamon, o'qdon, qilich, bolta va arqon bo'lishi shart.
 
 Ovqat oddiy: quritilgan go'sht va qurut.
 
@@ -21,7 +21,7 @@ Keyin yo'l. Kun bo'yi egarda. Bitta ot charchasa, ikkinchisiga o'tasan.
 
 Tinch kunlarda ham dam yo'q. Katta ov aslida jangga mashq edi: minglab chavandozlar halqa bo'lib, ovni o'rtaga haydaydi.
 
-Maoshing qancha? "Tuzuklar"ga ko'ra, oddiy askarning maoshi uning otining narxiga teng edi.
+Maoshing qancha? Aytishlaricha, oddiy askarning maoshi otining narxiga teng bo'lgan.
 
 Kechasi navbatchilik. Sen qorovulsan. Uxlab qolsang, butun qo'shin xavf ostida.
 
@@ -38,7 +38,8 @@ Keyingi safar Bek boshqa zamonga tushadi. Qaysi zamonga? Obuna bo'l, bilib olasa
 
 - O'nlik, yuzlik, minglik, tuman (10 000): Temur qo'shinining o'nlik tizimi manbalarda bor (mo'g'ul an'anasidan). Ishonchli.
 - Askarning jihozi va maoshi "otining narxiga teng": "Temur tuzuklari"dan. Tuzuklarning muallifligi bahsli (ko'p olimlar uni
-  keyinroq, XVII asrda yozilgan deb hisoblaydi), shuning uchun matnda "Tuzuklarda yozilishicha" deb manba aytiladi.
+  keyinroq, XVII asrda yozilgan deb hisoblaydi), shuning uchun ovozda manba nomi aytilmaydi (videoni sekinlashtiradi), maosh "aytishlaricha" deb beriladi;
+  manba post matnida yoziladi.
 - Ikki ot, quritilgan go'sht, qurut: dasht qo'shinlari uchun odatiy; aniq raqam aytilmaydi.
 - Katta ov (halqa ov) jangga mashq sifatida: mo'g'ul va temuriylar an'anasi, Temurning katta ovlari tarixchilar
   asarlarida tilga olinadi.

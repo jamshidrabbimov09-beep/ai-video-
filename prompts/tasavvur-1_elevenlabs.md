@@ -10,10 +10,10 @@ Tasavvur qil: sen Amir Temurning askarisan. [short pause] Faqat bir kun. [short 
 
 ## B
 ```
-Avval tekshiruv. [short pause] "Temur tuzuklari"da yozilishicha, har bir askarda ikki ot, kamon, o'qdon, qilich, bolta va arqon bo'lishi kerak. [short pause] Ovqat oddiy: quritilgan go'sht va qurut. [short pause] Keyin yo'l. Kun bo'yi egarda. Bitta ot charchasa, ikkinchisiga o'tasan. [short pause] Tinch kunlarda ham dam yo'q. Katta ov aslida jangga mashq edi: minglab chavandozlar halqa bo'lib, ovni o'rtaga haydaydi.
+Avval tekshiruv. [short pause] Har bir askarda ikki ot, kamon, o'qdon, qilich, bolta va arqon bo'lishi shart. [short pause] Ovqat oddiy: quritilgan go'sht va qurut. [short pause] Keyin yo'l. Kun bo'yi egarda. Bitta ot charchasa, ikkinchisiga o'tasan. [short pause] Tinch kunlarda ham dam yo'q. Katta ov aslida jangga mashq edi: minglab chavandozlar halqa bo'lib, ovni o'rtaga haydaydi.
 ```
 
 ## C
 ```
-Maoshing qancha? [short pause] "Tuzuklar"ga ko'ra, oddiy askarning maoshi uning otining narxiga teng edi. [short pause] Kechasi navbatchilik. Sen qorovulsan. Uxlab qolsang, butun qo'shin xavf ostida. [long pause] Ertaga jang. Tanla. [short pause] Birinchi yo'l: oldingi saf. Shon-shuhrat katta, xavf ham katta. [short pause] Ikkinchi yo'l: orqa safdagi kamonchilar. [short pause] Sen qaysini tanlarding? Izohda yoz: bir yoki ikki. [long pause] Keyingi safar Bek boshqa zamonga tushadi. Qaysi zamonga? Obuna bo'l, bilib olasan.
+Maoshing qancha? [short pause] Aytishlaricha, oddiy askarning maoshi otining narxiga teng bo'lgan. [short pause] Kechasi navbatchilik. Sen qorovulsan. Uxlab qolsang, butun qo'shin xavf ostida. [long pause] Ertaga jang. Tanla. [short pause] Birinchi yo'l: oldingi saf. Shon-shuhrat katta, xavf ham katta. [short pause] Ikkinchi yo'l: orqa safdagi kamonchilar. [short pause] Sen qaysini tanlarding? Izohda yoz: bir yoki ikki. [long pause] Keyingi safar Bek boshqa zamonga tushadi. Qaysi zamonga? Obuna bo'l, bilib olasan.
 ```
