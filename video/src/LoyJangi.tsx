@@ -41,13 +41,13 @@ const units: Unit[] = [
   {id: 'H', n: 84, cols: 12, col: '#5f8fd0', dark: '#1d3557', up: true, label: 'HUSAYN',
     x: [[0, 780]], y: [[T0, 1120], [a('s6'), 1120], [a('s6', 3), 1030], [a('s9'), 1030], [z('s9'), 1170], [a('s10', 2), 1170], [z('s10'), 1090], [a('s13'), 1090], [z('s13', -1.4), 1600]],
     spread: [[a('s9'), 1], [z('s9'), 1.7], [a('s10', 2), 1.7], [z('s10'), 1.05], [a('s13'), 1.05], [z('s13', -1.4), 2.3]], o: [[a('s13', 0.6), 1], [z('s13', -0.5), 0]]},
-  {id: 'ER', n: 70, cols: 10, col: '#8f2f2a', dark: '#2a0f0d', up: false, label: "ILYOSXO'JA",
-    x: [[0, 300], [a('s12'), 300], [a('s12', 2.5), 400]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s8'), 700], [z('s8'), 300], [a('s12'), 300], [a('s12', 2.5), 470], [z('s12'), 780], [z('s13'), 960]],
+  {id: 'ER', n: 64, cols: 8, col: '#8f2f2a', dark: '#2a0f0d', up: false, label: "ILYOSXO'JA",
+    x: [[0, 300]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s8'), 700], [z('s8'), 300], [a('s12'), 300], [a('s12', 2.5), 440], [z('s12'), 585], [a('s13', 1), 585], [z('s13'), 960]],
     spread: [[a('s8'), 1], [z('s8'), 2.1], [a('s12'), 2.1], [a('s12', 2.5), 1]], o: [[a('s8', 1), 1], [z('s8'), 0.55], [a('s12'), 0.55], [a('s12', 2), 1]]},
-  {id: 'EC', n: 60, cols: 10, col: '#7a2622', dark: '#2a0f0d', up: false, label: 'SHAMSUDDIN',
-    x: [[0, 560]], y: [[T0, 400], [a('s6'), 400], [a('s6', 3), 660], [a('s10', 1.6), 660], [z('s10'), 470], [a('s12', 2), 470], [z('s12'), 800], [z('s13'), 980]]},
-  {id: 'EL', n: 70, cols: 10, col: '#8f2f2a', dark: '#2a0f0d', up: false,
-    x: [[0, 800]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s9'), 700], [z('s9'), 900], [a('s10', 2), 900], [z('s10'), 640], [a('s12', 2), 640], [z('s12'), 820], [z('s13'), 1010]]},
+  {id: 'EC', n: 56, cols: 8, col: '#7a2622', dark: '#2a0f0d', up: false, label: 'SHAMSUDDIN',
+    x: [[0, 550]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 660], [a('s10', 1.6), 660], [z('s10'), 430], [a('s12', 2), 430], [z('s12'), 545], [a('s13', 1), 545], [z('s13'), 980]]},
+  {id: 'EL', n: 64, cols: 8, col: '#8f2f2a', dark: '#2a0f0d', up: false,
+    x: [[0, 800]], y: [[T0, 430], [a('s6'), 430], [a('s6', 3), 700], [a('s9'), 700], [z('s9'), 900], [a('s10', 2), 900], [z('s10'), 640], [a('s12', 2), 640], [z('s12'), 840], [a('s13', 1), 840], [z('s13'), 1010]]},
 ];
 const Soldiers: React.FC<{u: Unit; fr: number; mud: number}> = ({u, fr, mud}) => {
   const out: React.ReactNode[] = [];
@@ -84,10 +84,17 @@ const Soldiers: React.FC<{u: Unit; fr: number; mud: number}> = ({u, fr, mud}) =>
 };
 const UnitLabel: React.FC<{u: Unit; fr: number}> = ({u, fr}) => {
   if (!u.label) return null;
-  const rows = Math.ceil(u.n / u.cols);
-  const x = kf(fr, u.x), y = kf(fr, u.y) + (u.up ? rows * 13 + 48 : -rows * 13 - 26);
-  const o = fade(fr, a('s5'), a('s13', 1.2), 14) * (u.o ? Math.min(1, kf(fr, u.o) * 1.4) : 1);
-  return <text x={x} y={y} textAnchor="middle" fontFamily={font} fontSize={30} fontWeight={700} letterSpacing={4} fill={u.up ? CREAM : '#f0c9c2'} stroke="rgba(0,0,0,0.75)" strokeWidth={5} paintOrder="stroke" opacity={o}>{u.label}</text>;
+  const x = kf(fr, u.x), y = kf(fr, u.y);
+  const from = u.id === 'EC' ? a('s10', -0.3) : a('s5');
+  const o = fade(fr, from, a('s13', 1.2), 14) * (u.o ? Math.min(1, kf(fr, u.o) * 1.6) : 1);
+  if (o <= 0) return null;
+  const w = u.label.length * 21 + 44;
+  return (
+    <g opacity={o} transform={`translate(${x} ${y})`}>
+      <rect x={-w / 2} y={-25} width={w} height={50} rx={8} fill="rgba(12,10,8,0.72)" stroke={u.up ? u.col : '#c98a80'} strokeWidth={2} />
+      <text x={0} y={11} textAnchor="middle" fontFamily={font} fontSize={30} fontWeight={700} letterSpacing={4} fill={u.up ? CREAM : '#f3d3cd'}>{u.label}</text>
+    </g>
+  );
 };
 const Arrow: React.FC<{d: string; fr: number; f0: number; f1: number; col: string; w?: number}> = ({d, fr, f0, f1, col, w = 14}) => {
   const p = interpolate(fr, [f0, f0 + 26], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic)});
@@ -106,7 +113,7 @@ const Field: React.FC = () => {
   const rain = kf(fr, [[a('s6', -0.3), 0], [a('s6', 1.2), 1], [a('s8'), 1], [a('s9'), 0.6], [a('s12'), 0.5], [z('s13'), 0.35]]);
   const cam = {
     x: kf(fr, [[T0, 540], [a('s8'), 540], [a('s8', 1.5), 380], [a('s9', -0.3), 380], [a('s9', 1), 700], [a('s10'), 700], [a('s10', 1.5), 560], [a('s11'), 540], [a('s12'), 540]]),
-    y: kf(fr, [[T0, 760], [a('s6'), 760], [a('s6', 3), 860], [a('s8'), 860], [a('s8', 1.5), 640], [a('s9', -0.3), 640], [a('s9', 1), 980], [a('s10'), 980], [a('s10', 1.5), 800], [a('s11'), 900], [a('s12'), 760], [a('s13'), 900]]),
+    y: kf(fr, [[T0, 840], [a('s6'), 840], [a('s6', 3), 870], [a('s8'), 860], [a('s8', 1.5), 640], [a('s9', -0.3), 640], [a('s9', 1), 980], [a('s10'), 980], [a('s10', 1.5), 800], [a('s11'), 900], [a('s12'), 760], [a('s13'), 900]]),
     z: kf(fr, [[T0, 1.12], [a('s5', 2), 1], [a('s6'), 1], [a('s6', 3), 1.12], [a('s8'), 1.12], [a('s8', 1.5), 1.5], [a('s9', -0.3), 1.5], [a('s9', 1), 1.45], [a('s10'), 1.45], [a('s10', 1.5), 1.3], [a('s11'), 1.22], [a('s12'), 1.08], [a('s13'), 1.05]]),
   };
   const shake = rain * 0.0;
@@ -128,7 +135,7 @@ const Field: React.FC = () => {
   }
   // banner (s12)
   const bn = fade(fr, a('s12', 1.2), z('s13'), 14);
-  const by = kf(fr, units[4].y) - 70;
+  const by = kf(fr, units[4].y) - 150;
   // dead (s13)
   const deadO = kf(fr, [[a('s13', 1), 0], [a('s13', 3.5), 1]]);
   const dead: React.ReactNode[] = [];
@@ -160,11 +167,11 @@ const Field: React.FC = () => {
           <Arrow d="M 300 960 L 300 640" fr={fr} f0={a('s8', 0.2)} f1={z('s8')} col={GOLD} />
           <Arrow d="M 800 780 L 800 1010" fr={fr} f0={a('s9', 0.1)} f1={z('s9', 0.3)} col="#c0392b" />
           <Arrow d="M 360 830 Q 480 800 590 690" fr={fr} f0={a('s10', 0.2)} f1={z('s10')} col={GOLD} />
-          <Arrow d="M 420 560 L 420 800" fr={fr} f0={a('s12', 2.6)} f1={z('s12', 0.6)} col="#c0392b" />
-          <Arrow d="M 700 560 L 700 800" fr={fr} f0={a('s12', 2.9)} f1={z('s12', 0.6)} col="#c0392b" />
+          <Arrow d="M 440 470 L 440 640" fr={fr} f0={a('s12', 2.6)} f1={z('s12', 0.6)} col="#c0392b" />
+          <Arrow d="M 690 470 L 690 640" fr={fr} f0={a('s12', 2.9)} f1={z('s12', 0.6)} col="#c0392b" />
           {units.map((u) => <Soldiers key={u.id} u={u} fr={fr} mud={mud} />)}
           {units.map((u) => <UnitLabel key={u.id} u={u} fr={fr} />)}
-          {bn > 0 && <g opacity={bn} transform={`translate(560 ${by})`}>
+          {bn > 0 && <g opacity={bn} transform={`translate(550 ${by})`}>
             <circle r={40 + ((fr * 2.2) % 70)} fill="none" stroke="#e8c9a0" strokeWidth={3} opacity={1 - ((fr * 2.2) % 70) / 70} />
             <line x1={0} y1={46} x2={0} y2={-62} stroke="#2a1c10" strokeWidth={6} />
             <path d={`M 0 -62 q ${14 + Math.sin(fr / 5) * 5} 26 ${Math.sin(fr / 6) * 6} 58 q -10 -22 0 -58`} fill="#1b1410" />
@@ -172,8 +179,8 @@ const Field: React.FC = () => {
           </g>}
           {mes}
           {fade(fr, a('s5'), z('s5', 1), 12) > 0 && <g opacity={fade(fr, a('s5'), z('s5', 1), 12)} fontFamily={font} fontSize={34} letterSpacing={6} fill={GOLD} stroke="rgba(0,0,0,0.7)" strokeWidth={5} paintOrder="stroke" textAnchor="middle" fontStyle="italic">
-            <text x={300} y={960}>chap qanot</text><text x={780} y={960}>o'ng qanot</text>
-            <text x={560} y={232} fontStyle="normal" fill="#f0c9c2" fontSize={32}>MO'G'ULISTON QO'SHINI</text>
+            <text x={300} y={985}>chap qanot</text><text x={780} y={985}>o'ng qanot</text>
+            <text x={550} y={262} fontStyle="normal" fill="#f0c9c2" fontSize={32}>MO'G'ULISTON QO'SHINI</text>
           </g>}
         </svg>
       </AbsoluteFill>

@@ -59,7 +59,7 @@ else:
         t = tt + 0.3
     est = True
 for a, b in zip(subs, subs[1:]): a['t1'] = round(min(a['t1'], b['t0'] - 0.05), 3)
-end = round(sents[-1]['t1'] + 4.2, 3)
+end = round(sents[-1]['t1'] + 4.0, 3)
 (root / 'src' / 'loy.json').write_text(json.dumps(dict(fps=30, end=end, estimated=est, sents=sents, subs=subs), ensure_ascii=False))
 
 # ---- textures ----
