@@ -12,6 +12,9 @@ venv\Scripts\python -m pip install demucs faster-whisper edge-tts anthropic grad
 venv\Scripts\python -m pip install --no-deps resemblyzer
 venv\Scripts\python -m pip install coqui-tts
 :run
+echo Yangilanish tekshirilmoqda...
+curl -fsSL -o dublyaj_yangi.py https://raw.githubusercontent.com/jamshidrabbimov09-beep/ai-video-/claude/uzbek-dubbing-chinese-anime-as1zei/dublyaj/dublyaj.py && move /y dublyaj_yangi.py dublyaj.py >nul
+if exist dublyaj_yangi.py del dublyaj_yangi.py
 echo Ilova ochilmoqda. Brauzerda oyna chiqadi. Bu qora oynani yopmang.
 venv\Scripts\python dublyaj.py
 pause

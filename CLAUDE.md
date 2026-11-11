@@ -133,6 +133,11 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   Never run for real: the coqui-tts call is written from memory. It only transfers timbre, not acting; the user
   was told this, and that publishing dubs of a show is a rights question for them. The user agreed to buy an
   Anthropic API key and will test on the PC first.
+- First PC run (2026-11-12): install via `Dublyaj.bat` worked and the UI opened; pressing the button gave a bare
+  "Error". Fixes pushed: subprocess output decoded as UTF-8 (the episode file name was Chinese), the upload is copied
+  to `ish/<episode>/asl.*`, every handler error is shown with its message and appended to `dublyaj/xatolar.txt`.
+  `dublyaj.py` now updates itself from the branch's raw GitHub URL on start (`self_update`), and the .bat does too,
+  so later fixes reach the PC without a new zip. Ask the user for the black console window screenshot when errors occur.
 - `make_notebook.py` also builds `dublyaj/Dublyaj_windows.zip` (the small download for the PC): rerun after changes.
 - Translation: the user rejected Google translate and wants Claude to translate with context and then review the
   translation (replies must fit each other). Two routes: an optional Anthropic API key (two passes, translate then

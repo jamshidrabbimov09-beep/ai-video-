@@ -49,7 +49,7 @@ COLS = ["№", "boshi", "oxiri", "kim", "ovoz", "his", "xitoycha", "o'zbekcha"]
 
 
 def sh(*args):
-    r = subprocess.run([str(a) for a in args], capture_output=True, text=True)
+    r = subprocess.run([str(a) for a in args], capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode:
         raise RuntimeError(f"{args[0]} xato: {r.stderr[-600:]}")
 
@@ -101,6 +101,15 @@ def start_episode(src):
     PROJ.update(wd=os.path.join(ish, name), out=os.path.join(PROJ["dir"], "natija", name))
     os.makedirs(PROJ["wd"], exist_ok=True)
     return PROJ["wd"], PROJ["out"]
+
+
+def local_copy(src, wd):
+    """Asl faylni oddiy nom bilan ish papkasiga ko'chiradi (xitoycha nomlar va vaqtinchalik papkalar muammo bermasin)."""
+    dst = os.path.join(wd, "asl" + os.path.splitext(src)[1].lower())
+    if os.path.abspath(src) != os.path.abspath(dst):
+        if not (os.path.exists(dst) and os.path.getsize(dst) == os.path.getsize(src)):
+            shutil.copyfile(src, dst)
+    return dst
 
 
 def proj_file(name):
@@ -775,7 +784,8 @@ def mix(wd, segs, out_dir, src=None, keep_original=True, max_speed=1.6, voice_ga
 
 def has_video(src):
     r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
-                        "stream=codec_type", "-of", "csv=p=0", src], capture_output=True, text=True)
+                        "stream=codec_type", "-of", "csv=p=0", src], capture_output=True, text=True,
+                       encoding="utf-8", errors="replace")
     return "video" in r.stdout
 
 
@@ -917,6 +927,7 @@ def ui():
             raise gr.Error("Avval video yuklang")
         save_rules(rules)
         wd, out = start_episode(video)
+        video = local_copy(video, wd)
         segs, info = analyse(video, wd, progress, remember_key(key), rules)
         if not any(s["uz"] for s in segs):
             return outputs({}, to_rows(segs), f"{len(segs)} ta gap topildi. {info} {need_claude}")
@@ -959,6 +970,27 @@ def ui():
             os.remove(old)
         shutil.copy(file, os.path.join(sample_dir(), name + os.path.splitext(file)[1].lower()))
         return project_info()
+
+    import functools
+    import traceback
+
+    def shown(fn):
+        """Har qanday xato ekranda o'qiladigan matn bo'lib chiqsin va xatolar.txt ga yozilsin."""
+        @functools.wraps(fn)
+        def run(*a, **k):
+            try:
+                return fn(*a, **k)
+            except gr.Error:
+                raise
+            except Exception as e:
+                tb = traceback.format_exc()
+                print(tb, flush=True)
+                try:
+                    open(os.path.join(BASE, "xatolar.txt"), "a", encoding="utf-8").write(tb + "\n")
+                except OSError:
+                    pass
+                raise gr.Error(f"{type(e).__name__}: {str(e)[-700:]}")
+        return run
 
     with gr.Blocks(title="Donghua dublyaj") as app:
         gr.Markdown("# Donghua dublyaj: xitoycha → o'zbekcha")
@@ -1007,12 +1039,37 @@ def ui():
             redo = gr.Button("Tarjimani qo'yib, dublyaj qilish / Jadval bo'yicha qayta dublyaj")
         outs = [player, o1, o2, o3, o4, o5, table, status, tfile, pinfo]
         opts = [keep, rate, speed, gain, clone]
-        project.change(pick_project, project, [pinfo, rules])
-        go.click(do_all, [project, video, path, key, rules] + opts, outs)
-        redo.click(do_redub, [project, table, pasted] + opts, outs)
-        fixb.click(do_fix, [project, table, fix, key, rules] + opts, outs)
-        sbtn.click(add_sample, [project, sfile, sname], pinfo)
+        project.change(shown(pick_project), project, [pinfo, rules])
+        go.click(shown(do_all), [project, video, path, key, rules] + opts, outs)
+        redo.click(shown(do_redub), [project, table, pasted] + opts, outs)
+        fixb.click(shown(do_fix), [project, table, fix, key, rules] + opts, outs)
+        sbtn.click(shown(add_sample), [project, sfile, sname], pinfo)
     return app
+
+
+UPDATE_URL = ("https://raw.githubusercontent.com/jamshidrabbimov09-beep/ai-video-/"
+              "claude/uzbek-dubbing-chinese-anime-as1zei/dublyaj/dublyaj.py")
+
+
+def self_update():
+    """Kompyuterda: GitHub'da yangi versiya bo'lsa, shu faylni almashtirib, ilovani qayta ishga tushiradi."""
+    if ON_COLAB or os.environ.get("DUB_NO_UPDATE"):
+        return
+    try:
+        import urllib.request
+
+        new = urllib.request.urlopen(UPDATE_URL, timeout=15).read()
+        me = os.path.abspath(__file__)
+        if new.strip() and b"def ui(" in new and new != open(me, "rb").read():
+            compile(new, me, "exec")  # buzilgan fayl bilan almashtirmaslik uchun
+            open(me, "wb").write(new)
+            print("Ilova yangilandi, qayta ishga tushirilmoqda...", flush=True)
+            os.environ["DUB_NO_UPDATE"] = "1"
+            sys.exit(subprocess.call([sys.executable, me] + sys.argv[1:]))
+    except SystemExit:
+        raise
+    except Exception as e:
+        print("Yangilanishni tekshirib bo'lmadi:", e)
 
 
 if __name__ == "__main__":
@@ -1022,4 +1079,5 @@ if __name__ == "__main__":
         result = dub(sys.argv[2], work, analyse(sys.argv[2], work)[0], out_path)
         print(json.dumps(result, ensure_ascii=False, indent=1))
     else:
-        ui().queue().launch(share=ON_COLAB, debug=ON_COLAB, inbrowser=not ON_COLAB)
+        self_update()
+        ui().queue().launch(share=ON_COLAB, debug=ON_COLAB, inbrowser=not ON_COLAB, show_error=True)
