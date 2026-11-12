@@ -3,8 +3,8 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
-The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1) and
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`). The user plans one chat per part and wants each new chat to know everything
+The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 ("Tasavvur qil" ep.1, `4-chat_tasavvur-qil-1-qism.md`). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -160,3 +160,8 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   composition `src/tasavvur/TQ1.tsx` (11 SVG scenes, one big Oswald word at the top, red key words, "1-KUN" day clock),
   sound `edit/tq1_sfx.py` (synthesised accents) + ffmpeg mix (music from 36 s, ducked, -16 LUFS: the user worried about
   loudness), export `video/exports/tasavvur1_temur_askari_1080p.mp4` (62 s, 23 MB). Render ~4 min at concurrency 4.
+- Ep.1 posted on Instagram 2026-11-12 about 09:40 (caption `video/instagram/post_tasavvur1.md`, cover `instagram/cover_tasavvur1.png`,
+  AI label on, location Samarqand). Known flaw left in on purpose: the voice says "askariysan" at 0:02 (ElevenLabs kept it).
+  Reply-to-comments templates were given in chat 4 (end every reply with a question).
+- Next: analyse ep.1 statistics (2026-11-13), then ep.2 "Temurga zamonaviy qurollar chizmasi" (text confirmed,
+  `prompts/tasavvur-2_elevenlabs.md`) with a code-drawn globe map; ideas list `prompts/tasavvur_goyalar.md`.
