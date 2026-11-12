@@ -18,7 +18,7 @@ update this file.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
 - **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
-  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Next: Part 4 (To'xtamish), same v2 method.
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" built 2026-11-12 (chat 5), waiting for the user's review.
 
 ## The user
 
@@ -142,6 +142,24 @@ sending: the user cannot re-record many times.
 - The user cannot use the phone between 18:00 and 22:00: post about 17:15-17:45. Large files do not download from the chat on
   the phone: always deliver through a GitHub link.
 - Creative Claw: 27 credits left.
+
+## Part 4 "O'zi qutqargan dushman" (chat 5, 2026-11-12, branch `claude/wizardly-ritchie-icpsyq`)
+
+- Script checked against Yazdi (71a-74a, 94a, 97b-98b, 105a-106a) and Manz (69-71), confirmed by the user: `prompts/4-seriya_ssenariy.md`;
+  ElevenLabs text (one block, tags) `prompts/4-seriya_elevenlabs.md`; 37 image prompts and Flow packets `prompts/4-seriya_rasm_promptlari.md`,
+  `4-seriya_flow_paketlar.md`. Covers 1376-1387 (rescue to the 1387 invasion); the 1391/1395 steppe battles are left for the next part
+  (proposed Part 5 "Dasht yurishi", series table not yet changed).
+- Voice: `public/audio4/all_raw.mp3` (ElevenLabs v4, Stability Robust, one take, used uncut, 146.6 s), transcript `edit/transcript4*.json`,
+  words `src/words4.json`. Images `public/p4img/l01..l37.jpg` (refs: Temur `p1img/i04.jpg`, To'xtamish `p3img/k34.jpg`; Flow kept
+  making the khan To'xtamish old: say "at age 35, smooth skin, jet-black hair, no grey").
+- Timeline `edit/edit_p4.py`, composition `src/Part4.tsx`, motion scenes `src/p4motion.tsx` (Chinggis line, O'tror/Sig'noq lands,
+  "4 marta" counter, Jo'chi ulus spread, line callback, Darband-Tabriz, invasion of Movarounnahr), SFX `edit/sfx_p4.py`, build
+  `edit/build_part4.sh`, exports `video/exports/part4_ozi_qutqargan_dushman_1080p*.mp4` (148 s, ~96 MiB).
+- Maps (user's wish): a REAL Earth map, with 14th-century uluses instead of today's states, so viewers see Temur's lands.
+  `edit/maps_p4.py` builds `public/maps/relief_p4.jpg` + `src/borders_p4.json` (today's borders faint, real rivers, Caspian) from
+  the PyPI package basemap-data; ulus polygons are hand-drawn after the books in `p4motion.tsx` (aourednik historical-basemaps
+  put Sig'noq in the Chagatai khanate and Balx in the Ilkhanate for 1300: wrong for the 1370s, not used). Reuse for later parts.
+- Creative Claw: 19 credits left.
 
 ## Open items
 
