@@ -499,10 +499,15 @@ const SceneVote: React.FC<{t: number}> = ({t}) => {
         <Text x={0} y={60} size={66} fill={GOLD}>1, 2 YOKI 3?</Text>
       </g>
       {follow > 0 && (
-        <g transform={`translate(540 1680) scale(${follow})`}>
-          <rect x={-400} y={-70} width={800} height={140} rx={70} fill={RED} stroke="#fff" strokeWidth={6} />
-          <Text x={0} y={-6} size={44}>TASAVVUR QIL: YANGI ZAMON TEZ ORADA</Text>
-          <Text x={0} y={48} size={46} fill={GOLD}>OBUNA BO'L</Text>
+        <g transform={`translate(540 1690) scale(${follow})`}>
+          <Text x={0} y={-96} size={44} fill="#fff">KEYINGI ZAMONGA BIRGA BORAMIZ</Text>
+          <rect x={-300} y={-60} width={600} height={124} rx={62} fill="#3b82f6" stroke="#fff" strokeWidth={6} />
+          {/* bell, swinging */}
+          <g transform={`translate(-200 0) rotate(${Math.sin(t * 14) * 14})`}>
+            <path d="M-30 18 C-30 -30 -20 -40 0 -40 C20 -40 30 -30 30 18 L38 28 L-38 28 Z" fill={GOLD} stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+            <circle cx={0} cy={36} r={9} fill={GOLD} stroke={INK} strokeWidth={4} />
+          </g>
+          <Text x={40} y={26} size={72} fill="#fff">OBUNA BO'L</Text>
         </g>
       )}
     </g>
