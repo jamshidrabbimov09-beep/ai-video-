@@ -18,7 +18,7 @@ High top-down view into a dense tamarisk thicket on a riverbank, among the tangl
 
 ## 03 (blok A, referens: X)
 ```
-Close-up of the young man from the second reference image (Tokhtamysh, steppe prince in his mid 20s, sharp cheekbones, thin moustache, long braided hair), lying on his back among tamarisk branches, bare-chested and wet, a bleeding arrow wound on his forearm wrapped in nothing, eyes half closed, breathing with difficulty, cold blue dusk light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
+Close-up of the young man from the second reference image (Tokhtamysh, steppe prince in his mid 20s, sharp cheekbones, thin moustache, long braided hair), lying on his back among tamarisk branches, bare-chested and wet, a bleeding arrow wound on his forearm, eyes half closed, breathing with difficulty, cold blue dusk light. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
 ```
 
 ## 04 (blok A, referens: X)
