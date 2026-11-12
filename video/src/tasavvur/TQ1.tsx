@@ -647,7 +647,8 @@ const clockText = (t: number) => {
 
 // ---------- captions ----------
 type W3 = [string, number, number];
-const HL = /^(TEMURNING|BIR|KUN|TIRIK|NOG'ORA|KARNAY|O'NTA|TUMANGA|O'N MING|SHART|QURUT|EGARDA|MASHQ|MAOSHING|NARXICHA|XAVF|JANG|BIRINCHI|IKKINCHI|IZOHDA|YOLG'IZ|QOROVULSAN|O'NLIKDASAN|ARQON|IKKI OT)/;
+const PAIRS = ['TASAVVUR QIL', 'AMIR TEMURNING', 'BIR KUN', "O'N MING", "O'N BOSHI", 'IKKI OT'];
+const HL = /^(AMIR TEMURNING|TEMURNING|BIR KUN|BIR|KUN|TIRIK|NOG'ORA|KARNAY|O'NTA|TUMANGA|O'N MING|SHART|QURUT|EGARDA|MASHQ|MAOSHING|NARXICHA|XAVF|JANG|BIRINCHI|IKKINCHI|IZOHDA|YOLG'IZ|QOROVULSAN|O'NLIKDASAN|ARQON|IKKI OT)/;
 const chunks = (() => {
   const ws: W3[] = [];
   (words as W3[]).forEach((w) => {
@@ -664,7 +665,16 @@ const chunks = (() => {
     const clean = txt.replace(/[.,:]/g, '').toUpperCase();
     const closes = /[.,:?!]$/.test(txt);
     const cur = out[out.length - 1];
-    if (cur && !cur.closed && cur.text.length + clean.length <= 9 && !cur.text.includes(' ')) {
+    // phrases that must stay together on one card (names, "bir kun", numbers)
+    if (cur && PAIRS.includes(cur.text + ' ' + clean)) {
+      cur.text += ' ' + clean;
+      cur.end = e;
+      cur.closed = true;
+      return;
+    }
+    const next = ws[ws.indexOf(ws.find((w) => w[1] === s)!) + 1];
+    const startsPair = next && PAIRS.includes(clean + ' ' + next[0].replace(/[.,:]/g, '').toUpperCase());
+    if (cur && !startsPair && !cur.closed && cur.text.length + clean.length <= 9 && !cur.text.includes(' ')) {
       cur.text += ' ' + clean;
       cur.end = e;
       cur.closed = closes;
