@@ -4,7 +4,7 @@ import React from 'react';
 // A modern Uzbek teenager who lands in a different era each episode.
 // Pure SVG, viewBox 400x800, so it scales cleanly and animates in Remotion.
 
-export type Outfit = 'modern' | 'soldier';
+export type Outfit = 'modern' | 'soldier' | 'temur';
 export type Mood = 'neutral' | 'surprised' | 'happy' | 'worried' | 'determined';
 
 const INK = '#2b1e16';
@@ -96,6 +96,7 @@ const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}>
       <path d="M106 196 C110 176 120 166 134 162 L266 162 C280 166 290 176 294 196 C270 182 130 182 106 196 Z" fill={HAIR} />
     )}
     <Face mood={mood} blink={blink} lookX={lookX} />
+    {outfit === 'temur' && <Beard />}
   </g>
 );
 
@@ -232,15 +233,85 @@ const SoldierBody: React.FC<{swing: number}> = ({swing}) => {
   );
 };
 
+// ---------- Amir Temur (same drawing style as Bek) ----------
+const BEARD = '#3b2516';
+const Beard: React.FC = () => (
+  <g>
+    {/* beard along the jaw, leaving the mouth open */}
+    <path
+      d="M110 228 C112 280 140 330 200 352 C260 330 288 280 290 228 C280 262 262 282 240 286 C226 300 214 304 200 304 C186 304 174 300 160 286 C138 282 120 262 110 228 Z"
+      fill={BEARD}
+      stroke={INK}
+      strokeWidth={4}
+      strokeLinejoin="round"
+    />
+    {/* moustache */}
+    <path d="M200 252 C186 244 164 246 152 262 C168 258 184 262 200 260 C216 262 232 258 248 262 C236 246 214 244 200 252 Z" fill={BEARD} stroke={INK} strokeWidth={3.5} strokeLinejoin="round" />
+    {/* grey streaks */}
+    <path d="M150 300 Q170 330 196 344" stroke="#7d6a5a" strokeWidth={4} fill="none" strokeLinecap="round" />
+    <path d="M250 300 Q232 330 206 344" stroke="#7d6a5a" strokeWidth={4} fill="none" strokeLinecap="round" />
+  </g>
+);
+
+const TemurHat: React.FC = () => (
+  <g>
+    {/* plume */}
+    <path d="M232 70 C246 30 270 14 286 10 C276 34 262 56 246 82 Z" fill="#f4efe2" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+    {/* tall rounded crown */}
+    <path d="M118 160 C118 80 150 34 200 30 C250 34 282 80 282 160 Z" fill="#8f1f1a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M200 34 L200 156" stroke="#d9a43a" strokeWidth={6} />
+    <path d="M150 60 C140 90 136 120 136 156" stroke="#d9a43a" strokeWidth={5} fill="none" />
+    <path d="M250 60 C260 90 264 120 264 156" stroke="#d9a43a" strokeWidth={5} fill="none" />
+    {/* fur brim */}
+    <rect x={98} y={146} width={204} height={44} rx={22} fill="#e9dcc3" stroke={INK} strokeWidth={SW} />
+    {[118, 146, 174, 202, 230, 258, 284].map((x) => (
+      <path key={x} d={`M${x} 152 q6 14 0 30`} stroke="#c9b48e" strokeWidth={4} fill="none" />
+    ))}
+    {/* jewel */}
+    <circle cx={200} cy={120} r={16} fill="#2f7fd1" stroke={INK} strokeWidth={4} />
+    <circle cx={195} cy={115} r={5} fill="#fff" opacity={0.8} />
+  </g>
+);
+
+const TemurBody: React.FC<{swing: number}> = ({swing}) => (
+  <g>
+    {/* boots */}
+    <path d="M146 640 L194 640 L196 728 L128 728 C126 708 138 700 146 696 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M206 640 L254 640 L254 696 C262 700 274 708 272 728 L204 728 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    {/* arms */}
+    <g transform={`rotate(${swing} 128 340)`}>
+      <path d="M128 330 C100 340 92 420 98 500 L136 500 C136 440 140 380 148 352 Z" fill="#1f5a3a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={96} y={478} width={42} height={18} rx={5} fill="#d9a43a" stroke={INK} strokeWidth={4} />
+      <circle cx={117} cy={514} r={19} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <g transform={`rotate(${-swing} 272 340)`}>
+      <path d="M272 330 C300 340 308 420 302 500 L264 500 C264 440 260 380 252 352 Z" fill="#1f5a3a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={262} y={478} width={42} height={18} rx={5} fill="#d9a43a" stroke={INK} strokeWidth={4} />
+      <circle cx={283} cy={514} r={19} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    {/* long robe */}
+    <path d="M132 322 C160 310 240 310 268 322 C276 380 274 440 270 470 L300 660 L100 660 L130 470 C126 440 124 380 132 322 Z" fill="#1f5a3a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M200 326 L200 658" stroke="#d9a43a" strokeWidth={8} />
+    <path d="M170 322 L200 380 L230 322" fill="none" stroke="#d9a43a" strokeWidth={8} strokeLinejoin="round" />
+    {[380, 420, 520, 580].map((y) => (
+      <circle key={y} cx={214} cy={y} r={6} fill="#d9a43a" stroke={INK} strokeWidth={2} />
+    ))}
+    {/* belt */}
+    <rect x={128} y={456} width={144} height={28} rx={8} fill="#d9a43a" stroke={INK} strokeWidth={4} />
+    <circle cx={200} cy={470} r={14} fill="#8f1f1a" stroke={INK} strokeWidth={4} />
+  </g>
+);
+
 // Bek as an SVG group in his own 400x800 coordinate space (for use inside other SVG scenes).
 export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, armSwing = 0, shadow = true}) => (
   <g>
     {shadow && <ellipse cx={200} cy={732} rx={110} ry={14} fill="#000" opacity={0.25} />}
     {outfit === 'soldier' && <Aventail />}
-    {outfit === 'modern' ? <ModernBody swing={armSwing} /> : <SoldierBody swing={armSwing} />}
-    {outfit === 'modern' && <rect x={180} y={300} width={40} height={26} fill={SKIN_SH} stroke={INK} strokeWidth={SW} />}
+    {outfit === 'modern' ? <ModernBody swing={armSwing} /> : outfit === 'temur' ? <TemurBody swing={armSwing} /> : <SoldierBody swing={armSwing} />}
+    {outfit !== 'soldier' && <rect x={180} y={300} width={40} height={26} fill={SKIN_SH} stroke={INK} strokeWidth={SW} />}
     <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'soldier' && <Helmet />}
+    {outfit === 'temur' && <TemurHat />}
   </g>
 );
 

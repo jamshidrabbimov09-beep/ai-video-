@@ -5,7 +5,7 @@ import {Bek, Outfit, Mood} from './Bek';
 const cells: {outfit: Outfit; mood: Mood; label: string}[] = [
   {outfit: 'modern', mood: 'happy', label: 'Bugungi Bek'},
   {outfit: 'soldier', mood: 'surprised', label: 'Temur askari'},
-  {outfit: 'soldier', mood: 'worried', label: 'xavotir'},
+  {outfit: 'temur', mood: 'determined', label: 'Amir Temur'},
   {outfit: 'soldier', mood: 'determined', label: 'qat\'iyat'},
 ];
 
