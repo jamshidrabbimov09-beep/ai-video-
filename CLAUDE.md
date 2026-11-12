@@ -136,6 +136,9 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   the phone: always deliver through a GitHub link.
 - Creative Claw: 27 credits left.
 
+- Part 2 Reel after ~15 h: 2,126 views, 1,735 reached, average watch 54 s of 2:26, skip rate 30.9% (above average), likes 6.5%,
+  shares 11, saves 7, 2 comments, 32 follows. Retention falls to about 40% in the first 15 s; views stopped growing after ~6 h.
+
 ## Open items
 
 - Part 3 (Balx 1370, rise to power; puppet khans): script first, confirmed by the user before recording.
