@@ -23,7 +23,7 @@ const V3 = [
 ];
 
 // ---------- drawings ----------
-const Blueprint: React.FC<{kind: 'gun' | 'tank' | 'plane'; label: string}> = ({kind, label}) => (
+export const Blueprint: React.FC<{kind: 'gun' | 'tank' | 'plane'; label: string}> = ({kind, label}) => (
   <g>
     <rect x={-200} y={-150} width={400} height={300} rx={18} fill="#1d5fa8" stroke="#fff" strokeWidth={6} />
     {Array.from({length: 9}).map((_, i) => (
