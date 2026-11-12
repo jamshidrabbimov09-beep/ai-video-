@@ -1,7 +1,8 @@
 // Motion-design inserts for Part 4 "O'zi qutqargan dushman" (2026-11-12). Same look as p3motion.tsx (paper map, gold nodes).
 // Nothing is drawn in the subtitle band (y >= 1380). Maps use a simple equirectangular projection of real coordinates.
 import React from 'react';
-import {interpolate, useCurrentFrame, Easing, random} from 'remotion';
+import {interpolate, useCurrentFrame, Easing, random, staticFile} from 'remotion';
+import borders from './borders_p4.json';
 import {GOLD, CREAM, RED, font, cl, io, Paper, Label, Node} from './p3motion';
 
 type LL = [number, number]; // [lon, lat]
@@ -25,12 +26,39 @@ export const PL: Record<string, LL> = {
   termiz: [67.3, 37.25], saroy: [47.3, 47.0], darband: [48.29, 42.06], shirvon: [48.6, 40.6], tabriz: [46.3, 38.08],
 };
 const pts = (P: (l: LL) => [number, number], a: LL[]) => a.map((p) => P(p).join(' ')).join(' L ');
-const Geo: React.FC<{P: (l: LL) => [number, number]; rivers?: LL[][]; seas?: LL[][]}> = ({P, rivers = [SYR, AMU, VOLGA, KURA], seas = [CASPIAN, ARAL]}) => (
+// 14th-century uluses, drawn by hand after the books (approximate: there were no fixed borders).
+// Chig'atoy ulusi under Temur in the 1370s: Movarounnahr between the Amu and Syr Darya, Fergana, Balx up to the Hindu Kush; Xorazm not yet his.
+const CHAGATAY: LL[] = [[61.8, 40.6], [63.0, 41.9], [65.8, 42.2], [67.6, 42.0], [68.9, 42.4], [70.4, 42.2], [71.6, 41.6], [73.6, 40.8], [73.4, 39.6], [71.6, 39.4], [71.6, 37.2], [70.8, 36.1], [69.4, 35.3], [67.4, 35.0], [65.4, 35.6], [64.2, 36.3], [63.2, 37.3], [62.4, 38.7], [61.6, 39.6]];
+// Jo'chi ulusi: the Qipchoq steppe from the Syr Darya (Sig'noq, O'tror region) and the Aral to the Volga, the Crimea and Darband.
+const JOCHI: LL[] = [[25, 47.0], [25, 66], [85, 66], [85, 50.5], [80, 49.5], [77.0, 46.5], [73.0, 45.2], [70.4, 44.2], [68.9, 42.9], [67.6, 43.6], [66.4, 44.4], [65.5, 44.6], [63.8, 45.3], [61.8, 45.8], [61.4, 44.6], [60.3, 43.6], [58.6, 43.2], [56.0, 43.6], [53.5, 43.2], [52.0, 42.6], [50.0, 42.6], [48.5, 41.9], [46.8, 42.5], [44.0, 43.0], [41.0, 43.5], [38.0, 45.0], [35.5, 45.0], [33.0, 46.0]];
+export const ULUS = {CHAGATAY, JOCHI};
+const Relief: React.FC<{P: (l: LL) => [number, number]}> = ({P}) => {
+  const [x0, y0] = P([25, 64]), [x1, y1] = P([85, 14]);
+  return (
+    <g>
+      <image href={staticFile('maps/relief_p4.jpg')} x={x0} y={y0} width={x1 - x0} height={y1 - y0} preserveAspectRatio="none" />
+      {(borders.lines as LL[][]).map((l, i) => <path key={i} d={`M ${pts(P, l)}`} fill="none" stroke="#f5ecd5" strokeWidth={2} strokeOpacity={0.28} strokeDasharray="6 8" />)}
+    </g>
+  );
+};
+const Ulus: React.FC<{P: (l: LL) => [number, number]; poly: LL[]; col: string; o: number}> = ({P, poly, col, o}) => (
+  <path d={`M ${pts(P, poly)} Z`} fill={col} fillOpacity={0.28 * o} stroke={col} strokeWidth={5} strokeOpacity={0.9 * o} strokeLinejoin="round" />
+);
+const TEMUR_COL = '#e0b13a', JOCHI_COL = '#c0563b';
+const Geo: React.FC<{P: (l: LL) => [number, number]; rivers?: LL[][]; seas?: LL[][]; ulus?: number}> = ({P, rivers = [SYR, AMU, VOLGA, KURA], seas = [ARAL], ulus = 1}) => (
   <g>
-    {seas.map((s, i) => <path key={'s' + i} d={`M ${pts(P, s)} Z`} fill="#2b4654" fillOpacity={0.55} stroke="#8fb6c4" strokeWidth={3} strokeOpacity={0.6} />)}
-    {rivers.map((r, i) => <path key={'r' + i} d={`M ${pts(P, r)}`} fill="none" stroke="#7fb0c2" strokeWidth={5} strokeOpacity={0.75} strokeLinejoin="round" />)}
+    <Relief P={P} />
+    {ulus > 0 && <Ulus P={P} poly={JOCHI} col={JOCHI_COL} o={ulus} />}
+    {ulus > 0 && <Ulus P={P} poly={CHAGATAY} col={TEMUR_COL} o={ulus} />}
+    {(borders.lakes as LL[][]).map((s, i) => <path key={'l' + i} d={`M ${pts(P, s)} Z`} fill="#4a6b7a" stroke="#9cc3cf" strokeWidth={3} strokeOpacity={0.7} />)}
+    {seas.map((s, i) => <path key={'s' + i} d={`M ${pts(P, s)} Z`} fill="#4a6b7a" fillOpacity={1} stroke="#9cc3cf" strokeWidth={3} strokeOpacity={0.7} />)}
+    {(borders.rivers as LL[][]).map((r, i) => <path key={'r' + i} d={`M ${pts(P, r)}`} fill="none" stroke="#8fc2d4" strokeWidth={4} strokeOpacity={0.9} strokeLinejoin="round" />)}
   </g>
 );
+const UlusLabel: React.FC<{P: (l: LL) => [number, number]; at: LL; t: string; col: string; o: number; size?: number}> = ({P, at, t, col, o, size = 34}) => {
+  const [x, y] = P(at);
+  return <Label x={x} y={y} t={t} o={o} size={size} col={col} />;
+};
 // arrow along a polyline that draws itself between frames a..b
 const Arrow: React.FC<{p: [number, number][]; a: number; b: number; col?: string; w?: number}> = ({p, a, b, col = RED, w = 9}) => {
   const fr = useCurrentFrame();
@@ -108,7 +136,8 @@ export const Lands: React.FC<{d: number}> = ({d}) => {
         <City P={P} k="samarqand" t="SAMARQAND" o={io(fr, 0, 10)} r={18} col={GOLD} />
         <City P={P} k="otror" t="O'TROR" o={io(fr, 22, 32)} side="end" />
         <City P={P} k="signoq" t="SIG'NOQ" o={io(fr, 34, 44)} side="end" />
-        <Label x={P([65.3, 44.2])[0]} y={P([65.3, 44.2])[1]} t="Sirdaryo" o={io(fr, 0, 12) * 0.8} size={30} col="#a9d0dd" />
+        <UlusLabel P={P} at={[65.2, 40.9]} t="CHIG'ATOY ULUSI" col="#ffe08a" o={io(fr, 0, 12)} />
+        <UlusLabel P={P} at={[64.6, 45.5]} t="JO'CHI ULUSI" col="#ffc2b0" o={io(fr, 0, 12)} />
       </svg>
     </Paper>
   );
@@ -161,10 +190,11 @@ export const Horde: React.FC<{d: number}> = ({d}) => {
     <Paper d={d} zoom={[1.05, 1.0]}>
       <svg width={1080} height={1920} style={{position: 'absolute'}}>
         <defs><clipPath id="hz"><circle cx={gx} cy={gy} r={r} /></clipPath></defs>
-        <path d={steppe} fill="rgba(212,175,55,0.34)" stroke={GOLD} strokeWidth={4} strokeDasharray="18 10" clipPath="url(#hz)" />
-        <Geo P={P} rivers={[SYR, AMU, VOLGA]} seas={[CASPIAN, ARAL]} />
+        <path d={`M ${pts(P, JOCHI)} Z`} fill="rgba(255,190,90,0.42)" stroke="#ffcf6a" strokeWidth={6} clipPath="url(#hz)" />
+        <Geo P={P} rivers={[SYR, AMU, VOLGA]} seas={[ARAL]} />
         <City P={P} k="signoq" t="SIG'NOQ" o={1} side="end" pulse={(fr % 30) / 30} />
         <City P={P} k="saroy" t="SAROY" o={io(fr, d * 0.55, d * 0.55 + 10)} r={16} col={GOLD} />
+        <UlusLabel P={P} at={[66.0, 41.0]} t="CHIG'ATOY ULUSI" col="#ffe08a" o={0.9} size={30} />
         <City P={P} k="samarqand" t="SAMARQAND" o={0.85} r={12} size={34} col="#e6dcc4" side="end" />
       </svg>
     </Paper>
@@ -221,7 +251,7 @@ export const Tabriz: React.FC<{d: number}> = ({d}) => {
   return (
     <Paper d={d} zoom={[1.0, 1.08]}>
       <svg width={1080} height={1920} style={{position: 'absolute'}}>
-        <Geo P={P} rivers={[VOLGA, KURA]} seas={[CASPIAN]} />
+        <Geo P={P} rivers={[VOLGA, KURA]} seas={[]} ulus={0} />
         {Array.from({length: 26}).map((_, i) => {
           const y = ((random('sn' + i) * 900 + fr * (3 + random('v' + i) * 3)) % 900) + 520;
           return <circle key={i} cx={random('x' + i) * 1080} cy={y} r={2 + random('r' + i) * 3} fill="#fff" opacity={0.5} />;
@@ -254,7 +284,8 @@ export const Invade: React.FC<{d: number}> = ({d}) => {
         <City P={P} k="buxoro" t="BUXORO" o={io(fr, d * 0.35, d * 0.35 + 8)} side="end" size={46} />
         {siege > 0 && <circle cx={bx} cy={by} r={60 + 8 * Math.sin(fr / 4)} fill="none" stroke={RED} strokeWidth={8} strokeDasharray="10 12" opacity={siege} transform={`rotate(${fr * 3} ${bx} ${by})`} />}
         <Flame x={qx} y={qy - 6} o={io(fr, d * 0.72, d * 0.72 + 8)} s={0.8} />
-        <Label x={P([66.0, 36.95])[0]} y={P([66.0, 36.95])[1]} t="Amudaryo" o={io(fr, 0, 12) * 0.85} size={32} col="#a9d0dd" />
+        <UlusLabel P={P} at={[63.6, 44.4]} t="JO'CHI ULUSI" col="#ffc2b0" o={io(fr, 0, 12)} />
+        <Label x={P([66.0, 36.95])[0]} y={P([66.0, 36.95])[1]} t="Amudaryo" o={io(fr, 0, 12) * 0.85} size={32} col="#cfe6ee" />
       </svg>
     </Paper>
   );
