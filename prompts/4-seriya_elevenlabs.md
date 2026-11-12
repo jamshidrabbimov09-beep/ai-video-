@@ -12,7 +12,7 @@ Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan
 
 ## B (iliq, hikoya)
 ```
-[storytelling] Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan edi. [short pause] [warm] Temur uni izzat bilan kutib oldi. To'y berdi. Xon chodiri, nog'ora, tuya va ot podalarini hadya qildi. [short pause] [softly] Yazdiy yozishicha, uni o'g'lidek ko'rdi. [short pause] O'tror va Sig'noq yerlarini ham unga berdi.
+[storytelling] Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan edi. [short pause] [warm] Temur uni izzat bilan kutib oldi. Katta ziyofat berdi. Xon chodiri, nog'ora, tuya va ot podalarini hadya qildi. [short pause] [softly] Yazdiy yozishicha, uni o'g'lidek ko'rdi. [short pause] O'tror va Sig'noq yerlarini ham unga berdi.
 ```
 
 ## C (taranglik)
@@ -32,10 +32,10 @@ Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan
 
 ## F (xavotir oshadi)
 ```
-[dramatic] Ming uch yuz sakson beshinchi yil, qish. [short pause] To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. [pause] [tense] Ming uch yuz sakson yettinchi yil, bahor. Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. [short pause] [firm, commanding] Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa... jang qilmanglar." [short pause] [tense] Beklar ortga qaytadi. [short pause] [angry] Dushman esa ularning orqasidan o'q yog'diradi. [short pause] [strong] Mironshoh yetib kelib, dushmanni quvib soladi. [pause] [hurt, quieter] Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bola munosabati bor. [short pause] Nega bunday qilyapsan?"
+[dramatic] Ming uch yuz sakson beshinchi yil, qish. [short pause] To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. [pause] [tense] Ming uch yuz sakson yettinchi yil, bahor. Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. [short pause] [firm, commanding] Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa... jang qilmanglar." [short pause] [tense] Beklar ortga qaytadi. [short pause] [angry] Dushman esa ularning orqasidan kamondan o'q yog'diradi. [short pause] [strong] Mironshoh yetib kelib, dushmanni quvib soladi. [pause] [hurt, quieter] Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bola munosabati bor. [short pause] Nega bunday qilyapsan?"
 ```
 
 ## G (zarba, keyin ilgak)
 ```
-[ominous, low] Javob o'sha yili keldi. [short pause] Temur uzoq janubda, Forsda edi. [short pause] [dramatic, faster] To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi. Zanjirsaroyni yoqdi. Amudaryogacha bo'lgan yerlarni taladi. [long pause] [bitter, slow] Temur qutqargan odam... endi uning uyiga o't qo'ygan edi. [long pause] [determined] Temur ortga qaytadi. [short pause] Bir necha yil o'tib, u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. [pause] [curious] Bu yurish qanday tugadi? [short pause] [inviting] Keyingi qismda.
+[ominous, low] Javob o'sha yili keldi. [short pause] Temur uzoq janubda, Forsda edi. [short pause] [dramatic, faster] To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi. Zanjirsaroyni yoqdi. Amudaryogacha bo'lgan yerlarni taladi. [long pause] [bitter, slow] Temur qutqargan odam... endi uning uyini yondirgan edi. [long pause] [determined] Temur ortga qaytadi. [short pause] Bir necha yil o'tib, u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. [pause] [curious] Bu yurish qanday tugadi? [short pause] [inviting] Keyingi qismda.
 ```

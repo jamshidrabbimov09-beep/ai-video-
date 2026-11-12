@@ -10,7 +10,7 @@ Qamrov: 1376-1387 (qutqarishdan xiyonatgacha). 1391 va 1395 janglari keyingi qis
 Sirdaryo bo'yi. Butazor ichida bir odam yotibdi. Yalang'och, qo'li kamon o'qidan yaralangan, zo'rg'a nafas oladi. Bu Chingizxon avlodidan bo'lgan shahzoda. Ismi To'xtamish. Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. Va eng og'ir xiyonatni qiladi.
 
 **B (qochoq)**
-Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan edi. Temur uni izzat bilan kutib oldi. To'y berdi, xon chodiri, nog'ora, tuya va ot podalarini hadya qildi. Yazdiy yozishicha, uni o'g'lidek ko'rdi. O'tror va Sig'noq yerlarini ham unga berdi.
+Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan edi. Temur uni izzat bilan kutib oldi. Katta ziyofat berdi, xon chodiri, nog'ora, tuya va ot podalarini hadya qildi. Yazdiy yozishicha, uni o'g'lidek ko'rdi. O'tror va Sig'noq yerlarini ham unga berdi.
 
 **C (yengilish)**
 Lekin To'xtamish O'rusxonning o'g'illariga bas kela olmadi. Bir jangda yengilib, daryoga o'zini tashladi. Ortidan kamondan o'q otildi. Temur yuborgan bek esa butazordan ingrash ovozini eshitib, uni tasodifan topib oldi.
@@ -22,10 +22,10 @@ O'rusxondan elchilar keladi: "U o'g'limni o'ldirdi. Uni bizga ber. Bermasang, ja
 Endi u Jo'chi ulusining xoni edi. Chingiz avlodi. Temur esa, eslang, xon bo'la olmasdi. Mo'g'ul an'anasiga ko'ra To'xtamish Temurdan yuqori turardi. Bir qinga ikki qilich sig'masdi.
 
 **F (birinchi zarbalar)**
-1385-yil qishi. To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. 1387-yil bahori, Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa, jang qilmanglar." Beklar ortga qaytadi, dushman esa ularning orqasidan o'q yog'diradi. Mironshoh yetib kelib, dushmanni quvib soladi. Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bola munosabati bor. Nega bunday qilyapsan?"
+1385-yil qishi. To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. 1387-yil bahori, Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa, jang qilmanglar." Beklar ortga qaytadi, dushman esa ularning orqasidan kamondan o'q yog'diradi. Mironshoh yetib kelib, dushmanni quvib soladi. Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bola munosabati bor. Nega bunday qilyapsan?"
 
 **G (xiyonat va keyingi qismga ilgak)**
-Javob o'sha yili keldi. Temur uzoq janubda, Forsda edi. To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi, Zanjirsaroyni yoqdi, Amudaryogacha bo'lgan yerlarni taladi. Temur qutqargan odam endi uning uyiga o't qo'ygan edi. Temur ortga qaytadi. Bir necha yil o'tib, u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. Bu yurish qanday tugadi? Keyingi qismda.
+Javob o'sha yili keldi. Temur uzoq janubda, Forsda edi. To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi, Zanjirsaroyni yoqdi, Amudaryogacha bo'lgan yerlarni taladi. Temur qutqargan odam endi uning uyini yondirgan edi. Temur ortga qaytadi. Bir necha yil o'tib, u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. Bu yurish qanday tugadi? Keyingi qismda.
 
 ## Fakt tekshiruvi
 
