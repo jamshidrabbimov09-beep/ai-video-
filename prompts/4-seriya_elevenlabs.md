@@ -7,7 +7,7 @@ Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan
 
 ## A (past, sirli: birinchi 3 soniya eng muhim)
 ```
-[whispers] Sirdaryo bo'yi. [short pause] Butazor ichida... bir odam yotibdi. [short pause] [tense, low] Yalang'och. Qo'lida o'q yarasi. Zo'rg'a nafas oladi. [pause] [serious] Bu Chingizxon avlodidan bo'lgan shahzoda. [short pause] Ismi... To'xtamish. [pause] [storytelling] Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. [short pause] [ominous, slower] Va eng og'ir xiyonatni qiladi.
+[whispers] Sirdaryo bo'yi. [short pause] Butazor ichida... bir odam yotibdi. [short pause] [tense, low] Yalang'och. Qo'li o'qdan yaralangan. Zo'rg'a nafas oladi. [pause] [serious] Bu Chingizxon avlodidan bo'lgan shahzoda. [short pause] Ismi... To'xtamish. [pause] [storytelling] Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. [short pause] [ominous, slower] Va eng og'ir xiyonatni qiladi.
 ```
 
 ## B (iliq, hikoya)

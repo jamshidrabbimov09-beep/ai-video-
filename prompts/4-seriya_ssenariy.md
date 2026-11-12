@@ -7,7 +7,7 @@ Qamrov: 1376-1387 (qutqarishdan xiyonatgacha). 1391 va 1395 janglari keyingi qis
 ## Ovoz matni
 
 **A (ilgak)**
-Sirdaryo bo'yi. Butazor ichida bir odam yotibdi. Yalang'och, qo'lida o'q yarasi, zo'rg'a nafas oladi. Bu Chingizxon avlodidan bo'lgan shahzoda. Ismi To'xtamish. Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. Va eng og'ir xiyonatni qiladi.
+Sirdaryo bo'yi. Butazor ichida bir odam yotibdi. Yalang'och, qo'li o'qdan yaralangan, zo'rg'a nafas oladi. Bu Chingizxon avlodidan bo'lgan shahzoda. Ismi To'xtamish. Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. Va eng og'ir xiyonatni qiladi.
 
 **B (qochoq)**
 Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan edi. Temur uni izzat bilan kutib oldi. To'y berdi, xon chodiri, nog'ora, tuya va ot podalarini hadya qildi. Yazdiy yozishicha, uni o'g'lidek ko'rdi. O'tror va Sig'noq yerlarini ham unga berdi.
