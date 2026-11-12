@@ -3,8 +3,8 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
-The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1) and
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`). The user plans one chat per part and wants each new chat to know everything
+The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -17,7 +17,8 @@ update this file.
   Vertical, AI-illustrated narrated videos of about 2 minutes.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
-- **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" is finished (2026-11-11).** Next: Part 3.
+- **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Next: Part 4 (To'xtamish), same v2 method.
 
 ## The user
 
@@ -138,7 +139,46 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 ## Open items
 
-- Part 3 (Balx 1370, rise to power; puppet khans): script first, confirmed by the user before recording.
+- **Part 4 (To'xtamish), the user's two wishes (2026-11-12):** (1) voice intonation: the narration must sound alive, not flat:
+  write the ElevenLabs text with delivery in mind (v3-style audio tags such as [whispers], [dramatic], pauses, short punchy
+  sentences, questions) and tell the user which settings to try; (2) more motion design INSIDE the part: not only slow zoom on
+  stills, but animated maps, moving army markers, counters, animated titles. The tilted battlefield with moving horsemen from
+  `src/LoyJangi.tsx` can be reused as short inserts (keep zoom <= 2 and the ground layer small: close-ups made renders time out).
+  Script first, checked against Yazdi and Manz, confirmed by the user before recording. Manz pp. 69-71 on To'xtamish are in the notes.
+- **Part 3 v2 DONE (2026-11-12), the version to post on Instagram:** expressive re-recorded voice `public/audio3/all_v2_raw.mp3`
+  (ElevenLabs v4, Stability "Creative", text with tags `prompts/3-seriya_elevenlabs_v2.md`), used UNCUT; timeline `edit/edit_p3v2.py`,
+  composition `src/Part3V2.tsx`, motion scenes `src/p3motion.tsx` (amirs gather at Balx, Chinggisid tree that Temur cannot join,
+  puppet khan, Ko'ragon marriage link, road Balx-Kesh-Samarqand with walls rising), soft synthesized SFX `edit/sfx_p3v2.py`,
+  build `edit/build_part3v2.sh`, exports `video/exports/part3v2_xon_emas_hukmdor_1080p*.mp4` (117 s). User feedback applied:
+  no text in a motion scene that repeats the subtitle, nothing near the subtitle band (y >= 1380), the drawn lone-rider scene looked
+  odd (replaced by a still), never leave the last sentence on a black frame (the end card fades in only after the voice).
+  Posting plan: Instagram today 17:15-17:45 (user may try the logo-free file; a small own logo does not hurt reach).
+- Openverse: search works (api.openverse.org allowed in the `ai-video-` environment), but freesound.org files return 403 to
+  downloads and must not be worked around; Wikimedia results are mostly word pronunciations. Earshot / RealSFX are not in the
+  connector directory. So sound effects are synthesized in numpy.
+- The separate "battle breakdown" format is DROPPED: the user watched Loy jangi v2 and said this work is not needed
+  ("bu ish kerak emas ekan"). Files stay in the repo (`LoyJangi.tsx`, `edit_loy.py`, exports) only as a source of techniques.
+
+- Sources: the user distrusts Wikipedia and wants scripts checked against books. They uploaded Yazdi's "Zafar-name" (Russian, 2008) as
+  `zafar.pdf` and Manz's "The Rise and Rule of Tamerlane" as `the riser .pdf` (scan, needs OCR) on `main` (not merged into work
+  branches). The user's rule from now on: every script is checked against these two books, Manz wins where they differ. Notes with
+  page references are in `prompts/manbalar_konspekt.md`: read them first, add to them when reading new chapters.
+- Part 3 "Xon emas, hukmdor" (chat 4, 2026-11-11): script confirmed and checked against Yazdi and Manz (`prompts/3-seriya_ssenariy.md`),
+  ElevenLabs text, 36 image prompts and Flow packets in `prompts/3-seriya_*`. Narration recorded as one file `public/audio3/all_raw.mp3`;
+  block E was re-recorded (`audio3/E_fix.mp3`, "Saroy Mulk xonim" written apart so the k is spoken) and spliced into
+  `public/voice3/all.mp3`; word times for E are interpolated (see `edit/transcript3.json` note). 35 images `public/p3img/k01..k36`
+  (k09 missing, k07 and k15 unused). Timeline `edit/edit_p3.py`, composition `src/Part3.tsx`, build `edit/build_part3.sh`
+  (130 s). Exports `video/exports/part3_xon_emas_hukmdor_1080p*.mp4`.
+- New format asked for by the user (chat 4): the parts feel "dry", so between parts make spin-off "battle breakdown" videos tied
+  to a part but watchable alone (how the battle went, numbers, details the part skipped), built ENTIRELY by Claude as motion
+  design in Remotion (map, moving units, counters; no Flow images); the user only records the voice. First topic proposed:
+  Loy jangi 1365 (notes in `prompts/manbalar_konspekt.md`). Use only numbers the books give; army totals are often absent.
+  DONE 2026-11-11: "Loy jangi" (81 s): script `prompts/loy_jangi_ssenariy.md`, timing `edit/edit_loy.py` (aligns the script to the
+  transcript words, voice is used uncut), composition `src/LoyJangi.tsx` (units as moving soldier icons, rain, arrows, counters),
+  build `edit/build_loy.sh`, exports `video/exports/loy_jangi_1080p*.mp4`. Reuse this as the template for the next battle videos.
+  Creative Claw: 23 credits left.
+- Lessons from Part 3 fixes: never cut the voice where there is no real pause (check added in `edit_p3.py`); name cards must
+  appear at the moment the name is spoken, one line only; the end card comes after the last subtitle.
 - Compare the Part 2 Reel statistics with Part 1 once the user sends screenshots.
 - Offered, not yet decided: a 60-second cut of Part 1; cross-posting the logo-free file to YouTube Shorts and TikTok.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
