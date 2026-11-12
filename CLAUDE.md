@@ -3,8 +3,8 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
-The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1) and
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`). The user plans one chat per part and wants each new chat to know everything
+The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -17,7 +17,8 @@ update this file.
   Vertical, AI-illustrated narrated videos of about 2 minutes.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
-- **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" is finished (2026-11-11).** Next: Part 3.
+- **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
+  (2026-11-11).** Next: Part 4 (To'xtamish).
 
 ## The user
 
@@ -137,6 +138,15 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 - Creative Claw: 27 credits left.
 
 ## Open items
+
+- **Part 4 (To'xtamish), the user's two wishes (2026-11-12):** (1) voice intonation: the narration must sound alive, not flat:
+  write the ElevenLabs text with delivery in mind (v3-style audio tags such as [whispers], [dramatic], pauses, short punchy
+  sentences, questions) and tell the user which settings to try; (2) more motion design INSIDE the part: not only slow zoom on
+  stills, but animated maps, moving army markers, counters, animated titles. The tilted battlefield with moving horsemen from
+  `src/LoyJangi.tsx` can be reused as short inserts (keep zoom <= 2 and the ground layer small: close-ups made renders time out).
+  Script first, checked against Yazdi and Manz, confirmed by the user before recording. Manz pp. 69-71 on To'xtamish are in the notes.
+- The separate "battle breakdown" format is DROPPED: the user watched Loy jangi v2 and said this work is not needed
+  ("bu ish kerak emas ekan"). Files stay in the repo (`LoyJangi.tsx`, `edit_loy.py`, exports) only as a source of techniques.
 
 - Sources: the user distrusts Wikipedia and wants scripts checked against books. They uploaded Yazdi's "Zafar-name" (Russian, 2008) as
   `zafar.pdf` and Manz's "The Rise and Rule of Tamerlane" as `the riser .pdf` (scan, needs OCR) on `main` (not merged into work
