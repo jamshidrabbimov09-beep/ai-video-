@@ -108,7 +108,7 @@ the young man from the second reference image (Tokhtamysh, steppe prince in his 
 
 ## 21 (blok E, referens: X)
 ```
-Portrait of the man from the second reference image, now about ten years older (Tokhtamysh as khan, sharp cheekbones, thin moustache, long braided hair, rich golden brocade robe, tall fur-trimmed hat), sitting on a golden throne in a vast tent palace, proud cold expression, chin raised, looking down at the camera. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
+Portrait of the man from the second reference image, now in his late 30s, not old, no grey hair (Tokhtamysh as khan, sharp cheekbones, thin moustache, long braided hair, rich golden brocade robe, tall fur-trimmed hat), sitting on a golden throne in a vast tent palace, proud cold expression, chin raised, looking down at the camera. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
 ```
 
 ## 22 (blok E, referens: -)
@@ -163,7 +163,7 @@ the man from the first reference image (Temur, in his 40s, dark beard with first
 
 ## 32 (blok G, referens: X)
 ```
-the man from the second reference image, now about ten years older (Tokhtamysh as khan, sharp cheekbones, thin moustache, long braided hair, rich golden brocade robe, tall fur-trimmed hat) in his golden tent holds an unrolled letter, gives a cold smirk and lets it drop to the carpet. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
+the man from the second reference image, now in his late 30s, not old, no grey hair (Tokhtamysh as khan, sharp cheekbones, thin moustache, long braided hair, rich golden brocade robe, tall fur-trimmed hat) in his golden tent holds an unrolled letter, gives a cold smirk and lets it drop to the carpet. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
 ```
 
 ## 33 (blok G, referens: T)
@@ -188,5 +188,5 @@ the man from the first reference image (Temur, in his 40s, dark beard with first
 
 ## 37 (blok G, referens: X)
 ```
-Far away on the steppe horizon, the man from the second reference image, now about ten years older (Tokhtamysh as khan, sharp cheekbones, thin moustache, long braided hair, rich golden brocade robe, tall fur-trimmed hat) on horseback with his horde behind him, turning to look back, dramatic clouds, sunset. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
+Far away on the steppe horizon, the man from the second reference image, now in his late 30s, not old, no grey hair (Tokhtamysh as khan, sharp cheekbones, thin moustache, long braided hair, rich golden brocade robe, tall fur-trimmed hat) on horseback with his horde behind him, turning to look back, dramatic clouds, sunset. Cinematic photorealistic, 14th-century Central Asia, historically accurate clothing and weapons, shallow depth of field, film grain, no text, no modern objects, no cannons or firearms, no European crowns, vertical 9:16.
 ```
