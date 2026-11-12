@@ -1261,6 +1261,8 @@ def ensure_packages():
     import importlib.util
 
     missing = [pkg for mod, pkg in PIP_NEEDS.items() if importlib.util.find_spec(mod) is None]
+    if importlib.util.find_spec("pkg_resources") is None:  # webrtcvad (resemblyzer) shuni talab qiladi
+        missing.append("setuptools<81")
     if missing and not ON_COLAB:
         print("Yangi kutubxonalar o'rnatilmoqda:", ", ".join(missing), "(bir necha daqiqa)", flush=True)
         subprocess.call([sys.executable, "-m", "pip", "install", *missing])
