@@ -15,10 +15,10 @@ export const TQ2Cover: React.FC = () => {
         <div key={i} style={{position: 'absolute', left: 540, top: 1100, width: 1400, height: 60, background: 'rgba(255,255,255,0.05)', transformOrigin: '0 50%', transform: `rotate(${i * (360 / 14)}deg)`}} />
       ))}
       <div style={{...T, top: 280, display: 'flex', justifyContent: 'center', WebkitTextStroke: '0', textShadow: 'none'}}>
-        <div style={{background: '#ffc94a', color: '#1a120c', fontSize: 52, padding: '4px 34px', borderRadius: 40}}>TASAVVUR QIL</div>
+        <div style={{background: '#ffc94a', color: '#1a120c', fontSize: 70, padding: '2px 40px', borderRadius: 50}}>TASAVVUR QIL:</div>
       </div>
-      <div style={{...T, top: 370, fontSize: 132, color: '#fff', lineHeight: 1.05}}>TEMURGA AVTOMAT</div>
-      <div style={{...T, top: 520, fontSize: 132, color: '#ff4b3e', lineHeight: 1.05}}>CHIZMASI!</div>
+      <div style={{...T, top: 400, fontSize: 128, color: '#fff', lineHeight: 1.05}}>TEMURDA AVTOMAT</div>
+      <div style={{...T, top: 545, fontSize: 132, color: '#ff4b3e', lineHeight: 1.05}}>CHIZMASI!</div>
       <svg viewBox="0 0 1080 1920" width={1080} height={1920} style={{position: 'absolute', left: 0, top: 0}}>
         <GlobeMap uid="c" rot={[60, 32]} scale={230} cx={820} cy={1330} reveal={1} extra={[]} flag={0.8} samLabel={false} t={0} />
         <g transform="translate(790 880) rotate(8) scale(1.05)">
