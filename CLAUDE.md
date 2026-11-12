@@ -152,7 +152,7 @@ sending: the user cannot re-record many times.
   `src/LoyJangi.tsx` can be reused as short inserts (keep zoom <= 2 and the ground layer small: close-ups made renders time out).
   Script first, checked against Yazdi and Manz, confirmed by the user before recording. Manz pp. 69-71 on To'xtamish are in the notes.
 - **Part 3 v2 DONE (2026-11-12), the version to post on Instagram:** expressive re-recorded voice `public/audio3/all_v2_raw.mp3`
-  (ElevenLabs v4, Stability "Creative", text with tags `prompts/3-seriya_elevenlabs_v2.md`), used UNCUT; timeline `edit/edit_p3v2.py`,
+  (ElevenLabs v4, Stability "Robust": the user always uses Robust, Creative/Natural did not suit them; text with tags `prompts/3-seriya_elevenlabs_v2.md`), used UNCUT; timeline `edit/edit_p3v2.py`,
   composition `src/Part3V2.tsx`, motion scenes `src/p3motion.tsx` (amirs gather at Balx, Chinggisid tree that Temur cannot join,
   puppet khan, Ko'ragon marriage link, road Balx-Kesh-Samarqand with walls rising), soft synthesized SFX `edit/sfx_p3v2.py`,
   build `edit/build_part3v2.sh`, exports `video/exports/part3v2_xon_emas_hukmdor_1080p*.mp4` (117 s). User feedback applied:

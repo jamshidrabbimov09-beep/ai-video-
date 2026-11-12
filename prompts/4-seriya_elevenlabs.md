@@ -1,7 +1,7 @@
 # 4-qism "O'zi qutqargan dushman": ElevenLabs matni (jonli ohang bilan)
 
 So'zlar tasdiqlangan ssenariydan (`4-seriya_ssenariy.md`), faqat ohang teglari, pauzalar va tinish belgilari qo'shilgan.
-Sozlamalar: 3-qism v2 dagi OVOZ va model (v4), Stability "Creative" (yoki 30-40%), Similarity ~75%.
+Sozlamalar: 3-qism v2 dagi OVOZ va model (v4), Stability "Robust" (foydalanuvchi doim shuni ishlatadi), Similarity o'zgarmaydi, Language override: Uzbek.
 Butun matnni bitta faylga yozsa ham bo'ladi (3-qism v2 kabi). Yoqmagan blokni alohida qayta yozing.
 Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan yozilgan: ovoz to'g'ri o'qishi uchun.
 
