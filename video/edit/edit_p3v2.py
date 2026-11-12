@@ -91,7 +91,7 @@ spec = [  # (anchor, img or "mo:<scene>", move, transition, grade)
     (('s', 29), '31', 'in', 'fade', 'warm'),
     (('s', 30), '30', 'in', 'fade', 'warm'),
     (('s', 31), '32', 'in', 'fade', 'warm'),
-    (('s', 32), 'mo:rider', 'none', 'dip', 'warm'),
+    (('s', 32), '33', 'inslow', 'dip', 'cold'),
     (('s', 33), '34', 'in', 'fade', 'warm'),
     (('w', wi(34, 'himoya')), '35', 'out', 'fade', 'warm'),
     (('s', 35), '36', 'inslow', 'fade', 'cold'),

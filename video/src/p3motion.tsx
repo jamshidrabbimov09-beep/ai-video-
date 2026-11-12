@@ -97,7 +97,6 @@ export const Tree: React.FC<{d: number}> = ({d}) => {
         <Node x={root[0]} y={root[1]} r={26} o={io(fr, 0, 10)} pulse={(fr % 40) / 40} />
         <Label x={root[0]} y={root[1] - 56} t="CHINGIZXON" o={io(fr, 4, 16)} size={54} col={GOLD} />
         {nodes}
-        <Label x={540} y={950} t="XONLAR FAQAT SHU AVLODDAN" o={io(fr, 60, 76)} size={34} />
         {tp > 0 && <g>
           <path d={`M ${tx} ${ty - 30} L ${tx} ${ly}`} stroke={broken > 0 ? RED : CREAM} strokeWidth={5} strokeDasharray="14 12" opacity={1 - broken * 0.3} />
           {broken > 0 && <g transform={`translate(${tx} ${(ly + ty) / 2 - 40}) scale(${0.6 + broken * 0.6})`} opacity={broken}><line x1={-30} y1={-30} x2={30} y2={30} stroke={RED} strokeWidth={10} strokeLinecap="round" /><line x1={30} y1={-30} x2={-30} y2={30} stroke={RED} strokeWidth={10} strokeLinecap="round" /></g>}
@@ -134,7 +133,7 @@ export const Puppet: React.FC<{d: number}> = ({d}) => {
         {[[420, 980], [660, 980], [540, 860], [470, 1210], [610, 1210]].map(([x, y], i) => (
           <line key={i} x1={i < 2 ? (i ? 660 : 420) : 540} y1={hy - 40} x2={x + sway * 0.6} y2={y} stroke={CREAM} strokeWidth={2.5} opacity={0.8} pathLength={1} strokeDasharray={`${strings} 1`} />
         ))}
-        <g transform={`translate(${kx - 540} 0)`}>
+        <g transform={`translate(${kx - 540} -60)`}>
           <path d="M 330 1330 L 330 980 Q 540 900 750 980 L 750 1330 Z" fill="#5a3d16" stroke={GOLD} strokeWidth={6} />
           <rect x={300} y={1250} width={480} height={90} rx={12} fill="#4a3112" stroke={GOLD} strokeWidth={5} />
           <path d="M 470 1250 L 470 1020 Q 540 990 610 1020 L 610 1250 Z" fill="#e6d3a3" stroke="#1a120a" strokeWidth={3} />
@@ -144,8 +143,7 @@ export const Puppet: React.FC<{d: number}> = ({d}) => {
           <line x1={420} y1={980} x2={470} y2={1060} stroke="#e6d3a3" strokeWidth={14} strokeLinecap="round" />
           <line x1={660} y1={980} x2={610} y2={1060} stroke="#e6d3a3" strokeWidth={14} strokeLinecap="round" />
         </g>
-        <Label x={540} y={1450} t="XON" o={io(fr, 4, 16)} size={64} col={GOLD} />
-        <Label x={540} y={1505} t="faqat nom" o={io(fr, d * 0.5, d * 0.5 + 14)} size={38} />
+        <Label x={540} y={1395} t="XON" o={io(fr, 4, 16)} size={58} col={GOLD} />
       </svg>
     </AbsoluteFill>
   );
@@ -177,7 +175,6 @@ export const Koragon: React.FC<{d: number}> = ({d}) => {
           return <span key={i} style={{display: 'inline-block', opacity: p, transform: `translateY(${(1 - p) * 50}px) scale(${0.5 + 0.5 * p})`, letterSpacing: 4}}>{ch}</span>;
         })}
       </div>
-      <div style={{position: 'absolute', top: 1340, left: 0, right: 0, textAlign: 'center', fontFamily: font, fontStyle: 'italic', fontSize: 50, color: CREAM, opacity: io(fr, 90, 104), textShadow: '0 3px 16px #000'}}>xon kuyovi</div>
     </Paper>
   );
 };
