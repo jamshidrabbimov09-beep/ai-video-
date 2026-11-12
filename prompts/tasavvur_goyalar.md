@@ -9,7 +9,8 @@ Qaror: 1-qism statistikasini tahlil qilgandan keyin (2026-11-13) boshlaymiz.
 - Xarita: foydalanuvchi namunasi (aylanadigan yer shari, @shoshmang_ uslubi). Kodda chizilgan globus (d3-geo orthographic +
   world-atlas), Temur davlati bitta rangda, "TAXMIN" belgisi bilan Xitoy, Hindiston, Yevropaga yoyiladi; samolyot belgisi uchadi.
 
-## 3-qism g'oyasi: "Amir Temur o'lmaganda nima bo'lardi?"
+## BEKOR QILINDI (2026-11-12): "Amir Temur o'lmaganda nima bo'lardi?"
+- Foydalanuvchi qarori: 2-qism bilan bir xil yakunga olib keladi, faqat bittasini qilamiz (qurollar).
 - 1405, O'trorda vafot; Ming Xitoyiga yurish. Taxmin ekanini ko'rsatish. Oxirgi savol: "Temur Xitoyni yenga olarmidi?"
 
 ## Zaxira g'oyalar
