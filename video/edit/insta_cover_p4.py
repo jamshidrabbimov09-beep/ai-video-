@@ -5,11 +5,14 @@ root = pathlib.Path(__file__).resolve().parent.parent
 B = '/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf'
 I = '/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf'
 GOLD = (212, 175, 55); CREAM = (245, 236, 213)
-base = Image.open(root / 'public/p4g/warm/l05.jpg').convert('RGB')
+base = Image.open(root / 'public/p4img/l05.jpg').convert('RGB')
 sc = max(1080 / base.width, 1920 / base.height)
 base = base.resize((round(base.width * sc), round(base.height * sc)), Image.LANCZOS)
 l, t = (base.width - 1080) // 2, (base.height - 1920) // 2
 base = base.crop((l, t, l + 1080, t + 1920))
+from PIL import ImageFilter, ImageEnhance
+base = base.filter(ImageFilter.UnsharpMask(radius=2.2, percent=90, threshold=2))
+base = ImageEnhance.Contrast(base).enhance(1.06)
 ov = Image.new('RGBA', (1080, 1920), (0, 0, 0, 0)); od = ImageDraw.Draw(ov)
 for y in range(950, 1920):
     od.line((0, y, 1080, y), fill=(0, 0, 0, int(225 * min(1, (y - 950) / 600))))
