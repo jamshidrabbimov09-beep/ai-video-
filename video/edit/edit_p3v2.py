@@ -181,6 +181,17 @@ for k, ch in enumerate(chunks):
 # ---------- 5. sparse sound accents ----------
 sfx = [dict(k='boom', t=round(W(wi(5, 'ming')), 3)), dict(k='boom', t=round(SS(35), 3)),
        dict(k='heart', t=round(SS(35), 3), dur=round(SE(36) - SS(35) + 0.5, 3))]
+# motion scenes get their own soft sounds (synthesised in sfx_p3v2.py; Openverse sounds could not be downloaded here)
+for sh in shots:
+    if not (sh['img'] or '').startswith('mo:'): continue
+    t0, d, kind = sh['t0'], sh['t1'] - sh['t0'], sh['img'][3:]
+    sfx.append(dict(k='whoosh', t=round(t0 - 0.15, 3)))
+    if kind == 'gather': sfx += [dict(k='drum', t=round(t0 + 0.3 + 0.75 * j, 3)) for j in range(4)]
+    if kind == 'tree': sfx.append(dict(k='snap', t=round(t0 + max(80, d * 30 * 0.5) / 30 + 52 / 30, 3)))
+    if kind == 'puppet': sfx.append(dict(k='creak', t=round(t0 + 0.6, 3)))
+    if kind == 'koragon': sfx += [dict(k='chime', t=round(t0 + 1.55, 3)), dict(k='chime2', t=round(t0 + 54 / 30 + 0.5, 3))]
+    if kind == 'capital': sfx += [dict(k='thud', t=round(t0 + 52 / 30 + j * (d - 52 / 30 - 0.4) / 6, 3)) for j in range(6)]
+    if kind == 'rider': sfx.append(dict(k='gallop', t=round(t0, 3), dur=round(d, 3)))
 (root / 'edit' / 'sfx_plan_p3v2.json').write_text(json.dumps(dict(total=round(TOTAL + 2, 2), items=sfx)))
 
 # ---------- 6. music extended on the bar grid: 0-96 s, the song section again (36 s onward), then the outro (96-112 s) ----------
