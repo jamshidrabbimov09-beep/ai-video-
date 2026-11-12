@@ -7,13 +7,13 @@ Qamrov: 1376-1387 (qutqarishdan xiyonatgacha). 1391 va 1395 janglari keyingi qis
 ## Ovoz matni
 
 **A (ilgak)**
-Sirdaryo bo'yi. Butazor ichida bir odam yotibdi. Yalang'och, qo'li o'qdan yaralangan, zo'rg'a nafas oladi. Bu Chingizxon avlodidan bo'lgan shahzoda. Ismi To'xtamish. Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. Va eng og'ir xiyonatni qiladi.
+Sirdaryo bo'yi. Butazor ichida bir odam yotibdi. Yalang'och, qo'li kamon o'qidan yaralangan, zo'rg'a nafas oladi. Bu Chingizxon avlodidan bo'lgan shahzoda. Ismi To'xtamish. Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. Va eng og'ir xiyonatni qiladi.
 
 **B (qochoq)**
 Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan edi. Temur uni izzat bilan kutib oldi. To'y berdi, xon chodiri, nog'ora, tuya va ot podalarini hadya qildi. Yazdiy yozishicha, uni o'g'lidek ko'rdi. O'tror va Sig'noq yerlarini ham unga berdi.
 
 **C (yengilish)**
-Lekin To'xtamish O'rusxonning o'g'illariga bas kela olmadi. Bir jangda yengilib, daryoga o'zini tashladi. Ortidan o'q uzildi. Temur yuborgan bek esa butazordan ingrash ovozini eshitib, uni tasodifan topib oldi.
+Lekin To'xtamish O'rusxonning o'g'illariga bas kela olmadi. Bir jangda yengilib, daryoga o'zini tashladi. Ortidan kamondan o'q otildi. Temur yuborgan bek esa butazordan ingrash ovozini eshitib, uni tasodifan topib oldi.
 
 **D (Temurning javobi)**
 O'rusxondan elchilar keladi: "U o'g'limni o'ldirdi. Uni bizga ber. Bermasang, jang joyini ayt." Temur javob beradi: "U bizdan panoh so'rab keldi. Men uni hech kimga bermayman. Urush istasangiz, tayyormiz." To'xtamish to'rt marta qochib keldi. Temur har safar uni qaytadan oyoqqa turg'izdi. Oxiri To'xtamish Dashti Qipchoq taxtiga o'tirdi, keyin butun Oltin O'rdani egalladi.

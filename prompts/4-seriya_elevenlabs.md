@@ -7,7 +7,7 @@ Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan
 
 ## A (past, sirli: birinchi 3 soniya eng muhim)
 ```
-[whispers] Sirdaryo bo'yi. [short pause] Butazor ichida... bir odam yotibdi. [short pause] [tense, low] Yalang'och. Qo'li o'qdan yaralangan. Zo'rg'a nafas oladi. [pause] [serious] Bu Chingizxon avlodidan bo'lgan shahzoda. [short pause] Ismi... To'xtamish. [pause] [storytelling] Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. [short pause] [ominous, slower] Va eng og'ir xiyonatni qiladi.
+[whispers] Sirdaryo bo'yi. [short pause] Butazor ichida... bir odam yotibdi. [short pause] [tense, low] Yalang'och. Qo'li kamon o'qidan yaralangan. Zo'rg'a nafas oladi. [pause] [serious] Bu Chingizxon avlodidan bo'lgan shahzoda. [short pause] Ismi... To'xtamish. [pause] [storytelling] Bir kun kelib u Temurdan eng katta yaxshilikni ko'radi. [short pause] [ominous, slower] Va eng og'ir xiyonatni qiladi.
 ```
 
 ## B (iliq, hikoya)
@@ -17,7 +17,7 @@ Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan
 
 ## C (taranglik)
 ```
-[serious] Lekin To'xtamish O'rusxonning o'g'illariga bas kela olmadi. [short pause] [tense, faster] Bir jangda yengilib, daryoga o'zini tashladi. Ortidan o'q uzildi. [pause] [quiet, mysterious] Temur yuborgan bek esa butazordan ingrash ovozini eshitib... uni tasodifan topib oldi.
+[serious] Lekin To'xtamish O'rusxonning o'g'illariga bas kela olmadi. [short pause] [tense, faster] Bir jangda yengilib, daryoga o'zini tashladi. Ortidan kamondan o'q otildi. [pause] [quiet, mysterious] Temur yuborgan bek esa butazordan ingrash ovozini eshitib... uni tasodifan topib oldi.
 ```
 
 ## D (kuchli, dialog)
