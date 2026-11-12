@@ -1,6 +1,6 @@
 # 4-seriya: "O'zi qutqargan dushman" (Amir Temur va To'xtamish) — ssenariy va fakt tekshiruvi
 
-Holat: TAKLIF (2026-11-12), Yazdiy va Manz bo'yicha tekshirilgan, foydalanuvchi tasdig'ini kutmoqda. Ovoz hali yozilmagan.
+Holat: foydalanuvchi TASDIQLADI (2026-11-12), nomi "O'zi qutqargan dushman" qoldi. Yazdiy va Manz bo'yicha tekshirilgan. Ovoz hali yozilmagan.
 Hajm: ~300 so'z, jonli o'qishda taxminan 2 daqiqa (3-qism v2: 290 so'z = 117 s). 7 blok (A-G).
 Qamrov: 1376-1387 (qutqarishdan xiyonatgacha). 1391 va 1395 janglari keyingi qismga ilgak bo'lib qoladi.
 
