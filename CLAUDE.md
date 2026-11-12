@@ -145,6 +145,9 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   stills, but animated maps, moving army markers, counters, animated titles. The tilted battlefield with moving horsemen from
   `src/LoyJangi.tsx` can be reused as short inserts (keep zoom <= 2 and the ground layer small: close-ups made renders time out).
   Script first, checked against Yazdi and Manz, confirmed by the user before recording. Manz pp. 69-71 on To'xtamish are in the notes.
+- **Part 3 is being REDONE for Instagram (decided 2026-11-12)** as the test of the two wishes above: the user re-records the voice
+  from `prompts/3-seriya_elevenlabs_v2.md` (same words, intonation tags; blocks A-F); then rebuild with motion inserts (plan at the
+  end of that file): transcribe (2 credits, ask), new timeline, keep the existing images. YouTube got no views: revisit later.
 - The separate "battle breakdown" format is DROPPED: the user watched Loy jangi v2 and said this work is not needed
   ("bu ish kerak emas ekan"). Files stay in the repo (`LoyJangi.tsx`, `edit_loy.py`, exports) only as a source of techniques.
 
