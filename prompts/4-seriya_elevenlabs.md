@@ -22,20 +22,20 @@ Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Raqamlar so'z bilan
 
 ## D (kuchli, dialog)
 ```
-[cold, threatening] O'rusxondan elchilar keladi: "U o'g'limni o'ldirdi. Uni bizga ber. [short pause] Bermasang, jang joyini ayt." [pause] [proud, firm] Temur javob beradi: "U bizdan panoh so'rab keldi. Men uni hech kimga bermayman. [short pause] Urush istasangiz, tayyormiz." [long pause] [storytelling] To'xtamish to'rt marta yengilib qochib keldi. [short pause] Temur to'rt marta uni qaytadan oyoqqa turg'izdi. [short pause] [building] Oxiri To'xtamish Dashti Qipchoq taxtiga o'tirdi... keyin butun Oltin O'rdani egalladi.
+[cold, threatening] O'rusxondan elchilar keladi: "U o'g'limni o'ldirdi. Uni bizga ber. [short pause] Bermasang, jang joyini ayt." [pause] [proud, firm] Temur javob beradi: "U bizdan panoh so'rab keldi. Men uni hech kimga bermayman. [short pause] Urush istasangiz, tayyormiz." [long pause] [storytelling] To'xtamish to'rt marta qochib keldi. [short pause] Temur har safar uni qaytadan oyoqqa turg'izdi. [short pause] [building] Oxiri To'xtamish Dashti Qipchoq taxtiga o'tirdi... keyin butun Oltin O'rdani egalladi.
 ```
 
 ## E (o'ylantiruvchi)
 ```
-[thoughtful] Endi u Jo'chi ulusining xoni edi. [short pause] Chingiz avlodi. [pause] [knowing] Temur esa, eslang... xon bo'la olmasdi. [short pause] [serious] Mo'g'ul dunyosida To'xtamish o'zini Temurdan yuqori deb bilardi. [pause] [slow, heavy] Ikki shunday hukmdor yonma-yon sig'masdi.
+[thoughtful] Endi u Jo'chi ulusining xoni edi. [short pause] Chingiz avlodi. [pause] [knowing] Temur esa, eslang... xon bo'la olmasdi. [short pause] [serious] Mo'g'ul an'anasiga ko'ra To'xtamish Temurdan yuqori turardi. [pause] [slow, heavy] Bir qinga... ikki qilich sig'masdi.
 ```
 
 ## F (xavotir oshadi)
 ```
-[dramatic] Ming uch yuz sakson beshinchi yil, qish. [short pause] To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. [pause] [tense] Ming uch yuz sakson yettinchi yil, bahor. Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. [short pause] [firm, commanding] Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa... jang qilmanglar." [short pause] [tense] Beklar ortga qaytadi. [short pause] [angry] Dushman esa ularning orqasidan o'q yog'diradi. [pause] [hurt, quieter] Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bolalik bor. [short pause] Nega bunday qilyapsan?"
+[dramatic] Ming uch yuz sakson beshinchi yil, qish. [short pause] To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. [pause] [tense] Ming uch yuz sakson yettinchi yil, bahor. Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. [short pause] [firm, commanding] Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa... jang qilmanglar." [short pause] [tense] Beklar ortga qaytadi. [short pause] [angry] Dushman esa ularning orqasidan o'q yog'diradi. [short pause] [strong] Mironshoh yetib kelib, dushmanni quvib soladi. [pause] [hurt, quieter] Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bola munosabati bor. [short pause] Nega bunday qilyapsan?"
 ```
 
 ## G (zarba, keyin ilgak)
 ```
-[ominous, low] Javob o'sha yili keldi. [short pause] Temur uzoq janubda, Forsda edi. [short pause] [dramatic, faster] To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi. Zanjirsaroyni yoqdi. Amudaryogacha bo'lgan yerlarni taladi. [long pause] [bitter, slow] Temur qutqargan odam... endi uning uyiga o't qo'ygan edi. [long pause] [determined] Temur ortga qaytadi. [short pause] Endi u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. [pause] [curious] Bu yurish qanday tugadi? [short pause] [inviting] Keyingi qismda.
+[ominous, low] Javob o'sha yili keldi. [short pause] Temur uzoq janubda, Forsda edi. [short pause] [dramatic, faster] To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi. Zanjirsaroyni yoqdi. Amudaryogacha bo'lgan yerlarni taladi. [long pause] [bitter, slow] Temur qutqargan odam... endi uning uyiga o't qo'ygan edi. [long pause] [determined] Temur ortga qaytadi. [short pause] Bir necha yil o'tib, u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. [pause] [curious] Bu yurish qanday tugadi? [short pause] [inviting] Keyingi qismda.
 ```

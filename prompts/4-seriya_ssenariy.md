@@ -16,16 +16,16 @@ Bundan oldin To'xtamish O'rusxondan qochib, Temur huzuriga panoh so'rab kelgan e
 Lekin To'xtamish O'rusxonning o'g'illariga bas kela olmadi. Bir jangda yengilib, daryoga o'zini tashladi. Ortidan o'q uzildi. Temur yuborgan bek esa butazordan ingrash ovozini eshitib, uni tasodifan topib oldi.
 
 **D (Temurning javobi)**
-O'rusxondan elchilar keladi: "U o'g'limni o'ldirdi. Uni bizga ber. Bermasang, jang joyini ayt." Temur javob beradi: "U bizdan panoh so'rab keldi. Men uni hech kimga bermayman. Urush istasangiz, tayyormiz." To'xtamish to'rt marta yengilib qochib keldi. Temur to'rt marta uni qaytadan oyoqqa turg'izdi. Oxiri To'xtamish Dashti Qipchoq taxtiga o'tirdi, keyin butun Oltin O'rdani egalladi.
+O'rusxondan elchilar keladi: "U o'g'limni o'ldirdi. Uni bizga ber. Bermasang, jang joyini ayt." Temur javob beradi: "U bizdan panoh so'rab keldi. Men uni hech kimga bermayman. Urush istasangiz, tayyormiz." To'xtamish to'rt marta qochib keldi. Temur har safar uni qaytadan oyoqqa turg'izdi. Oxiri To'xtamish Dashti Qipchoq taxtiga o'tirdi, keyin butun Oltin O'rdani egalladi.
 
 **E (nega dushman bo'ldi)**
-Endi u Jo'chi ulusining xoni edi. Chingiz avlodi. Temur esa, eslang, xon bo'la olmasdi. Mo'g'ul dunyosida To'xtamish o'zini Temurdan yuqori deb bilardi. Ikki shunday hukmdor yonma-yon sig'masdi.
+Endi u Jo'chi ulusining xoni edi. Chingiz avlodi. Temur esa, eslang, xon bo'la olmasdi. Mo'g'ul an'anasiga ko'ra To'xtamish Temurdan yuqori turardi. Bir qinga ikki qilich sig'masdi.
 
 **F (birinchi zarbalar)**
-1385-yil qishi. To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. 1387-yil bahori, Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa, jang qilmanglar." Beklar ortga qaytadi, dushman esa ularning orqasidan o'q yog'diradi. Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bolalik bor. Nega bunday qilyapsan?"
+1385-yil qishi. To'xtamish qo'shini Darband orqali o'tib, Temurga tobe Tabrizni talaydi. 1387-yil bahori, Kura daryosi bo'yida yana uning qo'shini paydo bo'ladi. Temur buyuradi: "Agar ular To'xtamishning odamlari bo'lsa, jang qilmanglar." Beklar ortga qaytadi, dushman esa ularning orqasidan o'q yog'diradi. Mironshoh yetib kelib, dushmanni quvib soladi. Temur asirlarni qo'yib yuborib, To'xtamishga xabar yo'llaydi: "Oramizda ota-bola munosabati bor. Nega bunday qilyapsan?"
 
 **G (xiyonat va keyingi qismga ilgak)**
-Javob o'sha yili keldi. Temur uzoq janubda, Forsda edi. To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi, Zanjirsaroyni yoqdi, Amudaryogacha bo'lgan yerlarni taladi. Temur qutqargan odam endi uning uyiga o't qo'ygan edi. Temur ortga qaytadi. Endi u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. Bu yurish qanday tugadi? Keyingi qismda.
+Javob o'sha yili keldi. Temur uzoq janubda, Forsda edi. To'xtamish qo'shini Movarounnahrga bostirib kirdi. Buxoroni qamal qildi, Zanjirsaroyni yoqdi, Amudaryogacha bo'lgan yerlarni taladi. Temur qutqargan odam endi uning uyiga o't qo'ygan edi. Temur ortga qaytadi. Bir necha yil o'tib, u To'xtamishni dashtning o'zida izlab topishga qaror qiladi. Bu yurish qanday tugadi? Keyingi qismda.
 
 ## Fakt tekshiruvi
 
@@ -47,6 +47,7 @@ Manz, "The Rise and Rule of Tamerlane", 69-71-betlar. Konspekt: `prompts/manbala
 | Temur xon bo'la olmasdi, To'xtamish yuqori mavqeni da'vo qila olardi, ikkovi sig'masdi | Manz 71: "could claim a higher station... Two men of such ambition could not comfortably coexist" | tasdiq (Manz bahosi) |
 | 1385-yil qishi, Darband, Tabriz talangan, Temurga tobe | Yazdiy 94a (1385 oxiri - 1386 boshi); Manz 71 | tasdiq |
 | 1387 bahori, Kura daryosi, "jang qilmanglar" buyrug'i, orqadan o'q | Yazdiy 97b-98b (789-yil boshi, mart 1387); Manz 71: Temur qo'shin yuborib yenggan | tasdiq |
+| Mironshoh yetib kelib dushmanni quvadi | Yazdiy 98a-98b (Darband darasigacha quvgan); Manz 71 | tasdiq |
 | Asirlarni qo'yib yuborib, "ota-bolalik" so'zi | Yazdiy 98b: "между ним и нами отношения отцовские и сыновние" | tasdiq (Yazdiy) |
 | Temur Forsda, To'xtamish Movarounnahrga bostirib kirgan, Amudaryogacha talagan | Manz 71 (789-yil oxiri / 1387); Yazdiy 105a: kuzda | tasdiq |
 | Buxoro qamali, Zanjirsaroy yoqilgan | Yazdiy 106a (Buxoro olinmagan; Zanjirsaroy: Temur 1385 qishlagan joy, 94a) | tasdiq (Yazdiy) |
@@ -60,6 +61,14 @@ Ataylab aytilmagan:
 - To'xtamish qaysi yilda xon bo'lgani: Yazdiyda 1377-78 atrofi, Manz aniq yil bermaydi. Matnda yil aytilmaydi.
 - Umarshayxning 1387-yil kuzidagi janglari, Mo'g'uliston qo'shini va Xorazm So'fiylarining To'xtamishga qo'shilgani:
   vaqt yetmagani uchun tashlandi.
+
+## Qayta tekshiruv (ovoz yozishdan oldin, 2026-11-12)
+
+- "to'rt marta yengilib" -> "to'rt marta qochib keldi": birinchi safar jangda yengilmagan, O'rusxondan qo'rqib qochgan (Yazdiy 71a).
+- "o'zini yuqori deb bilardi" -> "an'anaga ko'ra yuqori turardi" (Manz 71: "could claim a higher station"); "bir qinga ikki qilich sig'masdi".
+- Mironshoh gapi qo'shildi: asirlar qayerdan kelgani tushunarli bo'lishi uchun.
+- "ota-bolalik" -> "ota-bola munosabati" (tabiiyroq o'zbekcha).
+- "Endi u ... qaror qiladi" -> "Bir necha yil o'tib": Manz 71 bo'yicha yurish 1390-91 da.
 
 ## Serial rejasiga ta'sir
 
