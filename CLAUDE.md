@@ -95,6 +95,12 @@ See `prompts/1-seriya_ssenariy.md` for the recorded script and the fact check. S
 narration were not confirmed by the sources consulted (the arrow, the night battle, the exact year 1363). For later
 parts: verify the script before the user records it, say "atrofida" for uncertain dates, label legends as RIVOYAT.
 Check generated images for anachronisms (cannons, European manuscript motifs, brimmed hats were found and redone).
+**Script wording rule (user's correction, 2026-11-12):** before giving a script to record, read every sentence as a listener
+would HEAR it, not as text. (1) No words a listener could take as modern: "o'q" alone sounds like a bullet, "o'q uzildi" like a
+gunshot; write "kamon o'qi", "kamondan o'q otildi" (same for weapons, titles, places). (2) Avoid words whose meaning changes
+if the voice drops the apostrophe (o'q / oq, so'z / soz, to'r / tor): rephrase. (3) Every sentence must be literally true to the
+books (e.g. "to'rt marta yengilib" was wrong: the first flight was not after a defeat). Do this check once, fully, before
+sending: the user cannot re-record many times.
 
 ## Repository
 
