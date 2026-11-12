@@ -96,7 +96,7 @@ spec = [  # (anchor, img or "mo:<scene>", move, transition, grade)
     (('w', wi(34, 'himoya')), '35', 'out', 'fade', 'warm'),
     (('s', 35), '36', 'inslow', 'fade', 'cold'),
     (('s', 36), '01', 'in2', 'fade', 'cold'),
-    (('s', 37), None, 'none', 'dip', 'warm'),
+    (('s', 37), '02', 'inslow', 'fade', 'warm'),   # picture stays until the voice ends; the end card fades in over it
 ]
 bounds = []
 for a, *_ in spec:
