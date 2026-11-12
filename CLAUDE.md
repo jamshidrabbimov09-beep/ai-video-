@@ -139,6 +139,13 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   voices took about 3.5 min including model load. Output varies per call and is sometimes unintelligible, so each
   line is checked with faster-whisper `small` (`heard_score`) and regenerated up to 3 times; with that all 5 lines
   scored 0.72-0.89 and fit their slots. Uzbek comes out with an accent. Sample: `dublyaj/namuna_klon.mp3`.
+- The user listened to `namuna_klon.mp3` (2026-11-12): timbre good, but the Uzbek sounded Chinese-accented and
+  unclear. Tested an alternative in the cloud: edge-tts Uzbek, then Seed-VC v1 (`pip install seed-vc`,
+  `SeedVCWrapper().convert_voice(..., stream_output=False)` is a generator whose return value is the audio; its
+  bundled BigVGAN needs `proxies`/`resume_download` defaulted for huggingface_hub 2.x). Averages over 5 lines
+  (Whisper-small intelligibility / resemblyzer similarity): edge 0.82/0.71, OmniVoice 0.82/0.84, edge+Seed-VC
+  0.71/0.86 (one shouted line failed at 0.39). A/B file for the user: `dublyaj/solishtirish.mp3`. Waiting for the
+  user's choice; Seed-VC is not in the app yet. resemblyzer's webrtcvad needs `setuptools<81` (pkg_resources).
 - av 19 breaks faster-whisper's file decoding (`metadata_errors`): the app now passes numpy arrays, and the .bat pins
   `av<19`.
 - UI redesigned (orange theme, tabs: Dublyaj, Personajlar va ovozlar, Tarjima va tuzatish, Sozlamalar).
