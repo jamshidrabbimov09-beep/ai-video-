@@ -165,3 +165,9 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   Reply-to-comments templates were given in chat 4 (end every reply with a question).
 - Next: analyse ep.1 statistics (2026-11-13), then ep.2 "Temurga zamonaviy qurollar chizmasi" (text confirmed,
   `prompts/tasavvur-2_elevenlabs.md`) with a code-drawn globe map; ideas list `prompts/tasavvur_goyalar.md`.
+- Ep.1 stats after ~15 h: 9,273 views (Temur Part 1: 3.4k, Part 2: 2.1k), skip rate 25.1% (below average, good), avg watch 37 s
+  of 62 s, ~55% still watching at 1:00, comments 40 (0.6%, above average), likes 5.7%, shares 35 (0.5%), saves 22,
+  profile visits 107 but only 6 follows. Audience much younger: 13-17 23.5%, 18-24 39.1%, 25-34 25%.
+  Lessons for ep.2: the format and hook work; follows are the weak point (the profile grid is mostly the cinematic Temur
+  videos, and the video gives no reason to follow): add an on-screen series/follow card at the end (no extra voiced ask),
+  pin the Tasavvur reel. Write narration in simple, TTS-friendly words (avoid rare words and "-isan" endings).
