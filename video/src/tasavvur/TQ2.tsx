@@ -91,13 +91,14 @@ const Rocket: React.FC<{t: number}> = ({t}) => (
     <path d={`M20 -16 Q${-40 - Math.sin(t * 30) * 10} 0 20 16 Z`} fill="#ff8a2a" />
   </g>
 );
-const Balloon: React.FC = () => (
+const Balloon: React.FC<{children?: React.ReactNode}> = ({children}) => (
   <g>
     <path d="M0 -190 C110 -190 150 -100 120 -20 C100 30 50 60 30 90 L-30 90 C-50 60 -100 30 -120 -20 C-150 -100 -110 -190 0 -190 Z" fill="#e3473b" stroke={INK} strokeWidth={6} />
     <path d="M0 -190 C50 -150 54 0 30 90 M0 -190 C-50 -150 -54 0 -30 90" fill="none" stroke="#ffc94a" strokeWidth={14} />
-    <path d="M-30 90 L-40 150 M30 90 L40 150" stroke={INK} strokeWidth={5} />
-    <rect x={-50} y={150} width={100} height={60} rx={10} fill="#a8742f" stroke={INK} strokeWidth={6} />
-    <path d="M-50 170 L50 170 M-50 190 L50 190" stroke="#7d5420" strokeWidth={4} />
+    <path d="M-30 90 L-46 210 M30 90 L46 210" stroke={INK} strokeWidth={5} />
+    {children}
+    <rect x={-56} y={205} width={112} height={64} rx={10} fill="#a8742f" stroke={INK} strokeWidth={6} />
+    <path d="M-56 226 L56 226 M-56 248 L56 248" stroke="#7d5420" strokeWidth={4} />
   </g>
 );
 const Wagon: React.FC = () => (
@@ -330,10 +331,11 @@ const SceneBalloon: React.FC<{t: number}> = ({t}) => {
         <path key={i} d={`M${120 + i * 100} ${1640 + rise * 0.5} l30 -50 l30 50 Z`} fill="#8f2a1e" opacity={0.85} />
       ))}
       <g transform={`translate(540 ${1300 - rise})`}>
-        <Balloon />
-        <g transform="translate(0 155) scale(0.28) translate(-200 -420)">
-          <BekAt x={200} y={730} s={1} mood={t > 32.6 ? 'happy' : 'surprised'} blink={blinkAt(t)} />
-        </g>
+        <Balloon>
+          <g transform="translate(0 215) scale(0.22) translate(-200 -480)">
+            <BekAt x={200} y={730} s={1} mood={t > 32.6 ? 'happy' : 'surprised'} blink={blinkAt(t)} swing={-30} />
+          </g>
+        </Balloon>
       </g>
       {[...Array(4)].map((_, i) => (
         <ellipse key={i} cx={((i * 380 + t * 60) % 1400) - 160} cy={300 + i * 240} rx={110} ry={34} fill="#fff" opacity={0.7} />
