@@ -171,3 +171,8 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   Lessons for ep.2: the format and hook work; follows are the weak point (the profile grid is mostly the cinematic Temur
   videos, and the video gives no reason to follow): add an on-screen series/follow card at the end (no extra voiced ask),
   pin the Tasavvur reel. Write narration in simple, TTS-friendly words (avoid rare words and "-isan" endings).
+- Ep.2 "Temurga zamonaviy qurollar chizmasi" built 2026-11-12: voice `video/public/tq2/raw.mp3` (61 s), words `src/tasavvur/tq2_words.json`
+  (Scribe; Creative Claw 17 credits left), composition `src/tasavvur/TQ2.tsx` (helpers in `common.tsx`; Temur drawn as Bek outfit
+  'temur'), globe `GlobeMap.tsx` (d3-geo + world-atlas 50m, empire outline `timurid.ts`, variants V1/V2/V3 as whole modern countries,
+  flag with three rings), sfx `edit/tq2_sfx.py`, export `video/exports/tasavvur2_temur_qurollar_1080p.mp4` (64 s). Ends on a vote
+  "1, 2 yoki 3" plus an on-screen-only follow card. Render ~6 min at concurrency 3 (4 parallel stills ran out of memory).
