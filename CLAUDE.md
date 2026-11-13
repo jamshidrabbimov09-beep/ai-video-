@@ -139,6 +139,11 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
 
 ## Open items
 
+- **Instagram comment bot (chat 5, 2026-11-13):** `bot/ig_bot.py` + `bot/persona.md` (replies as the channel owner, Uzbek,
+  short, skips spam/emoji-only, no invented facts), run by `.github/workflows/ig-izohlar.yml` every 30 min (needs `main`).
+  Uses the Instagram API with Instagram Login and the free Gemini API. Secrets `IG_TOKEN`, `GEMINI_API_KEY`; variable
+  `DRY_RUN` (1 = test, 0 = live). Token lasts 60 days. Update `persona.md` when a new part is posted.
+
 - **Part 4 (To'xtamish), the user's two wishes (2026-11-12):** (1) voice intonation: the narration must sound alive, not flat:
   write the ElevenLabs text with delivery in mind (v3-style audio tags such as [whispers], [dramatic], pauses, short punchy
   sentences, questions) and tell the user which settings to try; (2) more motion design INSIDE the part: not only slow zoom on
