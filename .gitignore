@@ -5,3 +5,4 @@ video/out/
 video/public/p2g/
 video/public/tq1/*.wav
 video/public/tq2/*.wav
+__pycache__/
