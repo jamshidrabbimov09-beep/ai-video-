@@ -1,0 +1,26 @@
+name: Instagram izohlariga javob
+
+on:
+  schedule:
+    - cron: "7,37 2-18 * * *"   # Toshkent vaqti 07:00-23:59, har 30 daqiqada
+  workflow_dispatch:            # qo'lda ishga tushirish tugmasi
+
+concurrency:
+  group: ig-izohlar
+  cancel-in-progress: false
+
+jobs:
+  javob:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: bot
+      - name: Izohlarni o'qib javob yozish
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DRY_RUN: ${{ vars.DRY_RUN || '1' }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+        run: python3 bot/ig_bot.py
