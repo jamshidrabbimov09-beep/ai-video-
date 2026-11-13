@@ -49,11 +49,11 @@ def out(line=""):
     summary_lines.append(line)
 
 
-def http(method, url, params=None, body=None):
+def http(method, url, params=None, body=None, extra_headers=None):
     if params:
         url += ("&" if "?" in url else "?") + urllib.parse.urlencode(params)
     data = None
-    headers = {}
+    headers = dict(extra_headers or {})
     if body is not None:
         data = json.dumps(body).encode()
         headers["Content-Type"] = "application/json"
@@ -155,7 +155,7 @@ def ask_gemini(caption, comment_text, username):
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
     for attempt in range(3):
         try:
-            res = http("POST", url, {"key": GKEY}, body)
+            res = http("POST", url, None, body, {"x-goog-api-key": GKEY})
             text = res["candidates"][0]["content"]["parts"][0]["text"]
             ans = json.loads(text)
             if isinstance(ans, list):
