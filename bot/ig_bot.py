@@ -3,8 +3,13 @@
 
 Muhit o'zgaruvchilari:
   IG_TOKEN        Instagram API (Instagram Login) uzoq muddatli tokeni
-  GEMINI_API_KEY  Google AI Studio kaliti (bepul)
+  ANTHROPIC_API_KEY  Claude API kaliti (bo'lsa, javobni Claude yozadi)
+  CLAUDE_MODEL    default: claude-opus-5-5
+  GEMINI_API_KEY  Google AI Studio kaliti (Claude kaliti bo'lmasa, bepul zaxira)
   GEMINI_MODEL    default: gemini-flash-latest
+
+Har bir video uchun qo'shimcha ma'lumot: bot/videolar/*.md. Faylning birinchi qatori
+"kalit: so'z1, so'z2" bo'ladi; post matnida shu so'zlardan biri bo'lsa, fayl o'sha post izohlari uchun qo'shiladi.
   DRY_RUN         "1" (default): javobni yozmaydi, faqat ko'rsatadi. "0": haqiqatan joylaydi
   MAX_REPLIES     bir ishga tushishda nechta javob (default 8)
   MEDIA_LIMIT     nechta oxirgi post tekshiriladi (default 6)
@@ -28,6 +33,8 @@ HERE = Path(__file__).resolve().parent
 
 TOKEN = os.environ.get("IG_TOKEN", "").strip()
 GKEY = os.environ.get("GEMINI_API_KEY", "").strip()
+AKEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+CMODEL = os.environ.get("CLAUDE_MODEL", "").strip() or "claude-opus-5-5"
 MODEL = os.environ.get("GEMINI_MODEL", "").strip() or "gemini-flash-latest"
 DRY = os.environ.get("DRY_RUN", "1").strip() != "0"
 MAX_REPLIES = int(os.environ.get("MAX_REPLIES", "8"))
@@ -83,13 +90,64 @@ def parse_time(s):
 PERSONA = (HERE / "persona.md").read_text(encoding="utf-8")
 
 
-def ask_gemini(caption, comment_text, username):
-    prompt = (
-        f"{PERSONA}\n\n---\n\nPost matni (video tagidagi yozuv):\n{caption[:1500]}\n\n"
+def load_video_notes():
+    notes = []
+    for f in sorted((HERE / "videolar").glob("*.md")):
+        text = f.read_text(encoding="utf-8")
+        first, _, body = text.partition("\n")
+        keys = [k.strip().lower() for k in first.split(":", 1)[-1].split(",") if k.strip()]
+        notes.append((keys, body.strip()))
+    return notes
+
+
+VIDEO_NOTES = load_video_notes()
+
+
+def notes_for(caption):
+    cap = caption.lower()
+    return "\n\n".join(body for keys, body in VIDEO_NOTES if any(k in cap for k in keys))
+
+
+SCHEMA = {
+    "type": "object",
+    "properties": {"action": {"type": "string", "enum": ["reply", "skip"]}, "reply": {"type": "string"}},
+    "required": ["action", "reply"],
+    "additionalProperties": False,
+}
+
+
+def user_message(caption, comment_text, username):
+    extra = notes_for(caption)
+    extra = f"Shu video haqida ma'lumot:\n{extra}\n\n" if extra else ""
+    return (
+        f"{extra}Post matni (video tagidagi yozuv):\n{caption[:1500]}\n\n"
         f"@{username} izohi:\n{comment_text}\n\n"
-        "Faqat JSON qaytar: {\"action\": \"reply\" yoki \"skip\", \"reply\": \"javob matni\"}. "
+        "JSON qaytar: action = \"reply\" yoki \"skip\", reply = javob matni (skip bo'lsa bo'sh). "
         "Javobda @username yozma, Instagram o'zi belgilaydi."
     )
+
+
+def ask_claude(caption, comment_text, username):
+    import anthropic
+    client = anthropic.Anthropic(api_key=AKEY)
+    res = client.beta.messages.create(
+        model=CMODEL,
+        max_tokens=2000,
+        betas=["server-side-fallback-2026-07-01"],
+        fallbacks="default",
+        system=[{"type": "text", "text": PERSONA, "cache_control": {"type": "ephemeral"}}],
+        output_config={"effort": "low", "format": {"type": "json_schema", "schema": SCHEMA}},
+        messages=[{"role": "user", "content": user_message(caption, comment_text, username)}],
+    )
+    if res.stop_reason != "end_turn":
+        return "skip", ""
+    text = next(b.text for b in res.content if b.type == "text")
+    ans = json.loads(text)
+    return ans["action"], ans["reply"].strip()
+
+
+def ask_gemini(caption, comment_text, username):
+    prompt = f"{PERSONA}\n\n---\n\n{user_message(caption, comment_text, username)}"
     body = {
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.8, "responseMimeType": "application/json"},
@@ -113,13 +171,20 @@ def ask_gemini(caption, comment_text, username):
     return "skip", ""
 
 
+def ask(caption, comment_text, username):
+    if AKEY:
+        return ask_claude(caption, comment_text, username)
+    return ask_gemini(caption, comment_text, username)
+
+
 def main():
-    if not TOKEN or not GKEY:
-        sys.exit("IG_TOKEN va GEMINI_API_KEY kerak (GitHub > Settings > Secrets > Actions).")
+    if not TOKEN or not (AKEY or GKEY):
+        sys.exit("IG_TOKEN va ANTHROPIC_API_KEY (yoki GEMINI_API_KEY) kerak (GitHub > Settings > Secrets > Actions).")
 
     me = ig_get("me", fields="user_id,username")
     my_name = me.get("username", "").lower()
-    out(f"Akkaunt: @{my_name}  |  rejim: {'SINOV (joylanmaydi)' if DRY else 'JONLI'}")
+    out(f"Akkaunt: @{my_name}  |  rejim: {'SINOV (joylanmaydi)' if DRY else 'JONLI'}  |  "
+        f"AI: {CMODEL if AKEY else MODEL}")
     out("")
 
     now = datetime.now(timezone.utc)
@@ -146,7 +211,7 @@ def main():
             text = (c.get("text") or "").strip()
             if not text:
                 continue
-            action, reply = ask_gemini(caption, text, user)
+            action, reply = ask(caption, text, user)
             out(f"- @{user}: {text}")
             if action != "reply" or not reply:
                 out("  -> o'tkazib yuborildi")
@@ -157,7 +222,8 @@ def main():
                 http("POST", f"{IG}/{c['id']}/replies", {"message": reply, "access_token": TOKEN})
                 time.sleep(3)
             done += 1
-            time.sleep(4)  # Gemini bepul limiti uchun
+            if not AKEY:
+                time.sleep(4)  # Gemini bepul limiti uchun
     out("")
     out(f"Javoblar: {done}")
 
