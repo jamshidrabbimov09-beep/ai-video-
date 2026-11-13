@@ -140,3 +140,46 @@ export const useOswald = () => {
       .finally(() => continueRender(handle));
   }, [handle]);
 };
+
+// ---------- animated follow button (YouTube-style): pops in, wiggles, a hand taps it, it turns grey, the bell rings ----------
+// Sound to match: click at t0 + 1.0 s, bell "ching" at t0 + 1.25 s (see edit/follow_sfx.py).
+export const FOLLOW_TAP = 1.0;
+export const FOLLOW_BELL = 1.25;
+export const FollowButton: React.FC<{t: number; t0: number; x?: number; y?: number; line?: string}> = ({t, t0, x = 540, y = 1690, line = 'KEYINGI ZAMONGA BIRGA BORAMIZ'}) => {
+  const k = t - t0;
+  if (k < 0) return null;
+  const p = pop(t, t0);
+  const tapped = k >= FOLLOW_TAP;
+  const wiggle = !tapped && k > 0.4 ? Math.sin(k * 22) * 3 : 0;
+  const press = k >= FOLLOW_TAP - 0.08 && k < FOLLOW_TAP + 0.12 ? 0.9 : 1;
+  const bell = k >= FOLLOW_BELL && k < FOLLOW_BELL + 1.2 ? Math.sin((k - FOLLOW_BELL) * 30) * 22 * Math.exp(-(k - FOLLOW_BELL) * 2.5) : Math.sin(k * 3) * 3;
+  // hand slides in from bottom right, taps, then leaves
+  const hx = lerp(k, 0.4, FOLLOW_TAP - 0.1, 360, 150) + lerp(k, FOLLOW_TAP + 0.4, FOLLOW_TAP + 0.9, 0, 260);
+  const hy = lerp(k, 0.4, FOLLOW_TAP - 0.1, 260, 40) + (k >= FOLLOW_TAP - 0.08 && k < FOLLOW_TAP + 0.12 ? 14 : 0) + lerp(k, FOLLOW_TAP + 0.4, FOLLOW_TAP + 0.9, 0, 220);
+  const ring = k >= FOLLOW_TAP && k < FOLLOW_TAP + 0.5 ? (k - FOLLOW_TAP) / 0.5 : -1;
+  return (
+    <g transform={`translate(${x} ${y}) scale(${p})`}>
+      <Text x={0} y={-100} size={44} fill="#fff">{line}</Text>
+      <g transform={`rotate(${wiggle}) scale(${press})`}>
+        <rect x={-300} y={-62} width={600} height={124} rx={62} fill={tapped ? '#3a3f4b' : RED} stroke="#fff" strokeWidth={6} />
+        <g transform={`translate(-205 0) rotate(${bell})`}>
+          <path d="M-30 18 C-30 -30 -20 -40 0 -40 C20 -40 30 -30 30 18 L38 28 L-38 28 Z" fill={GOLD} stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+          <circle cx={0} cy={36} r={9} fill={GOLD} stroke={INK} strokeWidth={4} />
+          {k >= FOLLOW_BELL && k < FOLLOW_BELL + 0.8 && (
+            <g stroke="#fff" strokeWidth={5} strokeLinecap="round" opacity={1 - (k - FOLLOW_BELL) / 0.8}>
+              <path d="M-52 -20 Q-62 0 -52 20" fill="none" />
+              <path d="M52 -20 Q62 0 52 20" fill="none" />
+            </g>
+          )}
+        </g>
+        <Text x={40} y={26} size={tapped ? 54 : 72} fill="#fff">{tapped ? "OBUNA BO'LDING" : "OBUNA BO'L"}</Text>
+      </g>
+      {ring >= 0 && <circle cx={150} cy={10} r={20 + ring * 90} fill="none" stroke="#fff" strokeWidth={6} opacity={1 - ring} />}
+      {k > 0.4 && k < FOLLOW_TAP + 0.9 && (
+        <g transform={`translate(${hx} ${hy}) rotate(-20)`}>
+          <path d="M-14 -40 C-14 -54 14 -54 14 -40 L14 0 L40 6 C56 10 58 24 52 40 L40 80 L-26 80 L-44 30 C-50 16 -40 6 -28 14 L-14 24 Z" fill="#fff" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+        </g>
+      )}
+    </g>
+  );
+};

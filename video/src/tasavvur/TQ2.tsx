@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {GlobeMap} from './GlobeMap';
-import {BekAt, Bg, blinkAt, buildChunks, Burst, Caption, FPS, GOLD, H, INK, lerp, pop, RED, Text, useOswald, W, W3} from './common';
+import {FollowButton, BekAt, Bg, blinkAt, buildChunks, Burst, Caption, FPS, GOLD, H, INK, lerp, pop, RED, Text, useOswald, W, W3} from './common';
 import words from './tq2_words.json';
 
 // "Tasavvur qil" episode 2: modern weapon blueprints taken to Amir Temur; real map, then three "what if" map variants.
@@ -476,7 +476,6 @@ const SceneVariants: React.FC<{t: number}> = ({t}) => {
 
 const SceneVote: React.FC<{t: number}> = ({t}) => {
   const hi = t >= 61.0 ? 2 : t >= 60.1 ? 1 : t >= 59.55 ? 0 : -1;
-  const follow = pop(t, 61.6);
   return (
     <g>
       <Bg c0="#2f4a7a" c1="#0e1424" />
@@ -498,18 +497,7 @@ const SceneVote: React.FC<{t: number}> = ({t}) => {
         <Text x={0} y={-16} size={50} fill="#cfd8ff">Izohlar</Text>
         <Text x={0} y={60} size={66} fill={GOLD}>1, 2 YOKI 3?</Text>
       </g>
-      {follow > 0 && (
-        <g transform={`translate(540 1690) scale(${follow})`}>
-          <Text x={0} y={-96} size={44} fill="#fff">KEYINGI ZAMONGA BIRGA BORAMIZ</Text>
-          <rect x={-300} y={-60} width={600} height={124} rx={62} fill="#3b82f6" stroke="#fff" strokeWidth={6} />
-          {/* bell, swinging */}
-          <g transform={`translate(-200 0) rotate(${Math.sin(t * 14) * 14})`}>
-            <path d="M-30 18 C-30 -30 -20 -40 0 -40 C20 -40 30 -30 30 18 L38 28 L-38 28 Z" fill={GOLD} stroke={INK} strokeWidth={5} strokeLinejoin="round" />
-            <circle cx={0} cy={36} r={9} fill={GOLD} stroke={INK} strokeWidth={4} />
-          </g>
-          <Text x={40} y={26} size={72} fill="#fff">OBUNA BO'L</Text>
-        </g>
-      )}
+      <FollowButton t={t} t0={61.6} />
     </g>
   );
 };

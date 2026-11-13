@@ -35,6 +35,9 @@ add(drum(55), 41.3, 0.7)
 add(drum(50), 45.4, 0.8)
 for t in [49.92, 52.34, 55.34]: add(drum(65), t, 0.85)
 for t in [59.55, 60.1, 61.0]: add(pop(900), t, 0.5)
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from follow_sfx import add_follow
+add_follow(add, SR, 61.6)
 out = out / max(1e-9, np.abs(out).max()) * 0.6
 with wave.open('public/tq2/sfx.wav', 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
