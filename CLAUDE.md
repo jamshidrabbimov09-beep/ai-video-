@@ -147,6 +147,11 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   `bot/videolar/*.md` (first line `kalit: ...` matched against the post caption). Many comments are on the user's
   "Tasavvur qil" videos (viewer picks an option, often just a number): that series is not in this repo; ask the user
   for each video's options.
+  Setup status (2026-11-13 night): Gemini key created and saved as GitHub secret `GEMINI_API_KEY` (it appeared in a
+  screenshot: replace it once the bot works). Instagram token NOT yet obtained: Meta developer registration is stuck at
+  phone verification (Meta SMS does not reach the user's Uzbek numbers). Next: user tops up a Visa card (~$2) and adds it
+  in Meta Pay / verifies the developer account by card; fallback offered: ManyChat with preset replies. The user works
+  from a Windows PC for Meta pages (phone layout cut off buttons). Workflow must reach `main` before the schedule runs.
 
 - **Part 4 (To'xtamish), the user's two wishes (2026-11-12):** (1) voice intonation: the narration must sound alive, not flat:
   write the ElevenLabs text with delivery in mind (v3-style audio tags such as [whispers], [dramatic], pauses, short punchy
