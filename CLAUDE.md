@@ -176,3 +176,9 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   'temur'), globe `GlobeMap.tsx` (d3-geo + world-atlas 50m, empire outline `timurid.ts`, variants V1/V2/V3 as whole modern countries,
   flag with three rings), sfx `edit/tq2_sfx.py`, export `video/exports/tasavvur2_temur_qurollar_1080p.mp4` (64 s). Ends on a vote
   "1, 2 yoki 3" plus an on-screen-only follow card. Render ~6 min at concurrency 3 (4 parallel stills ran out of memory).
+- Ep.2 posted on Instagram 2026-11-13 about 17:40 (cover `instagram/cover_tasavvur2.png` "Tasavvur qil: Temurda avtomat chizmasi!",
+  caption `instagram/post_tasavvur2.md`). Another video had been posted at 10:00 that day; rule given: at least 6 h between posts.
+- Strategy agreed in chat 4: keep the history niche, focus on "Tasavvur qil" (3-5 videos a week, wider Uzbek-history and "what if"
+  topics, shareable national/map themes), Temur cinematic series slower (every 1-2 weeks), cross-post to YouTube Shorts and TikTok.
+  Topic ideas offered: 1000 yil oldin Samarqandda, Ibn Sino dars beryapti, O'zbekistonda dengiz bo'lsa (map), Ipak yo'li karvonchisi,
+  Bobur Hindistonga ketmaganda. The user has not picked the next one yet.
