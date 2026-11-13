@@ -143,6 +143,10 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   short, skips spam/emoji-only, no invented facts), run by `.github/workflows/ig-izohlar.yml` every 30 min (needs `main`).
   Uses the Instagram API with Instagram Login and the free Gemini API. Secrets `IG_TOKEN`, `GEMINI_API_KEY`; variable
   `DRY_RUN` (1 = test, 0 = live). Token lasts 60 days. Update `persona.md` when a new part is posted.
+  Claude API is supported (`ANTHROPIC_API_KEY`) but the user chose free Gemini (2026-11-13). Per-video notes go in
+  `bot/videolar/*.md` (first line `kalit: ...` matched against the post caption). Many comments are on the user's
+  "Tasavvur qil" videos (viewer picks an option, often just a number): that series is not in this repo; ask the user
+  for each video's options.
 
 - **Part 4 (To'xtamish), the user's two wishes (2026-11-12):** (1) voice intonation: the narration must sound alive, not flat:
   write the ElevenLabs text with delivery in mind (v3-style audio tags such as [whispers], [dramatic], pauses, short punchy
