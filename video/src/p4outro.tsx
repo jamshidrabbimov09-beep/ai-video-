@@ -9,22 +9,26 @@ const CREAM = '#f5ecd5';
 const font = '"Liberation Serif", "DejaVu Serif", Georgia, serif';
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
-/* question card in the upper half (the subtitle band below stays free) */
+/* question card: a poll sticker just above the subtitle band */
 export const QuestionCard: React.FC<{d: number; pop?: number}> = ({d, pop: P0 = 20}) => {
   const fr = useCurrentFrame();
   const a = Math.min(interpolate(fr, [0, 12], [0, 1], cl), interpolate(fr, [d - 8, d], [1, 0], cl));
   const pop = (s: number) => interpolate(fr, [s, s + 12], [0, 1], {...cl, easing: Easing.out(Easing.back(2))});
-  const Pill: React.FC<{t: string; s: number; col: string}> = ({t, s, col}) => (
-    <div style={{display: 'inline-block', margin: '0 22px', padding: '18px 54px', borderRadius: 60, border: `4px solid ${col}`, background: 'rgba(0,0,0,0.55)', color: col, fontFamily: font, fontWeight: 700, fontSize: 76, letterSpacing: 6, transform: `scale(${pop(s)})`, boxShadow: '0 8px 30px rgba(0,0,0,0.6)'}}>{t}</div>
+  // a poll-sticker card (familiar from Instagram stories): one light card, two halves HA | YO'Q, just above the subtitles
+  const p = pop(P0);
+  const pulse = 1 + 0.025 * Math.sin(Math.max(0, fr - P0 - 14) / 5);
+  const half = (t: string, col: string, s: number) => (
+    <div style={{flex: 1, textAlign: 'center', padding: '30px 0', fontFamily: font, fontWeight: 700, fontSize: 70, letterSpacing: 5, color: col, opacity: interpolate(fr, [s, s + 8], [0, 1], cl)}}>{t}</div>
   );
   return (
     <AbsoluteFill style={{opacity: a}}>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 1920, background: 'radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0.55), rgba(0,0,0,0.25) 70%)'}} />
-      <div style={{position: 'absolute', left: 40, right: 40, top: 360, textAlign: 'center'}}>
-        <div><Pill t="HA" s={P0} col="#e8e0cc" /><Pill t="YO'Q" s={P0 + 6} col="#e07a5f" /></div>
-        <svg width={80} height={90} style={{marginTop: 40, opacity: interpolate(fr, [P0 + 14, P0 + 24], [0, 1], cl), transform: `translateY(${10 * Math.sin(fr / 5)}px)`}}>
-          <path d="M 40 6 L 40 70 M 14 46 L 40 76 L 66 46" stroke={GOLD} strokeWidth={9} fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 900, bottom: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.55) 45%)'}} />
+      <div style={{position: 'absolute', left: 170, right: 170, top: 1150, transform: `scale(${p * pulse})`, transformOrigin: '50% 50%'}}>
+        <div style={{display: 'flex', alignItems: 'stretch', background: 'rgba(250,244,230,0.96)', borderRadius: 34, boxShadow: '0 14px 50px rgba(0,0,0,0.65)', overflow: 'hidden', border: `3px solid ${GOLD}`}}>
+          {half('HA', '#2f6b3c', P0 + 4)}
+          <div style={{width: 3, background: 'rgba(120,100,60,0.35)'}} />
+          {half("YO'Q", '#a8321e', P0 + 8)}
+        </div>
       </div>
     </AbsoluteFill>
   );
