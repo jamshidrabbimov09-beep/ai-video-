@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, Sequence, interpolate, random, staticFile, useCurrentFrame} from 'remotion';
 import edit from './edit_p4.json';
 import {Line, Lands, Four, Horde, Line2, Tabriz, Invade} from './p4motion';
+import {QuestionCard, SubscribeEnd} from './p4outro';
 
 const FPS = 30;
 const GOLD = '#d4af37';
@@ -261,6 +262,8 @@ const renderOver = (o: Over) => {
     case 'title': return <Title o={o} d={d} />;
     case 'mid': return <Mid o={o} d={d} />;
     case 'ask': return <Ask o={o} d={d} />;
+    case 'q': return <QuestionCard d={d} />;
+    case 'subend': return <SubscribeEnd d={d} />;
     case 'tag': return <Tag o={o} />;
     case 'map': return <MapOv />;
     case 'end': return <EndCard o={o} />;

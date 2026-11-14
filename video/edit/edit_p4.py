@@ -48,11 +48,37 @@ SE = lambda n: placed[n - 1]['ne']          # sentence n end
 raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(root / 'public/audio4/all_raw.mp3'), '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'], capture_output=True).stdout
 src = np.frombuffer(raw, dtype='<i2').astype(np.float32) / 32768
 END_HOLD = 1.9   # short end card: Part 1 retention dropped on the long black card
-TOTAL = SE(len(sents)) + END_HOLD
+# outro (user's wish, 2026-11-13): a recorded question to the viewer, then a subscribe-button card
+ASK_FILE = root / 'public/audio4/ask_raw.mp3'
+ASK = None
+if ASK_FILE.exists():
+    araw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(ASK_FILE), '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'], capture_output=True).stdout
+    av = np.frombuffer(araw, dtype='<i2').astype(np.float32) / 32768
+    env = np.convolve(np.abs(av), np.ones(441) / 441, 'same'); on = np.where(env > 0.01)[0]
+    av = av[max(0, on[0] - 2205):on[-1] + 4410]                        # trim silence, keep 50 ms / 100 ms
+    # phrase boundaries = pauses longer than 0.25 s
+    env = np.convolve(np.abs(av), np.ones(441) / 441, 'same'); quiet = env < 0.008
+    ph, inp, s0 = [], False, 0
+    for i in range(0, len(av), 441):
+        q = quiet[i:i + 441].all()
+        if not inp and not q: inp, s0 = True, i
+        if inp and q:
+            j = i
+            while j < len(av) and quiet[j:j + 441].all(): j += 441
+            if (j - i) / SR > 0.25 or j >= len(av): ph.append((s0 / SR, i / SR)); inp = False
+    if inp: ph.append((s0 / SR, len(av) / SR))
+    ASK = dict(t0=SE(len(sents)) + 0.6, dur=len(av) / SR, phrases=ph)
+    SUB_LEN = 2.8
+    TOTAL = ASK['t0'] + ASK['dur'] + 0.3 + SUB_LEN
+else:
+    TOTAL = SE(len(sents)) + END_HOLD
 out = np.zeros(int(TOTAL * SR) + SR)
 st = int(OFF * SR)
 seg = src[max(0, -st):]
+seg = seg[:max(0, int((SE(len(sents)) + 0.5) * SR) - max(0, st))]   # nothing from the raw file after the last sentence
 out[max(0, st):max(0, st) + len(seg)] = seg[:len(out) - max(0, st)]
+if ASK:
+    a0 = int(ASK['t0'] * SR); out[a0:a0 + len(av)] += av
 with wave.open(str(root / 'public/voice4/voice_p4.wav'), 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((np.clip(out, -1, 1) * 32767).astype('<i2').tobytes())
@@ -133,7 +159,11 @@ accent('name', wi(7, "o'rusxondan"), "O'RUSXON", dur=2.6)
 accent('date', wi(33, 'ming'), "1385", "QISH", dur=SE(33) - W(wi(33, 'ming')) + 0.25, sub_at=wi(33, 'qish'))
 accent('date', wi(35, 'ming'), "1387", "BAHOR", dur=SE(35) - W(wi(35, 'ming')) + 0.25, sub_at=wi(35, 'bahor'))
 accent('name', wi(41, 'mironshoh'), "MIRONSHOH", dur=2.4)
-over.append(dict(k='end', t0=round(SE(55) + 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
+if ASK:
+    over.append(dict(k='q', t0=round(ASK['t0'] - 0.2, 3), t1=round(ASK['t0'] + ASK['dur'] + 0.3, 3)))
+    over.append(dict(k='subend', t0=round(ASK['t0'] + ASK['dur'] + 0.3, 3), t1=round(TOTAL, 3)))
+else:
+    over.append(dict(k='end', t0=round(SE(55) + 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
 for a, b in ((SS(1) - 0.3, SE(3) + 0.3), (SS(51), SE(51) + 0.4)):
     over.append(dict(k='bars', t0=round(max(0, a), 3), t1=round(b, 3)))
 
@@ -182,11 +212,23 @@ for k, ch in enumerate(chunks):
     if txt.startswith(("1385-yil,", "1387-yil,")): continue  # shown by the date card instead
     over.append(dict(k='sub', t0=round(t0, 3), t1=round(max(t1, t0 + 0.5), 3), text=txt))
 
+if ASK:
+    TXT = ["Siz-chi?", "Temurning o'rnida bo'lganingizda...", "To'xtamishni yana kechirarmidingiz?", "Javobingizni izohda yozing."]
+    ph = ASK['phrases']
+    if len(ph) != len(TXT):   # fall back: spread the four lines over the clip by their length
+        L = [len(t) for t in TXT]; tot = sum(L); c = 0; ph = []
+        for l in L: ph.append((ASK['dur'] * c / tot, ASK['dur'] * (c + l) / tot)); c += l
+    for (a0, a1), txt in zip(ph, TXT):
+        over.append(dict(k='sub', t0=round(ASK['t0'] + a0 - 0.04, 3), t1=round(ASK['t0'] + a1 + 0.2, 3), text=txt))
+    print('outro phrases', [(round(a, 2), round(b, 2)) for a, b in ASK['phrases']])
 (root / 'src' / 'edit_p4.json').write_text(json.dumps(dict(fps=30, end=round(TOTAL, 3), shots=shots, over=over), ensure_ascii=False))
 
 # ---------- 5. sparse sound accents ----------
 sfx = [dict(k='boom', t=round(SS(6) + 0.0, 3)), dict(k='boom', t=round(W(wi(33, 'ming')), 3)), dict(k='boom', t=round(SS(51), 3)),
        dict(k='heart', t=round(0.4, 3), dur=round(SE(3) - 0.2, 3)), dict(k='heart', t=round(SS(51), 3), dur=round(SE(51) - SS(51) + 0.6, 3))]
+if ASK:
+    tap = ASK['t0'] + ASK['dur'] + 0.3 + 26 / 30          # SUB_TAP frame in src/p4outro.tsx
+    sfx += [dict(k='click', t=round(tap - 0.02, 3)), dict(k='bell', t=round(tap + 0.12, 3))]
 for sh in shots:
     if not (sh['img'] or '').startswith('mo:'): continue
     t0, d, kind = sh['t0'], sh['t1'] - sh['t0'], sh['img'][3:]

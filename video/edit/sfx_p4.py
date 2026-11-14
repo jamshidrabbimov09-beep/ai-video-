@@ -59,8 +59,15 @@ def gallop(dur):
         k += 0.42
     n = len(buf); ar = np.arange(n)
     return buf * np.minimum(1, np.minimum(ar / (0.5 * SR), (n - ar) / (0.8 * SR))) * 0.3
+def click():
+    x = t(0.09); n = np.random.default_rng(11).standard_normal(len(x))
+    return (np.sin(2 * np.pi * 2300 * x) * 0.5 + n * 0.5) * np.exp(-70 * x) * 0.7
+def bell():
+    x = t(1.6)
+    s = sum(a * np.sin(2 * np.pi * f * x + 4 * np.sin(2 * np.pi * 7 * x) * (f > 2000)) * np.exp(-dk * x) for f, a, dk in ((1320, 1, 3.0), (1980, 0.5, 4.5), (2640, 0.3, 6.0)))
+    return s * np.minimum(1, x / 0.004) * 0.3
 for it in plan:
-    extra = {'whoosh': whoosh, 'drum': drum, 'snap': snap, 'creak': creak, 'chime': chime, 'chime2': lambda: chime(660), 'thud': thud}
+    extra = {'click': click, 'bell': bell, 'whoosh': whoosh, 'drum': drum, 'snap': snap, 'creak': creak, 'chime': chime, 'chime2': lambda: chime(660), 'thud': thud}
     if it['k'] in extra or it['k'] == 'gallop':
         sig = gallop(it['dur']) if it['k'] == 'gallop' else extra[it['k']]()
         s = int(it['t'] * SR); out[s:s + len(sig)] += sig[:max(0, total - s)]
