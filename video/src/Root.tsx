@@ -5,6 +5,8 @@ import {Part1V4, PART1_V4_FRAMES} from './Part1V4';
 import {Part2, PART2_FRAMES} from './Part2';
 import {Part3, PART3_FRAMES} from './Part3';
 import {Part3V2, PART3V2_FRAMES} from './Part3V2';
+import {Part4, PART4_FRAMES} from './Part4';
+import {QPreview} from './p4outro';
 import {LoyJangi, LOY_FRAMES} from './LoyJangi';
 import {Part1V3, PART1_V3_FRAMES} from './Part1V3';
 import {Part1V2, PART1_V2_FRAMES} from './Part1V2';
@@ -32,6 +34,8 @@ export const Root: React.FC = () => (
   <Composition id="Part2" component={Part2} durationInFrames={PART2_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="Part3" component={Part3} durationInFrames={PART3_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="Part3V2" component={Part3V2} durationInFrames={PART3V2_FRAMES} fps={30} width={1080} height={1920} />
+  <Composition id="Part4" component={Part4} durationInFrames={PART4_FRAMES} fps={30} width={1080} height={1920} />
+  <Composition id="QPreview" component={QPreview} durationInFrames={60} fps={30} width={1080} height={1920} defaultProps={{v: 'A'}} />
   <Composition id="LoyJangi" component={LoyJangi} durationInFrames={LOY_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="Test" component={Test} durationInFrames={60} fps={30} width={1920} height={1080} />
   </>
