@@ -1,7 +1,7 @@
 # 4-qism: "O'zi qutqargan dushman" (Instagram / YouTube)
 
 ## Instagram izohi (caption)
-Temur uni daryo bo'yidan o'lim yoqasidan qaytardi, xon qildi, "o'g'lim" dedi. U esa Temurning uyiga o't qo'ydi. 🔥
+Temurning odami uni daryo bo'yida o'lim yoqasida topdi. Temur uni o'g'lidek ko'rdi va xon qildi. U esa Temurning yurtiga o't qo'ydi. 🔥
 
 Amir Temur hikoyasi, 4-qism: "O'zi qutqargan dushman". To'xtamish: qochoq shahzodadan Oltin O'rda xonigacha va 1387-yildagi xiyonat.
 
