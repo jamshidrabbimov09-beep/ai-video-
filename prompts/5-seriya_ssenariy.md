@@ -22,7 +22,7 @@ Ulug' tog' degan joyda Temur cho'qqiga chiqib, yam-yashil dashtga qaraydi. Askar
 1391-yil, 18-iyun. Qunduzcha degan joyda ikki qo'shin yuzma-yuz keladi. Dushman qo'shini ko'proq edi. Temur qo'shinini yetti qismga bo'lib saf tortadi. Keyin hammaga otdan tushib, chodir tikishni buyuradi. To'xtamish hayron qoladi: "Ular bizdan qo'rqmayaptimi?"
 
 **F (jang avji)**
-Jang boshlanadi. To'xtamish oldinda bas kela olmay, aylanib o'tib Temur qo'shinining orqasiga chiqadi. Lekin Temurning o'zi unga qarab otlanganini ko'rgach, chiday olmaydi. Taxtini ham, tojini ham tashlab qochadi.
+Jang boshlanadi. To'xtamish oldinda bas kela olmay, aylanib o'tib Temur qo'shinining orqasiga chiqadi. Lekin Temurning o'zi unga qarab otlanganini ko'rgach, chiday olmaydi va jang maydonini tashlab qochadi.
 
 **G (Itil)**
 Temur askarlari qochganlarni Itil, ya'ni Volga daryosigacha quvib boradi. Oldinda keng daryo, orqada qilich. Jo'chi ulusi tarqalib ketadi.
@@ -51,7 +51,7 @@ Manz, "The Rise and Rule of Tamerlane", 71-72-betlar.
 | Dushman ko'p edi | Yazdiy 125b: "bir necha qo'shunga ko'p edi" | tasdiq (raqam yo'q) |
 | Yetti qismga (kul) bo'lib saf | Yazdiy 125a | tasdiq |
 | Otdan tushib chodir tikish, To'xtamishning hayrati | Yazdiy 125b | tasdiq |
-| To'xtamish orqaga aylanib o'tadi, Temurni ko'rib qochadi, taxt va tojni tashlab | Yazdiy 126b | tasdiq (Yazdiy iborasi) |
+| To'xtamish orqaga aylanib o'tadi, Temurni ko'rib jang maydonidan qochadi | Yazdiy 126b ("taxt va tojdan voz kechib" iborasi ritorik: u 1395 gacha xon bo'lib qolgan, shuning uchun aytilmadi) | tasdiq |
 | Itilgacha quvish, "oldinda daryo, orqada qilich", ulus tarqaladi | Yazdiy 127a; Manz 71: "chased up to the Volga" | tasdiq |
 | 1394-95 yana Kavkazga bosqin | Manz 72: "hearing that Tokhtamish had again raided in the Caucasus" | tasdiq |
 | 1395 Terek bo'yida to'qnashuv | Yazdiy (Terek daryosi, To'xtamish xandaq qazigan, Temur kechuv topgan) | tasdiq |
