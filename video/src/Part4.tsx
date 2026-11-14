@@ -262,7 +262,7 @@ const renderOver = (o: Over) => {
     case 'title': return <Title o={o} d={d} />;
     case 'mid': return <Mid o={o} d={d} />;
     case 'ask': return <Ask o={o} d={d} />;
-    case 'q': return <QuestionCard d={d} />;
+    case 'q': return <QuestionCard d={d} pop={(o as any).pop} />;
     case 'subend': return <SubscribeEnd d={d} />;
     case 'tag': return <Tag o={o} />;
     case 'map': return <MapOv />;

@@ -10,7 +10,7 @@ const font = '"Liberation Serif", "DejaVu Serif", Georgia, serif';
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
 /* question card in the upper half (the subtitle band below stays free) */
-export const QuestionCard: React.FC<{d: number}> = ({d}) => {
+export const QuestionCard: React.FC<{d: number; pop?: number}> = ({d, pop: P0 = 20}) => {
   const fr = useCurrentFrame();
   const a = Math.min(interpolate(fr, [0, 12], [0, 1], cl), interpolate(fr, [d - 8, d], [1, 0], cl));
   const pop = (s: number) => interpolate(fr, [s, s + 12], [0, 1], {...cl, easing: Easing.out(Easing.back(2))});
@@ -19,12 +19,10 @@ export const QuestionCard: React.FC<{d: number}> = ({d}) => {
   );
   return (
     <AbsoluteFill style={{opacity: a}}>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 1250, background: 'linear-gradient(180deg, rgba(0,0,0,0.75), rgba(0,0,0,0.35) 70%, rgba(0,0,0,0))'}} />
-      <div style={{position: 'absolute', left: 40, right: 40, top: 520, textAlign: 'center'}}>
-        <div style={{fontFamily: font, color: GOLD, fontWeight: 700, fontSize: 78, letterSpacing: 4, lineHeight: 1.15, textShadow: '0 4px 30px #000'}}>SIZ KECHIRARMIDINGIZ?</div>
-        <div style={{marginTop: 70}}><Pill t="HA" s={10} col="#e8e0cc" /><Pill t="YO'Q" s={16} col="#e07a5f" /></div>
-        <div style={{marginTop: 60, fontFamily: font, fontStyle: 'italic', color: CREAM, fontSize: 52, opacity: interpolate(fr, [22, 34], [0, 1], cl), textShadow: '0 3px 16px #000'}}>izohda yozing</div>
-        <svg width={80} height={90} style={{marginTop: 10, opacity: interpolate(fr, [26, 36], [0, 1], cl), transform: `translateY(${10 * Math.sin(fr / 5)}px)`}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 1920, background: 'radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0.55), rgba(0,0,0,0.25) 70%)'}} />
+      <div style={{position: 'absolute', left: 40, right: 40, top: 360, textAlign: 'center'}}>
+        <div><Pill t="HA" s={P0} col="#e8e0cc" /><Pill t="YO'Q" s={P0 + 6} col="#e07a5f" /></div>
+        <svg width={80} height={90} style={{marginTop: 40, opacity: interpolate(fr, [P0 + 14, P0 + 24], [0, 1], cl), transform: `translateY(${10 * Math.sin(fr / 5)}px)`}}>
           <path d="M 40 6 L 40 70 M 14 46 L 40 76 L 66 46" stroke={GOLD} strokeWidth={9} fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
@@ -48,8 +46,10 @@ export const SubscribeEnd: React.FC<{d: number}> = ({d}) => {
   const tick = interpolate(fr, [SUB_TAP + 2, SUB_TAP + 10], [0, 1], cl);
   return (
     <AbsoluteFill style={{background: `rgba(0,0,0,${0.9 * a})`, opacity: a}}>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center'}}>
-        <Img src={staticFile('maps/uq_logo.png')} style={{width: 210, height: 210}} />
+      <div style={{position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center'}}>
+        <div style={{display: 'inline-block', width: 300, height: 300, borderRadius: '50%', overflow: 'hidden', border: `5px solid ${GOLD}`, boxShadow: '0 0 60px rgba(212,175,55,0.45)', transform: `scale(${interpolate(fr, [0, 16], [0.85, 1], {...cl, easing: Easing.out(Easing.back(1.6))})})`}}>
+          <Img src={staticFile('maps/uq_avatar.png')} style={{width: 300, height: 300}} />
+        </div>
         <div style={{fontFamily: font, color: GOLD, fontWeight: 700, fontSize: 64, letterSpacing: 6, marginTop: 24}}>UNUTILGAN QISSALAR</div>
         <div style={{fontFamily: font, color: CREAM, fontSize: 40, letterSpacing: 4, marginTop: 10}}>@unutilgan_qissalar</div>
       </div>

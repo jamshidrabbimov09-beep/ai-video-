@@ -160,7 +160,8 @@ accent('date', wi(33, 'ming'), "1385", "QISH", dur=SE(33) - W(wi(33, 'ming')) + 
 accent('date', wi(35, 'ming'), "1387", "BAHOR", dur=SE(35) - W(wi(35, 'ming')) + 0.25, sub_at=wi(35, 'bahor'))
 accent('name', wi(41, 'mironshoh'), "MIRONSHOH", dur=2.4)
 if ASK:
-    over.append(dict(k='q', t0=round(ASK['t0'] - 0.2, 3), t1=round(ASK['t0'] + ASK['dur'] + 0.3, 3)))
+    pq = ASK['phrases'][2][0] if len(ASK['phrases']) == 4 else ASK['dur'] * 0.45
+    over.append(dict(k='q', t0=round(ASK['t0'] - 0.2, 3), t1=round(ASK['t0'] + ASK['dur'] + 0.3, 3), pop=round((pq + 0.2) * 30)))
     over.append(dict(k='subend', t0=round(ASK['t0'] + ASK['dur'] + 0.3, 3), t1=round(TOTAL, 3)))
 else:
     over.append(dict(k='end', t0=round(SE(55) + 0.15, 3), t1=round(TOTAL, 3), text="KEYINGI QISMDA", sub="@unutilgan_qissalar"))
