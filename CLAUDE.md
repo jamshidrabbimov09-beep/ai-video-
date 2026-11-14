@@ -4,7 +4,7 @@ Read this first. It records what was built and agreed with the user in the first
 so a new session can continue without that conversation.
 
 The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`). The user plans one chat per part and wants each new chat to know everything
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -18,7 +18,7 @@ update this file.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
 - **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
-  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" built 2026-11-12 (chat 5), waiting for the user's review.
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Next: Part 5 "Dasht yurishi" (script written, waiting for the user's confirmation).
 
 ## The user
 
@@ -160,6 +160,46 @@ sending: the user cannot re-record many times.
   the PyPI package basemap-data; ulus polygons are hand-drawn after the books in `p4motion.tsx` (aourednik historical-basemaps
   put Sig'noq in the Chagatai khanate and Balx in the Ilkhanate for 1300: wrong for the 1370s, not used). Reuse for later parts.
 - Creative Claw: 19 credits left.
+
+## Chat 5 additions (2026-11-13/14), read before Part 5
+
+- **Outro for every part from now on (user's wish):** after the last sentence the user records one engagement question in ElevenLabs
+  (Part 4: `public/audio4/ask_raw.mp3`, "Siz-chi? Temurning o'rnida bo'lganingizda... To'xtamishni yana kechirarmidingiz? Javobingizni
+  izohda yozing."), then a subscribe card. Code: `src/p4outro.tsx` (QuestionCard variant **C** = dark glass bar with gold frame, HA | YO'Q,
+  just above the subtitles; SubscribeEnd = round channel avatar `public/maps/uq_avatar_c.png`, "UNUTILGAN QISSALAR", a hand taps the gold
+  "OBUNA BO'LING" button -> grey "OBUNA BO'LINDI" with tick, bell rings; synthesized click + bell in `edit/sfx_p4.py`). `edit/edit_p4.py`
+  appends the question audio after the last sentence and splits its subtitles at pauses; `edit/build_part4.sh` fades the corner logo out
+  0.9 s before the subscribe card. Design notes from the user: no title above the HA/YO'Q card (it repeated the subtitle), no extra ring
+  around the avatar (the avatar has its own), YouTube logo/sounds not used. Instagram poll sticker: the user does not want it.
+- Part 4 final: 158 s, exports ~95 MiB (encode maxrate 5000k: the 5500k file was 103 MB and GitHub refused it). For a small late change,
+  render only the changed frames (`--frames=a-b`) and splice into `out/video_p4_raw.mp4`, then run `final` (minutes, not 15).
+- Cover `instagram/cover_part4.png` (`edit/insta_cover_p4.py`; use the high-resolution 1116x2000 image the user sent in chat, the zip copy
+  was 768x1376 and looked blurry), captions `instagram/post_part4.md`. Part 4 posted 2026-11-14 ~13:15 with location Buxoro, AI label,
+  highest quality, Trial off.
+- Instagram: the user's other format "Tasavvur qil" (part 2) reached 67.5k views, 55k viewers, 41 s average watch, 59 follows, skip rate
+  19.9% within ~19 h and was still growing: a big success; learn from it (direct "imagine" address to the viewer, question). Pin a comment
+  there pointing to the Temur series. Posting several reels a day apart does not hurt each other.
+- **Google Flow account: 50 free credits per day** (refresh 11:39). Images cost nothing; a video costs credits, so a fully video part is not
+  possible in one day. Agreed plan for Part 5: stills + Claude's motion design (maps etc.) + 2-4 Flow image-to-video clips at key moments.
+- **KM Studio Pro** (`kmstudiopro.pages.dev`, Chrome extension by Olimov Behzod, Chrome Web Store id pgfmoapcmhbpfigcgfplkhldopdfdlmp):
+  checked 2026-11-14. It does NOT generate anything itself; it automates Google Flow in the user's own account and credits: queue of
+  100+ prompts from a .md/.txt/.csv/.xlsx file, 6 modes (text->image, character->image, image->image, text->video, image->video,
+  character), files saved as `1-IMAGE-...jpeg`, start frame by number (`7.jpg` -> prompt 7), Flow characters attached by `refs:` ID.
+  Free tier: unlimited prompts, 1K images, 720p video; Pro 29 000 so'm/month (2K/4K images, parallel, ZIP, auto-retry), 3-day free Pro on
+  first Google login, no card, no auto-renew; asks Google only for openid/email/profile. PC Chrome only. Useful for batch images; offered
+  to the user as optional. The host was added to the `ai-video-` environment allowlist.
+- Never start a full render without asking (see "The user"). Show stills/variants first.
+- Creative Claw: 19 credits left.
+
+## Part 5 "Dasht yurishi" (script proposed 2026-11-14, chat 5)
+
+- `prompts/5-seriya_ssenariy.md`: 1391 campaign against To'xtamish (envoys with 9 horses and a falcon and Temur's answer, 3 weeks without
+  water, famine: a ram's head 500 tanga, the great hunt, stone tower on Ulug' tog', 18 June 1391 Qunduzcha: seven divisions, the army
+  dismounts and pitches tents, To'xtamish goes round to the rear, flees on seeing Temur; pursuit to the Itil/Volga) and a short 1395 Terek
+  epilogue (Golden Horde never recovered, Manz 72). Fact table inside (Yazdi 118b-127b, Manz 71-72). Waiting for the user's confirmation;
+  then: ElevenLabs text with tags in ONE copyable block, the outro question line, image prompts (+ KM Studio file format), 2-4 video
+  prompts for Flow image-to-video, maps (route with a day counter, battle scheme, pursuit, Terek), outro as in Part 4.
+- The Temur series table should change: Part 5 = steppe campaign (1391-1395); Iran/India moves later.
 
 ## Open items
 
