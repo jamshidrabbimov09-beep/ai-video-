@@ -207,3 +207,7 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   AI-video page (@historyofuzb, Veo-like clips); possible later test: AI Plus for one month for a few moving shots in the Temur series.
   Warned against "free via Claude" GitHub tools (account bans, credential theft).
 - Creative Claw: 17 credits (transcription costs 2-3 per episode). Firecrawl web search hit its keyless daily limit once.
+- Chat 5 may run in Claude Code on the user's Windows PC (GTX 6 GB, 8 GB RAM) in a local copy of this repository (ZIP of branch
+  `claude/zen-curie-3dlfy5`, possibly without git). There: install Node.js LTS, ffmpeg and Python 3 (numpy, Pillow) if missing, run
+  `npm install` in `video/`, let Remotion use its own downloaded browser (the `/opt/pw-browsers/chromium` path is only for cloud
+  sessions), render with `--concurrency=2`, and deliver files from the local `video/exports/` folder (no GitHub link needed).
