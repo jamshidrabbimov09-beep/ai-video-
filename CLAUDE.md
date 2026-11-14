@@ -27,7 +27,7 @@ update this file.
 - Wants Claude to do as much as possible. Their own part: recording the narration in ElevenLabs, generating images in
   Google Flow, posting to Instagram.
 - Wants free tools; declined buying generation credits. Ask before spending any.
-- During long renders they want progress reported (percent done).
+- During long renders they want progress reported (percent done). Never start a full render without asking first (user, 2026-11-14): show still previews or variants, wait for the choice, then ask before rendering.
 - Do not lower quality of deliverables: final video is 1080x1920.
 
 ## Video style the user approved (Part 1, version 4)

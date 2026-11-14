@@ -10,7 +10,7 @@ const font = '"Liberation Serif", "DejaVu Serif", Georgia, serif';
 const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
 
 /* question card: a poll sticker just above the subtitle band */
-export const QuestionCard: React.FC<{d: number; pop?: number}> = ({d, pop: P0 = 20}) => {
+export const QuestionCard: React.FC<{d: number; pop?: number; v?: string}> = ({d, pop: P0 = 20, v = 'A'}) => {
   const fr = useCurrentFrame();
   const a = Math.min(interpolate(fr, [0, 12], [0, 1], cl), interpolate(fr, [d - 8, d], [1, 0], cl));
   const pop = (s: number) => interpolate(fr, [s, s + 12], [0, 1], {...cl, easing: Easing.out(Easing.back(2))});
@@ -20,6 +20,7 @@ export const QuestionCard: React.FC<{d: number; pop?: number}> = ({d, pop: P0 = 
   const half = (t: string, col: string, s: number) => (
     <div style={{flex: 1, textAlign: 'center', padding: '30px 0', fontFamily: font, fontWeight: 700, fontSize: 70, letterSpacing: 5, color: col, opacity: interpolate(fr, [s, s + 8], [0, 1], cl)}}>{t}</div>
   );
+  if (v !== 'A') return <AbsoluteFill style={{opacity: a}}><div style={{position: 'absolute', left: 0, right: 0, top: 900, bottom: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.55) 45%)'}} /><QVariant v={v} fr={fr} P0={P0} /></AbsoluteFill>;
   return (
     <AbsoluteFill style={{opacity: a}}>
       <div style={{position: 'absolute', left: 0, right: 0, top: 900, bottom: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.55) 45%)'}} />
@@ -75,3 +76,49 @@ export const SubscribeEnd: React.FC<{d: number}> = ({d}) => {
     </AbsoluteFill>
   );
 };
+
+/* alternative designs for the HA / YO'Q card, shown to the user for choice */
+const QVariant: React.FC<{v: string; fr: number; P0: number}> = ({v, fr, P0}) => {
+  const pop = (s: number) => interpolate(fr, [s, s + 12], [0, 1], {...cl, easing: Easing.out(Easing.back(2))});
+  const pulse = (k: number) => 1 + 0.03 * Math.sin(Math.max(0, fr - P0 - 14) / 5 + k);
+  if (v === 'B') {   // two round seals: a gold coin and a red wax seal
+    const seal = (t: string, bg: string, ring: string, col: string, k: number) => (
+      <div style={{width: 250, height: 250, borderRadius: '50%', background: bg, border: `8px double ${ring}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 12px 40px rgba(0,0,0,0.7), inset 0 -10px 30px rgba(0,0,0,0.35)', transform: `scale(${pop(P0 + k * 6) * pulse(k)})`}}>
+        <span style={{fontFamily: font, fontWeight: 700, fontSize: 74, color: col, letterSpacing: 4, textShadow: '0 2px 6px rgba(0,0,0,0.5)'}}>{t}</span>
+      </div>
+    );
+    return <div style={{position: 'absolute', left: 0, right: 0, top: 1080, display: 'flex', justifyContent: 'center', gap: 90}}>
+      {seal('HA', 'radial-gradient(circle at 35% 30%, #f6dc7a, #c9a227 60%, #8a6a14)', '#6b4f0e', '#3a2a06', 0)}
+      {seal("YO'Q", 'radial-gradient(circle at 35% 30%, #d0564a, #9b2a20 60%, #5e140e)', '#3d0b07', '#f5ecd5', 1)}
+    </div>;
+  }
+  if (v === 'C') {   // dark glass bar with a gold frame
+    const p = pop(P0);
+    return <div style={{position: 'absolute', left: 150, right: 150, top: 1160, transform: `scale(${p * pulse(0)})`}}>
+      <div style={{display: 'flex', background: 'rgba(15,10,5,0.78)', border: `3px solid ${GOLD}`, borderRadius: 20, boxShadow: '0 0 40px rgba(212,175,55,0.35)', overflow: 'hidden'}}>
+        <div style={{flex: 1, textAlign: 'center', padding: '28px 0', fontFamily: font, fontWeight: 700, fontSize: 68, letterSpacing: 6, color: GOLD}}>HA</div>
+        <div style={{width: 2, background: GOLD, opacity: 0.6, margin: '18px 0'}} />
+        <div style={{flex: 1, textAlign: 'center', padding: '28px 0', fontFamily: font, fontWeight: 700, fontSize: 68, letterSpacing: 6, color: '#e07a5f'}}>YO'Q</div>
+      </div>
+    </div>;
+  }
+  // D: quiz style, two stacked answers with a tick and a cross
+  const row = (icon: React.ReactNode, t: string, col: string, k: number) => (
+    <div style={{display: 'flex', alignItems: 'center', gap: 30, padding: '20px 40px', margin: '0 0 22px', background: 'rgba(250,244,230,0.95)', borderRadius: 26, boxShadow: '0 10px 34px rgba(0,0,0,0.6)', transform: `translateX(${(1 - pop(P0 + k * 6)) * (k ? 600 : -600)}px)`}}>
+      {icon}<span style={{fontFamily: font, fontWeight: 700, fontSize: 62, letterSpacing: 4, color: col}}>{t}</span>
+    </div>
+  );
+  return <div style={{position: 'absolute', left: 230, right: 230, top: 1000}}>
+    {row(<svg width={64} height={64}><circle cx={32} cy={32} r={30} fill="#2f6b3c" /><path d="M 18 33 L 28 43 L 47 22" stroke="#fff" strokeWidth={7} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>, 'HA', '#2f6b3c', 0)}
+    {row(<svg width={64} height={64}><circle cx={32} cy={32} r={30} fill="#a8321e" /><path d="M 21 21 L 43 43 M 43 21 L 21 43" stroke="#fff" strokeWidth={7} strokeLinecap="round" /></svg>, "YO'Q", '#a8321e', 1)}
+  </div>;
+};
+
+/* preview composition for choosing a variant: last still behind the card */
+export const QPreview: React.FC<{v: string}> = ({v}) => (
+  <AbsoluteFill style={{background: '#000'}}>
+    <Img src={staticFile('p4g/warm/l37.jpg')} style={{width: '100%', height: '100%', objectFit: 'cover', transform: 'scale(1.12)'}} />
+    <QuestionCard d={300} pop={0} v={v} />
+    <div style={{position: 'absolute', left: 70, right: 70, top: 1440, textAlign: 'center', fontFamily: font, fontSize: 56, fontWeight: 700, color: CREAM, textShadow: '0 0 10px #000, 0 3px 18px #000'}}><span style={{color: GOLD}}>To'xtamishni</span> yana kechirarmidingiz?</div>
+  </AbsoluteFill>
+);
