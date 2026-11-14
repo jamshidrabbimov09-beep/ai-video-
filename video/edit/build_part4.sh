@@ -36,10 +36,12 @@ fi
 
 if [[ $STAGE == all || $STAGE == final ]]; then
   T="${LIMIT:-$(total)}"
+  # the corner logo fades out smoothly before the subscribe card (that card shows the channel avatar itself)
+  LF=$(python3 -c "import json;e=json.load(open('src/edit_p4.json'));s=[o['t0'] for o in e['over'] if o['k']=='subend'];print(round((s[0] if s else e['end'])-0.9,2))")
   ffmpeg -v error -y -i out/video_p4_raw.mp4 -i out/audio_p4.m4a -vf "noise=alls=4:allf=t" -t "$T" "${ENC[@]}" exports/part4_ozi_qutqargan_dushman_1080p_logosiz.mp4
   ffmpeg -v error -y -i out/video_p4_raw.mp4 -i out/audio_p4.m4a -loop 1 -framerate 30 -i instagram/logo_rotating.png -loop 1 -framerate 30 -i instagram/logo_static.png -filter_complex "
-    [2:v]format=rgba,rotate=a=0.45*t:c=none:ow=iw:oh=ih,scale=170:170,geq=lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)':a='alpha(X,Y)*(0.72+0.28*sin(2*PI*T/2.6))'[a];
-    [3:v]format=rgba,scale=170:170[b];
+    [2:v]format=rgba,rotate=a=0.45*t:c=none:ow=iw:oh=ih,scale=170:170,geq=lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)':a='alpha(X,Y)*(0.72+0.28*sin(2*PI*T/2.6))',fade=t=out:st=$LF:d=0.7:alpha=1[a];
+    [3:v]format=rgba,scale=170:170,fade=t=out:st=$LF:d=0.7:alpha=1[b];
     [0:v][b]overlay=W-w-34:150:shortest=1[v1];[v1][a]overlay=W-w-34:150:shortest=1,noise=alls=4:allf=t[vo]" \
     -map "[vo]" -map 1:a -t "$T" "${ENC[@]}" exports/part4_ozi_qutqargan_dushman_1080p.mp4
 fi

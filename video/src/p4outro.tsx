@@ -52,8 +52,8 @@ export const SubscribeEnd: React.FC<{d: number}> = ({d}) => {
   return (
     <AbsoluteFill style={{background: `rgba(0,0,0,${0.9 * a})`, opacity: a}}>
       <div style={{position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center'}}>
-        <div style={{display: 'inline-block', width: 300, height: 300, borderRadius: '50%', overflow: 'hidden', border: `5px solid ${GOLD}`, boxShadow: '0 0 60px rgba(212,175,55,0.45)', transform: `scale(${interpolate(fr, [0, 16], [0.85, 1], {...cl, easing: Easing.out(Easing.back(1.6))})})`}}>
-          <Img src={staticFile('maps/uq_avatar.png')} style={{width: 300, height: 300}} />
+        <div style={{display: 'inline-block', width: 300, height: 300, borderRadius: '50%', boxShadow: '0 0 60px rgba(212,175,55,0.40)', opacity: interpolate(fr, [0, 14], [0, 1], cl), transform: `scale(${interpolate(fr, [0, 18], [0.92, 1], {...cl, easing: Easing.out(Easing.cubic)})})`}}>
+          <Img src={staticFile('maps/uq_avatar_c.png')} style={{width: 300, height: 300, display: 'block'}} />
         </div>
         <div style={{fontFamily: font, color: GOLD, fontWeight: 700, fontSize: 64, letterSpacing: 6, marginTop: 24}}>UNUTILGAN QISSALAR</div>
         <div style={{fontFamily: font, color: CREAM, fontSize: 40, letterSpacing: 4, marginTop: 10}}>@unutilgan_qissalar</div>
