@@ -3,8 +3,10 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
+**Current branch with all work: `claude/zen-curie-3dlfy5`** (not yet merged into `main`; a new chat must start from it).
+
 The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 ("Tasavvur qil" ep.1, `4-chat_tasavvur-qil-1-qism.md`). The user plans one chat per part and wants each new chat to know everything
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 ("Tasavvur qil" ep.1 and ep.2, `4-chat_tasavvur-qil-1-qism.md`). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -182,3 +184,26 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   topics, shareable national/map themes), Temur cinematic series slower (every 1-2 weeks), cross-post to YouTube Shorts and TikTok.
   Topic ideas offered: 1000 yil oldin Samarqandda, Ibn Sino dars beryapti, O'zbekistonda dengiz bo'lsa (map), Ipak yo'li karvonchisi,
   Bobur Hindistonga ketmaganda. The user has not picked the next one yet.
+
+## State at the end of chat 4 (2026-11-14) — read this first in chat 5
+
+- The user moves to a new chat (on the PC) and wants it to know everything from chat 4. Main focus now: "Tasavvur qil".
+- Ep.2 was a hit: about 7.6k views and 60 comments in the first 1.5 h (still growing). Followers remain the weak point.
+- Animated follow button for all later episodes: `FollowButton` in `src/tasavvur/common.tsx` (pops in, wiggles, a hand taps it,
+  turns grey "OBUNA BO'LDING", bell rings) with sound `edit/follow_sfx.py` (`add_follow(add, SR, t0)`: click t0+1.0 s, "ching" t0+1.25 s).
+  Give it about 3 s at the end of the video. Preview `video/exports/obuna_tugma_namuna.mp4`.
+- Comment replies: thanks + teaser of the next part + follow ask, varied wording, follow ask in only every 3rd-4th reply.
+  Profile tips given: pin the Tasavvur reels, bio line "🎮 "Tasavvur qil" — har hafta yangi zamonga sayohat", share to Stories with a poll.
+- Content rule agreed: about 70% real history, 30% imagination. Rotate formats: "1 kun" POV (ep.1), "Kim kuchli?" comparisons,
+  "Agar... bo'lsa?" (ep.2 style) only occasionally, so the page does not look silly.
+- NEXT EPISODE (user's own idea, accepted): "Agar Alouddin Muhammad Xorazmshoh va onasi Turkon xotun kelishib, qo'shinni shaharlarga
+  tarqatmasdan Jaloliddin aytgandek bir joyda jang qilganida-chi?" Real basis: in 1219-1220 Muhammad II split his large army into city
+  garrisons (Otrar, Bukhara, Samarqand) instead of meeting the Mongols in the field; Jaloliddin argued for concentrating the forces
+  (Nasawi, Juvayni); Turkon xotun and her Qipchoq emirs fed the court conflict. Write the script (fast TTS style, simple words, fact check,
+  label legends, "taxmin" for the what-if part, map of the Khwarazmian state vs the Mongol advance, vote "1, 2 yoki 3"), get it confirmed
+  BEFORE the user records. Then: Jaloliddin at the Sind river (1221) as a "1 kun"/POV episode; "Temur va Chingizxon: kim kuchli?".
+- Paid tools: no free trial for Google AI plans (checked 2026-11-13): AI Plus $4.99 (200 Flow credits/month), AI Pro $19.99 (1,000),
+  Ultra $99.99/$199.99 (10k/25k); Flow video model is "Gemini Omni Flash". Decision: buy nothing for now. The user liked a cinematic
+  AI-video page (@historyofuzb, Veo-like clips); possible later test: AI Plus for one month for a few moving shots in the Temur series.
+  Warned against "free via Claude" GitHub tools (account bans, credential theft).
+- Creative Claw: 17 credits (transcription costs 2-3 per episode). Firecrawl web search hit its keyless daily limit once.
