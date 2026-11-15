@@ -191,6 +191,18 @@ sending: the user cannot re-record many times.
 - Never start a full render without asking (see "The user"). Show stills/variants first.
 - Creative Claw: 19 credits left.
 
+## Working on the user's Windows PC (from Part 5 on, the user's wish)
+
+- From Part 5 the user works in Claude Code on their own PC, in a local clone of this repository, not in a cloud session. Everything a new
+  chat needs is in the repo: this file plus the conversation logs of every Temur chat in `suhbat/` (1, 3, 4, 5; chat 2 was unrelated).
+- PC: Windows, GTX-class 6 GB VRAM, 8 GB RAM. Cloud-only details in this file do not apply there: no `/opt/pw-browsers/chromium`
+  (let Remotion fetch its own browser: `npx remotion browser ensure`, and drop `--browser-executable` from the build scripts), no agent
+  proxy, no scratchpad path, files the user sends are plain paths on the PC. Needed: Git, Node.js LTS, ffmpeg (`winget install ffmpeg`),
+  Python 3 with numpy and Pillow, the Liberation Serif font (or change `font` in the .tsx files). Renders are slower with 8 GB RAM:
+  use `--concurrency=2`. The `.sh` build scripts need Git Bash. Ask the user before installing anything.
+- Every part from now on: a hook that holds the viewer in the first 3 seconds (Part 1 lost ~30% there), and the Part 4 style outro
+  (recorded question + HA/YO'Q card C + subscribe card).
+
 ## Part 5 "Dasht yurishi" (script proposed 2026-11-14, chat 5)
 
 - `prompts/5-seriya_ssenariy.md`: 1391 campaign against To'xtamish (envoys with 9 horses and a falcon and Temur's answer, 3 weeks without
