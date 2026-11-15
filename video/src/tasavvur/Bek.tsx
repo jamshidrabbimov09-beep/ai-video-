@@ -4,7 +4,7 @@ import React from 'react';
 // A modern Uzbek teenager who lands in a different era each episode.
 // Pure SVG, viewBox 400x800, so it scales cleanly and animates in Remotion.
 
-export type Outfit = 'modern' | 'soldier' | 'temur';
+export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon';
 export type Mood = 'neutral' | 'surprised' | 'happy' | 'worried' | 'determined';
 
 const INK = '#2b1e16';
@@ -70,6 +70,10 @@ const Face: React.FC<{mood: Mood; blink: number; lookX: number}> = ({mood, blink
 
 const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}> = ({outfit, mood, blink, lookX}) => (
   <g>
+    {outfit === 'ravshanak' && (
+      // long hair falling behind the shoulders
+      <path d="M104 190 C90 120 140 84 200 84 C260 84 310 120 296 190 C306 260 312 330 300 400 L250 404 C262 330 262 270 256 230 L144 230 C138 270 138 330 150 404 L100 400 C88 330 94 260 104 190 Z" fill={HAIR} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    )}
     {/* ears */}
     <ellipse cx={108} cy={222} rx={17} ry={22} fill={SKIN} stroke={INK} strokeWidth={SW} />
     <ellipse cx={292} cy={222} rx={17} ry={22} fill={SKIN} stroke={INK} strokeWidth={SW} />
@@ -95,8 +99,123 @@ const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}>
       // bit of hair under the helmet
       <path d="M106 196 C110 176 120 166 134 162 L266 162 C280 166 290 176 294 196 C270 182 130 182 106 196 Z" fill={HAIR} />
     )}
+    {outfit === 'sogd' && <path d="M106 196 C110 176 120 166 134 162 L266 162 C280 166 290 176 294 196 C270 182 130 182 106 196 Z" fill={HAIR} />}
+    {(outfit === 'iskandar' || outfit === 'yunon') && (
+      // golden curls under the helmet
+      <g fill="#c9953a" stroke={INK} strokeWidth={3.5}>
+        {[112, 136, 264, 288].map((x, i) => (
+          <circle key={x} cx={x} cy={186 + (i % 2) * 14} r={16} />
+        ))}
+      </g>
+    )}
+    {outfit === 'ravshanak' && (
+      // fringe and a gold diadem with a jewel
+      <g>
+        <path d="M108 190 C104 128 150 96 200 96 C250 96 296 128 292 190 C272 150 240 136 200 136 C160 136 128 150 108 190 Z" fill={HAIR} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+        <path d="M118 150 Q200 112 282 150" fill="none" stroke="#d9a43a" strokeWidth={9} strokeLinecap="round" />
+        <circle cx={200} cy={126} r={11} fill="#c2185b" stroke={INK} strokeWidth={3.5} />
+        <circle cx={108} cy={252} r={8} fill="#d9a43a" stroke={INK} strokeWidth={3} />
+        <circle cx={292} cy={252} r={8} fill="#d9a43a" stroke={INK} strokeWidth={3} />
+      </g>
+    )}
     <Face mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'temur' && <Beard />}
+  </g>
+);
+
+// ---------- So'g'd defender: soft pointed felt cap, belted kaftan with lapels ----------
+const SogdCap: React.FC = () => (
+  <g>
+    <path d="M108 176 C110 120 150 60 214 26 C226 22 232 30 226 40 C254 80 288 120 292 176 Z" fill="#b8452e" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M214 30 C230 60 262 110 272 170" fill="none" stroke="#8f3220" strokeWidth={6} />
+    <rect x={98} y={160} width={204} height={30} rx={14} fill="#e9dcc3" stroke={INK} strokeWidth={SW} />
+  </g>
+);
+const SogdBody: React.FC<{swing: number}> = ({swing}) => (
+  <g>
+    <rect x={150} y={560} width={100} height={90} fill="#5a4a3a" stroke={INK} strokeWidth={SW} />
+    <path d="M146 630 L194 630 L196 728 L128 728 C126 708 138 700 146 696 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M206 630 L254 630 L254 696 C262 700 274 708 272 728 L204 728 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <g transform={`rotate(${swing} 128 340)`}>
+      <path d="M128 330 C104 340 98 420 102 498 L134 498 C134 440 138 380 146 352 Z" fill="#2f6f73" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <circle cx={118} cy={512} r={18} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <g transform={`rotate(${-swing} 272 340)`}>
+      <path d="M272 330 C296 340 302 420 298 498 L266 498 C266 440 262 380 254 352 Z" fill="#2f6f73" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <circle cx={282} cy={512} r={18} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <path d="M136 326 C160 314 240 314 264 326 C270 380 268 440 264 470 L286 640 L114 640 L136 470 C132 440 130 380 136 326 Z" fill="#2f6f73" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M160 322 L214 400 L240 322" fill="#e9c46a" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+    <path d="M200 400 L200 638" stroke="#1f5054" strokeWidth={4} />
+    <rect x={132} y={458} width={136} height={22} rx={6} fill="#3b2414" stroke={INK} strokeWidth={4} />
+    {[150, 176, 224, 250].map((x) => (
+      <circle key={x} cx={x} cy={469} r={5} fill="#d9a43a" />
+    ))}
+    <rect x={244} y={476} width={14} height={90} rx={5} fill="#7b5432" stroke={INK} strokeWidth={3.5} transform="rotate(-10 251 476)" />
+  </g>
+);
+
+// ---------- Iskandar: crested helmet, bronze cuirass, red cloak ----------
+const GreekHelmet: React.FC = () => (
+  <g>
+    <path d="M140 40 C170 10 230 10 260 40 C240 30 160 30 140 40 Z" fill="#c62828" stroke={INK} strokeWidth={4} />
+    <path d="M110 60 C150 0 250 0 290 60 C270 40 130 40 110 60 Z" fill="#e53935" stroke={INK} strokeWidth={4} />
+    <path d="M104 186 C100 110 146 66 200 64 C254 66 300 110 296 186 L276 186 C274 150 250 132 200 132 C150 132 126 150 124 186 Z" fill="#d4a017" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M150 90 C138 110 132 130 130 160" fill="none" stroke="#f6dc7a" strokeWidth={8} strokeLinecap="round" />
+    <path d="M100 186 L130 186 L128 250 L104 236 Z" fill="#d4a017" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+    <path d="M300 186 L270 186 L272 250 L296 236 Z" fill="#d4a017" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+  </g>
+);
+const IskandarBody: React.FC<{swing: number; plain?: boolean}> = ({swing, plain = false}) => (
+  <g>
+    {!plain && <path d="M128 330 C80 420 70 560 84 690 L316 690 C330 560 320 420 272 330 Z" fill="#b71c1c" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />}
+    {[156, 184, 216, 244].map((x) => (
+      <rect key={x} x={x - 12} y={510} width={24} height={100} rx={5} fill="#f3e9d2" stroke={INK} strokeWidth={4} />
+    ))}
+    <path d="M150 600 L194 600 L194 720 L136 728 C136 700 144 680 150 600 Z" fill={SKIN} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M206 600 L250 600 C256 680 264 700 264 728 L206 720 Z" fill={SKIN} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <rect x={146} y={620} width={50} height={80} rx={12} fill="#d4a017" stroke={INK} strokeWidth={4} />
+    <rect x={204} y={620} width={50} height={80} rx={12} fill="#d4a017" stroke={INK} strokeWidth={4} />
+    <path d="M130 720 L198 720 L198 732 L126 732 Z M202 720 L270 720 L274 732 L202 732 Z" fill="#6b3a1f" stroke={INK} strokeWidth={3} />
+    <g transform={`rotate(${swing} 128 340)`}>
+      <path d="M128 330 C104 340 98 420 102 498 L134 498 C134 440 138 380 146 352 Z" fill={SKIN} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={100} y={460} width={36} height={30} rx={6} fill="#d4a017" stroke={INK} strokeWidth={4} />
+      <circle cx={118} cy={512} r={18} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <g transform={`rotate(${-swing} 272 340)`}>
+      <path d="M272 330 C296 340 302 420 298 498 L266 498 C266 440 262 380 254 352 Z" fill={SKIN} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={264} y={460} width={36} height={30} rx={6} fill="#d4a017" stroke={INK} strokeWidth={4} />
+      <circle cx={282} cy={512} r={18} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <path d="M136 326 C160 314 240 314 264 326 C272 380 270 460 262 520 L138 520 C130 460 128 380 136 326 Z" fill={plain ? '#a93226' : '#d4a017'} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    {plain && <path d="M150 330 L250 520 M250 330 L150 520" stroke="#6b3a1f" strokeWidth={12} />}
+    {plain && <ellipse cx={200} cy={425} rx={34} ry={24} fill="none" stroke="#c9b48e" strokeWidth={10} />}
+    <path d="M160 380 Q180 400 198 384 M202 384 Q220 400 240 380 M170 450 Q200 466 230 450" fill="none" stroke="#9c7410" strokeWidth={5} strokeLinecap="round" />
+    <circle cx={200} cy={350} r={14} fill="#f6dc7a" stroke={INK} strokeWidth={4} />
+    <rect x={136} y={500} width={128} height={20} rx={6} fill="#9c7410" stroke={INK} strokeWidth={4} />
+  </g>
+);
+
+// ---------- Ravshanak: long dress with gold trim ----------
+const RavshanakBody: React.FC<{swing: number}> = ({swing}) => (
+  <g>
+    <g transform={`rotate(${swing} 128 340)`}>
+      <path d="M128 330 C104 340 98 420 102 498 L134 498 C134 440 138 380 146 352 Z" fill="#7b1fa2" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={100} y={476} width={36} height={16} rx={5} fill="#d9a43a" stroke={INK} strokeWidth={3} />
+      <circle cx={118} cy={512} r={17} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <g transform={`rotate(${-swing} 272 340)`}>
+      <path d="M272 330 C296 340 302 420 298 498 L266 498 C266 440 262 380 254 352 Z" fill="#7b1fa2" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={264} y={476} width={36} height={16} rx={5} fill="#d9a43a" stroke={INK} strokeWidth={3} />
+      <circle cx={282} cy={512} r={17} fill={SKIN} stroke={INK} strokeWidth={SW} />
+    </g>
+    <path d="M140 326 C162 314 238 314 260 326 C266 380 262 430 258 460 L304 728 L96 728 L142 460 C138 430 134 380 140 326 Z" fill="#7b1fa2" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M104 700 L296 700" stroke="#d9a43a" strokeWidth={12} />
+    <path d="M168 322 L200 372 L232 322" fill="none" stroke="#d9a43a" strokeWidth={8} strokeLinejoin="round" />
+    <rect x={140} y={452} width={120} height={18} rx={6} fill="#d9a43a" stroke={INK} strokeWidth={3.5} />
+    {[150, 250].map((x) => (
+      <path key={x} d={`M${x} 480 L${x + (x - 200) * 0.5} 690`} stroke="#5e1780" strokeWidth={4} />
+    ))}
   </g>
 );
 
@@ -307,11 +426,27 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
   <g>
     {shadow && <ellipse cx={200} cy={732} rx={110} ry={14} fill="#000" opacity={0.25} />}
     {outfit === 'soldier' && <Aventail />}
-    {outfit === 'modern' ? <ModernBody swing={armSwing} /> : outfit === 'temur' ? <TemurBody swing={armSwing} /> : <SoldierBody swing={armSwing} />}
+    {outfit === 'modern' ? (
+      <ModernBody swing={armSwing} />
+    ) : outfit === 'temur' ? (
+      <TemurBody swing={armSwing} />
+    ) : outfit === 'sogd' ? (
+      <SogdBody swing={armSwing} />
+    ) : outfit === 'iskandar' ? (
+      <IskandarBody swing={armSwing} />
+    ) : outfit === 'yunon' ? (
+      <IskandarBody swing={armSwing} plain />
+    ) : outfit === 'ravshanak' ? (
+      <RavshanakBody swing={armSwing} />
+    ) : (
+      <SoldierBody swing={armSwing} />
+    )}
     {outfit !== 'soldier' && <rect x={180} y={300} width={40} height={26} fill={SKIN_SH} stroke={INK} strokeWidth={SW} />}
     <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'soldier' && <Helmet />}
     {outfit === 'temur' && <TemurHat />}
+    {outfit === 'sogd' && <SogdCap />}
+    {(outfit === 'iskandar' || outfit === 'yunon') && <GreekHelmet />}
   </g>
 );
 

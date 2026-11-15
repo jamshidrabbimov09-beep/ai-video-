@@ -185,6 +185,22 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   Topic ideas offered: 1000 yil oldin Samarqandda, Ibn Sino dars beryapti, O'zbekistonda dengiz bo'lsa (map), Ipak yo'li karvonchisi,
   Bobur Hindistonga ketmaganda. The user has not picked the next one yet.
 
+## State at the end of chat 5 (2026-11-15) — read this first in chat 6
+
+- Chat 5 ran in Claude Code on the user's Windows PC (log `suhbat/5-chat_tasavvur-qil-3-qism.md`). The user now moves to the CLOUD
+  (works from the phone too). This branch holds everything from chat 5.
+- "Tasavvur qil" ep.3 "Qanotli askarlar" is FINISHED: `video/exports/tasavvur3_qanotli_askarlar_1080p.mp4` (80.6 s), cover
+  `video/instagram/cover_tasavvur3.png` (video frame + "QANOTLI ASKARLAR", no "TASAVVUR QIL" label: the user asked to drop it),
+  caption `video/instagram/post_tasavvur3.md`. Plan: posted 2026-11-15 at 17:30; the user also posts Temur series part 5
+  (made in another chat/branch; keep at least 6 h between posts, Instagram "Schedule" when the user is busy 18:00-22:00).
+  Next: ask for ep.3 statistics and compare with ep.2.
+- Spare scripts for next episodes: Anqara 1402 (`prompts/tasavvur-3_anqara_elevenlabs.md`), Ipak yo'li karvon (recorded once but the
+  user found it pointless: it needs a real story arc), Jaloliddin (recorded, topic rejected). Always give the TTS text in Uzbek
+  CYRILLIC. The user prefers ONE proposal at a time (answers yes/no) and wants hooks as strong as ep.2; battles are fine.
+- Claude usage: the user's weekly limit was at 97% on 2026-11-15 (resets Tuesday 17:00). Keep replies and tool use lean.
+- In the cloud: Remotion's own Chromium path is `/opt/pw-browsers/chromium`; the TQ3 pipeline is described in the chat 5 notes
+  below (bundle once, stills, `edit/tq3_sfx.py`, ffmpeg mix, render `--muted`, mux).
+
 ## State at the end of chat 4 (2026-11-14) — read this first in chat 5
 
 - The user moves to a new chat (on the PC) and wants it to know everything from chat 4. Main focus now: "Tasavvur qil".
@@ -201,7 +217,41 @@ Check generated images for anachronisms (cannons, European manuscript motifs, br
   garrisons (Otrar, Bukhara, Samarqand) instead of meeting the Mongols in the field; Jaloliddin argued for concentrating the forces
   (Nasawi, Juvayni); Turkon xotun and her Qipchoq emirs fed the court conflict. Write the script (fast TTS style, simple words, fact check,
   label legends, "taxmin" for the what-if part, map of the Khwarazmian state vs the Mongol advance, vote "1, 2 yoki 3"), get it confirmed
-  BEFORE the user records. Then: Jaloliddin at the Sind river (1221) as a "1 kun"/POV episode; "Temur va Chingizxon: kim kuchli?".
+  BEFORE the user records. Chat 5 (2026-11-14): draft text, fact check and scene plan written in
+  `prompts/tasavvur-3_elevenlabs.md`; version 2 (4 fact fixes, TTS-friendly) CONFIRMED by the user, title "Agar Jaloliddin
+  qo'mondon bo'lganida". The user recorded it (Downloads, "Davronbek - Journalist" voice) but then disliked the topic itself;
+  after many rejected ideas (non-war science/forgotten stories were "known" or not liked) they picked "Sen Anqara jangidasan" (Temur vs
+  Bayezid 1402) and "Sen Ipak yo'lida karvonchisan: 1 kun". The user then chose the caravan FIRST: ep.3 = "Ipak yo'lida 1 kun",
+  draft `prompts/tasavvur-3_karvon_elevenlabs.md`. They recorded it and found it pointless (a list of facts, no story). Lesson: every
+  episode needs a hook as strong as "Temur + modern weapons" and a real story arc (goal, danger, twist), not a fact list; avoid
+  repeating ep.2's shape (Temur + map + 3 map variants). FINAL CHOICE for ep.3: "Qanotli askarlar" (Alexander and the Sogdian Rock,
+  327 BC, Arrian IV.18-19, twist: Roxana/Ravshanak), `prompts/tasavvur-3_qoya_elevenlabs.md`. ElevenLabs mispronounces Latin Uzbek
+  (x -> "ks", o'/g'): give the TTS text in Uzbek CYRILLIC from now on. Voice recorded: `video/public/tq3/take1.mp3` (old ending
+  cut at 63.95 s) + `take2.mp3` (new ending, -1.7 dB) spliced into `public/tq3/raw.mp3` (77.5 s); word timings
+  `src/tasavvur/tq3_words.json` (Scribe, 2 credits; Creative Claw 16 left). On this PC curl needs `--ssl-no-revoke`.
+- TQ3 montage IN PROGRESS (stopped 2026-11-14, user's internet went down): new Bek outfits 'sogd', 'iskandar', 'ravshanak' in
+  `Bek.tsx`; composition `src/tasavvur/TQ3.tsx` written (11 scenes: hook = zoom-out from Bek's face to the rock and army, army +
+  Iskandar, "?", envoy + laughing So'g'ds + wings, angry Iskandar + coins, night climb with ropes/pegs and one fall, dawn + white
+  cloths on the peak, "winged soldiers" shout, panic + white flag, Ravshanak twist + heart, vote 1/2/3 + FollowButton at 77.4 s;
+  80.6 s total) and registered in `Root.tsx`. NOT yet checked visually (no stills reviewed). Setup on the PC done: `npm install`,
+  numpy. The first `remotion still` ran >6 min and wrote NO image, with no error in the log (only "Node.js v26.13.0"):
+  Cause: it was silently downloading Remotion's 131 MB headless shell. FIX on this PC: pass
+  `--browser-executable="C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"` (a still takes ~4 s). Stills reviewed and
+  fixed (wings icon moved off the envoy, RAVSHANAK plate moved up out of the Instagram caption zone, crown above her head).
+  Sound: `edit/tq3_sfx.py` -> `public/tq3/sfx.wav`; mix `out/audio_tq3.m4a` (music.mp3 from 31.4 s so the song entry lands at
+  ~4.6 s, ducked, -16.1 LUFS). Render: `npx remotion render <bundle> TQ3 out/tq3_raw.mp4 --browser-executable=<edge>
+  --concurrency=2 --crf=16 --muted` (took ~4 min), then muxed: DONE 2026-11-14 `video/exports/tasavvur3_qanotli_askarlar_1080p.mp4`
+  (80.6 s, 1080x1920, 32 MB). The user asked for a re-montage (captions sat on the fortress; black stick-figure climbers looked
+  cheap): v2 adds a top caption shade band (0-470 px), keeps cameras so the fortress sits below the caption zone, draws climbers as
+  Greek soldiers in Bek's style (outfit 'yunon', arms raised), rock with facets/cracks/snow ledges, gradient skies, moon, dawn sun,
+  stone lines on the fortress. Same export path. The user liked v2. Two drawn covers were rejected; the cover is now a real
+  video frame (45.6 s, winged soldiers + Iskandar) under the episode title "QANOTLI ASKARLAR" (`TQ3Cover` variants A/B/C,
+  `TQ3` takes an `at` frame prop and then hides its caption) -> `instagram/cover_tasavvur3.png`. Lesson: covers from real
+  video frames + the episode title work better for this user than separately drawn ones. caption + pinned comment + posting settings `instagram/post_tasavvur3.md`.
+  Next: the user posts it; then ask for its stats. Spare drafts for ep.4+: Anqara, caravan. Next: bundle once
+  (`npx remotion bundle src/index.ts --out-dir <tmp>`), render stills of each scene and fix layout, write `edit/tq3_sfx.py`
+  (copy tq2_sfx.py + follow_sfx), mix like ep.2 (music from 36 s, ducked, -16 LUFS), render with `--concurrency=2`,
+  export `video/exports/tasavvur3_qanotli_askarlar_1080p.mp4`. Anqara and caravan drafts are kept as spares. The user prefers ONE option at a time (answers yes/no), likes ep.1/ep.2 style, battles are fine. Then: Jaloliddin at the Sind river (1221) as a "1 kun"/POV episode; "Temur va Chingizxon: kim kuchli?".
 - Paid tools: no free trial for Google AI plans (checked 2026-11-13): AI Plus $4.99 (200 Flow credits/month), AI Pro $19.99 (1,000),
   Ultra $99.99/$199.99 (10k/25k); Flow video model is "Gemini Omni Flash". Decision: buy nothing for now. The user liked a cinematic
   AI-video page (@historyofuzb, Veo-like clips); possible later test: AI Plus for one month for a few moving shots in the Temur series.

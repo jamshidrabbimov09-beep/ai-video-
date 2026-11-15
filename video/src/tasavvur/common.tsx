@@ -19,10 +19,10 @@ export const blinkAt = (t: number, seed = 0) => {
   return p < 0.14 ? Math.sin((p / 0.14) * Math.PI) : 0;
 };
 
-type BekProps = {x: number; y: number; s: number; outfit?: Outfit; mood?: Mood; blink?: number; lookX?: number; swing?: number; rot?: number};
-export const BekAt: React.FC<BekProps> = ({x, y, s, outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, swing = 0, rot = 0}) => (
+type BekProps = {x: number; y: number; s: number; outfit?: Outfit; mood?: Mood; blink?: number; lookX?: number; swing?: number; rot?: number; shadow?: boolean};
+export const BekAt: React.FC<BekProps> = ({x, y, s, outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, swing = 0, rot = 0, shadow = true}) => (
   <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s}) translate(-200 -730)`}>
-    <BekG outfit={outfit} mood={mood} blink={blink} lookX={lookX} armSwing={swing} />
+    <BekG outfit={outfit} mood={mood} blink={blink} lookX={lookX} armSwing={swing} shadow={shadow} />
   </g>
 );
 
