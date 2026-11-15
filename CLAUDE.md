@@ -18,7 +18,7 @@ update this file.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
 - **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
-  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Part 5 "Dasht yurishi": voice, images and montage code ready (chat 6, 2026-11-15), NOT rendered yet.
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Part 5 "Dasht yurishi": rendered 2026-11-15 (chat 7), exports `video/exports/part5_dasht_yurishi_1080p*.mp4` on branch `claude/build-script-render-g8mkm7`; not yet posted.
 
 ## The user
 
@@ -234,8 +234,9 @@ words, and list the hard names for the user to listen for.
   `edit/music_p5.wav`, `edit/sfx_plan_p5.json`; `edit/sfx_p5.py`; `edit/bake_p5.sh` (grades into git-ignored `public/p5g/`);
   composition `src/Part5.tsx` (registered in Root.tsx), motion scenes `src/p5motion.tsx` (route 21 kun, full march 117 kun to Qunduzcha,
   flank scheme, pursuit to the Itil, Terek 1395, Golden Horde cracks, south to Iran/India; helpers now exported from p4motion.tsx).
-- TODO: `edit/build_part5.sh` (copy build_part4.sh with p5 names), type-check, render a few stills for the user, ask before the full render,
-  cover + captions, then export this chat to `suhbat/6-chat_amir-temur-5-qism.md`.
+- DONE (chat 7): `edit/build_part5.sh`; day counter of route6 moved to the top right (it covered Samarqand). Final encode uses
+  `-preset slow -maxrate 5000k` (the user asked not to lower quality; medium preset gave 101 MB): ~95.7 MiB each, 160 s.
+  TODO: cover + captions (`instagram/post_part5.md`), export chats 6/7 to `suhbat/`.
 - Rules from this chat (also above): pronunciation check for ElevenLabs; always a next-part teaser; always Flow packets of 5.
 
 ## Open items
