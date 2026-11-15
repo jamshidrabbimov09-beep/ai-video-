@@ -3,14 +3,14 @@
 import React from 'react';
 import {AbsoluteFill, Img, interpolate, random, staticFile, useCurrentFrame, Easing} from 'remotion';
 
-const GOLD = '#d4af37';
-const CREAM = '#f5ecd5';
-const RED = '#c0392b';
-const font = '"Liberation Serif", "DejaVu Serif", Georgia, serif';
-const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
-const io = (fr: number, a: number, b: number, e = Easing.inOut(Easing.cubic)) => interpolate(fr, [a, b], [0, 1], {...cl, easing: e});
+export const GOLD = '#d4af37';
+export const CREAM = '#f5ecd5';
+export const RED = '#c0392b';
+export const font = '"Liberation Serif", "DejaVu Serif", Georgia, serif';
+export const cl = {extrapolateLeft: 'clamp' as const, extrapolateRight: 'clamp' as const};
+export const io = (fr: number, a: number, b: number, e = Easing.inOut(Easing.cubic)) => interpolate(fr, [a, b], [0, 1], {...cl, easing: e});
 
-const Paper: React.FC<{children: React.ReactNode; zoom?: [number, number]; d: number}> = ({children, zoom = [1.0, 1.08], d}) => {
+export const Paper: React.FC<{children: React.ReactNode; zoom?: [number, number]; d: number}> = ({children, zoom = [1.0, 1.08], d}) => {
   const fr = useCurrentFrame();
   const z = interpolate(fr, [0, d], zoom, cl);
   return (
@@ -24,10 +24,10 @@ const Paper: React.FC<{children: React.ReactNode; zoom?: [number, number]; d: nu
     </AbsoluteFill>
   );
 };
-const Label: React.FC<{x: number; y: number; t: string; o: number; size?: number; col?: string; anchor?: 'start' | 'middle' | 'end'}> = ({x, y, t, o, size = 40, col = CREAM, anchor = 'middle'}) => (
+export const Label: React.FC<{x: number; y: number; t: string; o: number; size?: number; col?: string; anchor?: 'start' | 'middle' | 'end'}> = ({x, y, t, o, size = 40, col = CREAM, anchor = 'middle'}) => (
   <text x={x} y={y} textAnchor={anchor} fontFamily={font} fontSize={size} letterSpacing={4} fill={col} stroke="rgba(0,0,0,0.85)" strokeWidth={7} paintOrder="stroke" opacity={o}>{t}</text>
 );
-const Node: React.FC<{x: number; y: number; r?: number; col?: string; o: number; pulse?: number}> = ({x, y, r = 16, col = GOLD, o, pulse = 0}) => (
+export const Node: React.FC<{x: number; y: number; r?: number; col?: string; o: number; pulse?: number}> = ({x, y, r = 16, col = GOLD, o, pulse = 0}) => (
   <g opacity={o}>
     {pulse > 0 && <circle cx={x} cy={y} r={r + 10 + pulse * 30} fill="none" stroke={col} strokeWidth={3} opacity={1 - pulse} />}
     <circle cx={x} cy={y} r={r + 6} fill="rgba(0,0,0,0.55)" />

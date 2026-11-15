@@ -57,6 +57,47 @@ Havolalar qo'lyozma varaqlari bo'yicha (matn chetida "54b", "57a" kabi belgilang
 - Kirish so'zi (tarjimon): Temur "mo'g'ul an'anasiga ko'ra" Chingiziy Suyurg'atmishni qo'g'irchoq xon qilgan.
 - "Ko'ragon" unvoni haqida matn qidiruvida hech narsa topilmadi (OCR xatosi bo'lishi ham mumkin).
 
+### To'xtamish, 1376-1387 (Yazdiy) — 4-qism
+
+- 1376, beshinchi Jete yurishi paytida (Qo'chqor): To'xtamish o'g'lon O'rusxondan qo'rqib qochib keladi; Temur Tumanbek
+  Temurni yuborib izzat bilan olib keltiradi; to'y, shohona chodir, nog'ora, tuya va ot podalari; "o'g'il deb bildi" (71a).
+- Sabran va Sig'noq viloyati unga beriladi. O'rusxon o'g'li Qutlug' Bug'a bilan jang: Qutlug' Bug'a o'qdan o'ladi,
+  To'xtamish baribir qochib keladi. Yana jihozlanadi; To'xta Qiyo (O'rusxonning katta o'g'li) va Ali-bek yengadi (71a-71b).
+- Daryo voqeasi (71b): Sayhunga to'nini yechib tashlanadi, Qozonchi bahodir o'q bilan qo'lidan yaralaydi; butazorda
+  yalang'och, hushsiz yotadi. Temur yuborgan Idiku Barlos ingrash ovozini eshitib topadi, chodir tikib, sharbat ichirib,
+  kiyintirib Temurga (Buxoroga) olib keladi.
+- O'rusxon elchilari (Ko'ppak Mang'it, Tolujon): "U o'g'limni o'ldirdi, menga ber, bermasang jang joyini ayt". Temur:
+  "U bizga panoh so'rab keldi, hech kimga bermayman, urush istasangiz tayyormiz" (71b).
+- 1376 oxiri - 1377 boshi: Temur O'tror cho'lida, O'rusxon Sig'noqda (24 yig'och), uch oy qor va sovuq; tungi to'qnashuv
+  (500 kishi Temur Malikning 3000 dan ortiq otliqlariga qarshi) (72a-72b). Keyin To'xtamish yo'lboshchiligida bosqin; O'rusxon
+  o'ladi, To'xta Qiyo ham; Temur To'xtamishni Dashti Qipchoq taxtiga o'tqazadi, tengsiz "Xang O'g'loq" otini hadya qilib
+  "bu otni yaxshi asra" deydi (73a). Mart 1377 Samarqandga qaytadi.
+- Temur Malik (O'rusxon o'g'li) To'xtamishni yengadi; To'xtamish o'sha otda qochib keladi (4-marta); Temur beklar bilan Sig'noqqa
+  yuboradi, uni xon qiladilar (73a). O'rung Temur: Temur Malik ichib, peshingacha uxlaydi, el To'xtamishni kutmoqda. To'xtamish
+  qishda Qoratolda Temur Malikni yengib, Dashti Qipchoq taxtiga o'tiradi; bahorda Saroy tomon yurib, Mamay elini bo'ysundiradi (73b-74a).
+- 1385 oxiri - 1386 boshi: 9 tuman qo'shin, 12 o'g'lon, Darband - Shirvon orqali Tabriz talanadi, bir hafta mudofaa (94a).
+  Zanjirsaroy: Temur 1385 qishlagan joy (94a).
+- Mart 1387 (789 boshi), Barda'a yurishi: Ali-bek Qo'ng'irot, O'zbek Temur, Oq Bug'a To'xtamishni Temurga sodiq bo'lishga undagan;
+  ikkovi vafot etgach, otasini o'ldirgan Qozonchi bosh bek bo'ladi (98a). Kura daryosi: "agar To'xtamish odamlari bo'lsa,
+  jang qilmanglar"; ortga qaytgan beklarga o'q otiladi, 40 kishi halok; Mironshoh yetib, dushmanni Darband darasigacha quvadi;
+  Temur asirlarni kiyintirib qo'yib yuboradi: "oramizda otalik va o'g'illik munosabati bor, nega bunday qildi" (98a-98b).
+- 1387 kuzi (Forsdagi g'alabadan keyin xabar 17 kunda keladi): Bek Po'lod o'g'lon va b. Sabranni qamal qiladi (olinmaydi);
+  Chukalak jangi (O'trordan 5 yig'och sharqda), Umarshayx dushman markazini yorib o'tadi, Abbos-bek yaralanib keyin o'ladi;
+  Anka To'ra boshchiligida Jete ham bostirib kiradi; To'xtamish qo'shini Xorazm yo'lidan Buxoroni qamal qiladi (olinmaydi),
+  Zanjirsaroyni yoqadi, Qarshi, Xuzor orqali Ko'yitondan Amudaryogacha talaydi; yo'lboshchi Kayxusrav o'g'li Sulton Mahmud (105a-106a).
+
+### To'xtamish (Manz 69-71)
+
+- 1375-77 Temurdan panoh so'raydi, Temur "enthusiastically" qabul qilib O'tror va Sig'noq hududida xon qiladi; O'rusxon topshirishni
+  talab qiladi, Temur rad etib Dashti Qipchoqqa birinchi yurishini qiladi; O'rusxon o'g'illari yengiladi, o'zi yurish paytida
+  o'ladi; To'xtamish Oq O'rda xoni bo'ladi (69-70).
+- Keyin Oltin O'rdani egallaydi; Chingiz avlodi va Jo'chi ulusi hukmdori sifatida yuqoriroq mavqe da'vo qila oladi:
+  "Two men of such ambition could not comfortably coexist" (71). 1385-86 qishi Tabriz; 1386 Temurning uch yillik Eron yurishi.
+- 789 boshi / 1387 Kavkazga yana hujum, Temur qo'shin yuborib yengadi. 789 oxiri / 1387 Movarounnahr Amudaryogacha talanadi,
+  Temur Forsdan qaytadi; 4 yil shimolda urush: Xorazm (So'fiylar To'xtamishga qo'shilgan, poytaxt vayron), 1388-89 qishi
+  To'xtamish hujumlari qaytariladi, Mo'g'ulistonga ikki yurish (Xizr Xo'ja); 1390 kuzi katta yurish tayyorlanadi, Toshkentda
+  qishlaydi, iyunda (1391) To'xtamishni yengib Volgagacha quvadi (71-72).
+
 O'qilmagan: kitobning qolgan qismi (1370-yilgacha va undan keyingi yurishlar). Keyingi qismlar uchun kerakli boblar
 o'sha paytda o'qilib, shu yerga qo'shiladi.
 
