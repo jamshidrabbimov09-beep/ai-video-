@@ -76,7 +76,7 @@ export const Route6: React.FC<{d: number}> = ({d}) => {
           <path d={`M ${qx - 70} ${qy - 56} l 140 0`} stroke={RED} strokeWidth={12} strokeLinecap="round" />
           <path d={`M ${qx - 50} ${qy + 50} l 100 0`} stroke={GOLD} strokeWidth={12} strokeLinecap="round" />
         </g>}
-        <Counter x={830} y={1250} n={117 * t} unit="KUN" o={io(fr, 2, 10)} />
+        <Counter x={860} y={600} n={117 * t} unit="KUN" o={io(fr, 2, 10)} />
       </svg>
     </Paper>
   );
