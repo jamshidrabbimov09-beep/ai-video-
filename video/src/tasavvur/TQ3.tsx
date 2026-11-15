@@ -539,7 +539,7 @@ const SCENES: [number, number, React.FC<{t: number}>][] = [
 // scenes that continue the same camera move get no flash / zoom accent on entry
 const SOFT = new Set([4.9, 24.2]);
 
-const PAIRS = ['TASAVVUR QIL', 'UCH YUZ', "O'TTIZ KISHI", 'OQ MATO', 'QANOTLI ASKARLARIM', 'QANOTLI ASKARLARING', 'TONG OTADI', 'IKKI MING'];
+const PAIRS = ['TASAVVUR QIL', 'ISKANDAR MAKEDONSKIY', 'UCH YUZ', "O'TTIZ KISHI", 'OQ MATO', 'QANOTLI ASKARLARIM', 'QANOTLI ASKARLARING', 'TONG OTADI', 'IKKI MING'];
 const HL = /^(ISKANDAR|QANOTLI|MUKOFOT|TUN|UCH YUZ|HALOK|O'TTIZ|TONG|OQ MATO|VAHIMA|OZ|TASLIM|RAVSHANAK|BIZNING|BIRINCHI|IKKINCHI|UCHINCHI|IZOHDA)/;
 const chunks = buildChunks(words as W3[], PAIRS, {"sug'dlar": "So'g'dlar"});
 
