@@ -163,7 +163,8 @@ const HL = new Set(['temur', 'temurning', 'temurga', "to'xtamish", "to'xtamishni
 const Sub: React.FC<{o: Over; d: number}> = ({o, d}) => {
   const fr = useCurrentFrame();
   const a = Math.min(interpolate(fr, [0, 6], [0, 1], {extrapolateRight: 'clamp'}), interpolate(fr, [d - 5, d], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
-  const words = (o.text || '').split(' ');
+  // captions without punctuation (user, 2026-11-15): drop . , : ; and quotes, keep ? ! and in-word hyphens/apostrophes
+  const words = (o.text || '').replace(/[.,:;"“”„«»…]/g, '').split(' ').filter((w) => w && !/^[-–—]+$/.test(w));
   return (
     <AbsoluteFill>
       <Shade o={a} top={1150} />
@@ -263,7 +264,7 @@ const renderOver = (o: Over) => {
     case 'mid': return <Mid o={o} d={d} />;
     case 'ask': return <Ask o={o} d={d} />;
     case 'q': return <QuestionCard d={d} pop={(o as any).pop} v="C" />;
-    case 'subend': return <SubscribeEnd d={d} />;
+    case 'subend': return <SubscribeEnd d={d} centered />;
     case 'tag': return <Tag o={o} />;
     case 'map': return <MapOv />;
     case 'end': return <EndCard o={o} />;
