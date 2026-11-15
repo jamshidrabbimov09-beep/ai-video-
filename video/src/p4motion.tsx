@@ -7,7 +7,7 @@ import {GOLD, CREAM, RED, font, cl, io, Paper, Label, Node} from './p3motion';
 
 type LL = [number, number]; // [lon, lat]
 type Box = [number, number, number, number];
-const proj = (b: [number, number, number, number], box: Box) => {
+export const proj = (b: [number, number, number, number], box: Box) => {
   const [lo0, lo1, la0, la1] = b;
   const c = Math.cos((((la0 + la1) / 2) * Math.PI) / 180);
   const k = Math.min((box[2] - box[0]) / ((lo1 - lo0) * c), (box[3] - box[1]) / (la1 - la0));
@@ -15,24 +15,24 @@ const proj = (b: [number, number, number, number], box: Box) => {
   const ox = (box[0] + box[2]) / 2 - w / 2, oy = (box[1] + box[3]) / 2 - h / 2;
   return ([lo, la]: LL): [number, number] => [ox + (lo - lo0) * c * k, oy + (la1 - la) * k];
 };
-const CASPIAN: LL[] = [[47.5, 46.5], [49, 46.6], [51, 46.9], [53, 46.5], [53.1, 45.3], [51.3, 44.5], [51.2, 43.2], [52.7, 42.0], [53, 40.5], [53.9, 38.5], [53.9, 37.3], [51, 36.7], [49.5, 37.5], [48.9, 38.5], [49.3, 40.3], [49.9, 40.5], [48.5, 41.8], [47.5, 43.0], [47.4, 44.4], [47.0, 45.5]];
-const ARAL: LL[] = [[58.3, 46.3], [59.6, 46.8], [61.2, 46.6], [61.9, 45.8], [61.4, 44.6], [60.3, 43.6], [58.9, 43.9], [58.2, 45.0]];
-const SYR: LL[] = [[71.0, 40.9], [69.6, 40.3], [68.9, 41.3], [68.3, 42.8], [67.6, 43.9], [66.4, 44.6], [65.5, 44.8], [63.8, 45.6], [61.8, 46.1]];
-const AMU: LL[] = [[68.4, 37.1], [67.3, 37.2], [65.6, 37.8], [64.2, 38.9], [62.6, 40.3], [61.2, 41.3], [60.4, 42.4], [59.9, 43.6]];
-const VOLGA: LL[] = [[45.0, 49.5], [46.5, 48.4], [46.9, 47.6], [47.8, 46.4]];
-const KURA: LL[] = [[44.8, 41.7], [46.4, 41.1], [47.7, 40.4], [48.6, 39.9], [49.2, 39.3]];
+export const CASPIAN: LL[] = [[47.5, 46.5], [49, 46.6], [51, 46.9], [53, 46.5], [53.1, 45.3], [51.3, 44.5], [51.2, 43.2], [52.7, 42.0], [53, 40.5], [53.9, 38.5], [53.9, 37.3], [51, 36.7], [49.5, 37.5], [48.9, 38.5], [49.3, 40.3], [49.9, 40.5], [48.5, 41.8], [47.5, 43.0], [47.4, 44.4], [47.0, 45.5]];
+export const ARAL: LL[] = [[58.3, 46.3], [59.6, 46.8], [61.2, 46.6], [61.9, 45.8], [61.4, 44.6], [60.3, 43.6], [58.9, 43.9], [58.2, 45.0]];
+export const SYR: LL[] = [[71.0, 40.9], [69.6, 40.3], [68.9, 41.3], [68.3, 42.8], [67.6, 43.9], [66.4, 44.6], [65.5, 44.8], [63.8, 45.6], [61.8, 46.1]];
+export const AMU: LL[] = [[68.4, 37.1], [67.3, 37.2], [65.6, 37.8], [64.2, 38.9], [62.6, 40.3], [61.2, 41.3], [60.4, 42.4], [59.9, 43.6]];
+export const VOLGA: LL[] = [[45.0, 49.5], [46.5, 48.4], [46.9, 47.6], [47.8, 46.4]];
+export const KURA: LL[] = [[44.8, 41.7], [46.4, 41.1], [47.7, 40.4], [48.6, 39.9], [49.2, 39.3]];
 export const PL: Record<string, LL> = {
   signoq: [68.2, 44.1], otror: [68.3, 42.85], sabran: [68.7, 43.55], samarqand: [66.96, 39.65], buxoro: [64.42, 39.77], qarshi: [65.8, 38.86],
   termiz: [67.3, 37.25], saroy: [47.3, 47.0], darband: [48.29, 42.06], shirvon: [48.6, 40.6], tabriz: [46.3, 38.08],
 };
-const pts = (P: (l: LL) => [number, number], a: LL[]) => a.map((p) => P(p).join(' ')).join(' L ');
+export const pts = (P: (l: LL) => [number, number], a: LL[]) => a.map((p) => P(p).join(' ')).join(' L ');
 // 14th-century uluses, drawn by hand after the books (approximate: there were no fixed borders).
 // Chig'atoy ulusi under Temur in the 1370s: Movarounnahr between the Amu and Syr Darya, Fergana, Balx up to the Hindu Kush; Xorazm not yet his.
-const CHAGATAY: LL[] = [[61.8, 40.6], [63.0, 41.9], [65.8, 42.2], [67.6, 42.0], [68.9, 42.4], [70.4, 42.2], [71.6, 41.6], [73.6, 40.8], [73.4, 39.6], [71.6, 39.4], [71.6, 37.2], [70.8, 36.1], [69.4, 35.3], [67.4, 35.0], [65.4, 35.6], [64.2, 36.3], [63.2, 37.3], [62.4, 38.7], [61.6, 39.6]];
+export const CHAGATAY: LL[] = [[61.8, 40.6], [63.0, 41.9], [65.8, 42.2], [67.6, 42.0], [68.9, 42.4], [70.4, 42.2], [71.6, 41.6], [73.6, 40.8], [73.4, 39.6], [71.6, 39.4], [71.6, 37.2], [70.8, 36.1], [69.4, 35.3], [67.4, 35.0], [65.4, 35.6], [64.2, 36.3], [63.2, 37.3], [62.4, 38.7], [61.6, 39.6]];
 // Jo'chi ulusi: the Qipchoq steppe from the Syr Darya (Sig'noq, O'tror region) and the Aral to the Volga, the Crimea and Darband.
-const JOCHI: LL[] = [[25, 47.0], [25, 66], [85, 66], [85, 50.5], [80, 49.5], [77.0, 46.5], [73.0, 45.2], [70.4, 44.2], [68.9, 42.9], [67.6, 43.6], [66.4, 44.4], [65.5, 44.6], [63.8, 45.3], [61.8, 45.8], [61.4, 44.6], [60.3, 43.6], [58.6, 43.2], [56.0, 43.6], [53.5, 43.2], [52.0, 42.6], [50.0, 42.6], [48.5, 41.9], [46.8, 42.5], [44.0, 43.0], [41.0, 43.5], [38.0, 45.0], [35.5, 45.0], [33.0, 46.0]];
+export const JOCHI: LL[] = [[25, 47.0], [25, 66], [85, 66], [85, 50.5], [80, 49.5], [77.0, 46.5], [73.0, 45.2], [70.4, 44.2], [68.9, 42.9], [67.6, 43.6], [66.4, 44.4], [65.5, 44.6], [63.8, 45.3], [61.8, 45.8], [61.4, 44.6], [60.3, 43.6], [58.6, 43.2], [56.0, 43.6], [53.5, 43.2], [52.0, 42.6], [50.0, 42.6], [48.5, 41.9], [46.8, 42.5], [44.0, 43.0], [41.0, 43.5], [38.0, 45.0], [35.5, 45.0], [33.0, 46.0]];
 export const ULUS = {CHAGATAY, JOCHI};
-const Relief: React.FC<{P: (l: LL) => [number, number]}> = ({P}) => {
+export const Relief: React.FC<{P: (l: LL) => [number, number]}> = ({P}) => {
   const [x0, y0] = P([25, 64]), [x1, y1] = P([85, 14]);
   return (
     <g>
@@ -41,11 +41,11 @@ const Relief: React.FC<{P: (l: LL) => [number, number]}> = ({P}) => {
     </g>
   );
 };
-const Ulus: React.FC<{P: (l: LL) => [number, number]; poly: LL[]; col: string; o: number}> = ({P, poly, col, o}) => (
+export const Ulus: React.FC<{P: (l: LL) => [number, number]; poly: LL[]; col: string; o: number}> = ({P, poly, col, o}) => (
   <path d={`M ${pts(P, poly)} Z`} fill={col} fillOpacity={0.28 * o} stroke={col} strokeWidth={5} strokeOpacity={0.9 * o} strokeLinejoin="round" />
 );
-const TEMUR_COL = '#e0b13a', JOCHI_COL = '#c0563b';
-const Geo: React.FC<{P: (l: LL) => [number, number]; rivers?: LL[][]; seas?: LL[][]; ulus?: number}> = ({P, rivers = [SYR, AMU, VOLGA, KURA], seas = [ARAL], ulus = 1}) => (
+export const TEMUR_COL = '#e0b13a', JOCHI_COL = '#c0563b';
+export const Geo: React.FC<{P: (l: LL) => [number, number]; rivers?: LL[][]; seas?: LL[][]; ulus?: number}> = ({P, rivers = [SYR, AMU, VOLGA, KURA], seas = [ARAL], ulus = 1}) => (
   <g>
     <Relief P={P} />
     {ulus > 0 && <Ulus P={P} poly={JOCHI} col={JOCHI_COL} o={ulus} />}
@@ -55,12 +55,12 @@ const Geo: React.FC<{P: (l: LL) => [number, number]; rivers?: LL[][]; seas?: LL[
     {(borders.rivers as LL[][]).map((r, i) => <path key={'r' + i} d={`M ${pts(P, r)}`} fill="none" stroke="#8fc2d4" strokeWidth={4} strokeOpacity={0.9} strokeLinejoin="round" />)}
   </g>
 );
-const UlusLabel: React.FC<{P: (l: LL) => [number, number]; at: LL; t: string; col: string; o: number; size?: number}> = ({P, at, t, col, o, size = 34}) => {
+export const UlusLabel: React.FC<{P: (l: LL) => [number, number]; at: LL; t: string; col: string; o: number; size?: number}> = ({P, at, t, col, o, size = 34}) => {
   const [x, y] = P(at);
   return <Label x={x} y={y} t={t} o={o} size={size} col={col} />;
 };
 // arrow along a polyline that draws itself between frames a..b
-const Arrow: React.FC<{p: [number, number][]; a: number; b: number; col?: string; w?: number}> = ({p, a, b, col = RED, w = 9}) => {
+export const Arrow: React.FC<{p: [number, number][]; a: number; b: number; col?: string; w?: number}> = ({p, a, b, col = RED, w = 9}) => {
   const fr = useCurrentFrame();
   const t = io(fr, a, b);
   if (t <= 0) return null;
@@ -80,7 +80,7 @@ const Arrow: React.FC<{p: [number, number][]; a: number; b: number; col?: string
     </g>
   );
 };
-const Flame: React.FC<{x: number; y: number; s?: number; o: number}> = ({x, y, s = 1, o}) => {
+export const Flame: React.FC<{x: number; y: number; s?: number; o: number}> = ({x, y, s = 1, o}) => {
   const fr = useCurrentFrame();
   const fl = 1 + 0.12 * Math.sin(fr / 2.3) + 0.08 * Math.sin(fr / 1.7);
   return (
@@ -91,7 +91,7 @@ const Flame: React.FC<{x: number; y: number; s?: number; o: number}> = ({x, y, s
     </g>
   );
 };
-const City: React.FC<{P: (l: LL) => [number, number]; k: string; t: string; o: number; side?: 'start' | 'end'; col?: string; size?: number; r?: number; pulse?: number; dy?: number}> = ({P, k, t, o, side = 'start', col = CREAM, size = 40, r = 14, pulse = 0, dy = 14}) => {
+export const City: React.FC<{P: (l: LL) => [number, number]; k: string; t: string; o: number; side?: 'start' | 'end'; col?: string; size?: number; r?: number; pulse?: number; dy?: number}> = ({P, k, t, o, side = 'start', col = CREAM, size = 40, r = 14, pulse = 0, dy = 14}) => {
   const [x, y] = P(PL[k]);
   return (<g><Node x={x} y={y} r={r} o={o} pulse={pulse} /><Label x={x + (side === 'start' ? 34 : -34)} y={y + dy} t={t} o={o} size={size} col={col} anchor={side} /></g>);
 };

@@ -18,7 +18,7 @@ update this file.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
 - **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
-  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Next: Part 5 "Dasht yurishi" (script written, waiting for the user's confirmation).
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Part 5 "Dasht yurishi": voice, images and montage code ready (chat 6, 2026-11-15), NOT rendered yet.
 
 ## The user
 
@@ -101,6 +101,9 @@ gunshot; write "kamon o'qi", "kamondan o'q otildi" (same for weapons, titles, pl
 if the voice drops the apostrophe (o'q / oq, so'z / soz, to'r / tor): rephrase. (3) Every sentence must be literally true to the
 books (e.g. "to'rt marta yengilib" was wrong: the first flight was not after a defeat). Do this check once, fully, before
 sending: the user cannot re-record many times.
+(4) Pronunciation check for ElevenLabs, ALWAYS (user, 2026-11-15): before sending any voice text, rewrite words the voice may
+misread: split long agglutinative or compound words ("yenga olmay", "Saroy Mulk xonim"), prefer the simpler verb form, numbers as
+words, and list the hard names for the user to listen for.
 
 ## Repository
 
@@ -200,6 +203,9 @@ sending: the user cannot re-record many times.
   proxy, no scratchpad path, files the user sends are plain paths on the PC. Needed: Git, Node.js LTS, ffmpeg (`winget install ffmpeg`),
   Python 3 with numpy and Pillow, the Liberation Serif font (or change `font` in the .tsx files). Renders are slower with 8 GB RAM:
   use `--concurrency=2`. The `.sh` build scripts need Git Bash. Ask the user before installing anything.
+- Image prompts: ALWAYS also give the Flow packet file (5 prompts per packet, refs per packet, `N-seriya_flow_paketlar.md`), unasked.
+- Every part ends with a teaser for the next part ("... Keyingi qismda.") before the outro question: put it in the script yourself,
+  the user should not have to remind (user, 2026-11-15).
 - Every part from now on: a hook that holds the viewer in the first 3 seconds (Part 1 lost ~30% there), and the Part 4 style outro
   (recorded question + HA/YO'Q card C + subscribe card).
 
@@ -212,6 +218,25 @@ sending: the user cannot re-record many times.
   then: ElevenLabs text with tags in ONE copyable block, the outro question line, image prompts (+ KM Studio file format), 2-4 video
   prompts for Flow image-to-video, maps (route with a day counter, battle scheme, pursuit, Terek), outro as in Part 4.
 - The Temur series table should change: Part 5 = steppe campaign (1391-1395); Iran/India moves later.
+
+## Part 5 status (chat 6, 2026-11-15, on the user's PC; the user then went back to cloud sessions)
+
+- Script confirmed with edits (`prompts/5-seriya_ssenariy.md`), checked again in Yazdi (envoy quote, tower quote, "deyarli" for the
+  short nights). Voice text `prompts/5-seriya_elevenlabs.md`; ends with a teaser for Part 6 (Iran/India, war elephants) and the question
+  "Olti oy suvsiz dashtda Temurning ortidan borarmidingiz?".
+- Voice: `public/audio5/all_raw.mp3` (main, 136 s) + `extra_raw.mp3` (re-recorded "cho'chimaydimi" sentence, teaser, question).
+  `edit/voice5.py` splices the fix into `public/voice5/all.wav` and cuts `hook.wav`, `ask.wav`; words `src/words5*.json`
+  (Scribe, `edit/transcript5_*.json`). Creative Claw: 14 credits left. On the PC, curl to R2/CDN needed `--ssl-no-revoke`.
+- Images `public/p5img/m01..m35.jpg` (Flow, 768x1376), `m40.jpg` = Part 4 l03 (callback). Prompts `prompts/5-seriya_rasm_promptlari.md`,
+  packets `5-seriya_flow_paketlar.md`, KM Studio `5-seriya_kmstudio.txt` (generator `edit/prompts_p5.py`). Unused: m03, m24, m25.
+  Flow image-to-video clips were NOT made (user: Claude makes the video); Temur prompts now say "rounded brimless black felt cap".
+- Montage: `edit/edit_p5.py` (voice uncut + teaser + question, 41 shots, 160 s) -> `src/edit_p5.json`, `public/voice5/voice_p5.wav`,
+  `edit/music_p5.wav`, `edit/sfx_plan_p5.json`; `edit/sfx_p5.py`; `edit/bake_p5.sh` (grades into git-ignored `public/p5g/`);
+  composition `src/Part5.tsx` (registered in Root.tsx), motion scenes `src/p5motion.tsx` (route 21 kun, full march 117 kun to Qunduzcha,
+  flank scheme, pursuit to the Itil, Terek 1395, Golden Horde cracks, south to Iran/India; helpers now exported from p4motion.tsx).
+- TODO: `edit/build_part5.sh` (copy build_part4.sh with p5 names), type-check, render a few stills for the user, ask before the full render,
+  cover + captions, then export this chat to `suhbat/6-chat_amir-temur-5-qism.md`.
+- Rules from this chat (also above): pronunciation check for ElevenLabs; always a next-part teaser; always Flow packets of 5.
 
 ## Open items
 
