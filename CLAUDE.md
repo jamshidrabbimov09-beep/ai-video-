@@ -236,6 +236,11 @@ words, and list the hard names for the user to listen for.
   flank scheme, pursuit to the Itil, Terek 1395, Golden Horde cracks, south to Iran/India; helpers now exported from p4motion.tsx).
 - DONE (chat 7): `edit/build_part5.sh`; day counter of route6 moved to the top right (it covered Samarqand). Final encode uses
   `-preset slow -maxrate 5000k` (the user asked not to lower quality; medium preset gave 101 MB): ~95.7 MiB each, 160 s.
+  v2 the same day after the user's review: captions without punctuation (. , : ; ? ! and quotes dropped, apostrophes kept as letters),
+  subscribe card centred (`SubscribeEnd centered`, button + bell row compact, clear of the Reels icons), per-shot `LIFT` in Part5.tsx
+  (zoom 2L, move up L) for shots whose key detail sat under the subtitle band (m12 coins, m13, m27 banner, m32, m33 cap, m34 map, m40),
+  pursuit map tighter (arrows from Qunduzcha to the Itil, label below the node), OLTIN O'RDA label on a dark plate.
+  Design rule from this: check every still for key details in the subtitle band (y 1395-1560) before rendering.
   TODO: cover + captions (`instagram/post_part5.md`), export chats 6/7 to `suhbat/`.
 - Rules from this chat (also above): pronunciation check for ElevenLabs; always a next-part teaser; always Flow packets of 5.
 
