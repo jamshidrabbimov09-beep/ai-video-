@@ -125,17 +125,19 @@ export const Flank: React.FC<{d: number}> = ({d}) => {
 /* G: the pursuit — from Qunduzcha west to the Itil (Volga) */
 export const Pursuit: React.FC<{d: number}> = ({d}) => {
   const fr = useCurrentFrame();
-  const P = proj([45, 56, 49.5, 57], [60, 420, 1020, 1340]);
-  const A = (dy: number) => ([[51.6, 53.9 + dy], [50.6, 53.9 + dy], [49.4, 54.2 + dy]] as LL[]).map((p) => P(p));
+  // tighter view (2026-11-15): the arrows were short and ran through the Qunduzcha label; now they start at Qunduzcha and reach the Itil
+  const P = proj([47.2, 52.4, 52.4, 55.8], [60, 420, 1020, 1340]);
+  const A = (dy: number) => ([[50.2, 53.75 + dy], [49.4, 53.95 + dy], [48.4, 54.35 + dy]] as LL[]).map((p) => P(p));
   return (
     <Paper d={d} zoom={[1.0, 1.08]}>
       <svg width={1080} height={1920} style={{position: 'absolute'}}>
         <Geo P={P} rivers={[VOLGA]} seas={[]} ulus={0} />
         <Riv P={P} r={VOLGA_N} />
         <Riv P={P} r={YAIQ} />
-        {[-0.5, 0, 0.5].map((dy, i) => <Arrow key={'r' + i} p={A(dy)} a={2 + i * 3} b={d * 0.7 + i * 3} col={RED} w={7} />)}
-        {[-0.3, 0.3].map((dy, i) => <Arrow key={'g' + i} p={A(dy).map(([x, y]) => [x + 60, y] as [number, number])} a={10 + i * 4} b={d * 0.82 + i * 3} col={GOLD} w={8} />)}
-        <Place P={P} at={Q.qunduzcha} t="QUNDUZCHA" o={1} side="start" size={38} />
+        {[-0.3, 0, 0.3].map((dy, i) => <Arrow key={'r' + i} p={A(dy)} a={2 + i * 3} b={d * 0.7 + i * 3} col={RED} w={7} />)}
+        {[-0.15, 0.15].map((dy, i) => <Arrow key={'g' + i} p={A(dy).map(([x, y]) => [x + 60, y] as [number, number])} a={10 + i * 4} b={d * 0.82 + i * 3} col={GOLD} w={8} />)}
+        <Node x={P(Q.qunduzcha)[0]} y={P(Q.qunduzcha)[1]} r={14} o={1} pulse={0} />
+        <Label x={P(Q.qunduzcha)[0] + 40} y={P(Q.qunduzcha)[1] + 110} t="QUNDUZCHA" o={1} size={40} col={GOLD} />
         <Label x={P([48.4, 55.1])[0]} y={P([48.4, 55.1])[1]} t="ITIL (VOLGA)" o={io(fr, d * 0.45, d * 0.45 + 10)} size={42} col="#cfe6ee" />
       </svg>
     </Paper>
@@ -184,6 +186,7 @@ export const Fall: React.FC<{d: number}> = ({d}) => {
         <path d={`M ${pts(P, JOCHI)} Z`} fill="#c0563b" fillOpacity={0.42 * (1 - fade) + 0.06} stroke="#c0563b" strokeWidth={5} strokeOpacity={0.9 * (1 - fade * 0.8)} strokeDasharray={fade > 0 ? '14 12' : undefined} />
         <path d={`M ${pts(P, CHAGATAY)} Z`} fill="#e0b13a" fillOpacity={0.3} stroke="#e0b13a" strokeWidth={5} />
         {cracks.map((c, i) => <path key={i} d={`M ${pts(P, c)}`} fill="none" stroke="#120b05" strokeWidth={7} pathLength={1} strokeDasharray={`${io(fr, 10 + i * 6, d * 0.5 + i * 6)} 1`} opacity={crack} />)}
+        <rect x={P([52, 50.5])[0] - 230} y={P([52, 50.5])[1] - 58} width={460} height={82} rx={12} fill="rgba(18,11,5,0.62)" opacity={1 - fade * 0.65} />
         <Label x={P([52, 50.5])[0]} y={P([52, 50.5])[1]} t="OLTIN O'RDA" o={1 - fade * 0.65} size={54} col="#ffc2b0" />
         <Label x={P([66, 41.0])[0]} y={P([66, 41.0])[1]} t="TEMUR" o={io(fr, 0, 10)} size={44} col="#ffe08a" />
       </svg>

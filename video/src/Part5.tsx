@@ -32,6 +32,7 @@ const XF = 12; // soft cross-dissolve length (frames)
 type Shot = {t0: number; t1: number; img: string | null; mv: string; tr: string; grade: string};
 type Over = {k: string; t0: number; t1: number; text?: string; sub?: string; sub_t?: number};
 
+const LIFT: Record<string, number> = {'12': 0.08, '13': 0.08, '27': 0.07, '32': 0.06, '33': 0.08, '34': 0.08, '40': 0.06};
 const ShotView: React.FC<{s: Shot; T: number}> = ({s, T}) => {
   const fr = useCurrentFrame();
   const dur = Math.max(1, f(s.t1) - f(s.t0));
@@ -42,6 +43,9 @@ const ShotView: React.FC<{s: Shot; T: number}> = ({s, T}) => {
   const x = m.x ? lerp(m.x[0], m.x[1], e) : 0;
   const y = m.y ? lerp(m.y[0], m.y[1], e) : 0;
   const op = T > 0 ? Math.min(1, fr / T) : 1;
+  // lift (user, 2026-11-15: subtitles covered key details low in the frame): zoom in by 2L and move up by L, so the bottom stays
+  // covered and the detail rises above the subtitle band (y 1395-1560) while faces at the top stay in frame
+  const L = (s.img && LIFT[s.img]) || 0;
   if (s.img && s.img.startsWith('mo:')) {
     const d = f(s.t1) - f(s.t0) + T;
     const M: Record<string, React.FC<{d: number}>> = {route: Route, route6: Route6, flank: Flank, pursuit: Pursuit, terek: Terek, fall: Fall, south: South};
@@ -51,7 +55,7 @@ const ShotView: React.FC<{s: Shot; T: number}> = ({s, T}) => {
   const file = s.img ? `p5g/${s.grade}/m${s.img}.jpg` : null;
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden', opacity: op}}>
-      {file && <Img src={staticFile(file)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translate(${x}%, ${y}%) scale(${z})`}} />}
+      {file && <Img src={staticFile(file)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `translate(${x}%, ${y - L * 100}%) scale(${z + 2 * L})`}} />}
     </AbsoluteFill>
   );
 };
@@ -163,8 +167,8 @@ const HL = new Set(['temur', 'temurning', 'temurga', "to'xtamish", "to'xtamishni
 const Sub: React.FC<{o: Over; d: number}> = ({o, d}) => {
   const fr = useCurrentFrame();
   const a = Math.min(interpolate(fr, [0, 6], [0, 1], {extrapolateRight: 'clamp'}), interpolate(fr, [d - 5, d], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
-  // captions without punctuation (user, 2026-11-15): drop . , : ; and quotes, keep ? ! and in-word hyphens/apostrophes
-  const words = (o.text || '').replace(/[.,:;"“”„«»…]/g, '').split(' ').filter((w) => w && !/^[-–—]+$/.test(w));
+  // captions without punctuation (user, 2026-11-15): drop . , : ; ? ! and quotes, keep in-word hyphens and apostrophes (o', g' are letters)
+  const words = (o.text || '').replace(/[.,:;?!"“”„«»…]/g, '').split(' ').filter((w) => w && !/^[-–—]+$/.test(w));
   return (
     <AbsoluteFill>
       <Shade o={a} top={1150} />
