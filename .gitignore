@@ -10,3 +10,4 @@ __pycache__/
 video/public/tq3/*.wav
 video/public/tq3/tq3_words_raw.json
 video/public/tq3/tq3_diar.json
+video/public/tq4/*.wav
