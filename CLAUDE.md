@@ -288,3 +288,13 @@ sending: the user cannot re-record many times.
   unchanged, median pitch 176 Hz -> 278 / 147 / 177 Hz. Samples 4-7 in `dublyaj/sinov/` (source = the channel's AI narrator, not
   a live voice). Paid alternative: ElevenLabs TTS, about 15-20k characters per episode against 10k free credits a month.
   Waiting for a 15-20 s recording of the user's own acted voice to convert.
+- The user rejected both ElevenLabs (paid) and voicing the roles themselves (they cannot act). They want VoiceStudio/OmniVoice:
+  cloned voice + emotion, "medium level is fine". Findings: in VoiceStudio written emotion directions work only on IndexTTS 2.5,
+  CosyVoice 3 and VoxCPM2, none of which speaks Uzbek; the default OmniVoice engine (the only Uzbek one) knows only `[laughter]`,
+  `[sigh]`, whisper style and `[pause]`. Emotion there comes from the reference clip: the same angry line cloned from a calm,
+  a threatening and a dramatic reference came out at -25 / -18 / -19 dB and 118 / 148 / 186 Hz, matching each reference
+  (samples 8-10 in `dublyaj/sinov/`). So the design is several reference clips per character (calm, shouting, whisper, crying)
+  and the app picks one per line.
+- The user asked to clone famous Uzbek performers' voices so that viewers would not notice AI. Declined: no cloning of real
+  people's voices without their consent. Offered instead: one-minute samples from people who agree (former fandub team,
+  friends), or a performer who gives permission personally.
