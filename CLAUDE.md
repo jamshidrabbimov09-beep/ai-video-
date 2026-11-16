@@ -242,7 +242,7 @@ words, and list the hard names for the user to listen for.
   pursuit map tighter (arrows from Qunduzcha to the Itil, label below the node), OLTIN O'RDA label on a dark plate.
   Design rule from this: check every still for key details in the subtitle band (y 1395-1560) before rendering.
   Cover: `instagram/cover_part5.png` (m16, Temur on the hill over the steppe; the user chose A), alternative
-  `cover_part5_m05.png`; script `edit/insta_cover_p5.py` (2x Lanczos + sharpening; a 2K Flow download of m16 would be sharper).
+  `cover_part5_m05.png`; script `edit/insta_cover_p5.py` (uses `public/p5img/m16_x4.jpg`: Real-ESRGAN x4plus 4x upscale run with onnxruntime on CPU, ONNX model from the Hugging Face repo OwlMaster/AllFilesRope, tiles of 192 px, about 2.5 min; reuse this for every cover: the user found the plain upscale blurry).
   Voice fixes pending: the user will re-record 0:22 "lochin olib kelishgan", 0:33 "Uni yarador holda olib kelishdi. Men uni
   o'g'limdek qabul qildim." and 0:58 "Ulug' tog'" (said as "to'g'"); then splice, render only the changed frames, run `final`.
   TODO: captions (`instagram/post_part5.md`), export chats 6/7 to `suhbat/`.

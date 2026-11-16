@@ -6,14 +6,17 @@ root = pathlib.Path(__file__).resolve().parent.parent
 B = '/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf'
 I = '/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf'
 GOLD = (212, 175, 55); CREAM = (245, 236, 213)
-base = Image.open(root / ('public/p5img/' + (sys.argv[1] if len(sys.argv) > 1 else 'm16') + '.jpg')).convert('RGB')
-base = base.resize((base.width * 2, base.height * 2), Image.LANCZOS).filter(ImageFilter.SMOOTH_MORE).filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=1))
+NAME = sys.argv[1] if len(sys.argv) > 1 else 'm16'
+# AI 4x upscale (Real-ESRGAN x4plus, ONNX, done once: public/p5img/<name>_x4.jpg) gives a sharp cover from the 768x1376 Flow image
+X4 = root / f'public/p5img/{NAME}_x4.jpg'
+base = Image.open(X4 if X4.exists() else root / f'public/p5img/{NAME}.jpg').convert('RGB')
+if not X4.exists(): base = base.resize((base.width * 2, base.height * 2), Image.LANCZOS).filter(ImageFilter.SMOOTH_MORE).filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=1))
 sc = max(1080 / base.width, 1920 / base.height)
 base = base.resize((round(base.width * sc), round(base.height * sc)), Image.LANCZOS)
 l, t = (base.width - 1080) // 2, (base.height - 1920) // 2
 base = base.crop((l, t, l + 1080, t + 1920))
 from PIL import ImageFilter, ImageEnhance
-base = base.filter(ImageFilter.UnsharpMask(radius=1.4, percent=70, threshold=1)).filter(ImageFilter.UnsharpMask(radius=3.0, percent=35, threshold=2))
+base = base.filter(ImageFilter.UnsharpMask(radius=1.0, percent=40, threshold=2)) if X4.exists() else base.filter(ImageFilter.UnsharpMask(radius=1.4, percent=70, threshold=1)).filter(ImageFilter.UnsharpMask(radius=3.0, percent=35, threshold=2))
 base = ImageEnhance.Contrast(base).enhance(1.06)
 ov = Image.new('RGBA', (1080, 1920), (0, 0, 0, 0)); od = ImageDraw.Draw(ov)
 for y in range(950, 1920):
