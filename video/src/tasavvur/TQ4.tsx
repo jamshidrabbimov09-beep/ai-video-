@@ -5,9 +5,16 @@ import words from './tq4_words.json';
 
 // "Tasavvur qil" episode 4: "Chingizxonning o'ng qo'li" (Secret History of the Mongols §147 Jebe, §200 Jamuxa's betrayers).
 
-const VOICE_END = 78.2;
+// The re-recorded Jamuxa sentence (fix_raw.mp3) is 1.4 s longer than the first take: scene times below stay in the
+// first take's timebase and the real time is mapped onto it (the Bring scene is stretched, everything after shifts).
+const SHIFT_A = 47.9;
+const SHIFT_OLD = 52.55;
+const SHIFT = 1.4;
+const toScene = (t: number) =>
+  t < SHIFT_A ? t : t < SHIFT_OLD + SHIFT ? SHIFT_A + ((t - SHIFT_A) * (SHIFT_OLD - SHIFT_A)) / (SHIFT_OLD + SHIFT - SHIFT_A) : t - SHIFT;
+const VOICE_END = 78.2 + SHIFT;
 const FOLLOW_AT = 78.4;
-export const TQ4_FRAMES = Math.round((FOLLOW_AT + 3.2) * FPS);
+export const TQ4_FRAMES = Math.round((FOLLOW_AT + SHIFT + 3.2) * FPS);
 
 const ease = (x: number) => x * x * (3 - 2 * x);
 const span = (t: number, a: number, b: number) => ease(lerp(t, a, b, 0, 1));
@@ -541,7 +548,7 @@ const SCENES: [number, number, React.FC<{t: number}>][] = [
   [67.3, 99, SceneVote],
 ];
 
-const PAIRS = ['TASAVVUR QIL', "O'NG QO'LI", 'KAMON OQINI', "KAMON O'QINI", "TO'RT YIL", 'KATTA MUKOFOT', "O'LIM TOPADI", 'MANA JAVOB'];
+const PAIRS = ['TASAVVUR QIL', 'ENG KATTA', "O'NG QO'LI", 'KAMON OQINI', "KAMON O'QINI", "TO'RT YIL", 'KATTA MUKOFOT', "O'LIM TOPADI", 'MANA JAVOB'];
 const HL = /^(CHINGIZXON|JEBE|JAMUXA|NEGA|KECHIRDI|O'LDIRISHNI|XOIN|MUKOFOT|TO'RT YIL|O'NG QO'LI|ROST|BIRINCHI|IKKINCHI|UCHINCHI|IZOHDA|JIM)/;
 const chunks = buildChunks(words as W3[], PAIRS);
 
@@ -549,7 +556,8 @@ export const TQ4: React.FC<{at?: number}> = ({at}) => {
   useOswald();
   const cur = useCurrentFrame();
   const frame = at ?? cur;
-  const t = frame / FPS;
+  const real = frame / FPS;
+  const t = toScene(real);
   const idx = SCENES.findIndex(([a, b]) => t >= a && t < b);
   const [a, , S] = SCENES[Math.max(0, idx)];
   const k = t - a;
@@ -557,7 +565,7 @@ export const TQ4: React.FC<{at?: number}> = ({at}) => {
   const zoom = soft ? 1 : 1 + lerp(k, 0, 0.25, 0.06, 0);
   const flash = soft ? 0 : lerp(k, 0, 0.12, 0.35, 0);
   const end = TQ4_FRAMES / FPS;
-  const endFade = lerp(t, end - 0.5, end, 0, 1);
+  const endFade = lerp(real, end - 0.5, end, 0, 1);
   return (
     <AbsoluteFill style={{background: '#000'}}>
       <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H}>
@@ -574,7 +582,7 @@ export const TQ4: React.FC<{at?: number}> = ({at}) => {
         <rect width={W} height={470} fill="url(#capband)" />
         <rect width={W} height={H} fill="#fff" opacity={flash} />
       </svg>
-      {at === undefined && t < VOICE_END + 0.6 && <Caption t={t} chunks={chunks} hl={HL} />}
+      {at === undefined && real < VOICE_END + 0.6 && <Caption t={real} chunks={chunks} hl={HL} />}
       <AbsoluteFill style={{background: '#000', opacity: endFade}} />
     </AbsoluteFill>
   );

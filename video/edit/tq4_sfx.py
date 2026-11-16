@@ -1,8 +1,10 @@
 # Synthesised sound accents for "Tasavvur qil" ep.4 "Chingizxonning o'ng qo'li" (same generators as ep.1/ep.2).
 import numpy as np, wave, sys, os
-SR = 48000; DUR = 81.6
+SR = 48000; DUR = 83.0
 out = np.zeros(int(SR * DUR)); rng = np.random.default_rng(3)
 def add(sig, t, g=1.0):
+    # first-take timebase -> final timeline (the Jamuxa sentence got 1.4 s longer)
+    t = t if t < 47.9 else (47.9 + (t - 47.9) * 6.05 / 4.65 if t < 52.55 else t + 1.4)
     i = int(t * SR); n = min(len(sig), len(out) - i); out[i:i + n] += sig[:n] * g
 def env(n, a=0.005, d=0.2):
     t = np.arange(n) / SR; return np.minimum(t / a, 1) * np.exp(-t / d)
