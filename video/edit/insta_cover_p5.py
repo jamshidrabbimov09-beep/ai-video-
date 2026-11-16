@@ -1,4 +1,4 @@
-"""Instagram Reel cover for Part 5 (python3 edit/insta_cover_p5.py m16|m05) (1080x1920). The grid shows the centre 3:4 band, so text stays between y=300 and y=1640."""
+"""Instagram Reel cover for Part 5 (python3 edit/insta_cover_p5.py [m05|m16]; m05 is the chosen cover) (1080x1920). The grid shows the centre 3:4 band, so text stays between y=300 and y=1640."""
 import pathlib, sys
 from PIL import ImageFilter
 from PIL import Image, ImageDraw, ImageFont
@@ -6,7 +6,7 @@ root = pathlib.Path(__file__).resolve().parent.parent
 B = '/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf'
 I = '/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf'
 GOLD = (212, 175, 55); CREAM = (245, 236, 213)
-base = Image.open(root / ('public/p5img/' + (sys.argv[1] if len(sys.argv) > 1 else 'm16') + '.jpg')).convert('RGB')
+base = Image.open(root / ('public/p5img/' + (sys.argv[1] if len(sys.argv) > 1 else 'm05') + '.jpg')).convert('RGB')
 base = base.resize((base.width * 2, base.height * 2), Image.LANCZOS).filter(ImageFilter.SMOOTH_MORE).filter(ImageFilter.UnsharpMask(radius=2, percent=60, threshold=1))
 sc = max(1080 / base.width, 1920 / base.height)
 base = base.resize((round(base.width * sc), round(base.height * sc)), Image.LANCZOS)
@@ -25,5 +25,5 @@ centered('5-QISM', ImageFont.truetype(B, 44), 1210, CREAM)
 centered("DASHT YURISHI", ImageFont.truetype(B, 92), 1262, GOLD)
 d.line((300, 1410, 780, 1410), fill=GOLD, width=3)
 centered("Amir Temur va To'xtamish, 1391", ImageFont.truetype(I, 62), 1432, CREAM)
-cov.convert('RGB').save(root / ('instagram/cover_part5' + ('' if len(sys.argv) < 2 or sys.argv[1] == 'm16' else '_' + sys.argv[1]) + '.png'))
+cov.convert('RGB').save(root / ('instagram/cover_part5' + ('' if len(sys.argv) < 2 or sys.argv[1] == 'm05' else '_' + sys.argv[1]) + '.png'))
 print('ok')
