@@ -308,3 +308,10 @@ sending: the user cannot re-record many times.
   API free tier, limits shown only inside AI Studio; paid rate about $9 per 1M audio tokens until 2027-01-01). The user was
   asked to try two lines in AI Studio's speech page and judge by ear. If accepted: a free Gemini API key through the secure
   credential form, then build the 24-voice bank from Gemini voices.
+- 2026-11-17: the user tried Gemini 3.8 Flash TTS in AI Studio (dialog editor: speaker voice, Style, Expression) and found it
+  "not that good". They are now considering paying for ElevenLabs (first time they are open to paying). Their plan page: Free
+  10k credits a month (8,205 used), Starter $6 ($1 first month) 30k credits with instant voice cloning, Creator $22 ($11 first
+  month) 121k credits, Pro $99 600k. Advice given: about 1 credit per character, a 20-minute episode is roughly 10-14k
+  characters (15-20k with retakes), so Starter is about 1.5-2 episodes and Creator about 6-8 a month; try Starter for $1 on one
+  full episode first. Voices would be made with ElevenLabs voice design (created voices, nobody cloned) and driven through the
+  API with emotion tags.
