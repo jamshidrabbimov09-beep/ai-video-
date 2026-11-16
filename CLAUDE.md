@@ -260,3 +260,24 @@ sending: the user cannot re-record many times.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
   Part 1 Reel posted with the cover, caption, Samarqand location, AI label and high-quality upload. Suggested pinned
   first comments are in the conversation log.
+
+## Anime dubbing app (separate new project, idea from 2026-11-16, not confirmed yet)
+
+- The user ran a fandub studio; the team broke up. They want an app that replaces the team: home screen with anime cards
+  ("+" adds an anime: name, note, cover), inside a card upload an episode (mp4/mp3/wav), full analysis, Japanese -> Uzbek
+  translation by Claude (meaning in context; sen/siz by the characters' relationship), one remembered voice per character per
+  project, every line placed exactly where the original speech starts and ends (pauses kept), output = voice-only WAV/MP3 with
+  no background (the user mixes it themselves).
+- Checked `github.com/debpalash/VoiceStudio` (the tool on the user's screenshot: free, AGPL, Windows + NVIDIA, default engine
+  k2-fsa/OmniVoice). Its Dubbing workspace already does vocal/background separation, transcription (WhisperX), speaker
+  diarization (pyannote, free Hugging Face token), a cast board (voice per speaker), timing fit, WAV/MP3 export with background
+  off, glossary, "Paste Translation" (numbered lines mapped onto segments), LLM translation through any OpenAI-compatible
+  endpoint, local API + MCP on port 3900. Default engine VRAM floor is 6 GB (the user's card is at the floor; the GGUF variant
+  needs about 1 GB); 8 GB RAM is untested.
+- Proposed to the user: VoiceStudio as the engine on their PC, and our thin app on top (anime cards, episodes, character and
+  voice memory across episodes, Claude translation with a sen/siz table, a review screen, voice-only export).
+- OmniVoice Uzbek test in the cloud (CPU, pip `omnivoice`): Uzbek is supported (`uz`, only 115 h of training data). A clone from
+  an UZBEK reference voice and voice design are intelligible; a clone from a JAPANESE voice carries a Japanese accent (Whisper
+  heard one line as Japanese; the model's own docs warn about this). So character voices should come from Uzbek reference
+  recordings (5-10 s, with the speaker's permission) or voice design, not from the anime's original actors. Samples:
+  `dublyaj/sinov/`. Waiting for the user's verdict on the samples.
