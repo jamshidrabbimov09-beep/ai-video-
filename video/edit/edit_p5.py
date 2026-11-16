@@ -16,10 +16,25 @@ def load(p):
 
 # ---------- 1. one timeline: main voice, teaser, question ----------
 wm, wh, wa = rd('src/words5.json'), rd('src/words5_hook.json'), rd('src/words5_ask.json')
-OFF = 0.4 - wm[0]['s']
+# cold open (user, 2026-11-16): "Tasavvur qiling." is dropped (that phrase belongs to the user's other format); the video opens on
+# the ram's-head sentence (it is heard again later in its place), then the narration continues from "Olti oy..."
+def rsents(ws):
+    out, cur = [], []
+    for k, x in enumerate(ws):
+        cur.append(k)
+        if x['t'].rstrip('"').endswith(('.', '?', '!')) and not x['t'].endswith('...'): out.append(cur); cur = []
+    return out + ([cur] if cur else [])
+RS = rsents(wm)
+CS = next(r for r in RS if any("qo'chqor" in wm[k]['t'].lower() for k in r))
+C0, C1 = wm[CS[0]]['s'], wm[CS[-1]]['e']
+COLD_T, GAP = 0.4, 0.85
+R2 = wm[RS[1][0]]['s']                      # raw start of "Olti oy..."
+OFF = COLD_T + (C1 - C0) + GAP - R2
+cold = [dict(t=wm[k]['t'], s=wm[k]['s'] - C0 + COLD_T, e=wm[k]['e'] - C0 + COLD_T) for k in CS]
+wm_main = wm[RS[1][0]:]
 T_HOOK = wm[-1]['e'] + OFF + 0.9
 T_ASK = T_HOOK + wh[-1]['e'] + 0.6
-words = [dict(t=x['t'], s=x['s'] + o, e=x['e'] + o) for ws, o in ((wm, OFF), (wh, T_HOOK), (wa, T_ASK)) for x in ws]
+words = cold + [dict(t=x['t'], s=x['s'] + o, e=x['e'] + o) for ws, o in ((wm_main, OFF), (wh, T_HOOK), (wa, T_ASK)) for x in ws]
 SUB_LEN = 2.8
 ASK_END = T_ASK + wa[-1]['e'] + 0.35
 TOTAL = ASK_END + SUB_LEN
@@ -42,10 +57,14 @@ def wi(n, word):
     raise KeyError((n, word))
 
 out = np.zeros(int((TOTAL + 1) * SR))
-for p, t0 in (('public/voice5/all.wav', OFF), ('public/voice5/hook.wav', T_HOOK), ('public/voice5/ask.wav', T_ASK)):
-    a = load(p); s = int(t0 * SR)
-    if s < 0: a = a[-s:]; s = 0
-    out[s:s + len(a)] += a[:len(out) - s]
+AV = load('public/voice5/all.wav')
+def fade(x, n=int(0.02 * SR)):
+    x = x.copy(); r = np.linspace(0, 1, n); x[:n] *= r; x[-n:] *= r[::-1]; return x
+clips = [(fade(AV[int((C0 - 0.06) * SR):int((C1 + 0.25) * SR)]), COLD_T - 0.06),       # cold open
+         (fade(AV[int((R2 - 0.12) * SR):]), OFF + R2 - 0.12),                          # narration from "Olti oy"
+         (load('public/voice5/hook.wav'), T_HOOK), (load('public/voice5/ask.wav'), T_ASK)]
+for a, t0 in clips:
+    s = int(t0 * SR); out[s:s + len(a)] += a[:len(out) - s]
 with wave.open(str(root / 'public/voice5/voice_p5.wav'), 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((np.clip(out, -1, 1) * 32767).astype('<i2').tobytes())
@@ -60,8 +79,9 @@ def bound(a):
     return W(v) - 0.10
 
 spec = [  # (anchor, img | "mo:<scene>", move, transition, grade)
-    (('t', 0), '01', 'in2', 'dip', 'warm'),                    # Tasavvur qiling (face)
-    (('w', wi(2, 'cheksiz')), '02', 'drift', 'fade', 'warm'),  # cheksiz dasht, suv yo'q, non yo'q
+    (('t', 0), '12', 'in2', 'dip', 'warm'),                    # cold open: qo'chqor kallasi 500 tanga (coins)
+    (('s', 2), '01', 'in2', 'dip', 'warm'),                    # Olti oy, cheksiz dasht (face)
+    (('w', wi(2, 'suv')), '02', 'drift', 'fade', 'warm'),      # suv yo'q, non yo'q
     (('w', wi(2, 'kechasi')), '04', 'in', 'fade', 'cold'),     # kechasi deyarli qorong'i tushmaydi
     (('s', 3), '05', 'in2', 'fade', 'warm'),                   # Temur qo'shini To'xtamishni izlab
     (('s', 4), '06', 'inslow', 'dip', 'cold'),                 # 1391 boshi; elchilar keladi
@@ -185,7 +205,7 @@ for sh in shots:
 raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', str(root / 'edit/music.mp3'), '-ac', '2', '-ar', str(SR), '-f', 's16le', '-'], capture_output=True).stdout
 mu = np.frombuffer(raw, dtype='<i2').astype(np.float32).reshape(-1, 2) / 32768
 BAR4 = 12.0
-rep = max(0, round((TOTAL - 13 - 96) / BAR4)) * BAR4
+rep = max(0, math.ceil((TOTAL - 13 - 96) / 3.0)) * 3.0   # whole bars (3 s at 80 BPM), never shorter than the video
 seg = lambda a, b: mu[int(a * SR):int(b * SR)]
 XF = 0.75
 def xjoin(x, y):
