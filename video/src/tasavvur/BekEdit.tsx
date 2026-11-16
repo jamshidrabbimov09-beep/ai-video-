@@ -98,58 +98,117 @@ const shake = (f: number, amp: number, seed: string) => [
 
 const STAGE_OUTFITS: Outfit[] = ['modern', 'soldier', 'temur', 'sogd', 'yunon', 'iskandar', 'mongol', 'jebe', 'navkar', 'modern'];
 
+// Sideways flowing stream of streaks (like a current), speeds up while the camera swings.
+const Flow: React.FC<{f: number; boost: number; n?: number}> = ({f, boost, n = 520}) => {
+  const items = [];
+  const ang = -0.32 + boost * 0.15;
+  const ca = Math.cos(ang), sa = Math.sin(ang);
+  const WW = W + 400;
+  for (let i = 0; i < n; i++) {
+    const v = 9 + random(`fv${i}`) * 16;
+    const travel = f * v * (1 + boost) + random(`fo${i}`) * 4000;
+    const x = ((((random(`fx${i}`) * WW + travel * ca) % WW) + WW) % WW) - 200;
+    const y0 = random(`fy${i}`) * H;
+    const y = (((y0 + travel * sa + Math.sin(x / 180 + i) * 30) % H) + H) % H;
+    const len = (14 + random(`fl${i}`) * 26) * (1 + boost * 3);
+    const near = random(`fn${i}`);
+    items.push(<line key={i} x1={x} y1={y} x2={x - ca * len} y2={y - sa * len} stroke={near > 0.85 ? '#ffffff' : '#a9dcf5'} strokeWidth={near > 0.85 ? 4 : 2} strokeLinecap="round" opacity={0.35 + near * 0.55} />);
+  }
+  return <g>{items}</g>;
+};
+
+// Pseudo-3D stage: three Beks stand on the corners of a glowing triangle, the camera orbits
+// 120 degrees on every beat so a new one swings to the front (outfits change while at the back).
+const STAGE_R = 470;
+const project = (x: number, z: number, th: number, D: number, camH: number) => {
+  const xr = x * Math.cos(th) - z * Math.sin(th);
+  const zr = x * Math.sin(th) + z * Math.cos(th);
+  const depth = D + zr;
+  const F = 1150;
+  return {sx: W / 2 + (xr * F) / depth, sy: 640 + (camH * F) / depth, k: F / depth, depth};
+};
+
 const StageScene: React.FC<{f: number}> = ({f}) => {
   const beat = Math.floor(f / BEAT);
   const inBeat = f % BEAT;
-  const outfit = STAGE_OUTFITS[beat % STAGE_OUTFITS.length];
-  const pop = interpolate(inBeat, [0, 5], [1.07, 1], {...clamp, easing: Easing.out(Easing.cubic)});
-  const side1 = STAGE_OUTFITS[(beat + 3) % STAGE_OUTFITS.length];
-  const side2 = STAGE_OUTFITS[(beat + 6) % STAGE_OUTFITS.length];
-  const cam = interpolate(f, [0, 150], [1.0, 1.08]);
-  const sc = 1.3 * pop;
-  const swing = Math.sin(f / 6) * 10;
+  const swingT = interpolate(inBeat, [0, 6], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)});
+  const th = ((beat - 1 + swingT) * 2 * Math.PI) / 3 + f * 0.0015;
+  const speed = inBeat < 6 ? Math.sin((inBeat / 6) * Math.PI) : 0;
+  const D = 1500 + Math.sin(f / 23) * 120;
+  const camH = 760 + Math.sin(f / 31) * 90;
+  const corner = (i: number, r: number) => [Math.sin((i * 2 * Math.PI) / 3) * r, -Math.cos((i * 2 * Math.PI) / 3) * r];
+  const tri = [0, 1, 2].map((i) => {
+    const [x, z] = corner(i, 760);
+    return project(x, z, th, D, camH);
+  });
+  const figs = [0, 1, 2]
+    .map((i) => {
+      // the figure nearest the camera once the swing of beat bf has finished
+      const frontAt = (bb: number) => {
+        const t = (bb * 2 * Math.PI) / 3;
+        let best = 0, bz = 1e9;
+        for (let j = 0; j < 3; j++) {
+          const [cx, cz] = corner(j, 1);
+          const zr = cx * Math.sin(t) + cz * Math.cos(t);
+          if (zr < bz) { bz = zr; best = j; }
+        }
+        return best;
+      };
+      let bf = beat;
+      while (frontAt(bf) !== i) bf++;
+      const [x, z] = corner(i, STAGE_R);
+      return {i, p: project(x, z, th, D, camH), outfit: STAGE_OUTFITS[bf % STAGE_OUTFITS.length], front: bf === beat};
+    })
+    .sort((q, r) => r.p.depth - q.p.depth);
+  const blur = speed * 22;
   return (
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
       <defs>
-        <radialGradient id="aBg" cx="50%" cy="45%" r="70%">
-          <stop offset="0%" stopColor="#2d6f8f" />
-          <stop offset="60%" stopColor="#0f3550" />
-          <stop offset="100%" stopColor="#06131f" />
-        </radialGradient>
+        <linearGradient id="aBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3f8fae" />
+          <stop offset="55%" stopColor="#1b5571" />
+          <stop offset="100%" stopColor="#0b2a3c" />
+        </linearGradient>
         <LineArt id="laW" color="#ffffff" k={1} />
-        <LineArt id="laR" color="#ff4a5a" k={1.6} />
+        <LineArt id="laR" color="#ff4a5a" k={1.3} />
         <filter id="triGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="18" result="b" />
+          <feGaussianBlur stdDeviation="16" result="b" />
           <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
+        <filter id="swing" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation={`${blur} 0`} /></filter>
       </defs>
       <rect width={W} height={H} fill="url(#aBg)" />
-      <Storm f={f} speed={1.6} />
-      <g transform={`translate(${W / 2} ${H / 2}) scale(${cam}) translate(${-W / 2} ${-H / 2})`}>
-        <polygon points="90,1190 990,1190 540,1560" fill="#f4fbff" filter="url(#triGlow)" />
-        {/* side figures, red glow, small, at the back corners */}
-        <g transform={`translate(${150 - 200 * 0.6} ${1215 - 732 * 0.6}) scale(0.6)`} filter="url(#laR)">
-          <BekG outfit={side1} mood="determined" shadow={false} armSwing={-swing} />
-        </g>
-        <g transform={`translate(${930 - 200 * 0.6} ${1215 - 732 * 0.6}) scale(0.6)`} filter="url(#laR)">
-          <BekG outfit={side2} mood="determined" shadow={false} armSwing={swing} />
-        </g>
-        {/* hero */}
-        <g transform={`translate(${540 - 200 * sc} ${1470 - 732 * sc}) scale(${sc})`} filter="url(#laW)">
-          <BekG outfit={outfit} mood={beat % 2 ? 'determined' : 'neutral'} shadow={false} armSwing={swing} blink={inBeat > 11 && beat % 3 === 0 ? 1 : 0} />
-        </g>
+      <Flow f={f} boost={speed} />
+      <g filter={blur > 0.5 ? 'url(#swing)' : undefined}>
+        <polygon points={tri.map((t) => `${t.sx},${t.sy}`).join(' ')} fill="#f4fbff" filter="url(#triGlow)" />
+        {figs.map(({i, p, outfit, front}) => {
+          const sc = p.k * 1.55 * (front ? interpolate(inBeat, [6, 12], [1, 1.04], clamp) : 1);
+          return (
+            <g key={i} transform={`translate(${p.sx - 200 * sc} ${p.sy - 732 * sc}) scale(${sc})`} filter={front ? 'url(#laW)' : 'url(#laR)'}>
+              <BekG outfit={outfit} mood={front ? 'determined' : 'neutral'} shadow={false} armSwing={Math.sin(f / 5 + i) * 12} />
+            </g>
+          );
+        })}
       </g>
-      {/* white flash on each beat */}
-      <rect width={W} height={H} fill="#fff" opacity={interpolate(inBeat, [0, 4], [0.55, 0], clamp)} />
+      <rect width={W} height={H} fill="#fff" opacity={interpolate(inBeat, [0, 3], [0.3, 0], clamp)} />
     </svg>
   );
 };
+
+// Ghost echo: the frame plus a faint copy of a few frames earlier (the doubled look of the reference).
+const Echo: React.FC<{f: number; render: (f: number) => React.ReactNode; lag?: number; amt?: number}> = ({f, render, lag = 3, amt = 0.4}) => (
+  <AbsoluteFill>
+    {render(f)}
+    {f >= lag && <AbsoluteFill style={{opacity: amt, mixBlendMode: 'screen'}}>{render(f - lag)}</AbsoluteFill>}
+  </AbsoluteFill>
+);
 
 // ---------- scene B: dark, inverted, shaking face close-up ----------
 
 const DarkFace: React.FC<{f: number; outfit?: Outfit; zoom?: number; mood?: Mood}> = ({f, outfit = 'modern', zoom = 3.6, mood = 'determined'}) => {
   const [sx, sy] = shake(f, 14, 'df');
-  const z = zoom * interpolate(f, [0, 30], [1, 1.12], clamp);
+  const z = zoom * interpolate(f, [0, 30], [1, 1.12], clamp) * interpolate(f % BEAT, [0, 5], [1.1, 1], clamp);
+  const tilt = interpolate(f, [0, 30], [-14, -4], clamp);
   return (
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}>
       <defs>
@@ -160,10 +219,10 @@ const DarkFace: React.FC<{f: number; outfit?: Outfit; zoom?: number; mood?: Mood
         <LineArt id="laD" color="#e8f6ff" k={1 / zoom} />
       </defs>
       <rect width={W} height={H} fill="url(#dBg)" />
-      <g transform={`translate(${W / 2 + sx} ${H * 0.46 + sy}) scale(${z}) rotate(-8) translate(-200 -230)`} filter="url(#laD)">
+      <g transform={`translate(${W / 2 + sx} ${H * 0.46 + sy}) scale(${z}) rotate(${tilt}) translate(-200 -230)`} filter="url(#laD)">
         <BekG outfit={outfit} mood={mood} shadow={false} />
       </g>
-      <g transform={`translate(${W / 2 + sx} ${H * 0.46 + sy}) scale(${z}) rotate(-8) translate(-200 -230)`}>
+      <g transform={`translate(${W / 2 + sx} ${H * 0.46 + sy}) scale(${z}) rotate(${tilt}) translate(-200 -230)`}>
         <Sunglasses />
       </g>
       <Specks f={f} />
@@ -274,13 +333,13 @@ const Whip: React.FC<{f: number; start: number; end: number; children: React.Rea
 
 type Shot = {from: number; to: number; render: (f: number) => React.ReactNode; whip?: boolean};
 const SHOTS: Shot[] = [
-  {from: 0, to: 150, render: (f) => <StageScene f={f} />},
-  {from: 150, to: 180, render: (f) => <DarkFace f={f} />},
+  {from: 0, to: 150, render: (f) => <Echo f={f} render={(g) => <StageScene f={g} />} amt={0.3} />},
+  {from: 150, to: 180, render: (f) => <Echo f={f} render={(g) => <DarkFace f={g} />} lag={4} amt={0.45} />},
   {from: 180, to: 255, render: (f) => <SkyFace f={f} />, whip: true},
   {from: 255, to: 285, render: (f) => <DarkFace f={f} outfit="temur" zoom={2.6} />, whip: true},
-  {from: 285, to: 315, render: (f) => <DarkFace f={f} zoom={4.2} mood="neutral" />},
+  {from: 285, to: 315, render: (f) => <Echo f={f} render={(g) => <DarkFace f={g} zoom={4.2} mood="neutral" />} lag={4} amt={0.45} />},
   {from: 315, to: 390, render: (f) => <SkyFace f={f} outfit="soldier" />, whip: true},
-  {from: 390, to: 420, render: (f) => <StageScene f={f + 120} />, whip: true},
+  {from: 390, to: 420, render: (f) => <Echo f={f} render={(g) => <StageScene f={g + 120} />} amt={0.3} />, whip: true},
   {from: 420, to: 480, render: (f) => <LogoBurst f={f} />},
 ];
 
@@ -295,6 +354,8 @@ export const BekEdit: React.FC<{at?: number}> = ({at}) => {
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
       {shot.whip ? <Whip f={frame} start={shot.from} end={shot.to}>{body}</Whip> : body}
+      {frame < 420 && <AbsoluteFill style={{background: 'radial-gradient(circle at 50% 45%, transparent 45%, rgba(0,8,16,0.6) 100%)'}} />}
+      {frame < 420 && <AbsoluteFill style={{background: '#000', opacity: random(`fk${Math.floor(frame / 2)}`) < 0.18 ? 0.28 : 0}} />}
       {beatFlash > 0 && <AbsoluteFill style={{background: '#fff', opacity: beatFlash}} />}
       {frame < 420 && <Handle f={frame} />}
     </AbsoluteFill>
