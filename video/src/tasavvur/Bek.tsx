@@ -4,7 +4,8 @@ import React from 'react';
 // A modern Uzbek teenager who lands in a different era each episode.
 // Pure SVG, viewBox 400x800, so it scales cleanly and animates in Remotion.
 
-export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon';
+export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon' | 'chingiz' | 'mongol' | 'jebe' | 'jamuxa' | 'navkar';
+const MONGOL: Outfit[] = ['chingiz', 'mongol', 'jebe', 'jamuxa', 'navkar'];
 export type Mood = 'neutral' | 'surprised' | 'happy' | 'worried' | 'determined';
 
 const INK = '#2b1e16';
@@ -99,7 +100,7 @@ const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}>
       // bit of hair under the helmet
       <path d="M106 196 C110 176 120 166 134 162 L266 162 C280 166 290 176 294 196 C270 182 130 182 106 196 Z" fill={HAIR} />
     )}
-    {outfit === 'sogd' && <path d="M106 196 C110 176 120 166 134 162 L266 162 C280 166 290 176 294 196 C270 182 130 182 106 196 Z" fill={HAIR} />}
+    {(outfit === 'sogd' || MONGOL.includes(outfit)) && <path d="M106 196 C110 176 120 166 134 162 L266 162 C280 166 290 176 294 196 C270 182 130 182 106 196 Z" fill={HAIR} />}
     {(outfit === 'iskandar' || outfit === 'yunon') && (
       // golden curls under the helmet
       <g fill="#c9953a" stroke={INK} strokeWidth={3.5}>
@@ -120,6 +121,7 @@ const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}>
     )}
     <Face mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'temur' && <Beard />}
+    {(outfit === 'chingiz' || outfit === 'jamuxa' || outfit === 'navkar') && <MongolBeard grey={outfit === 'chingiz'} short={outfit === 'navkar'} />}
   </g>
 );
 
@@ -421,6 +423,72 @@ const TemurBody: React.FC<{swing: number}> = ({swing}) => (
   </g>
 );
 
+
+// ---------- Mongols (episode 4): fur-brimmed felt hats, wrap-over deel robes ----------
+const MONGOL_COL: Record<string, {robe: string; trim: string; hat: string; top: string}> = {
+  chingiz: {robe: '#f1ead8', trim: '#c8962e', hat: '#f6f1e4', top: '#b3261e'},
+  mongol: {robe: '#2f6f73', trim: '#e9c46a', hat: '#6b4a2b', top: '#3a2418'},
+  jebe: {robe: '#9a5a2c', trim: '#e9c46a', hat: '#5a3a22', top: '#3a2418'},
+  jamuxa: {robe: '#5b3f7a', trim: '#c8a2e0', hat: '#3b2a4a', top: '#2a1a35'},
+  navkar: {robe: '#4a4f57', trim: '#9aa3ad', hat: '#3a3a3a', top: '#222'},
+};
+const MongolBeard: React.FC<{grey?: boolean; short?: boolean}> = ({grey, short}) => {
+  const c = grey ? '#4a3a30' : '#2a1a12';
+  return (
+    <g>
+      {/* long drooping moustache */}
+      <path d="M200 254 C182 244 160 250 150 270 C146 290 150 306 156 316 C160 296 170 274 200 266 C230 274 240 296 244 316 C250 306 254 290 250 270 C240 250 218 244 200 254 Z" fill={c} stroke={INK} strokeWidth={3.5} strokeLinejoin="round" />
+      {!short && <path d="M184 300 C186 330 194 350 200 360 C206 350 214 330 216 300 C208 306 192 306 184 300 Z" fill={c} stroke={INK} strokeWidth={3.5} strokeLinejoin="round" />}
+      {grey && <path d="M196 312 L198 348" stroke="#9c8e80" strokeWidth={3} strokeLinecap="round" />}
+    </g>
+  );
+};
+const MongolHat: React.FC<{outfit: Outfit}> = ({outfit}) => {
+  const c = MONGOL_COL[outfit];
+  return (
+    <g>
+      {outfit === 'chingiz' && (
+        <g>
+          <path d="M206 40 C220 20 236 14 250 18 C238 26 226 34 214 50 Z" fill="#b3261e" stroke={INK} strokeWidth={4} />
+          <path d="M194 40 C176 22 160 18 148 24 C162 30 174 38 186 52 Z" fill="#b3261e" stroke={INK} strokeWidth={4} />
+        </g>
+      )}
+      <path d="M116 168 C118 100 152 56 200 44 C248 56 282 100 284 168 Z" fill={c.hat} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <circle cx={200} cy={44} r={14} fill={c.top} stroke={INK} strokeWidth={4} />
+      {/* fur brim turned up at the sides */}
+      <path d="M92 196 C88 160 104 146 126 150 C170 158 230 158 274 150 C296 146 312 160 308 196 C290 178 270 176 250 180 C216 186 184 186 150 180 C130 176 110 178 92 196 Z" fill={outfit === 'chingiz' ? '#7a5a3a' : '#8a6a48'} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      {[120, 150, 180, 210, 240, 270].map((x) => (
+        <path key={x} d={`M${x} 158 q5 10 0 22`} stroke="#5a3e26" strokeWidth={4} fill="none" />
+      ))}
+    </g>
+  );
+};
+const MongolBody: React.FC<{swing: number; outfit: Outfit}> = ({swing, outfit}) => {
+  const c = MONGOL_COL[outfit];
+  return (
+    <g>
+      <path d="M146 640 L194 640 L196 728 L128 728 C126 708 138 700 146 696 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <path d="M206 640 L254 640 L254 696 C262 700 274 708 272 728 L204 728 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <g transform={`rotate(${swing} 128 340)`}>
+        <path d="M128 330 C100 340 92 420 98 500 L136 500 C136 440 140 380 148 352 Z" fill={c.robe} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+        <rect x={96} y={478} width={42} height={18} rx={5} fill={c.trim} stroke={INK} strokeWidth={4} />
+        <circle cx={117} cy={514} r={19} fill={SKIN} stroke={INK} strokeWidth={SW} />
+      </g>
+      <g transform={`rotate(${-swing} 272 340)`}>
+        <path d="M272 330 C300 340 308 420 302 500 L264 500 C264 440 260 380 252 352 Z" fill={c.robe} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+        <rect x={262} y={478} width={42} height={18} rx={5} fill={c.trim} stroke={INK} strokeWidth={4} />
+        <circle cx={283} cy={514} r={19} fill={SKIN} stroke={INK} strokeWidth={SW} />
+      </g>
+      <path d="M132 322 C160 310 240 310 268 322 C276 380 274 440 270 470 L296 650 L104 650 L130 470 C126 440 124 380 132 322 Z" fill={c.robe} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      {/* wrap-over front edge (deel) */}
+      <path d="M150 324 C190 360 240 380 262 400 L262 470" fill="none" stroke={c.trim} strokeWidth={10} strokeLinecap="round" />
+      <path d="M262 470 L282 648" stroke={c.trim} strokeWidth={8} />
+      <rect x={128} y={456} width={144} height={28} rx={8} fill={outfit === 'chingiz' ? '#c8962e' : '#3b2414'} stroke={INK} strokeWidth={4} />
+      {outfit === 'chingiz' && <circle cx={200} cy={470} r={14} fill="#2f7fd1" stroke={INK} strokeWidth={4} />}
+    </g>
+  );
+};
+
 // Bek as an SVG group in his own 400x800 coordinate space (for use inside other SVG scenes).
 export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, armSwing = 0, shadow = true}) => (
   <g>
@@ -438,6 +506,8 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
       <IskandarBody swing={armSwing} plain />
     ) : outfit === 'ravshanak' ? (
       <RavshanakBody swing={armSwing} />
+    ) : MONGOL.includes(outfit) ? (
+      <MongolBody swing={armSwing} outfit={outfit} />
     ) : (
       <SoldierBody swing={armSwing} />
     )}
@@ -447,6 +517,7 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
     {outfit === 'temur' && <TemurHat />}
     {outfit === 'sogd' && <SogdCap />}
     {(outfit === 'iskandar' || outfit === 'yunon') && <GreekHelmet />}
+    {MONGOL.includes(outfit) && <MongolHat outfit={outfit} />}
   </g>
 );
 
