@@ -206,6 +206,8 @@ words, and list the hard names for the user to listen for.
 - Image prompts: ALWAYS also give the Flow packet file (5 prompts per packet, refs per packet, `N-seriya_flow_paketlar.md`), unasked.
 - Every part ends with a teaser for the next part ("... Keyingi qismda.") before the outro question: put it in the script yourself,
   the user should not have to remind (user, 2026-11-15).
+- Never open a Temur part with "Tasavvur qiling" / "Tasavvur qil" (user, 2026-11-16: that phrase belongs to their separate
+  "Tasavvur qil" format). Open with the event itself, a date, a striking fact or a question.
 - Every part from now on: a hook that holds the viewer in the first 3 seconds (Part 1 lost ~30% there), and the Part 4 style outro
   (recorded question + HA/YO'Q card C + subscribe card).
 
