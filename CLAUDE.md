@@ -281,3 +281,10 @@ sending: the user cannot re-record many times.
   heard one line as Japanese; the model's own docs warn about this). So character voices should come from Uzbek reference
   recordings (5-10 s, with the speaker's permission) or voice design, not from the anime's original actors. Samples:
   `dublyaj/sinov/`. Waiting for the user's verdict on the samples.
+- The user's verdict on the samples (2026-11-16): the Uzbek clone is "good, but not for dubbing: not like a voice actor, clearly
+  AI". Proposed instead: the user acts every role with their own voice and a voice-conversion model changes the timbre per
+  character (acting and exact timing are kept; the method does not depend on the language). Cloud demo with Chatterbox VC (pip
+  `chatterbox-tts`, add `setuptools<81` or its watermarker fails to load; an 8 s clip converts in about 15 s on CPU): duration
+  unchanged, median pitch 176 Hz -> 278 / 147 / 177 Hz. Samples 4-7 in `dublyaj/sinov/` (source = the channel's AI narrator, not
+  a live voice). Paid alternative: ElevenLabs TTS, about 15-20k characters per episode against 10k free credits a month.
+  Waiting for a 15-20 s recording of the user's own acted voice to convert.
