@@ -19,9 +19,8 @@ for y in range(950, 1920):
 cov = Image.alpha_composite(base.convert('RGBA'), ov); d = ImageDraw.Draw(cov)
 def centered(text, font, y, fill):
     w = d.textbbox((0, 0), text, font=font)[2]; d.text(((1080 - w) / 2, y), text, font=font, fill=fill, stroke_width=2, stroke_fill=(0, 0, 0))
-centered('5-QISM', ImageFont.truetype(B, 44), 1210, CREAM)
-centered("DASHT YURISHI", ImageFont.truetype(B, 92), 1262, GOLD)
-d.line((300, 1410, 780, 1410), fill=GOLD, width=3)
-centered("Amir Temur va To'xtamish, 1391", ImageFont.truetype(I, 62), 1432, CREAM)
+# minimal (user, 2026-11-16: "too much text"): only the part number and a big title
+centered('5-QISM', ImageFont.truetype(B, 50), 1300, CREAM)
+centered("DASHT YURISHI", ImageFont.truetype(B, 118), 1370, GOLD)
 cov.convert('RGB').save(root / ('instagram/cover_part5' + ('' if len(sys.argv) < 2 or sys.argv[1] == 'm16' else '_' + sys.argv[1]) + '.png'))
 print('ok')
