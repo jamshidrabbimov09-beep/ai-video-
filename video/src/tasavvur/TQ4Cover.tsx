@@ -19,9 +19,9 @@ export const TQ4Cover: React.FC<{v?: keyof typeof VARIANTS}> = ({v = 'a'}) => {
     <AbsoluteFill style={{background: '#000'}}>
       <TQ4 at={c.frame} />
       <div style={{position: 'absolute', left: 0, top: 0, width: '100%', height: 800, background: 'linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 72%, rgba(0,0,0,0) 100%)'}} />
-      {c.l0 && <div style={{...T, top: 200, fontSize: 84, color: '#ffc94a'}}>{c.l0}</div>}
-      <div style={{...T, top: 320, fontSize: c.l1.length > 15 ? 96 : c.l1.length > 11 ? 112 : 150, color: '#fff'}}>{c.l1}</div>
-      <div style={{...T, top: 480, fontSize: c.l2.length > 11 ? 120 : 150, color: '#ff4b3e'}}>{c.l2}</div>
+      {c.l0 && <div style={{...T, top: 230, fontSize: 80, color: '#ffc94a', letterSpacing: 4}}>{c.l0}</div>}
+      <div style={{...T, top: c.l0 ? 335 : 320, fontSize: c.l1.length > 15 ? 96 : c.l1.length > 11 ? 112 : 150, color: '#fff'}}>{c.l1}</div>
+      <div style={{...T, top: c.l0 ? 450 : 480, fontSize: c.l2.length > 11 ? 120 : 150, color: '#ff4b3e'}}>{c.l2}</div>
     </AbsoluteFill>
   );
 };
