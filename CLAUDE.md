@@ -18,7 +18,7 @@ update this file.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
 - **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
-  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Part 5 "Dasht yurishi": rendered 2026-11-15 (chat 7), exports `video/exports/part5_dasht_yurishi_1080p*.mp4` on branch `claude/build-script-render-g8mkm7`; not yet posted.
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Part 5 "Dasht yurishi": rendered 2026-11-15 (chat 7), exports `video/exports/part5_dasht_yurishi_1080p*.mp4` on branch `claude/build-script-render-g8mkm7`; v3 posted on Instagram 2026-11-16 (the 3 voice fixes were not done).
 
 ## The user
 
