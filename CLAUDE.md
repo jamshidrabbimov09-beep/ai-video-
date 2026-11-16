@@ -315,3 +315,33 @@ sending: the user cannot re-record many times.
   characters (15-20k with retakes), so Starter is about 1.5-2 episodes and Creator about 6-8 a month; try Starter for $1 on one
   full episode first. Voices would be made with ElevenLabs voice design (created voices, nobody cloned) and driven through the
   API with emotion tags.
+
+## Dublyaj studiya app (built 2026-11-17, `dublyaj/app/`): read before working on dubbing
+
+- Decision path: free Uzbek TTS (OmniVoice, Gemini 3.8 Flash TTS) was rejected by ear; the user chose ElevenLabs (v4, the same
+  engine as the channel narrator) and wants to test one episode before paying. They do not voice roles themselves. Voices are
+  CREATED from a description (ElevenLabs voice design), never cloned from real people. Content: donghua (Chinese -> Uzbek).
+- App = local web app, Python standard library + numpy + ffmpeg, no other dependencies. Run `python dublyaj/app/server.py`
+  (Windows: `dublyaj/ishga_tushirish.bat`), open http://127.0.0.1:8765. Data in `dublyaj/data/` (git-ignored). Env:
+  `DUBLYAJ_DATA`, `DUBLYAJ_PORT`, `DUBLYAJ_HOST`, `ELEVENLABS_API_KEY` (or the key typed into the app's settings),
+  `DUBLYAJ_MOCK=1` (fake ElevenLabs answers for testing without credits).
+- Files: `eleven.py` (API client; endpoints checked against the public openapi.json: `/v1/speech-to-text` with `scribe_v3`,
+  diarize + word timestamps; `/v1/text-to-voice/design` + `/v1/text-to-voice`; `/v1/text-to-speech/{voice_id}` with `eleven_v4`,
+  stability 0.5; `/v1/user/subscription`; `/v2/voices`), `core.py` (storage and the steps: audio, transkript, ovoz, yig; also a
+  CLI `python core.py <step> <anime_id> <qism_id>`), `server.py` (HTTP API + background jobs), `static/index.html` (UI in Uzbek:
+  home with anime cards and "+", anime page with episodes, upload, characters and voices, episode page with 5 steps and the
+  line table), `tahlil_qoidalari.md` (rules for step 3).
+- Step 3 (analysis + translation) is done by Claude in the chat, not by an API: read `dublyaj/app/tahlil_qoidalari.md`, then
+  fill `data/<anime>/personajlar.json` (characters, voice descriptions, sen/siz table, glossary = project memory across
+  episodes) and `uz`, `teg`, `kim` in `data/<anime>/<qism>/satrlar.json`. Claude cannot hear audio or watch video: the app
+  gives speech-to-text with timings and frames in `kadr/`. An API mode (Claude API key, roughly $0.5-1 per episode on
+  `claude-opus-5-5`) was offered as a later option.
+- Timing: one line per speaker turn, split at pauses >= 0.6 s; each Uzbek line is placed at the original start, may use the gap
+  before the next line, is sped up to at most 1.25x, and is flagged `uzun` if it still does not fit (then shorten the text).
+  Unchanged lines are never re-synthesized (hash of voice + model + text). Output: `natija/dublyaj.wav` and `.mp3`, voice only.
+- Status: tested end to end only in mock mode (upload, extraction, segmentation, frames, voice design flow, fitting, assembly,
+  UI). NOT yet tested against the real ElevenLabs API: no key yet. Next: the user creates an API key, it is entered through the
+  secure credential form (host `api.elevenlabs.io`, header `xi-api-key`; the `ai-video-` environment already allows the host),
+  then one real episode.
+- The user planned to open a second free ElevenLabs account for another 10k credits; advised against it (their rules forbid
+  extra free accounts, risk of losing the narrator account) and recommended the $1 Starter month (30k credits, 10 voice slots).

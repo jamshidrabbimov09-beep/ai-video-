@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dublyaj studiya</title>
+<style>
+:root{color-scheme:dark;--bg:#0f1117;--panel:#181b24;--panel2:#20242f;--line:#2b3040;--text:#e9ebf1;--dim:#8f96a8;--acc:#f2a33a;--acc2:#7c9cff;--ok:#4cc38a;--bad:#ef6b6b;--warn:#e6c14a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,"Segoe UI",Roboto,sans-serif}
+a{color:var(--acc2);text-decoration:none}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,17,23,.92);backdrop-filter:blur(8px);z-index:5}
+header .logo{font-weight:700;font-size:18px;letter-spacing:.3px;color:var(--text)}
+header .logo b{color:var(--acc)}
+header .sp{flex:1}
+.chip{font-size:12.5px;padding:4px 10px;border-radius:99px;background:var(--panel2);color:var(--dim);border:1px solid var(--line);white-space:nowrap}
+.chip.ok{color:var(--ok)}.chip.bad{color:var(--bad)}.chip.warn{color:var(--warn)}
+main{max-width:1180px;margin:0 auto;padding:22px 16px 110px}
+h1{font-size:24px;margin:4px 0 6px}h2{font-size:17px;margin:28px 0 12px;color:var(--dim);font-weight:600}
+.dim{color:var(--dim)}
+button{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--acc2)}
+button.pri{background:var(--acc);color:#1a1205;border-color:var(--acc);font-weight:600}
+button.sm{padding:4px 9px;border-radius:8px;font-size:13px}
+button:disabled{opacity:.45;cursor:default}
+input,textarea,select{font:inherit;color:var(--text);background:#12151c;border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+textarea{resize:vertical;min-height:38px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .12s,border-color .12s}
+.card:hover{transform:translateY(-3px);border-color:var(--acc)}
+.card .cov{aspect-ratio:3/4;background:linear-gradient(135deg,#2a3150,#4a2f55);display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:700;color:rgba(255,255,255,.35);background-size:cover;background-position:center}
+.card .nm{padding:10px 12px 12px;font-weight:600}
+.card .nm small{display:block;color:var(--dim);font-weight:400;margin-top:2px}
+.fab{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;font-size:32px;line-height:1;background:var(--acc);color:#1a1205;border:none;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:6}
+.empty{text-align:center;color:var(--dim);padding:70px 10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
+.modal .box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;width:100%;max-width:440px}
+.modal h3{margin:0 0 14px}.modal label{display:block;margin:12px 0 5px;color:var(--dim);font-size:13.5px}
+.modal .row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+.list{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;flex-wrap:wrap}
+.item .t{font-weight:600;flex:1;min-width:140px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.step.done{border-color:rgba(76,195,138,.5)}
+.step b{display:block;margin-bottom:4px}.step .d{color:var(--dim);font-size:13.5px;min-height:38px;margin-bottom:10px}
+.bar{height:6px;background:var(--panel2);border-radius:9px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--acc)}
+table{width:100%;border-collapse:collapse}
+td,th{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{color:var(--dim);font-weight:500;font-size:13px}
+td.n{color:var(--dim);white-space:nowrap;font-size:13px}td.asl{color:#c6cbd8;min-width:150px;max-width:260px}
+td.uz{min-width:220px}td.kim{min-width:120px}td.teg{min-width:120px}td.act{white-space:nowrap}
+.tag{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:99px;margin:2px 3px 0 0;border:1px solid var(--line);color:var(--dim)}
+.tag.bad{color:var(--bad);border-color:var(--bad)}.tag.warn{color:var(--warn);border-color:var(--warn)}.tag.ok{color:var(--ok);border-color:rgba(76,195,138,.5)}
+.wrap{overflow-x:auto}
+.hint{background:#141a2a;border:1px dashed #3a4a7a;border-radius:10px;padding:10px 12px;color:#b9c6ee;font-size:13.5px;margin-top:8px}
+audio{width:100%;margin-top:8px}
+.err{color:var(--bad)}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#/">🎙 Dublyaj <b>studiya</b></a>
+  <span class="sp"></span>
+  <span id="kredit" class="chip">ElevenLabs…</span>
+  <button class="sm" onclick="sozlamaOyna()">⚙ Sozlama</button>
+</header>
+<main id="app"></main>
+<div id="modal"></div>
+<audio id="aslPlayer" preload="none" style="display:none"></audio>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api = async (url, body, raw) => {
+  const opt = body === undefined ? {} : {method:'POST', body: raw ? body : JSON.stringify(body)};
+  const r = await fetch(url, opt); const j = await r.json();
+  if (!r.ok || j.xato) throw new Error(j.xato || r.status); return j;
+};
+const vaqt = t => { const m = Math.floor(t/60), s = (t%60).toFixed(1).padStart(4,'0'); return `${m}:${s}`; };
+let EL = null, timer = null;
+
+async function elevenHolat() {
+  try {
+    EL = await api('/api/eleven');
+    const c = $('#kredit');
+    if (EL.ulangan) { const q = EL.obuna.limit - EL.obuna.ishlatilgan; c.textContent = `Kredit: ${q.toLocaleString('ru')} qoldi`; c.className = 'chip ' + (q > 2000 ? 'ok' : 'warn'); }
+    else { c.textContent = 'ElevenLabs ulanmagan'; c.className = 'chip bad'; }
+  } catch (e) {}
+}
+function yop() { $('#modal').innerHTML = ''; }
+function oyna(html) { $('#modal').innerHTML = `<div class="modal" onclick="if(event.target===this)yop()"><div class="box">${html}</div></div>`; }
+function sozlamaOyna() {
+  oyna(`<h3>Sozlama</h3><label>ElevenLabs API kaliti</label><input id="s_key" type="password" placeholder="sk_..." autocomplete="off">
+  <div class="dim" style="font-size:13px;margin-top:6px">Kalit faqat shu kompyuterda saqlanadi.</div>
+  <div class="row"><button onclick="yop()">Bekor</button><button class="pri" onclick="sozlamaSaqla()">Saqlash</button></div>`);
+}
+async function sozlamaSaqla() { const k = $('#s_key').value.trim(); if (k) await api('/api/sozlama', {eleven_key: k}); yop(); elevenHolat(); }
+
+// ---------- bosh sahifa ----------
+async function bosh() {
+  const a = await api('/api/animelar');
+  $('#app').innerHTML = `<h1>Loyihalarim</h1><div class="dim">Har anime alohida loyiha: personajlar va ovozlari eslab qolinadi.</div>
+  ${a.length ? `<div class="grid" style="margin-top:20px">${a.map(x => `<div class="card" onclick="location.hash='#/a/${x.id}'">
+    <div class="cov" ${x.muqova ? `style="background-image:url('/media/${x.id}/muqova.jpg?${x.vaqt}')"` : ''}>${x.muqova ? '' : esc(x.nom[0].toUpperCase())}</div>
+    <div class="nm">${esc(x.nom)}<small>${x.qism_soni} ta qism</small></div></div>`).join('')}</div>`
+  : `<div class="empty">Hali loyiha yo'q.<br>Pastdagi <b>+</b> tugmasi bilan birinchi animeni qo'shing.</div>`}
+  <button class="fab" title="Anime qo'shish" onclick="animeOyna()">+</button>`;
+}
+function animeOyna() {
+  oyna(`<h3>Yangi anime</h3><label>Nomi</label><input id="a_nom" placeholder="Masalan: Jang Osmonni Yorar">
+  <label>Izoh (ixtiyoriy)</label><textarea id="a_izoh" placeholder="Janr, mavsum, eslatmalar..."></textarea>
+  <label>Muqova rasmi (ixtiyoriy)</label><input id="a_rasm" type="file" accept="image/*">
+  <div id="a_err" class="err"></div>
+  <div class="row"><button onclick="yop()">Bekor</button><button class="pri" onclick="animeSaqla()">Saqlash</button></div>`);
+  $('#a_nom').focus();
+}
+async function animeSaqla() {
+  try {
+    const a = await api('/api/animelar', {nom: $('#a_nom').value, izoh: $('#a_izoh').value});
+    const f = $('#a_rasm').files[0]; if (f) await api(`/api/anime/${a.id}/muqova`, f, true);
+    yop(); location.hash = '#/a/' + a.id;
+  } catch (e) { $('#a_err').textContent = e.message; }
+}
+
+// ---------- anime sahifasi ----------
+async function animeSahifa(aid) {
+  const a = await api('/api/anime/' + aid), P = a.xotira.personajlar, ish = await api('/api/ishlar');
+  const ovozSel = (pid, p) => `<select onchange="ovozTanla('${aid}','${pid}',this)"><option value="">— ovoz tanlang —</option>
+    ${(EL && EL.ovozlar || []).map(v => `<option value="${esc(v.voice_id)}" ${v.voice_id === p.voice_id ? 'selected' : ''}>${esc(v.nom)} ${v.tavsif ? '(' + esc(v.tavsif) + ')' : ''}</option>`).join('')}
+    ${p.voice_id && !(EL && EL.ovozlar || []).some(v => v.voice_id === p.voice_id) ? `<option selected value="${esc(p.voice_id)}">${esc(p.ovoz_nomi || p.voice_id)}</option>` : ''}</select>`;
+  const pids = Object.keys(P);
+  $('#app').innerHTML = `<a href="#/">← Loyihalar</a><h1>${esc(a.nom)}</h1><div class="dim">${esc(a.izoh)}</div>
+  <h2>Qismlar</h2><div class="list">${a.qismlar.map(q => `<div class="item"><span class="t">${esc(q.nom)}</span>
+    <span class="chip ${q.holat.transkript ? 'ok' : ''}">${q.holat.satr_soni ? q.holat.satr_soni + ' satr' : (q.holat.audio ? 'ovoz ajratildi' : 'yuklandi')}</span>
+    ${q.holat.yigilgan ? `<span class="chip ok">dublyaj tayyor</span>` : ''}
+    <button class="pri sm" onclick="location.hash='#/q/${aid}/${q.id}'">Ochish</button></div>`).join('') || '<div class="dim">Hali qism yuklanmagan.</div>'}</div>
+  <div style="margin-top:12px"><button class="pri" onclick="qismOyna('${aid}')">⬆ Qism yuklash</button></div>
+  <h2>Personajlar va ovozlar</h2>
+  ${pids.length ? `<div class="list">${pids.map(pid => { const p = P[pid], j = ish[`${aid}/ovoz/${pid}`]; return `<div class="item" style="align-items:flex-start">
+    <div style="flex:1;min-width:220px"><b>${esc(p.nom || pid)}</b> <span class="dim">${esc([p.jins, p.yosh].filter(Boolean).join(', '))}</span>
+      <div class="dim" style="font-size:13.5px">${esc(p.xarakter || '')}</div>
+      <textarea style="margin-top:8px" placeholder="Ovoz tavsifi (inglizcha): yoshi, jinsi, tembri, xarakteri" onchange="personajSaqla('${aid}','${pid}',{ovoz_tavsifi:this.value})">${esc(p.ovoz_tavsifi || '')}</textarea></div>
+    <div style="width:300px;max-width:100%">${ovozSel(pid, p)}
+      <div style="margin-top:8px"><button class="sm" ${j && j.ishlayapti ? 'disabled' : ''} onclick="namuna('${aid}','${pid}')">✨ Tavsifdan ovoz yaratish</button>
+      ${j && j.ishlayapti ? `<span class="dim"> ${esc(j.xabar)}…</span>` : ''}${j && j.xato ? `<div class="err">${esc(j.xato)}</div>` : ''}</div>
+      ${(p.namunalar || []).map((n, i) => `<div style="margin-top:8px"><audio controls preload="none" src="/media/${aid}/ovoz/${n.fayl}"></audio>
+        <button class="sm" onclick="namunaTanla('${aid}','${pid}','${esc(n.generated_voice_id)}')">${i + 1}-namunani tanlash</button></div>`).join('')}
+      ${p.voice_id ? `<div class="tag ok" style="margin-top:8px">ovoz biriktirilgan</div>` : `<div class="tag warn" style="margin-top:8px">ovoz yo'q</div>`}</div></div>`; }).join('')}</div>`
+  : `<div class="dim">Personajlar birinchi qism tahlilidan keyin shu yerda paydo bo'ladi.</div>`}`;
+  clearTimeout(timer);
+  if (Object.entries(ish).some(([k, v]) => k.startsWith(aid + '/ovoz/') && v.ishlayapti)) timer = setTimeout(() => animeSahifa(aid), 1500);
+}
+async function personajSaqla(aid, pid, d) { await api(`/api/anime/${aid}/personaj/${pid}`, d); }
+async function ovozTanla(aid, pid, sel) { await api(`/api/anime/${aid}/personaj/${pid}/tanla`, {voice_id: sel.value, ovoz_nomi: sel.selectedOptions[0].textContent.trim()}); animeSahifa(aid); }
+async function namuna(aid, pid) { try { await api(`/api/anime/${aid}/personaj/${pid}/namuna`, {}); } catch (e) { alert(e.message); } animeSahifa(aid); }
+async function namunaTanla(aid, pid, gid) { try { await api(`/api/anime/${aid}/personaj/${pid}/tanla`, {generated_voice_id: gid}); await elevenHolat(); } catch (e) { alert(e.message); } animeSahifa(aid); }
+function qismOyna(aid) {
+  oyna(`<h3>Qism yuklash</h3><label>Qism nomi</label><input id="q_nom" placeholder="Masalan: 1-qism">
+  <label>Fayl (mp4, mkv, mp3, wav)</label><input id="q_fayl" type="file" accept="video/*,audio/*,.mkv">
+  <div id="q_prog" class="dim" style="margin-top:10px"></div>
+  <div class="row"><button onclick="yop()">Bekor</button><button class="pri" id="q_btn" onclick="qismYukla('${aid}')">Yuklash</button></div>`);
+}
+function qismYukla(aid) {
+  const f = $('#q_fayl').files[0], nom = $('#q_nom').value.trim() || (f ? f.name.replace(/\.[^.]+$/, '') : '');
+  if (!f) { $('#q_prog').innerHTML = '<span class="err">Fayl tanlang</span>'; return; }
+  $('#q_btn').disabled = true;
+  const x = new XMLHttpRequest();
+  x.open('POST', `/api/anime/${aid}/qism?nom=${encodeURIComponent(nom)}&fayl=${encodeURIComponent(f.name)}`);
+  x.upload.onprogress = e => { $('#q_prog').textContent = `Yuklanmoqda: ${Math.round(100 * e.loaded / e.total)}%`; };
+  x.onload = () => { try { const m = JSON.parse(x.responseText); if (m.xato) throw new Error(m.xato); yop(); location.hash = `#/q/${aid}/${m.id}`; } catch (e) { $('#q_prog').innerHTML = `<span class="err">${esc(e.message)}</span>`; $('#q_btn').disabled = false; } };
+  x.onerror = () => { $('#q_prog').innerHTML = '<span class="err">Yuklashda xato</span>'; $('#q_btn').disabled = false; };
+  x.send(f);
+}
+
+// ---------- qism sahifasi ----------
+let fokus = false;
+async function qismSahifa(aid, qid, yangila) {
+  if (yangila && fokus) { timer = setTimeout(() => qismSahifa(aid, qid, true), 1500); return; }
+  const d = await api(`/api/qism/${aid}/${qid}`), h = d.meta.holat, ish = d.ish || {}, band = !!ish.ishlayapti, S = d.satrlar, P = d.personajlar;
+  const qoldi = EL && EL.ulangan ? EL.obuna.limit - EL.obuna.ishlatilgan : null;
+  const uzun = S.filter(s => s.uzun).length, tayyor = S.filter(s => s.holat === 'tayyor').length, ovozsiz = S.filter(s => s.uz && !(P[s.kim] || {}).voice_id).length;
+  const btn = (b, yozuv, on) => `<button class="pri sm" ${band || !on ? 'disabled' : ''} onclick="ish('${aid}','${qid}','${b}')">${yozuv}</button>`;
+  const prog = b => band && ish.nom === b ? `<div class="dim" style="margin-top:8px">${esc(ish.xabar)}</div><div class="bar"><i style="width:${ish.foiz}%"></i></div>` : '';
+  $('#app').innerHTML = `<a href="#/a/${aid}">← Qismlar</a><h1>${esc(d.meta.nom)}</h1>
+  <div class="dim">${h.davomiylik ? 'Davomiyligi ' + vaqt(h.davomiylik) : ''}</div>
+  ${ish.xato ? `<div class="hint err">Xato: ${esc(ish.xato)}</div>` : ''}
+  <h2>Bosqichlar</h2><div class="steps">
+   <div class="step ${h.audio ? 'done' : ''}"><b>1. Ovoz ajratish ${h.audio ? '✓' : ''}</b><div class="d">Yuklangan fayldan asl ovoz olinadi.</div>${btn('audio', 'Qayta ajratish', true)}${prog('Ovoz ajratish')}${prog('audio')}</div>
+   <div class="step ${h.transkript ? 'done' : ''}"><b>2. Matnga aylantirish ${h.transkript ? '✓' : ''}</b><div class="d">${h.transkript ? `${h.satr_soni} satr, ${(h.gapiruvchilar || []).length} gapiruvchi.` : 'Kim, qachon, nima degani aniqlanadi (kredit sarflaydi).'}</div>${btn('transkript', h.transkript ? 'Qayta' : 'Boshlash', h.audio)}${prog('transkript')}</div>
+   <div class="step ${d.tarjima && d.tarjima === S.filter(s => !s.tovush || s.uz).length ? 'done' : ''}"><b>3. Tahlil va tarjima</b><div class="d">Tarjima: ${d.tarjima} / ${S.length} satr.</div>
+     <div class="hint">Claude chatiga yozing:<br><b>«${esc(d.meta.nom)}» qismini tahlil qilib tarjima qil</b></div></div>
+   <div class="step ${tayyor && tayyor === d.tarjima ? 'done' : ''}"><b>4. Ovoz yozish</b><div class="d">Tayyor: ${tayyor} / ${d.tarjima}. Kerak: ~${d.kredit_kerak.toLocaleString('ru')} kredit${qoldi !== null ? `, qolgan: ${qoldi.toLocaleString('ru')}` : ''}.${ovozsiz ? ` <span class="err">${ovozsiz} satrda ovoz tanlanmagan.</span>` : ''}${h.ovoz_xabar ? `<br><span class="err">${esc(h.ovoz_xabar)}</span>` : ''}</div>${btn('ovoz', 'Yozishni boshlash', d.tarjima > 0)}${prog('ovoz')}</div>
+   <div class="step ${h.yigilgan ? 'done' : ''}"><b>5. Yig'ish ${h.yigilgan ? '✓' : ''}</b><div class="d">Gaplar asl joyiga qo'yiladi, fonsiz bitta fayl chiqadi.${uzun ? ` <span class="err">${uzun} ta satr uzun: avval qisqartiring.</span>` : ''}</div>${btn('yig', "Yig'ish", tayyor > 0)}${prog('yig')}
+     ${h.yigilgan ? `<audio controls preload="none" src="/media/${aid}/${qid}/natija/dublyaj.mp3?${h.natija_vaqt}"></audio>
+     <div style="margin-top:6px"><a download href="/media/${aid}/${qid}/natija/dublyaj.wav">⬇ WAV</a> · <a download href="/media/${aid}/${qid}/natija/dublyaj.mp3">⬇ MP3</a></div>` : ''}</div>
+  </div>
+  <h2>Satrlar</h2>
+  ${S.length ? `<div class="wrap"><table><tr><th>№ / vaqt</th><th>Kim</th><th>Asl</th><th>O'zbekcha</th><th>Ohang</th><th></th></tr>
+  ${S.map(s => `<tr><td class="n">${s.n}<br>${vaqt(s.start)}<br>${(s.end - s.start).toFixed(1)} s</td>
+   <td class="kim"><select onchange="satrSaqla('${aid}','${qid}',${s.n},{kim:this.value})"><option value="">${esc(s.speaker)}</option>${Object.keys(P).map(k => `<option value="${esc(k)}" ${k === s.kim ? 'selected' : ''}>${esc(P[k].nom || k)}</option>`).join('')}</select></td>
+   <td class="asl">${esc(s.asl)}</td>
+   <td class="uz"><textarea onfocus="fokus=true" onblur="fokus=false" onchange="satrSaqla('${aid}','${qid}',${s.n},{uz:this.value})">${esc(s.uz)}</textarea>
+     ${s.holat ? `<span class="tag ${s.holat === 'tayyor' ? 'ok' : 'warn'}">${esc(s.holat)}</span>` : ''}${s.uzun ? '<span class="tag bad">uzun: qisqartiring</span>' : ''}${s.qisqa ? '<span class="tag warn">qisqa</span>' : ''}${s.tezlik > 1.01 ? `<span class="tag">tezlik ×${s.tezlik}</span>` : ''}</td>
+   <td class="teg"><input value="${esc(s.teg)}" placeholder="angry, shouting" onfocus="fokus=true" onblur="fokus=false" onchange="satrSaqla('${aid}','${qid}',${s.n},{teg:this.value})"></td>
+   <td class="act"><button class="sm" title="Asl ovoz" onclick="aslChal('${aid}','${qid}',${s.start},${s.end})">▶ asl</button>
+     ${s.tts_kalit ? `<button class="sm" title="Dublyaj" onclick="new Audio('/media/${aid}/${qid}/tts/${s.n}.mp3?'+Date.now()).play()">▶ uz</button>` : ''}
+     <button class="sm" title="Shu satrni qayta yozish" ${band || !s.uz ? 'disabled' : ''} onclick="satrOvoz('${aid}','${qid}',${s.n})">↻</button></td></tr>`).join('')}
+  </table></div>` : `<div class="dim">Satrlar 2-bosqichdan keyin paydo bo'ladi.</div>`}`;
+  clearTimeout(timer);
+  if (band) timer = setTimeout(() => qismSahifa(aid, qid, true), 1500);
+  else if (yangila) elevenHolat();
+}
+async function ish(aid, qid, b) { try { await api(`/api/qism/${aid}/${qid}/ish/${b}`, {}); } catch (e) { alert(e.message); } qismSahifa(aid, qid); }
+async function satrSaqla(aid, qid, n, d) { try { await api(`/api/qism/${aid}/${qid}/satr/${n}`, d); } catch (e) { alert(e.message); } }
+async function satrOvoz(aid, qid, n) { try { await api(`/api/qism/${aid}/${qid}/satr/${n}/ovoz`, {}); } catch (e) { alert(e.message); } qismSahifa(aid, qid); }
+function aslChal(aid, qid, a, b) {
+  const p = $('#aslPlayer'), src = `/media/${aid}/${qid}/audio.mp3`;
+  if (!p.src.endsWith(src)) p.src = src;
+  p.currentTime = a; p.play();
+  p.ontimeupdate = () => { if (p.currentTime >= b + 0.15) p.pause(); };
+}
+
+async function yol() {
+  clearTimeout(timer); fokus = false;
+  const p = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  try {
+    if (p[0] === 'a' && p[1]) await animeSahifa(p[1]);
+    else if (p[0] === 'q' && p[2]) await qismSahifa(p[1], p[2]);
+    else await bosh();
+  } catch (e) { $('#app').innerHTML = `<div class="empty err">${esc(e.message)}</div><div style="text-align:center"><a href="#/">Bosh sahifa</a></div>`; }
+}
+window.addEventListener('hashchange', yol);
+elevenHolat().then(yol);
+</script>
+</body>
+</html>
