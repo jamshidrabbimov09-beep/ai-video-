@@ -7,6 +7,7 @@ import {useOswald} from './common';
 // Key content inside the 3:4 grid crop (y 240..1680). The title box hides the video's own caption.
 const VARIANTS = {
   a: {frame: 1737, l1: 'CHINGIZXONNING', l2: "O'NG QO'LI"},
+  c: {frame: 380, l1: 'CHINGIZXONNING', l2: "O'NG QO'LI"},
   b: {frame: 1218, l1: 'DUSHMANINI', l2: 'KECHIRDI!'},
 } as const;
 

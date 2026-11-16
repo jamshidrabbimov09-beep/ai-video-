@@ -52,6 +52,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ2" component={TQ2} durationInFrames={TQ2_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ3" component={TQ3} durationInFrames={TQ3_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ4CoverA" component={TQ4Cover} defaultProps={{v: 'a' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="TQ4CoverC" component={TQ4Cover} defaultProps={{v: 'c' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ4CoverB" component={TQ4Cover} defaultProps={{v: 'b' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ4" component={TQ4} durationInFrames={TQ4_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ3CoverA" component={TQ3Cover} defaultProps={{v: 'a' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />

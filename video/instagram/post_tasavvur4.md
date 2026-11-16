@@ -1,6 +1,6 @@
 # "Tasavvur qil" 4-qism: Chingizxonning o'ng qo'li
 
-Video: video/exports/tasavvur4_chingizxon_ong_qoli_1080p.mp4 (83 s). Muqova: instagram/cover_tasavvur4.png (A, foydalanuvchi tanladi).
+Video: video/exports/tasavvur4_chingizxon_ong_qoli_1080p.mp4 (83 s). Muqova: instagram/cover_tasavvur4.png (C: Chingizxon + o'ng qo'li Bek; A Bek'siz edi, foydalanuvchi to'g'riladi).
 Manba: "Mo'g'ullarning maxfiy tarixi" §147 (Jebe), §200 (Jamuxaning navkarlari).
 
 ## Caption
