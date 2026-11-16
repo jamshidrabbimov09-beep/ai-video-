@@ -3,7 +3,7 @@
 ## Instagram izohi (caption)
 Olti oy. Cheksiz dasht. Suv yo'q, non yo'q. Bitta qo'chqor kallasi besh yuz tanga turadi. Temur esa To'xtamishni dunyoning chetigacha izlab boradi. 🏹
 
-Amir Temur hikoyasi, 5-qism: "Dasht yurishi". 1391-yil, Qunduzcha jangi va Oltin O'rdaning qulashi.
+Amir Temur hikoyasi, 5-qism: "Dasht yurishi". 1391-yil, Qunduzcha jangi: Oltin O'rdaga berilgan eng og'ir zarba.
 
 Manbalar: Sharafuddin Ali Yazdiy "Zafarnoma", B. F. Manz "The Rise and Rule of Tamerlane".
 
@@ -16,7 +16,7 @@ Siz olti oy suvsiz dashtda Temurning ortidan borarmidingiz? Izohda yozing 👇
 #amirtemur #sohibqiron #toxtamish #oltinorda #temuriylar #tarix #unutilganqissalar #uzbekistan #reels
 
 ## Birinchi izoh (o'zingiz yozing, qadab qo'ying)
-Xaritada: sariq yo'l Temur qo'shinining yurishi, Samarqanddan Qunduzchagacha (hozirgi Samara viloyati, Volga bo'yi). 6-qismda: Hindiston va jangovar fillar. Obuna bo'ling 🔔
+Xaritada: sariq yo'l Temur qo'shinining yurishi, Samarqanddan Qunduzcha daryosigacha (hozirgi Rossiya, Samara viloyati, Volgaga yaqin). 6-qismda: Hindiston va jangovar fillar. Obuna bo'ling 🔔
 
 ## Joy
 Samarqand (yurish shu yerdan boshlangan).
