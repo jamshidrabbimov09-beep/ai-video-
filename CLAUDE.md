@@ -232,7 +232,7 @@ words, and list the hard names for the user to listen for.
 - Images `public/p5img/m01..m35.jpg` (Flow, 768x1376), `m40.jpg` = Part 4 l03 (callback). Prompts `prompts/5-seriya_rasm_promptlari.md`,
   packets `5-seriya_flow_paketlar.md`, KM Studio `5-seriya_kmstudio.txt` (generator `edit/prompts_p5.py`). Unused: m03, m24, m25.
   Flow image-to-video clips were NOT made (user: Claude makes the video); Temur prompts now say "rounded brimless black felt cap".
-- Montage: `edit/edit_p5.py` (voice uncut + teaser + question, 41 shots, 160 s) -> `src/edit_p5.json`, `public/voice5/voice_p5.wav`,
+- Montage: `edit/edit_p5.py` (voice uncut + teaser + question, 41 shots; v3 2026-11-16: "Tasavvur qiling" cut, voice starts on "Olti oy", 158 s; a cold open with the ram sentence was tried and rejected, COLD flag) -> `src/edit_p5.json`, `public/voice5/voice_p5.wav`,
   `edit/music_p5.wav`, `edit/sfx_plan_p5.json`; `edit/sfx_p5.py`; `edit/bake_p5.sh` (grades into git-ignored `public/p5g/`);
   composition `src/Part5.tsx` (registered in Root.tsx), motion scenes `src/p5motion.tsx` (route 21 kun, full march 117 kun to Qunduzcha,
   flank scheme, pursuit to the Itil, Terek 1395, Golden Horde cracks, south to Iran/India; helpers now exported from p4motion.tsx).
