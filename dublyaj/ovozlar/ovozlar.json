@@ -1,0 +1,218 @@
+[
+ {
+  "id": "yigit_1",
+  "guruh": "Yigitlar",
+  "instruct": "male, teenager, moderate pitch",
+  "seed": 1001,
+  "sekund": 6.06,
+  "f0_hz": 167,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "yigit_2",
+  "guruh": "Yigitlar",
+  "instruct": "male, young adult, moderate pitch",
+  "seed": 1002,
+  "sekund": 6.0,
+  "f0_hz": 173,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "yigit_3",
+  "guruh": "Yigitlar",
+  "instruct": "male, young adult, low pitch",
+  "seed": 1003,
+  "sekund": 6.28,
+  "f0_hz": 164,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "qiz_1",
+  "guruh": "Qizlar",
+  "instruct": "female, teenager, high pitch",
+  "seed": 1004,
+  "sekund": 6.25,
+  "f0_hz": 319,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "qiz_2",
+  "guruh": "Qizlar",
+  "instruct": "female, young adult, moderate pitch",
+  "seed": 1005,
+  "sekund": 6.27,
+  "f0_hz": 269,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "qiz_3",
+  "guruh": "Qizlar",
+  "instruct": "female, young adult, high pitch",
+  "seed": 1006,
+  "sekund": 6.09,
+  "f0_hz": 322,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "erkak_1",
+  "guruh": "O'rta yosh erkaklar",
+  "instruct": "male, middle-aged, very low pitch",
+  "seed": 1007,
+  "sekund": 6.08,
+  "f0_hz": 139,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "erkak_2",
+  "guruh": "O'rta yosh erkaklar",
+  "instruct": "male, middle-aged, low pitch",
+  "seed": 1008,
+  "sekund": 6.21,
+  "f0_hz": 163,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "erkak_3",
+  "guruh": "O'rta yosh erkaklar",
+  "instruct": "male, middle-aged, moderate pitch",
+  "seed": 1009,
+  "sekund": 6.17,
+  "f0_hz": 185,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "ayol_1",
+  "guruh": "O'rta yosh ayollar",
+  "instruct": "female, middle-aged, low pitch",
+  "seed": 1010,
+  "sekund": 6.27,
+  "f0_hz": 243,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "ayol_2",
+  "guruh": "O'rta yosh ayollar",
+  "instruct": "female, middle-aged, moderate pitch",
+  "seed": 1011,
+  "sekund": 6.3,
+  "f0_hz": 274,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "ayol_3",
+  "guruh": "O'rta yosh ayollar",
+  "instruct": "female, middle-aged, high pitch",
+  "seed": 1012,
+  "sekund": 6.6,
+  "f0_hz": 360,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "boboy_1",
+  "guruh": "Boboylar",
+  "instruct": "male, elderly, very low pitch",
+  "seed": 1013,
+  "sekund": 6.32,
+  "f0_hz": 129,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "boboy_2",
+  "guruh": "Boboylar",
+  "instruct": "male, elderly, low pitch",
+  "seed": 1014,
+  "sekund": 6.18,
+  "f0_hz": 162,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "boboy_3",
+  "guruh": "Boboylar",
+  "instruct": "male, elderly, moderate pitch",
+  "seed": 1015,
+  "sekund": 6.18,
+  "f0_hz": 186,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "buvi_1",
+  "guruh": "Buvilar",
+  "instruct": "female, elderly, low pitch",
+  "seed": 1016,
+  "sekund": 6.1,
+  "f0_hz": 240,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "buvi_2",
+  "guruh": "Buvilar",
+  "instruct": "female, elderly, moderate pitch",
+  "seed": 1017,
+  "sekund": 6.45,
+  "f0_hz": 274,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "buvi_3",
+  "guruh": "Buvilar",
+  "instruct": "female, elderly, high pitch",
+  "seed": 1018,
+  "sekund": 6.1,
+  "f0_hz": 241,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "bola_ogil_1",
+  "guruh": "O'g'il bolalar",
+  "instruct": "male, child, moderate pitch",
+  "seed": 1019,
+  "sekund": 6.2,
+  "f0_hz": 208,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "bola_ogil_2",
+  "guruh": "O'g'il bolalar",
+  "instruct": "male, child, high pitch",
+  "seed": 1020,
+  "sekund": 6.6,
+  "f0_hz": 244,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "bola_ogil_3",
+  "guruh": "O'g'il bolalar",
+  "instruct": "male, child, very high pitch",
+  "seed": 1021,
+  "sekund": 6.3,
+  "f0_hz": 468,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "bola_qiz_1",
+  "guruh": "Qiz bolalar",
+  "instruct": "female, child, moderate pitch",
+  "seed": 1022,
+  "sekund": 6.24,
+  "f0_hz": 295,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "bola_qiz_2",
+  "guruh": "Qiz bolalar",
+  "instruct": "female, child, high pitch",
+  "seed": 1023,
+  "sekund": 6.4,
+  "f0_hz": 334,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ },
+ {
+  "id": "bola_qiz_3",
+  "guruh": "Qiz bolalar",
+  "instruct": "female, child, very high pitch",
+  "seed": 1024,
+  "sekund": 6.6,
+  "f0_hz": 555,
+  "matn": "Assalomu alaykum! Bugun havo juda yaxshi ekan. Qani, tezroq yuringlar, hali ishimiz ko'p, kech qolmaylik."
+ }
+]
