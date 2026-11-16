@@ -298,3 +298,13 @@ sending: the user cannot re-record many times.
 - The user asked to clone famous Uzbek performers' voices so that viewers would not notice AI. Declined: no cloning of real
   people's voices without their consent. Offered instead: one-minute samples from people who agree (former fandub team,
   friends), or a performer who gives permission personally.
+- The user then asked for a bank of CREATED voices (not real people): 3 each for young men, young women, middle-aged men,
+  middle-aged women, old men, old women, boys, girls (24). Their content is donghua (Chinese 3D anime), so the source language
+  is Chinese, not Japanese. They heard samples 1-10 and said only two were acceptable and both still sounded like AI; the bar is
+  "it must not be noticeable that it is AI". An OmniVoice voice-design bank was generated as a fallback (`dublyaj/ovozlar/`).
+- Stronger free candidate found by search (not yet tested; `ai.google.dev` and `docs.cloud.google.com` are not in this
+  environment's allowed hosts): Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, 130+ languages including Northern Uzbek, automatic
+  language detection, delivery steered by a written style prompt, built-in voices; free in Google AI Studio and on the Gemini
+  API free tier, limits shown only inside AI Studio; paid rate about $9 per 1M audio tokens until 2027-01-01). The user was
+  asked to try two lines in AI Studio's speech page and judge by ear. If accepted: a free Gemini API key through the secure
+  credential form, then build the 24-voice bank from Gemini voices.
