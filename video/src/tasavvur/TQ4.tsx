@@ -317,7 +317,7 @@ const SceneVerdict: React.FC<{t: number}> = ({t}) => {
 
 // 40.1-44.2 Jebe becomes one of the most famous generals
 const SceneGeneral: React.FC<{t: number}> = ({t}) => {
-  const ride = span(t, 40.6, 44.1);
+  const ride = span(t, 41.2, 44.1);
   return (
     <g>
       <Steppe t={t} sky={['#f7d9a0', '#4f7fb8']} />
@@ -538,8 +538,8 @@ const SCENES: [number, number, React.FC<{t: number}>][] = [
   [19.5, 23.8, SceneWho],
   [23.8, 26.6, SceneSilence],
   [26.6, 32.1, SceneConfess],
-  [32.1, 40.1, SceneVerdict],
-  [40.1, 44.2, SceneGeneral],
+  [32.1, 41.0, SceneVerdict],
+  [41.0, 44.2, SceneGeneral],
   [44.2, 47.95, SceneYears],
   [47.95, 54.6, SceneBring],
   [54.6, 59.45, SceneFace],
