@@ -3,19 +3,21 @@
 Video: video/exports/tasavvur4_chingizxon_ong_qoli_1080p.mp4 (83 s). Muqova: instagram/cover_tasavvur4.png (C: Chingizxon + o'ng qo'li Bek; A Bek'siz edi, foydalanuvchi to'g'riladi).
 Manba: "Mo'g'ullarning maxfiy tarixi" §147 (Jebe), §200 (Jamuxaning navkarlari).
 
-## Caption
-Tasavvur qil: Chingizxon o'z otiga o'q tekkizgan dushmanni kechirdi... 🏹
-Unga eng katta dushmanini bog'lab olib kelganlarni esa o'ldirtirdi. Nega? 🤔
+## Caption (yakuniy: javobni ochmaydi, foydalanuvchi so'rovi)
+Tasavvur qil: sen Chingizxonning o'ng qo'lisan! 🏹
+Uning oldida otiga o'q tekkizgan dushman turibdi... Chingizxon nima qiladi? 🤔
 
-Sen Chingizxon bo'lsang, o'sha yigitni nima qilarding? 1, 2 yoki 3? 👇 Izohda yoz!
+Oxirigacha ko'r va izohda yoz: 1, 2 yoki 3? 👇
 
-📜 Manba: "Mo'g'ullarning maxfiy tarixi" (XIII asr)
+📜 Manba: "Mo'g'ullarning maxfiy tarixi"
 
-#tasavvurqil #tarix #chingizxon #jebe #mogullar #unutilganqissalar #tarixiyfaktlar #uzbekistan #reels
+#tasavvurqil #tarix #chingizxon #mogullar #unutilganqissalar #tarixiyfaktlar #uzbekistan #reels
 
-## Qadab qo'yiladigan izoh
-Jebe keyinchalik Chingizxonning eng mashhur sarkardalaridan biriga aylangan 🏹 Keyingi "Tasavvur qil" kimning hayotidan bo'lsin? Izohda yozing 👇
+## Qadab qo'yiladigan izoh (javobni ochmaydi)
+Sen qaysi birini tanlading: 1, 2 yoki 3? 🤔 Chingizxonning qarori seni hayron qoldirdimi? 👇
+
+Keyingi "Tasavvur qil" kimning hayotidan bo'lsin? Yozib qoldir 🏹
 
 ## Sozlamalar
-Audio name: "Tasavvur qil: Chingizxonning o'ng qo'li | Unutilgan Qissalar". AI label ON, Upload at highest quality ON, Trial OFF, joy qo'shilmaydi.
-Oxirgi postdan kamida 6 soat o'tib joylash.
+Audio name: "Tasavvur qil: Chingizxonning o'ng qo'li | Unutilgan Qissalar". Muqova: Edit cover -> camera roll. AI label ON,
+highest quality ON, Trial OFF, joy yo'q. Oxirgi postdan kamida 6 soat o'tib.

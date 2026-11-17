@@ -6,7 +6,7 @@ so a new session can continue without that conversation.
 **Current branch with all work: `claude/tasavvur-qil-part-4-idea-ecif9s`** (chat 6: merges `main` (Temur Part 4) and `claude/zen-curie-3dlfy5` (Tasavvur qil ep.1-3); Temur Part 5 is on `claude/part5-dasht-yurishi`).
 
 The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`). The user plans one chat per part and wants each new chat to know everything
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`); Tasavvur qil chats: `4-chat_tasavvur-qil-1-qism.md`, `5-chat_tasavvur-qil-3-qism.md`, `6-chat_tasavvur-qil-4-qism.md`. The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -299,6 +299,36 @@ sending: the user cannot re-record many times.
   topics, shareable national/map themes), Temur cinematic series slower (every 1-2 weeks), cross-post to YouTube Shorts and TikTok.
   Topic ideas offered: 1000 yil oldin Samarqandda, Ibn Sino dars beryapti, O'zbekistonda dengiz bo'lsa (map), Ipak yo'li karvonchisi,
   Bobur Hindistonga ketmaganda. The user has not picked the next one yet.
+
+## State at the end of chat 6 (2026-11-17) — read this first in chat 7
+
+- Chat 6 ran in the cloud (log `suhbat/6-chat_tasavvur-qil-4-qism.md`). All work is on branch `claude/tasavvur-qil-part-4-idea-ecif9s`
+  (it merges `main` and `claude/zen-curie-3dlfy5`; not yet merged into `main`). Temur Part 5 lives on `claude/part5-dasht-yurishi`.
+- **Ep.3 "Qanotli askarlar" error:** the script called Alexander "Iskandar Zulqarnayn"; viewers objected (Zulqarnayn = Alexander is
+  disputed). The Instagram post was KEPT (it was spreading: 4.5k views in 2 h); caption fixed and a short pinned note ("biz Aleksandr
+  Makedonskiyni nazarda tutganmiz"). The export was re-made anyway: the user recorded "Iskandar Makedonskiy" (`public/tq3/makedonskiy_raw.mp3`),
+  the word was spliced into the voice (old voice `tq3/raw_zulqarnayn.mp3`), the mix was rebuilt by subtracting the old voice with a fitted
+  FIR filter and adding the new one (no stems exist), and only frames 255-329 were re-rendered and spliced. Technique reusable for one-word fixes.
+- **User's rules from chat 6:** (1) only facts stated plainly in the sources and not contradicted by other sources; drop anything disputed
+  (e.g. Zulqarnayn, Jamuxa's last talk with Chingiz, "1 kun" when events are years apart). (2) Every "Tasavvur qil" opens with the words
+  "Tasavvur qil" and a hook in the first 3 s, plus an open question that keeps people to the end. (3) Never put religious identifications in.
+  (4) Captions and pinned comments must NOT retell the story or give away the answer. (5) The user sometimes doubts a format choice: "Tasavvur
+  qil" = viewer placed inside REAL history (70/30 rule), which they accepted.
+- **ElevenLabs reading issues (Uzbek):** in Cyrillic the lone word "ўз" was read as "uz", "ғ" came out wrong ("тоғ", "боғлаб" -> "bo'rlab"),
+  "отини отган" was garbled. Latin worked for the fix lines ("tog'", "bog'lab"). Test a short line with variants before a full take;
+  avoid lone "ўз", "-isan" endings, and word pairs like "otini otgan". Similarity about 75%, Stability Robust, v4.
+- **Ep.4 "Chingizxonning o'ng qo'li" FINISHED:** script `prompts/tasavvur-4_chingiz_elevenlabs.md` (Secret History §147 Jebe, §200 Jamuxa's
+  betrayers; hook: forgave the enemy, executed the men who brought his enemy: why?), voice `public/tq4/raw.mp3` (take 1 `raw_v1.mp3` +
+  3 re-recorded sentences `fix_raw.mp3`, Jamuxa sentence 1.4 s longer: `toScene()` in `TQ4.tsx` maps real time to the first-take timebase,
+  `edit/tq4_sfx.py` shifts the same way), words `src/tasavvur/tq4_words.json`, composition `src/tasavvur/TQ4.tsx` (15 scenes), new Bek outfits
+  chingiz/mongol/jebe/jamuxa/navkar in `Bek.tsx`, export `video/exports/tasavvur4_chingizxon_ong_qoli_1080p.mp4` (83 s). Cover
+  `instagram/cover_tasavvur4.png` (TQ4CoverC, rendered at --scale=2 = 2160x3840 because 1080 looked blurry to the user: always send covers
+  at 2x), text "TASAVVUR QIL: / SEN CHINGIZXONNING / O'NG QO'LISAN!" over Chingizxon + Bek. Caption/comment `instagram/post_tasavvur4.md`.
+  The user is posting it on 2026-11-17. Next: ask for its stats.
+- Rejected next idea (user's): "Chingizxon catches a spy, choose the torture" (top-3 brutal methods, molten silver). Declined: graphic
+  torture vote for a 13-17 audience (Instagram policy) and the famous torture stories are late/disputed. Offered instead: a spy story
+  from the sources with Chingizxon's real decision, no torture.
+- Creative Claw: 7 credits left (transcription 2-3 each).
 
 ## State at the end of chat 5 (2026-11-15) — read this first in chat 6
 
