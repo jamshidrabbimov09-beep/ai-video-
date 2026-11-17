@@ -3,7 +3,7 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
-**Current branch with all work: `claude/tasavvur-qil-part-4-idea-ecif9s`** (chat 6: merges `main` (Temur Part 4) and `claude/zen-curie-3dlfy5` (Tasavvur qil ep.1-3); Temur Part 5 is on `claude/part5-dasht-yurishi`).
+**All work is in `main`** (PR #7, 2026-11-17: Temur Parts 1-4 + "Tasavvur qil" ep.1-4). Temur Part 5 is still only on `claude/part5-dasht-yurishi`.
 
 The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
 chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`); Tasavvur qil chats: `4-chat_tasavvur-qil-1-qism.md`, `5-chat_tasavvur-qil-3-qism.md`, `6-chat_tasavvur-qil-4-qism.md`. The user plans one chat per part and wants each new chat to know everything
@@ -302,7 +302,7 @@ sending: the user cannot re-record many times.
 
 ## State at the end of chat 6 (2026-11-17) — read this first in chat 7
 
-- Chat 6 ran in the cloud (log `suhbat/6-chat_tasavvur-qil-4-qism.md`). All work is on branch `claude/tasavvur-qil-part-4-idea-ecif9s`
+- Chat 6 ran in the cloud (log `suhbat/6-chat_tasavvur-qil-4-qism.md`). All work was on branch `claude/tasavvur-qil-part-4-idea-ecif9s`, merged into `main` (PR #7)
   (it merges `main` and `claude/zen-curie-3dlfy5`; not yet merged into `main`). Temur Part 5 lives on `claude/part5-dasht-yurishi`.
 - **Ep.3 "Qanotli askarlar" error:** the script called Alexander "Iskandar Zulqarnayn"; viewers objected (Zulqarnayn = Alexander is
   disputed). The Instagram post was KEPT (it was spreading: 4.5k views in 2 h); caption fixed and a short pinned note ("biz Aleksandr
