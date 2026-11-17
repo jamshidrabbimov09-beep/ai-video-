@@ -1,34 +1,40 @@
 # 5-seriya: "Dasht yurishi" (Amir Temur va To'xtamish, 1391-1395) — ssenariy va fakt tekshiruvi
 
-Holat: TAKLIF (2026-11-14), Yazdiy va Manz bo'yicha tekshirilgan, foydalanuvchi tasdig'ini kutmoqda. Ovoz yozilmagan.
+Holat: TASDIQLANDI (2026-11-15, 6-chat tuzatishlari bilan). Yazdiy va Manz bo'yicha tekshirilgan. Ovoz hali yozilmagan.
 Hajm: ~280 so'z (4-qism: 285 so'z = 147 s). 8 blok (A-H). To'xtamish hikoyasi shu qismda yopiladi (1395 qisqa xotima).
 Eshitilish tekshiruvi (CLAUDE.md qoidasi) qilingan: "o't/ot", "qo'y/qoy", "so'z/soz", "yo'l/yol", "o'q" ishlatilmagan.
 
 ## Ovoz matni
 
 **A (ilgak)**
-Olti oy. Cheksiz dasht. Suv yo'q, non yo'q. Temur qo'shini dushmanni izlab, kechasi deyarli qorong'i tushmaydigan yerlargacha yetib boradi. Bu To'xtamish bilan hisob-kitob qilish uchun qilingan yurish haqidagi qissa.
+Tasavvur qiling: olti oy. Cheksiz dasht. Suv yo'q, non yo'q. Kechasi esa deyarli qorong'i tushmaydi. Temur qo'shini To'xtamishni izlab dunyoning chetigacha boradi.
 
 **B (elchilar)**
-1391-yil boshi. Temur yurishga otlanganda, To'xtamishdan elchilar keladi. Ular to'qqizta ot va bitta lochin olib kelgan. To'xtamish kechirim so'raydi: "U menga otadek edi. Bu ishlarni mendan bexabar yomon odamlar qildi." Temur javob beradi: "Uni yarador holda olib kelishganda, o'g'limdek qabul qildim. Endi unga ishonib bo'lmaydi."
+1391-yil boshi. Temur yurishga otlanganda, To'xtamishdan elchilar keladi. Ular to'qqizta ot va bitta lochin olib kelgan. To'xtamish kechirim so'raydi: "Temur menga otadek edi. Bu ishlarni mendan bexabar yomon odamlar qildi." Temur javob beradi: "Uni yarador holda olib kelishganda, o'g'limdek qabul qildim. Endi unga ishonib bo'lmaydi."
 
 **C (dasht)**
 Qo'shin dashtga kiradi. Uch hafta suvsiz yurish. Otlar holdan toyadi. Keyin ochlik boshlanadi: bitta qo'chqor kallasining narxi besh yuz tangaga chiqadi. Askarlar qush tuxumi va yovvoyi giyohlar bilan kun ko'radi. Temur katta ov uyushtiradi va qo'shin ov go'shti bilan omon qoladi.
 
 **D (yodgorlik)**
-Ulug' tog' degan joyda Temur cho'qqiga chiqib, yam-yashil dashtga qaraydi. Askarlarga tosh tashishni buyuradi. Ular baland tosh minora qurishadi: bizdan yodgorlik bo'lsin.
+Ulug' tog' degan joyda Temur cho'qqiga chiqib, yam-yashil dashtga qaraydi. Askarlarga tosh tashishni buyuradi. Ular baland tosh minora qurishadi. Temur deydi: "Bizdan yodgorlik bo'lsin."
 
 **E (yuzma-yuz)**
-1391-yil, 18-iyun. Qunduzcha degan joyda ikki qo'shin yuzma-yuz keladi. Dushman qo'shini ko'proq edi. Temur qo'shinini yetti qismga bo'lib saf tortadi. Keyin hammaga otdan tushib, chodir tikishni buyuradi. To'xtamish hayron qoladi: "Ular bizdan qo'rqmayaptimi?"
+1391-yil, 18-iyun. Qunduzcha degan joyda ikki qo'shin yuzma-yuz keladi. Dushman qo'shini ko'proq edi. Temur qo'shinini yetti qismga bo'lib saf tortadi. Keyin hammaga otdan tushib, chodir tikishni buyuradi. To'xtamish hayron qoladi: "Ular bizdan cho'chimaydimi?"
 
 **F (jang avji)**
-Jang boshlanadi. To'xtamish oldinda bas kela olmay, aylanib o'tib Temur qo'shinining orqasiga chiqadi. Lekin Temurning o'zi unga qarab otlanganini ko'rgach, chiday olmaydi va jang maydonini tashlab qochadi.
+Jang boshlanadi. To'xtamish oldindan yenga olmay, aylanib o'tib Temur qo'shinining orqasiga chiqadi. Lekin Temurning o'zi unga qarab otlanganini ko'rgach, chiday olmaydi va jang maydonini tashlab qochadi.
 
 **G (Itil)**
 Temur askarlari qochganlarni Itil, ya'ni Volga daryosigacha quvib boradi. Oldinda keng daryo, orqada qilich. Jo'chi ulusi tarqalib ketadi.
 
 **H (xotima va ilgak)**
-Lekin To'xtamish tirik qoldi. Uch yil o'tib u yana Kavkazga bostirib kiradi. 1395-yil, Terek daryosi bo'yida ular yana to'qnashadi. To'xtamish yana yengiladi va taxtidan butunlay ayriladi. Oltin O'rda bu zarbadan hech qachon o'ziga kela olmadi. Temur qutqargan odam, Temurning qo'lida o'z saltanatini yo'qotdi.
+Lekin To'xtamish tirik qoldi. Uch yil o'tib u yana Kavkazga bostirib kiradi. 1395-yil, Terek daryosi bo'yida ular yana to'qnashadi. To'xtamish yana yengiladi va taxtidan butunlay ayriladi. Oltin O'rda bu zarbadan hech qachon o'ziga kela olmadi. Temur o'z qo'li bilan qutqargan odam, o'sha Temurning qo'lida saltanatini yo'qotdi.
+
+**I (keyingi qism ilgagi, alohida yoziladi)**
+Shimoldagi eng xavfli dushman yengildi. Endi Temurning ko'zi janubga, Eron va Hindistonga tushadi. Hindistonda uni jangovar fillar kutardi. Bu jang qanday tugadi? Keyingi qismda.
+
+**Yakuniy savol (alohida yoziladi, HA | YO'Q kartasi)**
+Siz-chi? Olti oy suvsiz dashtda Temurning ortidan borarmidingiz? Javobingizni izohda yozing.
 
 ## Fakt tekshiruvi
 

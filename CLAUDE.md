@@ -3,10 +3,10 @@
 Read this first. It records what was built and agreed with the user in the first working session,
 so a new session can continue without that conversation.
 
-**All work is in `main`** (PR #7, 2026-11-17: Temur Parts 1-4 + "Tasavvur qil" ep.1-4). Temur Part 5 is still only on `claude/part5-dasht-yurishi`.
+**All work is in `main`** (PR #7, 2026-11-17: Temur Parts 1-4 + "Tasavvur qil" ep.1-4; PR #6: Temur Part 5 complete).
 
 The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`); Tasavvur qil chats: `4-chat_tasavvur-qil-1-qism.md`, `5-chat_tasavvur-qil-3-qism.md`, `6-chat_tasavvur-qil-4-qism.md`. The user plans one chat per part and wants each new chat to know everything
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`); Tasavvur qil chats: `4-chat_tasavvur-qil-1-qism.md`, `5-chat_tasavvur-qil-3-qism.md`, `6-chat_tasavvur-qil-4-qism.md`; Temur chat 7 (Part 5 build, render, fixes, cover, posting): `7-chat_amir-temur-5-qism-render.md` (Temur chat 6, Part 5 voice/images/montage, ran on the user's PC and was not exported). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -20,7 +20,7 @@ update this file.
 - First series: Amir Temur, 8 planned parts (table in `prompts/1-seriya_ssenariy.md`). The channel is not meant to stay
   Temur-only.
 - **Part 1 "Cho'loq yigit" was posted as a Reel on 2026-11-10. Part 2 "Do'st va dushman" and Part 3 "Xon emas, hukmdor" are finished
-  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Next: Part 5 "Dasht yurishi" (script written, waiting for the user's confirmation).
+  (2026-11-11); Part 3 was redone as v2 on 2026-11-12 (live voice + motion design).** Part 4 "O'zi qutqargan dushman" finished and posted on Instagram 2026-11-14 (chat 5). Part 5 "Dasht yurishi": rendered 2026-11-15 (chat 7), exports `video/exports/part5_dasht_yurishi_1080p*.mp4` on branch `claude/build-script-render-g8mkm7`; v3 posted on Instagram 2026-11-16 (the 3 voice fixes were not done).
 
 ## The user
 
@@ -103,6 +103,9 @@ gunshot; write "kamon o'qi", "kamondan o'q otildi" (same for weapons, titles, pl
 if the voice drops the apostrophe (o'q / oq, so'z / soz, to'r / tor): rephrase. (3) Every sentence must be literally true to the
 books (e.g. "to'rt marta yengilib" was wrong: the first flight was not after a defeat). Do this check once, fully, before
 sending: the user cannot re-record many times.
+(4) Pronunciation check for ElevenLabs, ALWAYS (user, 2026-11-15): before sending any voice text, rewrite words the voice may
+misread: split long agglutinative or compound words ("yenga olmay", "Saroy Mulk xonim"), prefer the simpler verb form, numbers as
+words, and list the hard names for the user to listen for.
 
 ## Repository
 
@@ -202,6 +205,11 @@ sending: the user cannot re-record many times.
   proxy, no scratchpad path, files the user sends are plain paths on the PC. Needed: Git, Node.js LTS, ffmpeg (`winget install ffmpeg`),
   Python 3 with numpy and Pillow, the Liberation Serif font (or change `font` in the .tsx files). Renders are slower with 8 GB RAM:
   use `--concurrency=2`. The `.sh` build scripts need Git Bash. Ask the user before installing anything.
+- Image prompts: ALWAYS also give the Flow packet file (5 prompts per packet, refs per packet, `N-seriya_flow_paketlar.md`), unasked.
+- Every part ends with a teaser for the next part ("... Keyingi qismda.") before the outro question: put it in the script yourself,
+  the user should not have to remind (user, 2026-11-15).
+- Never open a Temur part with "Tasavvur qiling" / "Tasavvur qil" (user, 2026-11-16: that phrase belongs to their separate
+  "Tasavvur qil" format). Open with the event itself, a date, a striking fact or a question.
 - Every part from now on: a hook that holds the viewer in the first 3 seconds (Part 1 lost ~30% there), and the Part 4 style outro
   (recorded question + HA/YO'Q card C + subscribe card).
 
@@ -216,6 +224,40 @@ sending: the user cannot re-record many times.
 - The Temur series table should change: Part 5 = steppe campaign (1391-1395); Iran/India moves later.
 - Part 2 Reel after ~15 h: 2,126 views, 1,735 reached, average watch 54 s of 2:26, skip rate 30.9% (above average), likes 6.5%,
   shares 11, saves 7, 2 comments, 32 follows. Retention falls to about 40% in the first 15 s; views stopped growing after ~6 h.
+
+## Part 5 status (chat 6, 2026-11-15, on the user's PC; the user then went back to cloud sessions)
+
+- Script confirmed with edits (`prompts/5-seriya_ssenariy.md`), checked again in Yazdi (envoy quote, tower quote, "deyarli" for the
+  short nights). Voice text `prompts/5-seriya_elevenlabs.md`; ends with a teaser for Part 6 (Iran/India, war elephants) and the question
+  "Olti oy suvsiz dashtda Temurning ortidan borarmidingiz?".
+- Voice: `public/audio5/all_raw.mp3` (main, 136 s) + `extra_raw.mp3` (re-recorded "cho'chimaydimi" sentence, teaser, question).
+  `edit/voice5.py` splices the fix into `public/voice5/all.wav` and cuts `hook.wav`, `ask.wav`; words `src/words5*.json`
+  (Scribe, `edit/transcript5_*.json`). Creative Claw: 14 credits left. On the PC, curl to R2/CDN needed `--ssl-no-revoke`.
+- Images `public/p5img/m01..m35.jpg` (Flow, 768x1376), `m40.jpg` = Part 4 l03 (callback). Prompts `prompts/5-seriya_rasm_promptlari.md`,
+  packets `5-seriya_flow_paketlar.md`, KM Studio `5-seriya_kmstudio.txt` (generator `edit/prompts_p5.py`). Unused: m03, m24, m25.
+  Flow image-to-video clips were NOT made (user: Claude makes the video); Temur prompts now say "rounded brimless black felt cap".
+- Montage: `edit/edit_p5.py` (voice uncut + teaser + question, 41 shots; v3 2026-11-16: "Tasavvur qiling" cut, voice starts on "Olti oy", 158 s; a cold open with the ram sentence was tried and rejected, COLD flag) -> `src/edit_p5.json`, `public/voice5/voice_p5.wav`,
+  `edit/music_p5.wav`, `edit/sfx_plan_p5.json`; `edit/sfx_p5.py`; `edit/bake_p5.sh` (grades into git-ignored `public/p5g/`);
+  composition `src/Part5.tsx` (registered in Root.tsx), motion scenes `src/p5motion.tsx` (route 21 kun, full march 117 kun to Qunduzcha,
+  flank scheme, pursuit to the Itil, Terek 1395, Golden Horde cracks, south to Iran/India; helpers now exported from p4motion.tsx).
+- DONE (chat 7): `edit/build_part5.sh`; day counter of route6 moved to the top right (it covered Samarqand). Final encode uses
+  `-preset slow -maxrate 5000k` (the user asked not to lower quality; medium preset gave 101 MB): ~95.7 MiB each, 160 s.
+  v2 the same day after the user's review: captions without punctuation (. , : ; ? ! and quotes dropped, apostrophes kept as letters),
+  subscribe card centred (`SubscribeEnd centered`, button + bell row compact, clear of the Reels icons), per-shot `LIFT` in Part5.tsx
+  (zoom 2L, move up L) for shots whose key detail sat under the subtitle band (m12 coins, m13, m27 banner, m32, m33 cap, m34 map, m40),
+  pursuit map tighter (arrows from Qunduzcha to the Itil, label below the node), OLTIN O'RDA label on a dark plate.
+  Design rule from this: check every still for key details in the subtitle band (y 1395-1560) before rendering.
+  Cover: `instagram/cover_part5.png` (m16, Temur on the hill over the steppe; the user chose A), alternative
+  `cover_part5_m05.png`; script `edit/insta_cover_p5.py` (uses `public/p5img/m16_x4.jpg`: Real-ESRGAN x4plus 4x upscale run with onnxruntime on CPU, ONNX model from the Hugging Face repo OwlMaster/AllFilesRope, tiles of 192 px, about 2.5 min; reuse this for every cover: the user found the plain upscale blurry).
+  Voice fixes pending: the user will re-record 0:22 "lochin olib kelishgan", 0:33 "Uni yarador holda olib kelishdi. Men uni
+  o'g'limdek qabul qildim." and 0:58 "Ulug' tog'" (said as "to'g'"); then splice, render only the changed frames, run `final`.
+  Captions done: `instagram/post_part5.md` (fixed: "Oltin O'rdaga berilgan eng og'ir zarba", not "qulashi"; Qunduzcha = river in
+  Samara oblast near the Volga). Part 5 v3 POSTED on Instagram 2026-11-16 with the old voice (the 3 voice fixes were never recorded;
+  drop them unless the user asks).
+- NEXT (chat 8): Part 6 (teaser promised Iran and India, war elephants). Start with the script, checked against Yazdi and Manz,
+  confirmed before recording; no "Tasavvur qiling" opening; teaser + question + subscribe outro; Flow packets of 5; covers via
+  `edit/upscale_onnx.py` (Real-ESRGAN). Ask for Part 5 Instagram stats after a day and compare with Parts 1 and 4.
+- Rules from this chat (also above): pronunciation check for ElevenLabs; always a next-part teaser; always Flow packets of 5.
 
 ## Open items
 

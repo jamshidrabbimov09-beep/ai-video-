@@ -37,7 +37,10 @@ export const QuestionCard: React.FC<{d: number; pop?: number; v?: string}> = ({d
 
 /* subscribe end card: TAP is the frame of the tap (the click sound is placed there in edit_p4.py) */
 export const SUB_TAP = 26;
-export const SubscribeEnd: React.FC<{d: number}> = ({d}) => {
+// centered (Part 5 on): the avatar + name + button block sits on the optical centre of the frame, the bell hangs to the right
+// of the button; the button + bell row is centred as one unit, compact so it stays clear of the Reels icons on the right. Part 4 keeps the old layout (top 470 / 950).
+export const SubscribeEnd: React.FC<{d: number; centered?: boolean}> = ({d, centered}) => {
+  const Y0 = centered ? 610 : 470, YB = centered ? 1160 : 950, DY = YB - 950;
   const fr = useCurrentFrame();
   const a = interpolate(fr, [0, 12], [0, 1], cl);
   const done = fr >= SUB_TAP + 2;
@@ -45,21 +48,22 @@ export const SubscribeEnd: React.FC<{d: number}> = ({d}) => {
   const hin = interpolate(fr, [4, SUB_TAP - 4], [0, 1], {...cl, easing: Easing.out(Easing.cubic)});
   const hout = interpolate(fr, [SUB_TAP + 10, SUB_TAP + 26], [0, 1], {...cl, easing: Easing.in(Easing.cubic)});
   const press = interpolate(fr, [SUB_TAP - 4, SUB_TAP, SUB_TAP + 6], [0, 1, 0], cl);
-  const hx = 760 + (1 - hin) * 300 + hout * 300, hy = 1035 + (1 - hin) * 420 + hout * 420 + press * 18;
+  const hx = (centered ? 650 : 760) + (1 - hin) * 300 + hout * 300, hy = 1035 + DY + (1 - hin) * 420 + hout * 420 + press * 18;
   const bs = 1 - press * 0.06 + (done ? interpolate(fr, [SUB_TAP + 2, SUB_TAP + 10], [0.06, 0], cl) : 0);
   const ring = done ? Math.sin((fr - SUB_TAP) / 1.6) * 22 * Math.exp(-(fr - SUB_TAP) / 14) : 0;
   const tick = interpolate(fr, [SUB_TAP + 2, SUB_TAP + 10], [0, 1], cl);
   return (
     <AbsoluteFill style={{background: `rgba(0,0,0,${0.9 * a})`, opacity: a}}>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center'}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: Y0, textAlign: 'center'}}>
         <div style={{display: 'inline-block', width: 300, height: 300, borderRadius: '50%', boxShadow: '0 0 60px rgba(212,175,55,0.40)', opacity: interpolate(fr, [0, 14], [0, 1], cl), transform: `scale(${interpolate(fr, [0, 18], [0.92, 1], {...cl, easing: Easing.out(Easing.cubic)})})`}}>
           <Img src={staticFile('maps/uq_avatar_c.png')} style={{width: 300, height: 300, display: 'block'}} />
         </div>
         <div style={{fontFamily: font, color: GOLD, fontWeight: 700, fontSize: 64, letterSpacing: 6, marginTop: 24}}>UNUTILGAN QISSALAR</div>
         <div style={{fontFamily: font, color: CREAM, fontSize: 40, letterSpacing: 4, marginTop: 10}}>@unutilgan_qissalar</div>
       </div>
-      <div style={{position: 'absolute', left: 0, right: 0, top: 950, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 34}}>
-        <div style={{transform: `scale(${bs})`, padding: '30px 64px', borderRadius: 70, background: done ? '#4a4540' : GOLD, color: done ? '#e8e0cc' : '#1a120a', fontFamily: font, fontWeight: 700, fontSize: 58, letterSpacing: 3, boxShadow: done ? 'none' : '0 0 50px rgba(212,175,55,0.55)', display: 'flex', alignItems: 'center', gap: 18}}>
+      <div style={{position: 'absolute', left: 0, right: 0, top: YB, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: centered ? 30 : 34}}>
+        <div style={{position: 'relative', display: 'flex', alignItems: 'center'}}>
+        <div style={{transform: `scale(${bs})`, padding: centered ? '26px 46px' : '30px 64px', borderRadius: 70, background: done ? '#4a4540' : GOLD, color: done ? '#e8e0cc' : '#1a120a', fontFamily: font, fontWeight: 700, fontSize: centered ? 50 : 58, letterSpacing: 3, boxShadow: done ? 'none' : '0 0 50px rgba(212,175,55,0.55)', display: 'flex', alignItems: 'center', gap: 18}}>
           {done && <svg width={50} height={50}><path d="M 8 26 L 20 38 L 42 12" stroke="#e8e0cc" strokeWidth={7} fill="none" strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={`${tick} 1`} /></svg>}
           {done ? "OBUNA BO'LINDI" : "OBUNA BO'LING"}
         </div>
@@ -67,6 +71,7 @@ export const SubscribeEnd: React.FC<{d: number}> = ({d}) => {
           <path d="M 45 8 C 22 8 18 30 18 46 L 18 64 L 8 76 L 82 76 L 72 64 L 72 46 C 72 30 68 8 45 8 Z" fill={done ? GOLD : 'none'} stroke={GOLD} strokeWidth={6} strokeLinejoin="round" />
           <circle cx={45} cy={86} r={8} fill={GOLD} />
         </svg>
+        </div>
       </div>
       {hout < 1 && <svg width={200} height={240} style={{position: 'absolute', left: hx - 60, top: hy - 20}}>
         <g transform="scale(1.6)" fill="#f2d7bf" stroke="#2a1f14" strokeWidth={4} strokeLinejoin="round">
