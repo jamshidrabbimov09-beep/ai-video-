@@ -339,10 +339,10 @@ sending: the user cannot re-record many times.
 - Timing: one line per speaker turn, split at pauses >= 0.6 s; each Uzbek line is placed at the original start, may use the gap
   before the next line, is sped up to at most 1.25x, and is flagged `uzun` if it still does not fit (then shorten the text).
   Unchanged lines are never re-synthesized (hash of voice + model + text). Output: `natija/dublyaj.wav` and `.mp3`, voice only.
-- Status: tested end to end only in mock mode (upload, extraction, segmentation, frames, voice design flow, fitting, assembly,
-  UI). NOT yet tested against the real ElevenLabs API: no key yet. Next: the user creates an API key, it is entered through the
-  secure credential form (host `api.elevenlabs.io`, header `xi-api-key`; the `ai-video-` environment already allows the host),
-  then one real episode.
+- Status: tested end to end in mock mode. 2026-11-17: the user's ElevenLabs API key is saved as a network secret on the `ai-video-`
+  environment (host `api.elevenlabs.io`, header `xi-api-key`; the proxy injects it, the app sends no key when none is set).
+  Verified: free tier, 10,000 credits, 0 used, 3 custom voice slots (so at most 3 designed voices; other characters use the 21
+  premade voices). Next: the user sends the first episode file, then a real run.
 - The user planned to open a second free ElevenLabs account for another 10k credits; advised against it (their rules forbid
   extra free accounts, risk of losing the narrator account) and recommended the $1 Starter month (30k credits, 10 voice slots).
 - 2026-11-17: the user sent two Uzbek Instagram promos of VoiceStudio ("free ElevenLabs alternative, any language, robot emas,
