@@ -88,10 +88,11 @@ def ovozlar(key):
     return out
 
 
-def matnga(key, fayl, model="scribe_v3", til=None, gapiruvchilar=None):
-    """Nutqni matnga: so'zlar ro'yxati [{'text','start','end','type','speaker_id'}]."""
+def matnga(key, fayl, model="scribe_v3", til=None, gapiruvchilar=None, url=None):
+    """Nutqni matnga: so'zlar ro'yxati [{'text','start','end','type','speaker_id'}].
+    url berilsa (YouTube va boshqa havola), faylni ElevenLabs o'zi oladi, bu yerga hech narsa yuklanmaydi."""
     if MOCK:
-        m = str(fayl) + ".mock.json"
+        m = str(fayl or "") + ".mock.json"
         if os.path.exists(m):
             return json.load(open(m, encoding="utf-8"))
         w, t = [], 1.0
@@ -106,12 +107,15 @@ def matnga(key, fayl, model="scribe_v3", til=None, gapiruvchilar=None):
         maydon["language_code"] = til
     if gapiruvchilar:
         maydon["num_speakers"] = str(gapiruvchilar)
+    if url:
+        maydon["source_url"] = url
     chegara = "----dublyaj" + uuid.uuid4().hex
     qism = []
     for k, v in maydon.items():
         qism.append(f'--{chegara}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode())
-    qism.append(f'--{chegara}\r\nContent-Disposition: form-data; name="file"; filename="audio.mp3"\r\n'
-                f"Content-Type: audio/mpeg\r\n\r\n".encode() + open(fayl, "rb").read() + b"\r\n")
+    if not url:
+        qism.append(f'--{chegara}\r\nContent-Disposition: form-data; name="file"; filename="audio.mp3"\r\n'
+                    f"Content-Type: audio/mpeg\r\n\r\n".encode() + open(fayl, "rb").read() + b"\r\n")
     qism.append(f"--{chegara}--\r\n".encode())
     raw = _req("POST", "/v1/speech-to-text", key, data=b"".join(qism), ctype=f"multipart/form-data; boundary={chegara}", timeout=1800)
     return json.loads(raw)

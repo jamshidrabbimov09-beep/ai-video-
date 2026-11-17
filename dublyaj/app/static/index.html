@@ -157,12 +157,14 @@ async function namunaTanla(aid, pid, gid) { try { await api(`/api/anime/${aid}/p
 function qismOyna(aid) {
   oyna(`<h3>Qism yuklash</h3><label>Qism nomi</label><input id="q_nom" placeholder="Masalan: 1-qism">
   <label>Fayl (mp4, mkv, mp3, wav)</label><input id="q_fayl" type="file" accept="video/*,audio/*,.mkv">
+  <label>yoki YouTube havolasi (fayl katta bo'lsa)</label><input id="q_url" placeholder="https://youtu.be/...">
   <div id="q_prog" class="dim" style="margin-top:10px"></div>
   <div class="row"><button onclick="yop()">Bekor</button><button class="pri" id="q_btn" onclick="qismYukla('${aid}')">Yuklash</button></div>`);
 }
 function qismYukla(aid) {
-  const f = $('#q_fayl').files[0], nom = $('#q_nom').value.trim() || (f ? f.name.replace(/\.[^.]+$/, '') : '');
-  if (!f) { $('#q_prog').innerHTML = '<span class="err">Fayl tanlang</span>'; return; }
+  const f = $('#q_fayl').files[0], url = $('#q_url').value.trim(), nom = $('#q_nom').value.trim() || (f ? f.name.replace(/\.[^.]+$/, '') : 'Qism');
+  if (!f && url) { api(`/api/anime/${aid}/qism_url`, {nom, url}).then(m => { yop(); location.hash = `#/q/${aid}/${m.id}`; }).catch(e => { $('#q_prog').innerHTML = `<span class="err">${esc(e.message)}</span>`; }); return; }
+  if (!f) { $('#q_prog').innerHTML = '<span class="err">Fayl tanlang yoki havola yozing</span>'; return; }
   $('#q_btn').disabled = true;
   const x = new XMLHttpRequest();
   x.open('POST', `/api/anime/${aid}/qism?nom=${encodeURIComponent(nom)}&fayl=${encodeURIComponent(f.name)}`);
@@ -185,7 +187,7 @@ async function qismSahifa(aid, qid, yangila) {
   <div class="dim">${h.davomiylik ? 'Davomiyligi ' + vaqt(h.davomiylik) : ''}</div>
   ${ish.xato ? `<div class="hint err">Xato: ${esc(ish.xato)}</div>` : ''}
   <h2>Bosqichlar</h2><div class="steps">
-   <div class="step ${h.audio ? 'done' : ''}"><b>1. Ovoz ajratish ${h.audio ? '✓' : ''}</b><div class="d">Yuklangan fayldan asl ovoz olinadi.</div>${btn('audio', 'Qayta ajratish', true)}${prog('Ovoz ajratish')}${prog('audio')}</div>
+   <div class="step ${h.audio ? 'done' : ''}"><b>1. Ovoz ajratish ${h.audio ? '✓' : ''}</b><div class="d">${d.meta.url ? 'Havoladan ishlanadi, ajratish shart emas.' : 'Yuklangan fayldan asl ovoz olinadi.'}</div>${d.meta.url ? '' : btn('audio', 'Qayta ajratish', true)}${prog('Ovoz ajratish')}${prog('audio')}</div>
    <div class="step ${h.transkript ? 'done' : ''}"><b>2. Matnga aylantirish ${h.transkript ? '✓' : ''}</b><div class="d">${h.transkript ? `${h.satr_soni} satr, ${(h.gapiruvchilar || []).length} gapiruvchi.` : 'Kim, qachon, nima degani aniqlanadi (kredit sarflaydi).'}</div>${btn('transkript', h.transkript ? 'Qayta' : 'Boshlash', h.audio)}${prog('transkript')}</div>
    <div class="step ${d.tarjima && d.tarjima === S.filter(s => !s.tovush || s.uz).length ? 'done' : ''}"><b>3. Tahlil va tarjima</b><div class="d">Tarjima: ${d.tarjima} / ${S.length} satr.</div>
      <div class="hint">Claude chatiga yozing:<br><b>«${esc(d.meta.nom)}» qismini tahlil qilib tarjima qil</b></div></div>
@@ -202,7 +204,7 @@ async function qismSahifa(aid, qid, yangila) {
    <td class="uz"><textarea onfocus="fokus=true" onblur="fokus=false" onchange="satrSaqla('${aid}','${qid}',${s.n},{uz:this.value})">${esc(s.uz)}</textarea>
      ${s.holat ? `<span class="tag ${s.holat === 'tayyor' ? 'ok' : 'warn'}">${esc(s.holat)}</span>` : ''}${s.uzun ? '<span class="tag bad">uzun: qisqartiring</span>' : ''}${s.qisqa ? '<span class="tag warn">qisqa</span>' : ''}${s.tezlik > 1.01 ? `<span class="tag">tezlik ×${s.tezlik}</span>` : ''}</td>
    <td class="teg"><input value="${esc(s.teg)}" placeholder="angry, shouting" onfocus="fokus=true" onblur="fokus=false" onchange="satrSaqla('${aid}','${qid}',${s.n},{teg:this.value})"></td>
-   <td class="act"><button class="sm" title="Asl ovoz" onclick="aslChal('${aid}','${qid}',${s.start},${s.end})">▶ asl</button>
+   <td class="act">${d.meta.url ? `<a class="tag" target="_blank" href="${esc(d.meta.url)}${d.meta.url.includes('?') ? '&' : '?'}t=${Math.floor(s.start)}s">asl ↗</a>` : `<button class="sm" title="Asl ovoz" onclick="aslChal('${aid}','${qid}',${s.start},${s.end})">▶ asl</button>`}
      ${s.tts_kalit ? `<button class="sm" title="Dublyaj" onclick="new Audio('/media/${aid}/${qid}/tts/${s.n}.mp3?'+Date.now()).play()">▶ uz</button>` : ''}
      <button class="sm" title="Shu satrni qayta yozish" ${band || !s.uz ? 'disabled' : ''} onclick="satrOvoz('${aid}','${qid}',${s.n})">↻</button></td></tr>`).join('')}
   </table></div>` : `<div class="dim">Satrlar 2-bosqichdan keyin paydo bo'ladi.</div>`}`;

@@ -176,6 +176,12 @@ class H(BaseHTTPRequestHandler):
                     core._ff("-i", xom, "-vf", "scale=600:-2", "-frames:v", "1", core.DATA / aid / "muqova.jpg")
                     xom.unlink(missing_ok=True)
                     return self._json({"ok": True})
+                if p[3] == "qism_url":
+                    t = self._tana()
+                    url = (t.get("url") or "").strip()
+                    if not url.startswith(("http://", "https://")):
+                        return self._json({"xato": "To'g'ri havola yozing (https://...)"}, 400)
+                    return self._json(core.qism_url(aid, t.get("nom") or "Qism", url))
                 if p[3] == "qism":
                     m = core.qism_qosh(aid, q.get("nom") or "Qism", q.get("fayl") or "manba.mp4")
                     self._saqla(core.qd(aid, m["id"]) / m["manba"])

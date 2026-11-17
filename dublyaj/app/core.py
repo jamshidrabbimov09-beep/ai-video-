@@ -111,6 +111,18 @@ def qism_qosh(aid, nom, fayl_nomi):
         return meta
 
 
+def qism_url(aid, nom, url):
+    """Faylsiz qism: nutqni ElevenLabs havoladan (YouTube va h.k.) o'zi oladi."""
+    with QULF:
+        d = DATA / aid
+        mavjud = {p.name for p in d.iterdir() if p.is_dir()} if d.exists() else set()
+        qid = _id(nom, mavjud, "qism")
+        meta = {"id": qid, "anime": aid, "nom": nom.strip(), "manba": None, "url": url.strip(), "vaqt": int(time.time()),
+                "holat": {"audio": True, "video": False}}
+        yoz(d / qid / "meta.json", meta)
+        return meta
+
+
 def qd(aid, qid):
     return DATA / aid / qid
 
@@ -175,6 +187,8 @@ def _dekod(path, tezlik=1.0):
 def audio_ajrat(aid, qid, prog=lambda *a: None):
     """1-bosqich: yuklangan fayldan asl ovozni ajratish."""
     d, m = qd(aid, qid), meta(aid, qid)
+    if m.get("url"):
+        return
     prog(10, "Ovoz ajratilmoqda")
     _ff("-i", d / m["manba"], "-vn", "-ac", "1", "-ar", "44100", "-b:a", "96k", d / "audio.mp3")
     dav = float(_probe(d / "audio.mp3", "format=duration") or 0)
@@ -216,12 +230,14 @@ def satrlarga_bol(words, pauza=0.6, max_uzun=10.0):
 def transkript(aid, qid, prog=lambda *a: None):
     """2-bosqich: nutqni matnga (gapiruvchilar va so'z vaqtlari bilan), satrlarga bo'lish, kadrlar."""
     d, s = qd(aid, qid), sozlama()
-    prog(5, "Nutq matnga aylantirilmoqda")
+    url = meta(aid, qid).get("url")
+    fayl = None if url else d / "audio.mp3"
+    prog(5, "Nutq matnga aylantirilmoqda" + (" (havoladan, bir necha daqiqa)" if url else ""))
     try:
-        t = eleven.matnga(kalit(), d / "audio.mp3", s["stt_model"], s["manba_til"] or None)
+        t = eleven.matnga(kalit(), fayl, s["stt_model"], s["manba_til"] or None, url=url)
     except eleven.ElevenError as e:
-        if e.status in (400, 404, 422) and s["stt_model"] != "scribe_v2":
-            t = eleven.matnga(kalit(), d / "audio.mp3", "scribe_v2", s["manba_til"] or None)
+        if e.status in (400, 404, 422) and s["stt_model"] != "scribe_v2" and "source" not in str(e).lower():
+            t = eleven.matnga(kalit(), fayl, "scribe_v2", s["manba_til"] or None, url=url)
         else:
             raise
     yoz(d / "transkript.json", t)
@@ -229,13 +245,16 @@ def transkript(aid, qid, prog=lambda *a: None):
     satrlar_yoz(aid, qid, sat)
     prog(70, "Kadrlar olinmoqda")
     kadrlar(aid, qid, sat)
+    dav = t.get("audio_duration_secs") or max((w.get("end") or 0 for w in t.get("words", [])), default=0)
+    if url and dav:
+        meta_yangila(aid, qid, davomiylik=round(dav, 2))
     meta_yangila(aid, qid, transkript=True, satr_soni=len(sat), gapiruvchilar=sorted({x["speaker"] for x in sat}))
 
 
 def kadrlar(aid, qid, sat, har=3):
     """Har gapiruvchining eng uzun gaplaridan kadr: Claude personajni ko'rib taniydi."""
     d, m = qd(aid, qid), meta(aid, qid)
-    if not m["holat"].get("video"):
+    if not m["holat"].get("video") or not m.get("manba"):
         return
     (d / "kadr").mkdir(exist_ok=True)
     guruh = {}
