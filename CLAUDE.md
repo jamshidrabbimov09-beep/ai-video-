@@ -202,3 +202,7 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   `claude/zen-curie-3dlfy5`, possibly without git). There: install Node.js LTS, ffmpeg and Python 3 (numpy, Pillow) if missing, run
   `npm install` in `video/`, let Remotion use its own downloaded browser (the `/opt/pw-browsers/chromium` path is only for cloud
   sessions), render with `--concurrency=2`, and deliver files from the local `video/exports/` folder (no GitHub link needed).
+
+## Yangi akkaunt: "Sen — migrant" serial (chat 8, 2026-11-17)
+
+Alohida akkaunt, millionlik ko'rish maqsadi, qismli serial, har qism "A yoki B?" tanlov bilan tugaydi. Reja va 1-mavsum skeleti: `prompts/migrant_reja.md`. Kerakli qarorlar: akkaunt nomi, qahramon (taklif: Sardor, 23, Qashqadaryo). Keyingi qadam: 1-qism matni (kirill) + Flow rasm promptlari.
