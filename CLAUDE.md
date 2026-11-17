@@ -4,7 +4,7 @@ Read this first. It records what was built and agreed with the user in the first
 so a new session can continue without that conversation.
 
 The conversations (user messages and Claude's replies, no tool output) are in `suhbat/`: chat 1 (Part 1),
-chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`). The user plans one chat per part and wants each new chat to know everything
+chat 3 (Part 2, `3-chat_amir-temur-2-qism.md`) and chat 4 (Part 3 and the Loy jangi experiment, `4-chat_amir-temur-3-qism.md`), chat 5 (Part 4 and the Part 5 script, `5-chat_amir-temur-4-qism.md`), chat 7 (Part 5 build, render, fixes, cover, posting: `7-chat_amir-temur-5-qism-render.md`; chat 6, Part 5 voice/images/montage, ran on the user's PC and its log was not exported). The user plans one chat per part and wants each new chat to know everything
 from the previous ones: read this file first. Do not read the conversation log in full (it is about 100k tokens);
 search it with grep only when a detail is missing here. The user is short on usage limits: keep replies short, avoid
 re-reading large files and images, and do not poll long jobs more often than needed.
@@ -247,7 +247,12 @@ words, and list the hard names for the user to listen for.
   `cover_part5_m05.png`; script `edit/insta_cover_p5.py` (uses `public/p5img/m16_x4.jpg`: Real-ESRGAN x4plus 4x upscale run with onnxruntime on CPU, ONNX model from the Hugging Face repo OwlMaster/AllFilesRope, tiles of 192 px, about 2.5 min; reuse this for every cover: the user found the plain upscale blurry).
   Voice fixes pending: the user will re-record 0:22 "lochin olib kelishgan", 0:33 "Uni yarador holda olib kelishdi. Men uni
   o'g'limdek qabul qildim." and 0:58 "Ulug' tog'" (said as "to'g'"); then splice, render only the changed frames, run `final`.
-  TODO: captions (`instagram/post_part5.md`), export chats 6/7 to `suhbat/`.
+  Captions done: `instagram/post_part5.md` (fixed: "Oltin O'rdaga berilgan eng og'ir zarba", not "qulashi"; Qunduzcha = river in
+  Samara oblast near the Volga). Part 5 v3 POSTED on Instagram 2026-11-16 with the old voice (the 3 voice fixes were never recorded;
+  drop them unless the user asks).
+- NEXT (chat 8): Part 6 (teaser promised Iran and India, war elephants). Start with the script, checked against Yazdi and Manz,
+  confirmed before recording; no "Tasavvur qiling" opening; teaser + question + subscribe outro; Flow packets of 5; covers via
+  `edit/upscale_onnx.py` (Real-ESRGAN). Ask for Part 5 Instagram stats after a day and compare with Parts 1 and 4.
 - Rules from this chat (also above): pronunciation check for ElevenLabs; always a next-part teaser; always Flow packets of 5.
 
 ## Open items
