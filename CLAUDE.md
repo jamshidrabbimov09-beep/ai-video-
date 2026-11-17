@@ -205,4 +205,4 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
 
 ## Yangi akkaunt: "Sen — migrant" serial (chat 8, 2026-11-17)
 
-Alohida akkaunt, millionlik ko'rish maqsadi, qismli serial, har qism "A yoki B?" tanlov bilan tugaydi. Reja va 1-mavsum skeleti: `prompts/migrant_reja.md`. Kerakli qarorlar: akkaunt nomi, qahramon (taklif: Sardor, 23, Qashqadaryo). Keyingi qadam: 1-qism matni (kirill) + Flow rasm promptlari.
+Alohida KENG akkaunt ("Sen hal qil" hayotiy seriallar, 1-mavsum migrant, keyingi mavsumlar boshqa rollar), millionlik ko'rish maqsadi, qismli serial, har qism "A yoki B?" tanlov bilan tugaydi. Reja va 1-mavsum skeleti: `prompts/migrant_reja.md`. Kerakli qarorlar: akkaunt nomi, qahramon (taklif: Sardor, 23, Qashqadaryo). Keyingi qadam: 1-qism matni (kirill) + Flow rasm promptlari.

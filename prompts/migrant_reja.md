@@ -1,6 +1,6 @@
 # "Sen — migrant" serial: reja (2026-11-17, chat 8)
 
-Yangi, alohida akkaunt (Unutilgan Qissalardan tashqari). Maqsad: millionlik ko'rishlar, qismli serial, obuna.
+Yangi, alohida akkaunt (Unutilgan Qissalardan tashqari). Akkaunt KENG: "Sen hal qil" hayotiy seriallar (brend = tanlov), har mavsum yangi rol: 1-mavsum migrant, keyin kelin, talaba, bozorchi, 90-yillar va h.k. Nom takliflari: "Sen hal qil", "Taqdiring", "Hayot: sen tanla". Maqsad: millionlik ko'rishlar, qismli serial, obuna.
 
 ## Format
 - 60-90 s, vertikal 1080x1920. Hikoya 2-shaxsda: "Sen...".
