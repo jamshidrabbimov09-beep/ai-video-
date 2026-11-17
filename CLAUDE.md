@@ -206,3 +206,5 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
 ## Yangi akkaunt: "Sen — migrant" serial (chat 8, 2026-11-17)
 
 Alohida KENG akkaunt ("Sen hal qil" hayotiy seriallar, 1-mavsum migrant, keyingi mavsumlar boshqa rollar), millionlik ko'rish maqsadi, qismli serial, har qism "A yoki B?" tanlov bilan tugaydi. Reja va 1-mavsum skeleti: `prompts/migrant_reja.md`. Kerakli qarorlar: akkaunt nomi, qahramon (taklif: Sardor, 23, Qashqadaryo). Keyingi qadam: 1-qism matni (kirill) + Flow rasm promptlari.
+
+YANGILANISH (chat 8 oxiri): migrant/Kurash/Arena rad etildi. TANLANGAN: "10 SONIYA" fantastika serial (3D, chet el muhiti, hikoya bizniki, har qism "Davomi bor..." uzilish bilan, savolsiz). Hammasi `prompts/10_soniya.md` (qahramonlar, 10 qism, Flow promptlari). Akkaunt nomi hali yo'q. Keyingi: foydalanuvchi Flow'da character sheet yaratadi, keyin 1-qism matni.
