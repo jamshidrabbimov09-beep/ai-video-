@@ -5,3 +5,10 @@ video/out/
 video/public/p2g/
 video/public/p4g/
 video/public/p5g/
+video/public/tq1/*.wav
+video/public/tq2/*.wav
+__pycache__/
+video/public/tq3/*.wav
+video/public/tq3/tq3_words_raw.json
+video/public/tq3/tq3_diar.json
+video/public/tq4/*.wav
