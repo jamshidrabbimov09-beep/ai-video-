@@ -351,3 +351,15 @@ sending: the user cannot re-record many times.
   already judged "clearly AI" for Uzbek (115 h of Uzbek training data vs tens of thousands for Chinese/English; emotion
   directions only on engines without Uzbek). Suggested: it is free, so install the .exe and judge Uzbek by ear on their PC; if
   they accept it, connect the app to VoiceStudio's local API / MCP instead of ElevenLabs (not built yet).
+- 2026-11-17 first real test: Battle Through the Heavens EP 226 (official Yuewen Animation English channel, YouTube 9636LLrQbmE,
+  18:55, Chinese audio). Link mode works only with the `https://youtu.be/<id>` form (`watch?v=` gave "Failed to download");
+  `core._url_tozala` now converts. Transcription is NOT free: the credit counter updates late; two runs of the 19-min episode
+  cost about 1,260 credits (about 630 per run, about 33 per minute; one run was wasted by Claude). Voice design through the API
+  returns 403 on the free plan ("only available on a paid plan"), so the cast used premade voices: Syao Yan = Charlie, Syuner =
+  Sarah, Xun Lin = Callum, oqsoqol Tun Syuan = Bill, Gu elder = Adam. Window 1:44-4:47 (lines 12-59, 46 lines) translated by
+  Claude (cast, sen/siz table and glossary in `data/donghua_sinov/personajlar.json`); TTS eleven_v4, stability 0.5, about
+  1,880 credits including 4 re-records. Estimate: a full episode is about 7-8k credits (about 450 s of speech). `yig` now
+  balances each character's average level to -21 dB (Charlie came out 5-8 dB quieter). Outputs (voice only, placed at the
+  original times): `dublyaj/natija/BTTH_226_dublyaj_toliq_18m55s.mp3` (full length, 320k) and a 1:44-4:47 preview mp3.
+  Waiting for the user's verdict; if good they buy a plan, then design custom voices per character (paid plan needed for the API,
+  or the user designs them on the website).

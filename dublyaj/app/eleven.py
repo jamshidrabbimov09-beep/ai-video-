@@ -139,8 +139,8 @@ def ovoz_saqla(key, nom, tavsif, generated_voice_id):
     return d["voice_id"]
 
 
-def nutq(key, voice_id, matn, model="eleven_v4", barqarorlik=0.5, til=None):
-    """Matndan nutq (mp3 bayt)."""
+def nutq(key, voice_id, matn, model="eleven_v4", barqarorlik=0.5, til=None, oldingi=None, keyingi=None):
+    """Matndan nutq (mp3 bayt). oldingi/keyingi: bo'lingan gapning qo'shni bo'laklari (ohang uzilmasligi uchun)."""
     global _mock_sarf
     if MOCK:
         _mock_sarf += len(matn)
@@ -150,4 +150,14 @@ def nutq(key, voice_id, matn, model="eleven_v4", barqarorlik=0.5, til=None):
     body = {"text": matn, "model_id": model, "voice_settings": {"stability": barqarorlik}}
     if til:
         body["language_code"] = til
-    return _req("POST", f"/v1/text-to-speech/{voice_id}", key, query={"output_format": "mp3_44100_128"}, body=body)
+    if oldingi:
+        body["previous_text"] = oldingi
+    if keyingi:
+        body["next_text"] = keyingi
+    try:
+        return _req("POST", f"/v1/text-to-speech/{voice_id}", key, query={"output_format": "mp3_44100_128"}, body=body)
+    except ElevenError as e:
+        if e.status in (400, 422) and (oldingi or keyingi):  # model bu maydonlarni qabul qilmasa
+            body.pop("previous_text", None); body.pop("next_text", None)
+            return _req("POST", f"/v1/text-to-speech/{voice_id}", key, query={"output_format": "mp3_44100_128"}, body=body)
+        raise

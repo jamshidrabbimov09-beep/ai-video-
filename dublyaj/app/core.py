@@ -111,8 +111,22 @@ def qism_qosh(aid, nom, fayl_nomi):
         return meta
 
 
+def _url_tozala(url):
+    """YouTube havolasini youtu.be/<id> ko'rinishiga keltiradi (ElevenLabs watch?v= shaklini ololmadi), si= ni olib tashlaydi."""
+    import urllib.parse as up
+    u = up.urlparse(url.strip())
+    vid = None
+    if u.netloc.endswith("youtu.be"):
+        vid = u.path.strip("/").split("/")[0]
+    elif "youtube.com" in u.netloc:
+        q = up.parse_qs(u.query)
+        vid = (q.get("v") or [None])[0] or (u.path.split("/")[2] if u.path.startswith(("/shorts/", "/live/", "/embed/")) else None)
+    return f"https://youtu.be/{vid}" if vid else url.strip()
+
+
 def qism_url(aid, nom, url):
     """Faylsiz qism: nutqni ElevenLabs havoladan (YouTube va h.k.) o'zi oladi."""
+    url = _url_tozala(url)
     with QULF:
         d = DATA / aid
         mavjud = {p.name for p in d.iterdir() if p.is_dir()} if d.exists() else set()
@@ -319,7 +333,10 @@ def ovoz_yoz(aid, qid, prog=lambda *a: None, faqat=None):
         if s.get("tts_kalit") != key or not f.exists():
             prog(int(100 * k / max(len(ish), 1)), f"Satr {s['n']} yozilmoqda")
             try:
-                f.write_bytes(eleven.nutq(kalit(), v, tts_matn(s), soz["tts_model"], soz["barqarorlik"]))
+                old = sat[i - 1] if i > 0 and s.get("davom") and sat[i - 1].get("kim") == s.get("kim") else None
+                kel = sat[i + 1] if i + 1 < len(sat) and sat[i + 1].get("davom") and sat[i + 1].get("kim") == s.get("kim") else None
+                f.write_bytes(eleven.nutq(kalit(), v, tts_matn(s), soz["tts_model"], soz["barqarorlik"],
+                                          oldingi=old and old.get("uz"), keyingi=kel and kel.get("uz")))
             except eleven.ElevenError as e:
                 s["holat"] = "kredit tugadi" if e.kredit_tugadi else str(e)[:120]
                 xabar = f"{s['n']}-satrda to'xtadi: {s['holat']}"
@@ -341,9 +358,17 @@ def yig(aid, qid, prog=lambda *a: None):
     sat = satrlar(aid, qid)
     buf = np.zeros(int((jami + 2) * SR), dtype=np.float32)
     tayyor = [s for s in sat if s.get("holat") == "tayyor" and (d / "tts" / f"{s['n']}.mp3").exists()]
+    # personajlar ovozi balandligini tenglash: har personajning o'rtacha darajasi -21 dB ga (ichki farqlar, baqiriq/shivir, saqlanadi)
+    audio, daraja = {}, {}
+    for s in tayyor:
+        a = _dekod(d / "tts" / f"{s['n']}.mp3", s.get("tezlik", 1.0))
+        audio[s["n"]] = a
+        if len(a):
+            daraja.setdefault(s.get("kim") or "?", []).append(20 * np.log10(float(np.sqrt(np.mean(a ** 2))) + 1e-9))
+    kuch = {k: 10 ** (float(np.clip(-21.0 - np.mean(v), -4.0, 8.0)) / 20) for k, v in daraja.items()}
     for k, s in enumerate(tayyor):
         prog(int(90 * k / max(len(tayyor), 1)), f"Satr {s['n']} joylanmoqda")
-        a = _dekod(d / "tts" / f"{s['n']}.mp3", s.get("tezlik", 1.0))
+        a = audio[s["n"]] * kuch.get(s.get("kim") or "?", 1.0)
         b = int(s["start"] * SR)
         a = a[: max(len(buf) - b, 0)]
         buf[b: b + len(a)] += a
