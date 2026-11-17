@@ -345,3 +345,9 @@ sending: the user cannot re-record many times.
   then one real episode.
 - The user planned to open a second free ElevenLabs account for another 10k credits; advised against it (their rules forbid
   extra free accounts, risk of losing the narrator account) and recommended the $1 Starter month (30k credits, 10 voice slots).
+- 2026-11-17: the user sent two Uzbek Instagram promos of VoiceStudio ("free ElevenLabs alternative, any language, robot emas,
+  Claude Code + MCP") plus a post with the official download links (github.com/debpalash/VoiceStudio releases v0.5.8, Windows
+  .exe). Answer given: it is the same program and engine (OmniVoice) that made samples 1-10 and the 24-voice bank, which the user
+  already judged "clearly AI" for Uzbek (115 h of Uzbek training data vs tens of thousands for Chinese/English; emotion
+  directions only on engines without Uzbek). Suggested: it is free, so install the .exe and judge Uzbek by ear on their PC; if
+  they accept it, connect the app to VoiceStudio's local API / MCP instead of ElevenLabs (not built yet).
