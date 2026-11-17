@@ -121,6 +121,23 @@ def matnga(key, fayl, model="scribe_v3", til=None, gapiruvchilar=None, url=None)
     return json.loads(raw)
 
 
+def kutubxona(key, til="uz"):
+    """ElevenLabs kutubxonasidagi shu tilda gapiradigan ovozlar (egalari o'zi ulashgan)."""
+    if MOCK:
+        return []
+    d = json.loads(_req("GET", "/v1/shared-voices", key, query={"language": til, "page_size": 100}, timeout=60))
+    return [{"voice_id": v["voice_id"], "egasi": v.get("public_owner_id"), "nom": v.get("name", ""), "jins": v.get("gender"),
+             "yosh": v.get("age"), "tavsif": v.get("description") or "", "bepul": v.get("free_users_allowed")} for v in d.get("voices", [])]
+
+
+def kutubxonadan_qosh(key, egasi, voice_id, nom):
+    """Kutubxona ovozini hisobga qo'shadi (bitta ovoz o'rni band bo'ladi), hisobdagi voice_id ni qaytaradi."""
+    if MOCK:
+        return "mock_lib_" + voice_id
+    d = json.loads(_req("POST", f"/v1/voices/add/{egasi}/{voice_id}", key, body={"new_name": nom}, timeout=60))
+    return d.get("voice_id") or voice_id
+
+
 def ovoz_loyiha(key, tavsif, matn, model="eleven_ttv_v3"):
     """Tavsifdan ovoz namunalari: [{'generated_voice_id', 'audio' (bytes)}]."""
     if MOCK:

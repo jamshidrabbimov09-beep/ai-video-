@@ -32,7 +32,7 @@ SR = 44100
 QULF = threading.RLock()
 
 SOZLAMA = {"eleven_key": "", "tts_model": "eleven_v4", "stt_model": "scribe_v3", "ttv_model": "eleven_ttv_v3",
-           "barqarorlik": 0.5, "manba_til": "zh", "pauza": 0.6, "max_tezlik": 1.25}
+           "barqarorlik": 0.5, "manba_til": "zh", "pauza": 0.6, "max_tezlik": 1.2}
 
 
 def oqi(path, default=None):
@@ -187,13 +187,12 @@ def _dekod(path, tezlik=1.0):
     a = np.frombuffer(r.stdout, dtype=np.float32)
     if not len(a):
         return a
-    # boshi va oxiridagi jimlikni kesish
-    thr = max(float(np.abs(a).max()) * 0.02, 1e-4)
+    # boshi va oxiridagi jimlikni kesish (ehtiyotkor: past tovushli bo'g'in va nafasni kesmaslik uchun)
+    thr = max(float(np.abs(a).max()) * 0.004, 1e-4)
     idx = np.nonzero(np.abs(a) > thr)[0]
     if not len(idx):
         return a[:0]
-    m = int(0.02 * SR)
-    return a[max(idx[0] - m, 0): idx[-1] + m]
+    return a[max(idx[0] - int(0.06 * SR), 0): idx[-1] + int(0.2 * SR)]
 
 
 # ---------- bosqichlar ----------

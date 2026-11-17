@@ -363,3 +363,14 @@ sending: the user cannot re-record many times.
   original times): `dublyaj/natija/BTTH_226_dublyaj_toliq_18m55s.mp3` (full length, 320k) and a 1:44-4:47 preview mp3.
   Waiting for the user's verdict; if good they buy a plan, then design custom voices per character (paid plan needed for the API,
   or the user designs them on the website).
+- 2026-11-17 user verdict on the BTTH test: "voice is good" overall, but some parts skipped, some lines read letter by letter,
+  names pronounced wrong, some voices hoarse, some very bad. Causes found (Whisper check, `scratchpad` only): tags like
+  "sputtering"/"shocked gasp" and one-sound lines ("A?!", "Hm?", "Sen...") made the voice spell letters; sentence pieces cut
+  mid-clause ("...Buning uchun") ended in odd noise; English premade voices (Callum is husky by design). Fixed: lines rewritten as
+  complete phrases, one-sound lines replaced by words ("Nima?!", "Iye?") or merged, tag whitelist in `tahlil_qoidalari.md`,
+  gentler silence trim in `_dekod`, max speed-up 1.2. The voice library has 18 Uzbek voices shared by their owners (all male;
+  `eleven.kutubxona`, `kutubxonadan_qosh`); chosen Syao Yan = Samariddin Siroj, Tun Syuan = Mirjalol, Xun Lin = Davronbek, but the
+  free plan refuses library voices through the API (402) as well as voice design (403): only premade voices work for free.
+  Credits used so far about 3,560 of 10,000. Asked the user: buy Starter ($1 first month) to use the Uzbek voices and design a
+  female voice for Syuner, or stay free with other premade voices; also how they pronounce the names, and whether their channel
+  narrator is one of these library voices (then pick another for Xun Lin).
