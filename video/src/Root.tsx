@@ -20,6 +20,7 @@ import {TQ3Cover} from './tasavvur/TQ3Cover';
 import {TQ4, TQ4_FRAMES} from './tasavvur/TQ4';
 import {TQ4Cover} from './tasavvur/TQ4Cover';
 import {TQ5, TQ5_FRAMES} from './tasavvur/TQ5';
+import {TQ5Cover} from './tasavvur/TQ5Cover';
 import {Part1V3, PART1_V3_FRAMES} from './Part1V3';
 import {Part1V2, PART1_V2_FRAMES} from './Part1V2';
 import {Part1Rough, PART1_FRAMES} from './Part1Rough';
@@ -58,6 +59,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ4CoverC" component={TQ4Cover} defaultProps={{v: 'c' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ4CoverB" component={TQ4Cover} defaultProps={{v: 'b' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ4" component={TQ4} durationInFrames={TQ4_FRAMES} fps={30} width={1080} height={1920} />
+  <Composition id="TQ5Cover" component={TQ5Cover} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ5" component={TQ5} durationInFrames={TQ5_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ3CoverA" component={TQ3Cover} defaultProps={{v: 'a' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ3CoverB" component={TQ3Cover} defaultProps={{v: 'b' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
