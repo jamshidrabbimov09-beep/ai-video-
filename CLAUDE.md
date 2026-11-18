@@ -342,6 +342,10 @@ words, and list the hard names for the user to listen for.
   Topic ideas offered: 1000 yil oldin Samarqandda, Ibn Sino dars beryapti, O'zbekistonda dengiz bo'lsa (map), Ipak yo'li karvonchisi,
   Bobur Hindistonga ketmaganda. The user has not picked the next one yet.
 
+## "Tasavvur qil" strategy (user, 2026-11-18): read `prompts/tasavvur_strategiya.md` before every episode
+(30-40 s reels, rotate 6 script types, cover template "TASAVVUR QIL #N", caption order, end card "Haqiqiy tarix hikoyasi -> profilda",
+goal: follows from 0.1% to 0.5% of views).
+
 ## State at the end of chat 6 (2026-11-17) — read this first in chat 7
 
 - Chat 6 ran in the cloud (log `suhbat/6-chat_tasavvur-qil-4-qism.md`). All work was on branch `claude/tasavvur-qil-part-4-idea-ecif9s`, merged into `main` (PR #7)
