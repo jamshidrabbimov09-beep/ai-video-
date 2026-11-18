@@ -3,8 +3,8 @@
 Temur bo'yicha har bir chat shu faylni o'qiydi (CLAUDE.md dagi umumiy qismdan keyin). "Tasavvur qil" seriyasi bu yerda yo'q:
 u CLAUDE.md da alohida turadi, Temur ishida unga tegilmaydi va uning qoidalari Temurga qo'llanilmaydi.
 
-- Holat (2026-11-17): 1-5-qismlar tayyor va Instagramga qo'yilgan. Keyingisi: 6-qism "Fillar hujumi" (8-chat, 2026-11-17/18):
-  ssenariy v2 yangi formatda (pastda "YANGI FORMAT") tasdiq kutmoqda. Batafsil pastda: "Part 5 status" bo'limining oxiridagi NEXT.
+- Holat (2026-11-17): 1-5-qismlar tayyor va Instagramga qo'yilgan. 6-qism "Fillar hujumi" va 7-qism "Dehli qulaydi" TAYYOR
+  (8-chat, 2026-11-18, branch `claude/amir-temur-part-6-kuhisy`): pastda "Parts 6-7". Keyingisi: 8-qism Anqara (Boyazid). Batafsil pastda: "Part 5 status" bo'limining oxiridagi NEXT.
 - Temur chatlari (`suhbat/`): `1-chat_amir-temur-1-qism.md`, `3-chat_amir-temur-2-qism.md`, `4-chat_amir-temur-3-qism.md`,
   `5-chat_amir-temur-4-qism.md`, `7-chat_amir-temur-5-qism-render.md` (5-qismning ovoz/rasm/montaj chati foydalanuvchining
   kompyuterida bo'lgan, eksport qilinmagan). Fayl raqamlari "Tasavvur qil" chatlari bilan aralashgan; Temurnikilarida "amir-temur" bor.
@@ -277,3 +277,22 @@ words, and list the hard names for the user to listen for.
 - Instagram: profile set up (avatar, name "Unutilgan Qissalar | Tarix", bio, creator account, category "Образование").
   Part 1 Reel posted with the cover, caption, Samarqand location, AI label and high-quality upload. Suggested pinned
   first comments are in the conversation log.
+
+## Parts 6-7 (chat 8, 2026-11-17/18, cloud, branch `claude/amir-temur-part-6-kuhisy`)
+
+- New 45-60 s format (see "YANGI FORMAT"). India split in two: 6 = road to the elephants (cliffhanger at the battle start),
+  7 = battle, Delhi, elephants in Samarqand. Shah Mansur (1393, two sword blows at Temur, Yazdi 140b-141a) was cut: a possible later part.
+  Scripts/fact tables `prompts/6-seriya_ssenariy.md` (v1 long + v2), `7-seriya_ssenariy.md`; voice texts `6-/7-seriya_elevenlabs.md`
+  (Latin, tags; both takes used uncut, question in the same file). Not told on purpose: the ~100,000 prisoners killed before the battle (Yazdi 204a).
+- Images: `public/p6img/n01..n21` (Flow 1116x2000; n21 = cover image, also used as a shot), `public/p7img/o01..o19` (768x1376), prompts and
+  Flow packets `prompts/6-/7-seriya_rasm_promptlari.md`, `_flow_paketlar.md`, `_kmstudio.txt` (generator `edit/prompts_p67.py`).
+- Build: `edit/edit_p6.py`/`edit_p7.py` (voice uncut from 0.4 s, hook text card, "Oldingi qismda" callback image, date cards, Q card C,
+  subscribe card with "ERTAGA 7-QISM"/"TEZ ORADA 8-QISM"), `src/Part6.tsx`/`Part7.tsx` (copies of Part5.tsx + Hook + NextPart),
+  `src/p6motion.tsx` (India route, Spread of elephants), `edit/bake_p6.sh`/`bake_p7.sh`, `edit/build_part6.sh`/`build_part7.sh`
+  (concurrency 3). Exports `video/exports/part6_fillar_hujumi_1080p*.mp4` (74 s), `part7_dehli_qulaydi_1080p*.mp4` (80 s).
+- Covers: ONE template for all parts `edit/insta_cover_temur.py <img> <N> "<TITLE>" <out> [focus_y]` (2160x3840, "N-QISM" badge,
+  "AMIR TEMUR", big gold title). `instagram/cover_part6.png`, `cover_part7.png` (o19 upscaled with Real-ESRGAN: model
+  RealESRGAN_x4plus.fp16.onnx from HF OwlMaster/AllFilesRope, `edit/upscale_onnx.py`, ~3 min). Captions `instagram/post_part6.md`, `post_part7.md`.
+- Lessons: images sent while Claude is mid-turn are NOT saved to disk: ask the user to send images only after a reply, or as a ZIP.
+  A missing image file makes the Remotion render fail late (check every shot file exists before rendering).
+- Creative Claw: 5 credits left.
