@@ -1,10 +1,55 @@
-# 6-seriya: "Fillar qarshisida" (Amir Temur: Eron va Hindiston, 1392-1399) — ssenariy va fakt tekshiruvi
+# 6-seriya: "Amir Temur #6: Fillar hujumi" (Hindiston, 1398) — ssenariy v2 va fakt tekshiruvi
 
-Holat: TASDIQLASH KUTILMOQDA (2026-11-17, 8-chat). Yazdiy va Manz bo'yicha tekshirilgan. Ovoz hali yozilmagan.
-Hajm: ~300 so'z (5-qism: ~280 so'z). 9 blok (A-I) + ilgak + savol. Ochilish "Tasavvur qiling" EMAS: fillar bilan boshlanadi.
-Eshitilish tekshiruvi qilingan: "o'q" yolg'iz yo'q ("kamondan otib"), "so'z/soz", "qo'y/qoy", "o't/ot" juftlari ishlatilmagan.
+Holat: v2 TASDIQLASH KUTILMOQDA (2026-11-18). Foydalanuvchining yangi formati: 45-60 s, 0-2 s zarba, bitta gap "Oldingi qismda",
+oxirida keyingi qism siri, yopiq savol (Ha / Yo'q), end card "Obuna bo'l, ertaga 7-qism". v1 (uzun, 2:50) pastda, ishlatilmaydi.
+Hindiston ikki qismga bo'lindi: 6-qism = fillar qarshisiga yo'l (jang boshlanishida to'xtaydi), 7-qism = jang, Dehli, fillar Samarqandda.
+Shoh Mansur (1393) v1 da bor edi, endi chiqarildi (alohida qism bo'lishi mumkin). ~130 so'z, taxminan 60-65 s.
 
-## Ovoz matni
+## Ovoz matni v2
+
+**A (zarba, 0-3 s; ekranda katta matn: "120 JANGOVAR FIL")**
+Yuz yigirma jangovar fil. Temurning ba'zi askarlari filni umrida birinchi marta ko'rardi.
+
+**B (kontekst, bitta gap)**
+Oldingi qismda Temur To'xtamishni dashtda yengdi. Endi u janubga, Hindistonga yuradi.
+
+**C (tog'lar)**
+1398-yil. Afg'oniston tog'larida yozda ham qor shunchalik chuqur ediki, otlar botib qolardi. Tik qoyadan Temurni yog'och kajavada, arqonlarda pastga tushirishadi. Besh marta.
+
+**D (Dehli)**
+Dekabr. Dehli. Sulton Mahmud va Mallu Xon o'n ming otliq, qirq ming piyoda va yuz yigirma fil bilan chiqadi. Fillarga sovut kiydirilgan, ustida yog'och supa, supada besh-olti kamonchi.
+
+**E (olimlar)**
+Temur olimlaridan so'raydi: "Jangda qayerda turasizlar?" Ular titrab aytadi: "Bi-bizning joyimiz... ayollar yonida!" Temur kulib yuboradi.
+
+**F (tayyorgarlik va tong)**
+Temur qarorgoh atrofiga xandaq qazdiradi, to'siq oldiga buyvollarni bog'latadi. O'n yettinchi dekabr, tong. Fillar oldinga yura boshlaydi.
+
+**G (7-qism siri, oxirgi 5 s)**
+Temur fillarga qarshi nima qildi? Bitta shahzoda filning ro'parasiga qilich bilan chiqdi. Ertaga, yettinchi qismda.
+
+**Savol (alohida yoziladi, HA | YO'Q kartasi)**
+Siz-chi? Fillarga qarshi oldinga chiqarmidingiz? Ha yoki yo'q: izohda yozing.
+
+**End card (ovozsiz):** "OBUNA BO'L, ERTAGA 7-QISM" + obuna tugmasi (4-qism SubscribeEnd).
+
+## Instagram (6-qism)
+
+- Nom: **Amir Temur #6: Fillar hujumi**
+- Muqova: bitta odam, yuzida kuchli his (Temur, fillar safiga qarab), katta oltin "FILLAR HUJUMI", tepada kichik nishon "6-QISM";
+  hamma qismlar uchun bitta shablon (shrift, rang, joy), gridda telefonda o'qiladigan kattalikda.
+- Taglavha:
+  1. 120 jangovar fil. Temurning ba'zi askarlari filni umrida birinchi marta ko'rardi.
+  2. Amir Temur hikoyasi, 6-qism: «Fillar hujumi» (1398)
+  3. Manbalar: Sharafuddin Ali Yazdiy, «Zafarnoma»; Beatrice F. Manz, «The Rise and Rule of Tamerlane»
+  4. 7-qismda: bitta shahzoda filning ro'parasiga qilich bilan chiqadi.
+  5. Fillarga qarshi siz oldinga chiqarmidingiz? Ha / Yo'q
+  6. Obuna bo'ling 🔔
+  7. #amirtemur #sohibqiron #temuriylar #tarix #uzbekistan
+- Pin izoh: "Boshlash uchun 1-qism profilda pinda 📌. Ertaga 7-qism: Temur fillarni qanday yengdi?"
+
+## Ovoz matni v1 (uzun, ishlatilmaydi; 7-qism uchun manba)
+
 
 **A (ilgak, 0-6 s)**
 Yuz yigirma jangovar fil. Ustida sovut, orqasida yog'och supa, supada besh-olti kamonchi. Temurning ba'zi askarlari filni umrida birinchi marta ko'rardi. Lekin bu jangdan oldin Temur o'limdan bir qadam narida qolgan edi.

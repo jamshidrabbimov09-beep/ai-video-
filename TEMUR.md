@@ -3,13 +3,28 @@
 Temur bo'yicha har bir chat shu faylni o'qiydi (CLAUDE.md dagi umumiy qismdan keyin). "Tasavvur qil" seriyasi bu yerda yo'q:
 u CLAUDE.md da alohida turadi, Temur ishida unga tegilmaydi va uning qoidalari Temurga qo'llanilmaydi.
 
-- Holat (2026-11-17): 1-5-qismlar tayyor va Instagramga qo'yilgan. Keyingisi: 6-qism (Eron va Hindiston, jangovar fillar),
-  ssenariydan boshlanadi. Batafsil pastda: "Part 5 status" bo'limining oxiridagi NEXT.
+- Holat (2026-11-17): 1-5-qismlar tayyor va Instagramga qo'yilgan. Keyingisi: 6-qism "Fillar hujumi" (8-chat, 2026-11-17/18):
+  ssenariy v2 yangi formatda (pastda "YANGI FORMAT") tasdiq kutmoqda. Batafsil pastda: "Part 5 status" bo'limining oxiridagi NEXT.
 - Temur chatlari (`suhbat/`): `1-chat_amir-temur-1-qism.md`, `3-chat_amir-temur-2-qism.md`, `4-chat_amir-temur-3-qism.md`,
   `5-chat_amir-temur-4-qism.md`, `7-chat_amir-temur-5-qism-render.md` (5-qismning ovoz/rasm/montaj chati foydalanuvchining
   kompyuterida bo'lgan, eksport qilinmagan). Fayl raqamlari "Tasavvur qil" chatlari bilan aralashgan; Temurnikilarida "amir-temur" bor.
 - Har Temur chati oxirida: suhbatni `video/edit/export_chat.py` bilan `suhbat/N-chat_amir-temur-...md` ga eksport qilish va
   SHU faylni yangilash (CLAUDE.md ni emas).
+
+## YANGI FORMAT (foydalanuvchi, 2026-11-18, 6-qismdan boshlab) — avvalgi uzunlik/ochilish qoidalaridan ustun
+
+- Maqsad: ko'rganlar obuna bo'lsin (~2.6% obuna), reach oshsin. Uzunlik 45-60 s (oldin ~2.5 daqiqa edi).
+- Tuzilish: 0-2 s zarba/natija (qism raqami bilan BOSHLAMA), shu gap ekranda katta matn ham bo'ladi -> 2-10 s bitta gap
+  "Oldingi qismda: ..." -> asosiy voqea -> oxirgi 5 s keyingi qism siri -> bitta YOPIQ savol (Ha / Yo'q yoki "Temur / Husayn") ->
+  end card "Obuna bo'l, ertaga N-qism". Ochiq savol ("nega deb o'ylaysiz?") ishlatilmaydi.
+- Nom: "Amir Temur #N: <Voqea nomi>" (to'qnashuv sezilsin). Muqova: kinematik AI rasm, bitta odam, yuzida kuchli his; katta oltin
+  yozuv 3-4 so'z ("FILLAR HUJUMI"), tepada kichik nishon "N-QISM"; HAMMA qismlarda bir xil shablon, gridda telefonda o'qilsin.
+- Taglavha tartibi: 1) kancha gap (videodagi bilan bir xil) 2) "Amir Temur hikoyasi, N-qism: «...»" + yil 3) manbalar (Yazdiy
+  "Zafarnoma", Manz) 4) "N+1-qismda: ..." teaser 5) yopiq savol 6) "Obuna bo'ling 🔔" 7) 5 tagacha hashtag
+  (#amirtemur #sohibqiron #temuriylar #tarix #uzbekistan).
+- Pin izoh o'zidan: "Boshlash uchun 1-qism profilda pinda 📌. Ertaga N+1-qism." Birinchi soatda 10 izohga javob, har birida yangi
+  savol ("Nega aynan Yo'q?"). Doim bir xil kunlarda, bir xil vaqtda chiqarish.
+- 6-qism shu formatda: `prompts/6-seriya_ssenariy.md` v2 (Hindiston ikki qismga: 6 = fillar qarshisiga yo'l, 7 = jang va Dehli).
 
 ## Video style the user approved (Part 1, version 4)
 
