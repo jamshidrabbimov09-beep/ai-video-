@@ -35,3 +35,33 @@ export const India: React.FC<{d: number}> = ({d}) => {
     </Paper>
   );
 };
+
+/* Part 7: the captured elephants sent from Dehli to Samarqand, Hirot, Tabriz and Sheroz (Yazdi 207a) */
+export const Spread: React.FC<{d: number}> = ({d}) => {
+  const fr = useCurrentFrame();
+  const P = proj([42, 82, 22, 46], [40, 420, 1040, 1340]);
+  const D: LL = C.dehli;
+  const T: {k: string; at: LL; via: LL; side: 'start' | 'end'; dy?: number}[] = [
+    {k: 'SAMARQAND', at: C.samarqand, via: [71.5, 35.5], side: 'start'},
+    {k: 'HIROT', at: [62.2, 34.35], via: [68.0, 31.5], side: 'end'},
+    {k: 'SHEROZ', at: [52.5, 29.6], via: [64.0, 27.5], side: 'end', dy: 50},
+    {k: 'TABRIZ', at: [46.3, 38.08], via: [60.0, 34.0], side: 'start', dy: -10},
+  ];
+  const [dx, dy] = P(D);
+  return (
+    <Paper d={d} zoom={[1.0, 1.05]}>
+      <svg width={1080} height={1920} style={{position: 'absolute'}}>
+        <Geo P={P} rivers={[SYR, AMU]} seas={[ARAL]} ulus={0} />
+        {T.map((c, i) => {
+          const a = 6 + i * (d * 0.13);
+          return (<g key={c.k}>
+            <Arrow p={[D, c.via, c.at].map((p) => P(p as LL))} a={a} b={a + d * 0.35} col={GOLD} w={7} />
+            <Place P={P} at={c.at} t={c.k} o={io(fr, a + d * 0.3, a + d * 0.3 + 8)} side={c.side} col={c.k === 'SAMARQAND' ? GOLD : CREAM} dy={c.dy ?? 14} />
+          </g>);
+        })}
+        <Node x={dx} y={dy} r={16} o={1} pulse={(fr % 30) / 30} />
+        <Label x={dx - 34} y={dy + 60} t="DEHLI" o={1} size={42} col={GOLD} anchor="end" />
+      </svg>
+    </Paper>
+  );
+};
