@@ -4,7 +4,7 @@ import React from 'react';
 // A modern Uzbek teenager who lands in a different era each episode.
 // Pure SVG, viewBox 400x800, so it scales cleanly and animates in Remotion.
 
-export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon' | 'chingiz' | 'mongol' | 'jebe' | 'jamuxa' | 'navkar';
+export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon' | 'chingiz' | 'mongol' | 'jebe' | 'jamuxa' | 'navkar' | 'boyazid' | 'sipohi' | 'zirhli';
 const MONGOL: Outfit[] = ['chingiz', 'mongol', 'jebe', 'jamuxa', 'navkar'];
 export type Mood = 'neutral' | 'surprised' | 'happy' | 'worried' | 'determined';
 
@@ -120,7 +120,7 @@ const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}>
       </g>
     )}
     <Face mood={mood} blink={blink} lookX={lookX} />
-    {outfit === 'temur' && <Beard />}
+    {(outfit === 'temur' || outfit === 'boyazid') && <Beard grey={outfit === 'temur'} />}
     {(outfit === 'chingiz' || outfit === 'jamuxa' || outfit === 'navkar') && <MongolBeard grey={outfit === 'chingiz'} short={outfit === 'navkar'} />}
   </g>
 );
@@ -356,7 +356,7 @@ const SoldierBody: React.FC<{swing: number}> = ({swing}) => {
 
 // ---------- Amir Temur (same drawing style as Bek) ----------
 const BEARD = '#3b2516';
-const Beard: React.FC = () => (
+const Beard: React.FC<{grey?: boolean}> = ({grey = true}) => (
   <g>
     {/* beard along the jaw, leaving the mouth open */}
     <path
@@ -369,8 +369,8 @@ const Beard: React.FC = () => (
     {/* moustache */}
     <path d="M200 252 C186 244 164 246 152 262 C168 258 184 262 200 260 C216 262 232 258 248 262 C236 246 214 244 200 252 Z" fill={BEARD} stroke={INK} strokeWidth={3.5} strokeLinejoin="round" />
     {/* grey streaks */}
-    <path d="M150 300 Q170 330 196 344" stroke="#7d6a5a" strokeWidth={4} fill="none" strokeLinecap="round" />
-    <path d="M250 300 Q232 330 206 344" stroke="#7d6a5a" strokeWidth={4} fill="none" strokeLinecap="round" />
+    {grey && <path d="M150 300 Q170 330 196 344" stroke="#7d6a5a" strokeWidth={4} fill="none" strokeLinecap="round" />}
+    {grey && <path d="M250 300 Q232 330 206 344" stroke="#7d6a5a" strokeWidth={4} fill="none" strokeLinecap="round" />}
   </g>
 );
 
@@ -394,35 +394,88 @@ const TemurHat: React.FC = () => (
   </g>
 );
 
-const TemurBody: React.FC<{swing: number}> = ({swing}) => (
+const TemurBody: React.FC<{swing: number; robe?: string; trim?: string}> = ({swing, robe = '#1f5a3a', trim = '#d9a43a'}) => (
   <g>
     {/* boots */}
     <path d="M146 640 L194 640 L196 728 L128 728 C126 708 138 700 146 696 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
     <path d="M206 640 L254 640 L254 696 C262 700 274 708 272 728 L204 728 Z" fill="#3a2414" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
     {/* arms */}
     <g transform={`rotate(${swing} 128 340)`}>
-      <path d="M128 330 C100 340 92 420 98 500 L136 500 C136 440 140 380 148 352 Z" fill="#1f5a3a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
-      <rect x={96} y={478} width={42} height={18} rx={5} fill="#d9a43a" stroke={INK} strokeWidth={4} />
+      <path d="M128 330 C100 340 92 420 98 500 L136 500 C136 440 140 380 148 352 Z" fill={robe} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={96} y={478} width={42} height={18} rx={5} fill={trim} stroke={INK} strokeWidth={4} />
       <circle cx={117} cy={514} r={19} fill={SKIN} stroke={INK} strokeWidth={SW} />
     </g>
     <g transform={`rotate(${-swing} 272 340)`}>
-      <path d="M272 330 C300 340 308 420 302 500 L264 500 C264 440 260 380 252 352 Z" fill="#1f5a3a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
-      <rect x={262} y={478} width={42} height={18} rx={5} fill="#d9a43a" stroke={INK} strokeWidth={4} />
+      <path d="M272 330 C300 340 308 420 302 500 L264 500 C264 440 260 380 252 352 Z" fill={robe} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+      <rect x={262} y={478} width={42} height={18} rx={5} fill={trim} stroke={INK} strokeWidth={4} />
       <circle cx={283} cy={514} r={19} fill={SKIN} stroke={INK} strokeWidth={SW} />
     </g>
     {/* long robe */}
-    <path d="M132 322 C160 310 240 310 268 322 C276 380 274 440 270 470 L300 660 L100 660 L130 470 C126 440 124 380 132 322 Z" fill="#1f5a3a" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
-    <path d="M200 326 L200 658" stroke="#d9a43a" strokeWidth={8} />
-    <path d="M170 322 L200 380 L230 322" fill="none" stroke="#d9a43a" strokeWidth={8} strokeLinejoin="round" />
+    <path d="M132 322 C160 310 240 310 268 322 C276 380 274 440 270 470 L300 660 L100 660 L130 470 C126 440 124 380 132 322 Z" fill={robe} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M200 326 L200 658" stroke={trim} strokeWidth={8} />
+    <path d="M170 322 L200 380 L230 322" fill="none" stroke={trim} strokeWidth={8} strokeLinejoin="round" />
     {[380, 420, 520, 580].map((y) => (
-      <circle key={y} cx={214} cy={y} r={6} fill="#d9a43a" stroke={INK} strokeWidth={2} />
+      <circle key={y} cx={214} cy={y} r={6} fill={trim} stroke={INK} strokeWidth={2} />
     ))}
     {/* belt */}
-    <rect x={128} y={456} width={144} height={28} rx={8} fill="#d9a43a" stroke={INK} strokeWidth={4} />
+    <rect x={128} y={456} width={144} height={28} rx={8} fill={trim} stroke={INK} strokeWidth={4} />
     <circle cx={200} cy={470} r={14} fill="#8f1f1a" stroke={INK} strokeWidth={4} />
   </g>
 );
 
+
+
+// ---------- Ottomans (episode 5): Sultan Boyazid's turban, sipohi bork cap, a knight in full steel with only the eyes showing ----------
+const OttomanTurban: React.FC = () => (
+  <g>
+    <path d="M150 120 C150 60 176 30 200 28 C224 30 250 60 250 120 Z" fill="#b3261e" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M86 170 C70 120 110 70 200 66 C290 70 330 120 314 170 C300 196 250 200 200 200 C150 200 100 196 86 170 Z" fill="#fbf6ea" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    {[0, 1, 2].map((i) => (
+      <path key={i} d={`M${96 + i * 4} ${150 - i * 26} C150 ${170 - i * 26} 250 ${170 - i * 26} ${304 - i * 4} ${150 - i * 26}`} fill="none" stroke="#d8cfb8" strokeWidth={5} />
+    ))}
+    <circle cx={200} cy={110} r={15} fill="#2e9e5b" stroke={INK} strokeWidth={4} />
+    <path d="M200 96 C196 70 206 52 220 44" fill="none" stroke="#fbf6ea" strokeWidth={8} strokeLinecap="round" />
+  </g>
+);
+const BorkCap: React.FC = () => (
+  <g>
+    <path d="M124 176 C122 110 140 40 200 18 C260 40 278 110 276 176 Z" fill="#f4efe2" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M200 22 C210 60 214 120 212 176" fill="none" stroke="#d8cfb8" strokeWidth={6} />
+    <rect x={110} y={158} width={180} height={34} rx={14} fill="#c8962e" stroke={INK} strokeWidth={SW} />
+  </g>
+);
+const KnightHelm: React.FC = () => (
+  <g>
+    <path d="M96 230 C92 130 140 82 200 80 C260 82 308 130 304 230 L300 322 C260 342 140 342 100 322 Z" fill="#8f98a3" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M200 84 L200 192" stroke="#5f6873" strokeWidth={6} />
+    <rect x={118} y={196} width={164} height={34} rx={10} fill="#11151b" stroke={INK} strokeWidth={4} />
+    <ellipse cx={162} cy={213} rx={13} ry={8} fill="#fff" />
+    <ellipse cx={238} cy={213} rx={13} ry={8} fill="#fff" />
+    <circle cx={164} cy={213} r={5} fill={INK} />
+    <circle cx={240} cy={213} r={5} fill={INK} />
+    {[250, 270, 290].map((y) => (
+      <line key={y} x1={150} y1={y} x2={250} y2={y} stroke="#5f6873" strokeWidth={5} strokeLinecap="round" />
+    ))}
+    <path d="M200 60 C210 40 230 30 246 30" fill="none" stroke="#1a1a1a" strokeWidth={12} strokeLinecap="round" />
+  </g>
+);
+const KnightBody: React.FC<{swing: number}> = ({swing}) => (
+  <g>
+    <path d="M146 640 L194 640 L196 728 L128 728 C126 708 138 700 146 696 Z" fill="#6f7883" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M206 640 L254 640 L254 696 C262 700 274 708 272 728 L204 728 Z" fill="#6f7883" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    {[128, 272].map((cx, i) => (
+      <g key={cx} transform={`rotate(${i ? -swing : swing} ${cx} 340)`}>
+        <path d={i ? 'M272 330 C300 340 308 420 302 500 L264 500 C264 440 260 380 252 352 Z' : 'M128 330 C100 340 92 420 98 500 L136 500 C136 440 140 380 148 352 Z'} fill="#8f98a3" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+        <circle cx={i ? 283 : 117} cy={514} r={19} fill="#6f7883" stroke={INK} strokeWidth={SW} />
+      </g>
+    ))}
+    <path d="M132 322 C160 310 240 310 268 322 C276 380 274 440 270 470 L290 660 L110 660 L130 470 C126 440 124 380 132 322 Z" fill="#23262c" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    <path d="M140 330 C170 318 230 318 260 330 L256 470 L144 470 Z" fill="#8f98a3" stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
+    {[370, 410, 450].map((y) => (
+      <line key={y} x1={150} y1={y} x2={250} y2={y} stroke="#5f6873" strokeWidth={5} />
+    ))}
+  </g>
+);
 
 // ---------- Mongols (episode 4): fur-brimmed felt hats, wrap-over deel robes ----------
 const MONGOL_COL: Record<string, {robe: string; trim: string; hat: string; top: string}> = {
@@ -498,6 +551,12 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
       <ModernBody swing={armSwing} />
     ) : outfit === 'temur' ? (
       <TemurBody swing={armSwing} />
+    ) : outfit === 'boyazid' ? (
+      <TemurBody swing={armSwing} robe="#b3261e" trim="#e9c46a" />
+    ) : outfit === 'sipohi' ? (
+      <TemurBody swing={armSwing} robe="#2f5f9a" trim="#e9dcc3" />
+    ) : outfit === 'zirhli' ? (
+      <KnightBody swing={armSwing} />
     ) : outfit === 'sogd' ? (
       <SogdBody swing={armSwing} />
     ) : outfit === 'iskandar' ? (
@@ -515,6 +574,9 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
     <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'soldier' && <Helmet />}
     {outfit === 'temur' && <TemurHat />}
+    {outfit === 'boyazid' && <OttomanTurban />}
+    {outfit === 'sipohi' && <BorkCap />}
+    {outfit === 'zirhli' && <KnightHelm />}
     {outfit === 'sogd' && <SogdCap />}
     {(outfit === 'iskandar' || outfit === 'yunon') && <GreekHelmet />}
     {MONGOL.includes(outfit) && <MongolHat outfit={outfit} />}
