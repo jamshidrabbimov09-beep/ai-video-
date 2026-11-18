@@ -35,3 +35,19 @@ Ovozlar: hikoyachi + Ethan ("TO'XTA!") + Victor (oxirgi gap).
 11. [ref Ethan + kadr 1] S Ethan carries the little girl in the yellow raincoat in his arms to the sidewalk, walking through raindrops frozen in the air. Behind them the truck and people are frozen. Blue night light, warm streetlights.
 12. [ref Victor + kadr 1] S A frozen crowd with umbrellas on a rainy night street, everyone motionless, raindrops hanging in the air. One man in a long black coat with white hair walks calmly between them toward the camera, the only other person moving.
 13. [ref Victor] S Close-up of Victor smiling coldly, frozen raindrops hanging around his face, neon light reflected in his pale blue eyes. Dark, mysterious, menacing.
+
+## Video promptlari (Grok Imagine / Kling, har biri rasm + prompt, 6 s)
+Hikoya ovozi (hikoyachi) ElevenLabs'da alohida; kliplarda faqat harakat + muhit ovozi. Gapiradigan faqat k09 (Ethan) va k13 (Victor).
+k01: Time is frozen: raindrops hang motionless in the air, people and the truck do not move at all. Only the boy moves: he slowly turns his head, looking around in shock, then takes one careful step. Slow camera orbit around him. Sound: total silence, faint high ringing. No speech.
+k02: Warm cozy kitchen. The grandmother pours tea with a gentle smile, the boy eats soup and smiles back, steam rises from the cup, rain runs down the window. Slow push-in. Sound: rain on the window, clink of a cup. No speech.
+k03: Very slow push-in on the old framed photo, dust particles float in the light beam from the window. Sound: soft wind, a lonely piano note. No speech.
+k04: The two big students shove the boy against the lockers, books fly and fall to the floor, other students walk past looking at their phones. Sound: metal locker bang, school hallway noise. No speech.
+k05: The boy walks away down the rainy neon street with his hood up, hands in pockets, camera follows slowly from behind. Sound: heavy rain, distant traffic. No speech.
+k06: The red ball bounces off the curb and rolls into the wet road, the little girl in the yellow raincoat watches it. Sound: rain, ball bounce. No speech.
+k07: The little girl in the yellow raincoat runs happily after her red ball across the wet road, water splashing under her boots. Sound: rain, splashing steps. No speech.
+k08: The huge truck rushes forward toward the camera, headlights getting brighter and blinding, rain streaks in the light. Sound: loud truck horn, screeching brakes. No speech.
+k09: The boy stretches his hand toward the camera and screams with all his strength: "To'xta!" Rain on his face, wet hair shaking. On the scream everything suddenly freezes. Sound: rain, horn, then sudden silence.
+k10: Macro shot: round raindrops hang perfectly still in the air in front of the boy's astonished face, his eyes move from drop to drop, he slowly reaches up and touches one drop. Sound: silence, faint crystal chime. No speech.
+k11: The boy carries the little girl in his arms through the frozen street, walking between raindrops hanging in the air, the people and truck stay completely still. Sound: only his footsteps and his heartbeat. No speech.
+k12: Among the frozen crowd, the white-haired man in the long black coat walks calmly toward the camera, the only other person moving, his steps echo. Sound: slow echoing footsteps in total silence. No speech.
+k13: Close-up of the white-haired man, frozen raindrops around his face, he lifts his eyes to the camera with a cold smile and says quietly in a deep calm voice: "Nihoyat... Seni o'n bir yil kutdim." Slow push-in. Sound: low eerie hum.
