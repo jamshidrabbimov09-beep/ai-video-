@@ -107,7 +107,10 @@ for i, x in enumerate(words):
     t = x['t']
     for a, b in FIXW:
         if t.startswith(a): t = b + t[len(a):]
-    toks.append((W(i), E(i), t.replace(':"', ': ')))
+    if ':"' in t:   # 'so'raydi:"Jangda' is one Scribe token: split it so the caption can break after the colon
+        a, b = t.split(':"', 1); m = W(i) + (E(i) - W(i)) * len(a) / len(t)
+        toks += [(W(i), m, a + ':'), (m, E(i), b)]; continue
+    toks.append((W(i), E(i), t))
 NOBREAK = ('Bizning', 'Jangda', 'Temur', 'Temurning', 'ming', 'yuz', 'besh-olti', 'Sulton', 'Mallu', 'ayollar', 'yog\'och', 'bitta', 'Ha')
 def split_sentence(ts):
     n = len(ts); L = [len(t[2]) for t in ts]
