@@ -31,7 +31,7 @@ if [[ $STAGE == all || $STAGE == audio ]]; then
 fi
 
 if [[ $STAGE == all || $STAGE == render ]]; then
-  npx remotion render src/index.ts Part6 out/video_p6_raw.mp4 --browser-executable="$CHROME" --concurrency=4 --timeout=120000 --crf=14 --codec=h264 --muted
+  npx remotion render src/index.ts Part6 out/video_p6_raw.mp4 --browser-executable="$CHROME" --concurrency=3 --timeout=120000 --crf=14 --codec=h264 --muted
 fi
 
 if [[ $STAGE == all || $STAGE == final ]]; then
