@@ -4,10 +4,10 @@ HOLAT: qoralama, foydalanuvchi tasdiqlashi kerak (yozib olishdan OLDIN). ~95 so'
 Sozlamalar: Eleven v4, Stability Robust, Similarity ~75%, Speed 1.1. "ғ" harfli so'z yo'q (oldin noto'g'ri o'qilgan).
 
 ```
-[excited] Тасаввур қил: икки энг кучли ҳукмдор юзма-юз турибди. Ютқазган асир бўлади. Ким енгади? Биринчи: Темур. Иккинчи: султон Боязид.
+[excited] Тасаввур қил: ўша замоннинг икки энг кучли ҳукмдори юзма-юз турибди. Ютқазган асир бўлади. Ким енгади? Биринчи: Темур. Иккинчи: султон Боязид.
 [serious] Минг тўрт юз иккинчи йил. Анқара. Султоннинг лақаби Йилдирим. Яъни чақмоқ! У Европа рицарларини енгган. Қўшинида бошдан оёқ пўлат совут кийган жангчилар бор. Фақат кўзлари кўринади.
-[curious] Темурда эса совут кийган филлар бор. Устида камончилар ўтирибди. Яна битта ҳийласи бор. Жангдан олдин у буйруқ берди: душман томондаги кичик булоқни тўнкалар билан тўлдиринг!
-[serious] Июль. Жазирама. Султон қўшинининг кўпи пиёда. Темур уларни атайлаб шоширди.
+[curious] Темурда эса совут кийган филлар бор. Устида камончилар ўтирибди. Яна битта ҳийласи бор. Жангдан олдин буйруқ берилди: душман томондаги кичик булоқни тўнкалар билан тўлдиринг!
+[serious] Июль. Жазирама. Темур деди: султон аскарларининг кўпи пиёда, улар чарчаб келади. Шунинг учун у султонни атайлаб шоширди.
 [excited] Хўш, ким енгади? Изоҳга рақам ёз: бир ёки икки!
 ```
 
@@ -23,6 +23,13 @@ Ovozda aytilmaydi, faqat ekranda: oxirgi 3 s end card "Haqiqiy tarix hikoyasi �
 - Sana: Yazdiyda 20.07.1402, boshqa manbalarda 28-iyul -> faqat "iyul".
 - G'olib videoda AYTILMAYDI (javob ertasi kuni Stories'da). Temir qafas (rivoyat) va tatarlarning o'tib ketishi (Yazdiyda yo'q) qo'shilmagan.
 - "Енгилмас" deyilmaydi (ikkalasi ham ilgari yengilgan bo'lishi mumkin); "ютқазган асир бўлади" haqiqatan shunday bo'ldi.
+
+## Ikkinchi tekshiruv (foydalanuvchi so'radi: kimga nima tegishli)
+- Po'lat sovutli, faqat ko'zlari ko'rinadigan jangchilar: sultonning qaynog'asi, "Lazarning o'g'li" (serb hukmdori Stefan Lazarevich)
+  boshchiligidagi askarlar; ular sulton qo'shini tarkibida turgan. Shuning uchun matnda "qo'shinida" deyiladi, "turk askarlari" emas.
+- Buloq buyrug'i: Yazdiyda majhul nisbatda ("buyurildi"), Temur qarorgohida. Matnda ham "буйруқ берилди".
+- "Ko'pi piyoda, charchab keladi": bu Temurning so'zi ("deyishadi" bilan), tasdiqlangan son emas. Matnda "Темур деди:".
+- "O'sha zamonning ikki eng kuchli hukmdori": baho, fakt emas, shuning uchun "o'sha zamonning" qo'shildi.
 
 ## Sahna rejasi (TQ5, kodda chizilgan, Bek tepalikda kuzatuvchi)
 1. 0-3 s: ikki hukmdor yuzma-yuz, o'rtada chaqmoq; katta "1 TEMUR | 2 BOYAZID".
