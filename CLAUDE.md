@@ -202,3 +202,12 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   `claude/zen-curie-3dlfy5`, possibly without git). There: install Node.js LTS, ffmpeg and Python 3 (numpy, Pillow) if missing, run
   `npm install` in `video/`, let Remotion use its own downloaded browser (the `/opt/pw-browsers/chromium` path is only for cloud
   sessions), render with `--concurrency=2`, and deliver files from the local `video/exports/` folder (no GitHub link needed).
+
+## New page/series "Toshkent. 1994" (started 2026-11-19, chat 8)
+
+- The user wants a NEW Instagram account with a wide audience: a serious, cinematic (not childish) crime/mafia serial, all
+  editing in the cloud. Rejected first: "Nima bo'ladi?" science what-ifs, and cartoon life-drama "Bir hikoya".
+- Fictional crime drama (no real people), Tashkent 1994, hero Sardor (24, Afghan veteran, taxi driver, sick mother). Season 1 = 6 parts
+  (~90 s each, cliffhangers): Bir kecha / Kalit egasi (Hoji aka) / Birinchi ish / Militsioner (old friend) / Xoin / Kalit.
+- Style like the Temur series: user makes Flow images (Sardor portrait as face reference) and records the narrator; Claude does script,
+  prompts, montage, sfx, music, cover, caption. Files in `serial/toshkent-1994/` (ep.1 script + prompts: `1-qism.md`).
