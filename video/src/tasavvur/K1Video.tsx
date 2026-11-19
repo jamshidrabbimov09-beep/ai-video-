@@ -158,9 +158,8 @@ export const K1Video: React.FC<{at?: number}> = ({at}) => {
         {/* sentence subtitle under the top content */}
         {sent >= 0 && t < FOLLOW && (
           <g>
-            <rect x={60} y={1092} width={960} height={92} rx={46} fill="#000" opacity={0.55} />
             <foreignObject x={70} y={1092} width={940} height={92}>
-              <div style={{height: 92, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Oswald', fontWeight: 700, color: '#fff', fontSize: SENT[sent][2].length > 50 ? 30 : 40, lineHeight: 1.1}}>{SENT[sent][2]}</div>
+              <div style={{height: 92, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', fontFamily: 'Oswald', fontWeight: 700, color: '#fff', fontSize: SENT[sent][2].length > 50 ? 34 : 46, lineHeight: 1.1, WebkitTextStroke: '7px #1a120c', paintOrder: 'stroke fill', textShadow: '0 4px 0 #1a120c'}}>{SENT[sent][2]}</div>
             </foreignObject>
           </g>
         )}
