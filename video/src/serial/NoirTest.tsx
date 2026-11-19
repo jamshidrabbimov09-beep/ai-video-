@@ -300,7 +300,7 @@ const Bag: React.FC = () => {
       </svg>
       <Vignette s={0.9} />
       <Grain o={0.2} />
-      <Sub t="Pulning tagida esa — bitta eski kalit." />
+      <Sub t="Pulning tagida esa bitta eski kalit." />
     </AbsoluteFill>
   );
 };
