@@ -11,6 +11,7 @@ import {QPreview} from './p4outro';
 import {LoyJangi, LOY_FRAMES} from './LoyJangi';
 import {BekSheet} from './tasavvur/BekSheet';
 import {Story1K} from './tasavvur/Story1K';
+import {K1Video, K1_DUR} from './tasavvur/K1Video';
 import {Highlight} from './tasavvur/Highlight';
 import {TQ1, TQ1_FRAMES} from './tasavvur/TQ1';
 import {TQ1Cover} from './tasavvur/TQ1Cover';
@@ -67,6 +68,7 @@ export const Root: React.FC = () => (
   <Composition id="HL-k1" component={Highlight} defaultProps={{v: 'k1'}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="HL-temur" component={Highlight} defaultProps={{v: 'temur'}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="HL-tasavvur" component={Highlight} defaultProps={{v: 'tasavvur'}} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="K1Video" component={K1Video} durationInFrames={K1_DUR * 30} fps={30} width={1080} height={1920} />
   <Composition id="Story1K" component={Story1K} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="BekSheet" component={BekSheet} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="Test" component={Test} durationInFrames={60} fps={30} width={1920} height={1080} />
