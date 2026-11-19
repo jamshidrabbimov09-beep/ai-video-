@@ -20,9 +20,10 @@ type Props = {
   blink?: number; // 0 open .. 1 closed
   lookX?: number; // -1..1 pupil shift
   armSwing?: number; // degrees
+  talk?: number; // -1 = not talking, 0..1 mouth openness while speaking
 };
 
-const Face: React.FC<{mood: Mood; blink: number; lookX: number}> = ({mood, blink, lookX}) => {
+const Face: React.FC<{mood: Mood; blink: number; lookX: number; talk?: number}> = ({mood, blink, lookX, talk = -1}) => {
   const eyeRy = 19 * (1 - blink * 0.92);
   const lx = lookX * 5;
   const brow = {
@@ -64,12 +65,17 @@ const Face: React.FC<{mood: Mood; blink: number; lookX: number}> = ({mood, blink
       <rect x={216} y={172 + by} width={44} height={9} rx={4.5} fill={HAIR} transform={`rotate(${rotR} 238 ${176 + by})`} />
       {/* nose */}
       <path d="M200 228 Q209 240 199 246" fill="none" stroke={SKIN_SH} strokeWidth={4} strokeLinecap="round" />
-      {mouth}
+      {talk >= 0 ? (
+        <g transform={`translate(0 254) scale(1 ${0.18 + talk * 0.9}) translate(0 -254)`}>
+          <path d="M176 254 L224 254 Q222 292 200 292 Q178 292 176 254 Z" fill="#7a2620" stroke={INK} strokeWidth={4} strokeLinejoin="round" />
+          <path d="M186 280 Q200 272 214 280 Q209 290 200 290 Q191 290 186 280 Z" fill="#e8796b" />
+        </g>
+      ) : mouth}
     </g>
   );
 };
 
-const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}> = ({outfit, mood, blink, lookX}) => (
+const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number; talk?: number}> = ({outfit, mood, blink, lookX, talk}) => (
   <g>
     {outfit === 'ravshanak' && (
       // long hair falling behind the shoulders
@@ -119,7 +125,7 @@ const Head: React.FC<{outfit: Outfit; mood: Mood; blink: number; lookX: number}>
         <circle cx={292} cy={252} r={8} fill="#d9a43a" stroke={INK} strokeWidth={3} />
       </g>
     )}
-    <Face mood={mood} blink={blink} lookX={lookX} />
+    <Face mood={mood} blink={blink} lookX={lookX} talk={talk} />
     {outfit === 'temur' && <Beard />}
     {(outfit === 'chingiz' || outfit === 'jamuxa' || outfit === 'navkar') && <MongolBeard grey={outfit === 'chingiz'} short={outfit === 'navkar'} />}
   </g>
@@ -490,7 +496,7 @@ const MongolBody: React.FC<{swing: number; outfit: Outfit}> = ({swing, outfit}) 
 };
 
 // Bek as an SVG group in his own 400x800 coordinate space (for use inside other SVG scenes).
-export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, armSwing = 0, shadow = true}) => (
+export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', mood = 'neutral', blink = 0, lookX = 0, armSwing = 0, shadow = true, talk}) => (
   <g>
     {shadow && <ellipse cx={200} cy={732} rx={110} ry={14} fill="#000" opacity={0.25} />}
     {outfit === 'soldier' && <Aventail />}
@@ -512,7 +518,7 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
       <SoldierBody swing={armSwing} />
     )}
     {outfit !== 'soldier' && <rect x={180} y={300} width={40} height={26} fill={SKIN_SH} stroke={INK} strokeWidth={SW} />}
-    <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} />
+    <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} talk={talk} />
     {outfit === 'soldier' && <Helmet />}
     {outfit === 'temur' && <TemurHat />}
     {outfit === 'sogd' && <SogdCap />}
