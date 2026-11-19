@@ -22,6 +22,7 @@ import {TQ4Cover} from './tasavvur/TQ4Cover';
 import {Part1V3, PART1_V3_FRAMES} from './Part1V3';
 import {Part1V2, PART1_V2_FRAMES} from './Part1V2';
 import {Part1Rough, PART1_FRAMES} from './Part1Rough';
+import {GoriAmir, GA_FRAMES} from './eskiz/GoriAmir';
 import {Composition, AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 
 const Test: React.FC = () => {
@@ -56,6 +57,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ4CoverA" component={TQ4Cover} defaultProps={{v: 'a' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ4CoverC" component={TQ4Cover} defaultProps={{v: 'c' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ4CoverB" component={TQ4Cover} defaultProps={{v: 'b' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="GoriAmir" component={GoriAmir} durationInFrames={GA_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ4" component={TQ4} durationInFrames={TQ4_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ3CoverA" component={TQ3Cover} defaultProps={{v: 'a' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ3CoverB" component={TQ3Cover} defaultProps={{v: 'b' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
