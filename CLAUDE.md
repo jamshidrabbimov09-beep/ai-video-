@@ -211,3 +211,9 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   (~90 s each, cliffhangers): Bir kecha / Kalit egasi (Hoji aka) / Birinchi ish / Militsioner (old friend) / Xoin / Kalit.
 - Style like the Temur series: user makes Flow images (Sardor portrait as face reference) and records the narrator; Claude does script,
   prompts, montage, sfx, music, cover, caption. Files in `serial/toshkent-1994/` (ep.1 script + prompts: `1-qism.md`).
+- Chat 8 decisions: images can't be made free in the cloud (Pollinations free tier: 580px + watermark, rejected; Creative Claw 7 credits;
+  user declined a Gemini API key; Flow has no API). Code-drawn noir sample `video/exports/toshkent1994_noir_namuna.mp4`
+  (`src/serial/NoirTest.tsx`) was made but the user chose: they make images in Flow (Nano Banana, 9:16, Sardor portrait as reference),
+  Claude does premium motion (parallax, rain/smoke overlays, flicker, shake in chases, grain, thin letterbox bars inside 9:16, cinema
+  subtitles, sfx, bass score). Format stays 9:16 (21:9 hurts Reels reach); a 16:9 season cut for YouTube later.
+- Next: user sends Sardor/passenger portraits -> give the 14 shot prompts with the reference -> user records voice -> montage.
