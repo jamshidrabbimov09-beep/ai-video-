@@ -41,7 +41,7 @@ out = np.zeros(N)
 # rain bed
 noise = rng.standard_normal(N)
 rain = lp(noise, 0.25) * 0.5 + (noise - lp(noise, 0.6)) * 0.25
-rain_env = np.ones(N) * 0.07
+rain_env = np.ones(N) * 0.045
 rain_env[int(70.5 * SR):] = 0.03  # indoors at the end
 rain_env[int(16.7 * SR):int(18.95 * SR)] = 0.03  # mother's room
 out += rain * lp(rain_env, 0.0005)
@@ -61,7 +61,7 @@ score += np.sin(2 * np.pi * 65 * t) * pulse * env(42.6, 53.4, 0.3, 1.0) * 1.4
 # high eerie tone after the death and the call
 score += 0.25 * np.sin(2 * np.pi * 880 * t + 3 * np.sin(2 * np.pi * 0.3 * t)) * env(56, 60.2, 2, 1)
 score += 0.3 * np.sin(2 * np.pi * 740 * t + 2 * np.sin(2 * np.pi * 0.2 * t)) * env(75, 83.4, 2, 1)
-out += score * 0.05
+out += score * 0.03
 
 
 def boom(dur=2.5, f=48, g=1.0):
@@ -79,8 +79,6 @@ def thunder(dur=5.0):
     return s * 6
 
 
-place(out, thunder(), 0.1, 0.35)
-place(out, thunder(), 22.3, 0.2)
 for at, g in [(42.6, 0.5), (60.2, 0.35), (78.0, 0.35), (83.6, 0.7)]:
     place(out, boom(), at, g)
 
@@ -125,8 +123,8 @@ voice = np.zeros(N)
 voice[:min(N, len(v))] = v[:N]
 # duck music under the voice
 venv = lp(np.abs(voice) > 0.02, 0.0004)
-out *= 1 - 0.45 * np.clip(venv * 3, 0, 1)
-mix = voice * 1.0 + out
+out *= 1 - 0.7 * np.clip(venv * 3, 0, 1)
+mix = voice * 1.6 + out
 mix /= max(1e-6, np.max(np.abs(mix))) / 0.95
 tmp = os.path.join(PUB, 'mix_pre.wav')
 import wave
