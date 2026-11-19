@@ -22,3 +22,5 @@
 - Fakt tekshiruvi: ismlar, sanalar, shaxs (Zulqarnayn xatosi takrorlanmasin).
 - Cross-promo: end card va caption asosiy tarix serialiga (Amir Temur) yo'naltiradi.
 - 2 haftadan keyin turlar bo'yicha solishtirish: ko'rish, izoh, ulashish, obuna/ko'rish.
+- Halollik (foydalanuvchi, 2026-11-19): odamlarni aldamaymiz. Bajarilmaydigan va'da yo'q ("keyingi videoda" faqat reja bo'lsa),
+  soxta sonlar yo'q ("ko'pchilik" faqat sanab), ayyorona gaplar yo'q; javobni yashirish mumkin, lekin keyin haqiqatan aytiladi.
