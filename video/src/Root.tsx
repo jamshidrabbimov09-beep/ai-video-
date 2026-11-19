@@ -22,6 +22,7 @@ import {TQ4Cover} from './tasavvur/TQ4Cover';
 import {Part1V3, PART1_V3_FRAMES} from './Part1V3';
 import {Part1V2, PART1_V2_FRAMES} from './Part1V2';
 import {Part1Rough, PART1_FRAMES} from './Part1Rough';
+import {NoirTest} from './serial/NoirTest';
 import {Composition, AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 
 const Test: React.FC = () => {
@@ -36,6 +37,7 @@ const Test: React.FC = () => {
 
 export const Root: React.FC = () => (
   <>
+  <Composition id="NoirTest" component={NoirTest} durationInFrames={150} fps={30} width={1080} height={1920} defaultProps={{scene: 'street'}} />
   <Composition id="Part1Test" component={Part1Test} durationInFrames={420} fps={30} width={1080} height={1920} />
   <Composition id="VoiceTest" component={VoiceTest} durationInFrames={640} fps={30} width={1080} height={1920} />
   <Composition id="Part1Rough" component={Part1Rough} durationInFrames={PART1_FRAMES} fps={30} width={1080} height={1920} />
