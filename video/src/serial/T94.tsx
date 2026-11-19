@@ -46,7 +46,7 @@ const SUBS: [number, number, string][] = [
   [22.8, 24.95, "Chilonzorda bir odam qo'l ko'tardi."],
   [25.12, 28.2, "Egnida qora charm kiyim. Qo'lida sumka."],
   [28.55, 30.3, '«Tez hayda. Orqaga qarama.»'],
-  [30.55, 32.6, 'Men haydadim. Oynadan qaradim.'],
+  [30.33, 32.65, "Men haydadim. Yo'lovchiga qaradim."],
   [32.76, 34.6, "Uning ko'ylagi qizarib borardi."],
   [34.74, 36.7, '«Aka, kasalxonaga boramizmi?»'],
   [36.87, 40.3, "«Yo'q... kasalxonaga emas. Ular kasalxonada kutishyapti.»"],
