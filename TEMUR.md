@@ -11,6 +11,25 @@ u CLAUDE.md da alohida turadi, Temur ishida unga tegilmaydi va uning qoidalari T
 - Har Temur chati oxirida: suhbatni `video/edit/export_chat.py` bilan `suhbat/N-chat_amir-temur-...md` ga eksport qilish va
   SHU faylni yangilash (CLAUDE.md ni emas).
 
+## FORMAT v2 (foydalanuvchi, 2026-11-20, 8-qismdan) — "YANGI FORMAT"dan USTUN
+
+- Maqsad: har qism ko'proq odamga yetsin, ko'rganlar obuna bo'lsin (Temurda obuna ~2.5% barqaror, obuna soni ko'rishlarga bog'liq).
+  Har kuni 1 qism, 17:30. Raqamlarga qarab har kuni to'g'rilanadi. Eng yaxshisi 4-qism (21K ko'rish, 538 obuna): unda odam xavfda edi.
+  6- va 7-qism bir xil hook ("120 fil") bilan ochilgan, 7-qism ~2K oldi; 7-8-soniyadagi xotirjam kadr ustidagi "Oldingi qismda" yomon.
+- 0-3 s: odam xavfda yoki katta qaror oldida, yuz yoki aniq harakat, ekranda bitta kuchli gap; oldingi hookni takrorlama; "N-QISM" nishoni birinchi kadrdan.
+- Har rasmda sekin zoom/parallax; statik kadr 4 s dan oshmasin, har 3-4 s kadr almashadi.
+- Ovoz: hissiyotli (pastdan baqiriqqacha), musiqa, 2-3 effekt (qilich, ot, shamol). Ovoz rasmdan muhim.
+- Hikoya: bitta odam, bitta qaror, bitta bosh savol, javob faqat oxirida. Uzunlik 1:30-2:30, har 15-20 s burilish, zerikarli joy kesiladi.
+- "Oldingi qismda" eng erta 12-soniyadan keyin, bitta qator, harakatli kadr ustida.
+- Qorong'i sahnalar telefonda ko'rinsin; sarlavha va subtitr ustma-ust tushmasin.
+- Oxiri: keyingi qismdan 1 kadr + bitta gap; "Ertaga N+1-qism" faqat rost bo'lsa; obuna tugmasi qoladi.
+- Muqova va taglavha, pin izoh, izohlarga javob: "YANGI FORMAT"dagidek (shablon `edit/insta_cover_temur.py`).
+- HAR YAKSHANBA: oxirgi 7 qismdan eng yaxshi 2 tasi nimasi bilan ajralganini yozish, keyingi haftada takrorlash.
+- Qismlar tartibi (Claude taklifi, 2026-11-20): 8 Anqara 1402 (Boyazid asirligi), 9 Klavixo Samarqandda 1404, 10 Samarqand qurilishi,
+  11 shaxsiy qarorlar (shaxmat, ilm davralari: Yazdiy/Manzda tekshirish kerak), 12 oxirgi yurish 1404-1405 (Manz 73: kuz 1404 O'trorga,
+  17/18 fevral 1405 vafot), 13 Temurdan keyin: Shohruh va Ulug'bek. To'xtamish (Qunduzcha 1391 / Terek 1395) 4-5-qismlarda aytilgan:
+  takrorlamaslikni taklif qildim, foydalanuvchi qarori kutilmoqda.
+
 ## YANGI FORMAT (foydalanuvchi, 2026-11-18, 6-qismdan boshlab) — avvalgi uzunlik/ochilish qoidalaridan ustun
 
 - Maqsad: ko'rganlar obuna bo'lsin (~2.6% obuna), reach oshsin. Uzunlik 45-60 s (oldin ~2.5 daqiqa edi).
