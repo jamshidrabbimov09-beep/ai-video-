@@ -1,26 +1,48 @@
-# "Tasavvur qil": strategiya (foydalanuvchi, 2026-11-18). Har yangi qismdan oldin o'qing.
+# "Tasavvur qil": strategiya v2 (foydalanuvchi, 2026-11-20). Har yangi qismdan oldin o'qing. v1 (2026-11-18) bekor.
 
-## Natijalar (30 kun)
-- Temurda avtomat chizmasi: 116K ko'rish, 2074 izoh, 127 obuna (yagona "zamonaviy narsa" qolipi).
-- Chingizxonning o'ng qo'li: 18.5K, 22 obuna. Qanotli askarlar: 14.1K, 81 izoh. Temurning askarisan: 13.7K, 77 izoh.
-- Muammo: obunaga aylanish ~0.1%. Maqsad: ko'rishni saqlash, obuna >= 0.5%, izohni ko'paytirish.
+## Maqsad
+Har kuni 1 reel. Vazifa: ko'p odamga yetish va ularni Temur serialiga olib o'tish. Raqamlarga qarab har kuni to'g'rilaymiz.
 
-## Qoidalar
-- Qolipni takrorlama: "X ga zamonaviy narsa bersang" 5 ta reeldan ko'pi bilan 1 tasi.
-- Mavzu faqat Temur emas: Chingizxon, Iskandar Makedonskiy, Navoiy, Ulug'bek, Bobur, Spitamen, Jaloliddin va boshqalar.
-- Ssenariy turlari navbat bilan: 1 "Sen kimsan" (1-qism), 2 "Qaroringni ayt" (4-qism), 3 "Qamal" (3-qism),
-  4 "Kim yutadi?" (A yoki B), 5 "Tarix testi" (3 ishora, "Bu kim?", 1-3 variant), 6 "Zamonaviy narsa" (2-qism).
-- Tuzilish, 30-40 s: 0-3 s katta savol / qaror momenti, javob darhol berilmaydi; variantlar bittadan (5-6 s, oqibati bilan);
-  "Sen qaysini tanlaysan? Izohga RAQAM yoz."; oxirgi 3 s end card "Haqiqiy tarix hikoyasi -> profilda".
-- Muqova shabloni (hammasida bir xil): tepada sariq nishon "TASAVVUR QIL #N", 2-3 so'zli katta sarlavha, Bek + bitta katta ikonka,
-  telefonda uzoqdan o'qiladi; 2x (2160x3840).
-- Nom qisqa: "Sen Temurning askarisan", "Qanotli askarlar".
-- Caption tartibi: 1 videodagi savol (aynan), 2 variantlar 1️⃣ 2️⃣ 3️⃣ (4️⃣), 3 "Izohga raqam yoz 👇", 4 "Variantlar taxmin",
-  5 manba (kerak bo'lsa), 6 "Haqiqiy tarix hikoyalari profilda 👆", 7 ko'pi bilan 5 hashtag: #tasavvurqil #tarix #unutilganqissalar + 2 ta.
-- Izohlar: pin qilingan birinchi izoh "Men 2-ni tanlayman! Siz-chi?"; birinchi soatdagi 10 izohga javob, har javobda yangi savol;
-  ertasi kuni natija ("Ko'pchilik 2-ni tanladi"); izohlardagi mavzularni yig'ish.
-- Fakt tekshiruvi: ismlar, sanalar, shaxs (Zulqarnayn xatosi takrorlanmasin).
-- Cross-promo: end card va caption asosiy tarix serialiga (Amir Temur) yo'naltiradi.
-- 2 haftadan keyin turlar bo'yicha solishtirish: ko'rish, izoh, ulashish, obuna/ko'rish.
+## Raqamlar
+- Temurga avtomat 133K (uzun video; uzunlik muammo emas). Askarisan 14.1K, Chingizxonning o'ng qo'li 21.2K, Qanotli askarlar 14.9K.
+- #5 Chaqmoq sulton (kim yengadi?) atigi 3.8K: 7 s gacha na ism, na Bek; chetdan kuzatuv; oxirida 2 tomonli ovoz.
+- Obunaga aylanish ~0.1%: ko'prik kerak.
+
+## Har reelda
+1. 0-3 s: "SEN [NOM]SAN" + xavf + bitta raqam. Bek birinchi kadrda.
+2. 60-100 s. Har 5-7 s da yangi sahna, xarita yoki raqam. Bek jonli: ko'z qisish, qo'l silkitish, kamera siljishi.
+3. Har variantning oqibati alohida sahnada ("TAXMIN" belgisi), keyin "Tarix shunday bo'lgan" sahnasi.
+4. Eng kutilmagan fakt 2/3 qismda. Saqlab qo'yiladigan 1 narsa (fakt, xarita, taqqoslash).
+5. Chetdan kuzatuv ("kim yengadi?") emas, "Sen..." shakli.
+6. "Temurga X bersang" 5 reeldan ko'pi bilan 1 ta.
+7. Oxiri: 3 ta qaror ikonkasi, "Izohga raqam yoz", "Keyingi zamonda birga boramiz", obuna tugmasi.
+8. KO'PRIK: har 2 reeldan birining oxirgi 4 s: Temur serialidan 1 kuchli kadr + "Bu voqea Temur serialida, profilda 1-qism".
+   Birinchi izoh ham shuni aytadi. (Halollik: voqea serialda hali bo'lmasa "Temur hayoti Temur serialida" deyiladi.)
+9. Muqova: tepada sariq "TASAVVUR QIL #N", 2-3 so'zli yirik sarlavha, Bek + 1 ikonka, 2x.
+10. Faktlar nashrdan oldin tekshiriladi.
+
+## Taglavha
+Videodagi savol; variantlar 1, 2, 3; "Izohga raqam yoz"; "Variantlar taxmin"; "Haqiqiy tarix profilda"; 5 hashtag.
+Pin izoh: "Men 2-ni tanlayman! Siz-chi?" (variantlar taxmin bo'lgani uchun bu fikr, aldash emas). Ertasi kuni natijani aytish.
+
+## 14 kun (har kuni 1)
+1 Sen Boyazidsan: Temur kelyapti (jangga chiq / qal'ada kut / elchi yubor) + Temur seriali ko'prigi
+2 Sen Iskandar askarisan: Spitamen tunda hujum qilyapti
+3 Sen Chingizxon elchisisan: Xorazmshoh haqorat qildi
+4 Sen Bobursan: Kobulga ketasanmi
+5 Sen Ulug'bek shogirdisan: yulduz jadvali
+6 Sen Jaloliddin Manguberdisan: daryo bo'yida Chingiz qo'shini
+7 Temurga dron bersang (faqat shu bitta)
+8 Sen Rim legionerisan (auditoriya kengayishini sinash)
+9 Sen Samarqand qal'asidasan: Chingiz qamali 1220
+10 Sen Jahongirsan: otang shohmi yoki otam
+11 Sen Ipak yo'li karvonchisan: qaroqchilar
+12 Sen To'xtamishsan: Temurga qarshi chiqasanmi
+13 Sen Shohruhsan: Temur o'ldi, kim bilan ittifoq
+14 Izohlardagi eng yaxshi 3 variantning haqiqiy natijasi
+
+## Har mavzudan oldin
+1) 3 s da nom + xavf bormi, 2) uchala variantda qiziqarli oqibat bormi, 3) kutilmagan fakt bormi, 4) fakt tekshirildimi. Bo'lmasa mavzuni almashtir.
+
 - Halollik (foydalanuvchi, 2026-11-19): odamlarni aldamaymiz. Bajarilmaydigan va'da yo'q ("keyingi videoda" faqat reja bo'lsa),
   soxta sonlar yo'q ("ko'pchilik" faqat sanab), ayyorona gaplar yo'q; javobni yashirish mumkin, lekin keyin haqiqatan aytiladi.
