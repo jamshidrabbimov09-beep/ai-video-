@@ -14,7 +14,11 @@ const BRIDGE_AT = 88.4;
 const seg = (t: number, a: number, b: number, c: number, d: number) => c + ((t - a) * (d - c)) / (b - a);
 const toScene = (t: number) =>
   t < 1.85 ? t : t < 2.712 ? seg(t, 1.85, 2.712, 1.85, 2.6) : t < 82.244 ? t - 0.112 : t < 82.866 ? seg(t, 82.244, 82.866, 82.12, 82.53) : t - 0.336;
-export const TQ6_FRAMES = Math.round((BRIDGE_AT + 0.336 + 4.4) * FPS);
+// v2: the captive/robe part (real 72.30-81.60) is cut so Temur series part 8 keeps its answer; the bridge points to part 8.
+const CUT_A = 72.3;
+const CUT_LEN = 9.3;
+const uncut = (t: number) => (t < CUT_A ? t : t + CUT_LEN);
+export const TQ6_FRAMES = Math.round((BRIDGE_AT + 0.336 + 4.4 - CUT_LEN) * FPS);
 
 const ease = (x: number) => x * x * (3 - 2 * x);
 const span = (t: number, a: number, b: number) => ease(lerp(t, a, b, 0, 1));
@@ -445,9 +449,9 @@ const SceneBridge: React.FC<{t: number}> = ({t}) => {
       </g>
       <rect y={1050} width={W} height={870} fill="#000" opacity={0.75} />
       <g transform={`translate(540 1190) scale(${pop(t, BRIDGE_AT + 0.2)})`}>
-        <Text x={0} y={-20} size={62} fill="#fff">TEMUR HAYOTI</Text>
-        <Text x={0} y={70} size={76} fill={GOLD}>TEMUR SERIALIDA</Text>
-        <Text x={0} y={150} size={48} fill="#cfd8ff">PROFILDA 1-QISM</Text>
+        <Text x={0} y={-30} size={54} fill="#fff">TEMUR ASIR SULTONNI NIMA QILDI?</Text>
+        <Text x={0} y={60} size={76} fill={GOLD}>JAVOB TEMUR SERIALIDA</Text>
+        <Text x={0} y={140} size={56} fill="#cfd8ff">8-QISM · PROFILDA</Text>
       </g>
       <FollowButton t={t} t0={BRIDGE_AT + 1.0} line="KEYINGI ZAMONDA BIRGA BORAMIZ" />
     </g>
@@ -486,7 +490,7 @@ export const TQ6: React.FC<{at?: number}> = ({at}) => {
   const cur = useCurrentFrame();
   const frame = at ?? cur;
   const real = frame / FPS;
-  const t = toScene(real);
+  const t = toScene(uncut(real));
   const idx = SCENES.findIndex(([a, b]) => t >= a && t < b);
   const [a, , S] = SCENES[Math.max(0, idx)];
   const k = t - a;
