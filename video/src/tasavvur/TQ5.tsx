@@ -15,7 +15,7 @@ const span = (t: number, a: number, b: number) => ease(lerp(t, a, b, 0, 1));
 const mix = (a: number, b: number, k: number) => a + (b - a) * k;
 
 // ---------- world ----------
-const Plain: React.FC<{t: number; hot?: number}> = ({t, hot = 0}) => (
+export const Plain: React.FC<{t: number; hot?: number}> = ({t, hot = 0}) => (
   <g>
     <defs>
       <linearGradient id="sky5" x1="0" y1="1" x2="0" y2="0">
@@ -45,7 +45,7 @@ const Plain: React.FC<{t: number; hot?: number}> = ({t, hot = 0}) => (
   </g>
 );
 
-const Sun: React.FC<{x: number; y: number; s: number; t: number}> = ({x, y, s, t}) => (
+export const Sun: React.FC<{x: number; y: number; s: number; t: number}> = ({x, y, s, t}) => (
   <g transform={`translate(${x} ${y}) scale(${s}) rotate(${t * 20})`}>
     {Array.from({length: 12}).map((_, i) => (
       <path key={i} d="M-16 -150 L0 -210 L16 -150 Z" fill="#ffb21e" transform={`rotate(${i * 30})`} />
@@ -54,14 +54,14 @@ const Sun: React.FC<{x: number; y: number; s: number; t: number}> = ({x, y, s, t
   </g>
 );
 
-const Bolt: React.FC<{x: number; y: number; s: number; k: number}> = ({x, y, s, k}) =>
+export const Bolt: React.FC<{x: number; y: number; s: number; k: number}> = ({x, y, s, k}) =>
   k <= 0 ? null : (
     <g transform={`translate(${x} ${y}) scale(${s * k})`}>
       <path d="M30 -260 L-90 20 L-10 20 L-50 260 L100 -60 L10 -60 L70 -260 Z" fill={GOLD} stroke={INK} strokeWidth={10} strokeLinejoin="round" />
     </g>
   );
 
-const Shackle: React.FC<{k: number}> = ({k}) => (
+export const Shackle: React.FC<{k: number}> = ({k}) => (
   <g transform={`scale(${k})`}>
     <circle cx={-70} cy={0} r={50} fill="none" stroke="#9aa3ad" strokeWidth={22} />
     <circle cx={70} cy={0} r={50} fill="none" stroke="#9aa3ad" strokeWidth={22} />
@@ -71,7 +71,7 @@ const Shackle: React.FC<{k: number}> = ({k}) => (
   </g>
 );
 
-const Elephant: React.FC<{x: number; y: number; s: number; t: number; archers?: boolean}> = ({x, y, s, t, archers = true}) => {
+export const Elephant: React.FC<{x: number; y: number; s: number; t: number; archers?: boolean}> = ({x, y, s, t, archers = true}) => {
   const step = Math.sin(t * 5);
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
@@ -109,7 +109,7 @@ const Elephant: React.FC<{x: number; y: number; s: number; t: number; archers?: 
   );
 };
 
-const Stump: React.FC<{x: number; y: number; r?: number}> = ({x, y, r = 0}) => (
+export const Stump: React.FC<{x: number; y: number; r?: number}> = ({x, y, r = 0}) => (
   <g transform={`translate(${x} ${y}) rotate(${r})`}>
     <rect x={-60} y={-40} width={120} height={80} rx={10} fill="#8a5a2e" stroke={INK} strokeWidth={6} />
     <ellipse cx={60} cy={0} rx={18} ry={40} fill="#d9b27a" stroke={INK} strokeWidth={5} />
@@ -117,7 +117,7 @@ const Stump: React.FC<{x: number; y: number; r?: number}> = ({x, y, r = 0}) => (
   </g>
 );
 
-const Speech: React.FC<{x: number; y: number; k: number; children: React.ReactNode}> = ({x, y, k, children}) =>
+export const Speech: React.FC<{x: number; y: number; k: number; children: React.ReactNode}> = ({x, y, k, children}) =>
   k <= 0 ? null : (
     <g transform={`translate(${x} ${y}) scale(${k})`}>
       <path d="M-300 -110 L300 -110 C330 -110 340 -100 340 -70 L340 70 C340 100 330 110 300 110 L40 110 L-20 180 L-30 110 L-300 110 C-330 110 -340 100 -340 70 L-340 -70 C-340 -100 -330 -110 -300 -110 Z" fill="#fff" stroke={INK} strokeWidth={8} />
@@ -125,7 +125,7 @@ const Speech: React.FC<{x: number; y: number; k: number; children: React.ReactNo
     </g>
   );
 
-const NumCard: React.FC<{x: number; y: number; n: string; label: string; k: number; on?: boolean}> = ({x, y, n, label, k, on}) =>
+export const NumCard: React.FC<{x: number; y: number; n: string; label: string; k: number; on?: boolean}> = ({x, y, n, label, k, on}) =>
   k <= 0 ? null : (
     <g transform={`translate(${x} ${y}) scale(${k * (on ? 1.08 : 1)})`}>
       <rect x={-210} y={-70} width={420} height={140} rx={40} fill={on ? '#fbf1dc' : '#1b2233'} stroke={on ? GOLD : '#fff'} strokeWidth={on ? 10 : 6} />
@@ -315,7 +315,7 @@ const SceneHeat: React.FC<{t: number}> = ({t}) => (
 );
 
 // 37.3-41.6 Temur said: most of the sultan's men are on foot, they will come tired
-const Walker: React.FC<{x: number; y: number; t: number; i: number; fast?: number}> = ({x, y, t, i, fast = 1}) => (
+export const Walker: React.FC<{x: number; y: number; t: number; i: number; fast?: number}> = ({x, y, t, i, fast = 1}) => (
   <g>
     <BekAt x={x} y={y} s={0.55} outfit="sipohi" mood="worried" blink={blinkAt(t, i)} swing={Math.sin(t * 9 * fast + i) * 14} />
     <path d={`M${x + 70} ${y - 360 + ((t * 160 + i * 40) % 80)} q12 18 0 30 q-12 -12 0 -30 Z`} fill="#8fd0ff" stroke={INK} strokeWidth={3} />

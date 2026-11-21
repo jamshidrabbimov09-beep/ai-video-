@@ -4,7 +4,7 @@ import React from 'react';
 // A modern Uzbek teenager who lands in a different era each episode.
 // Pure SVG, viewBox 400x800, so it scales cleanly and animates in Remotion.
 
-export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon' | 'chingiz' | 'mongol' | 'jebe' | 'jamuxa' | 'navkar' | 'boyazid' | 'sipohi' | 'zirhli';
+export type Outfit = 'modern' | 'soldier' | 'temur' | 'sogd' | 'iskandar' | 'ravshanak' | 'yunon' | 'chingiz' | 'mongol' | 'jebe' | 'jamuxa' | 'navkar' | 'boyazid' | 'sipohi' | 'zirhli' | 'beksulton';
 const MONGOL: Outfit[] = ['chingiz', 'mongol', 'jebe', 'jamuxa', 'navkar'];
 export type Mood = 'neutral' | 'surprised' | 'happy' | 'worried' | 'determined';
 
@@ -551,7 +551,7 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
       <ModernBody swing={armSwing} />
     ) : outfit === 'temur' ? (
       <TemurBody swing={armSwing} />
-    ) : outfit === 'boyazid' ? (
+    ) : outfit === 'boyazid' || outfit === 'beksulton' ? (
       <TemurBody swing={armSwing} robe="#b3261e" trim="#e9c46a" />
     ) : outfit === 'sipohi' ? (
       <TemurBody swing={armSwing} robe="#2f5f9a" trim="#e9dcc3" />
@@ -574,7 +574,7 @@ export const BekG: React.FC<Props & {shadow?: boolean}> = ({outfit = 'modern', m
     <Head outfit={outfit} mood={mood} blink={blink} lookX={lookX} />
     {outfit === 'soldier' && <Helmet />}
     {outfit === 'temur' && <TemurHat />}
-    {outfit === 'boyazid' && <OttomanTurban />}
+    {(outfit === 'boyazid' || outfit === 'beksulton') && <OttomanTurban />}
     {outfit === 'sipohi' && <BorkCap />}
     {outfit === 'zirhli' && <KnightHelm />}
     {outfit === 'sogd' && <SogdCap />}
