@@ -217,3 +217,12 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   Claude does premium motion (parallax, rain/smoke overlays, flicker, shake in chases, grain, thin letterbox bars inside 9:16, cinema
   subtitles, sfx, bass score). Format stays 9:16 (21:9 hurts Reels reach); a 16:9 season cut for YouTube later.
 - Next: user sends Sardor/passenger portraits -> give the 14 shot prompts with the reference -> user records voice -> montage.
+- Page opened 2026-11-20: Instagram `@90.yillar`, name "To'qsoninchi yillar" (many name ideas rejected; the user picked it), avatar = Flow logo
+  (white "90" on black; code-drawn logos were rejected). Ep.1 posted 2026-11-20 ~17:45 (export `video/exports/toshkent1994_1qism_1080p.mp4`,
+  cover `video/instagram/cover_t94_1.png`, caption `video/instagram/post_t94_1.md`). Ep.1 voice = `public/t94/raw.mp3` (take + 4 spliced fix lines;
+  ElevenLabs free tier nearly used up and flagged "abuse detection", yet the user still recorded fixes). Mix `edit/t94_sfx.py` (no thunder: user hated it).
+- Ep.1 stats after ~1 day: 638 views, skip 32%, avg watch 37 s of 87 s, 29 follows, likes 11%, audience 25-54 = 79% (35-44 biggest).
+  Lesson: slow opening lost ~45% in 8 s; ep.2 opens on the strongest frame + hook. Ep.2 "Kalit egasi" plot approved, script + prompts in
+  `serial/toshkent-1994/2-qism.md` (voice text in Latin, no "x" words).
+- Composio Instagram connector is linked to @unutilgan_qissalar only (linking @90.yillar kept picking the logged-in account); the user
+  sends insight screenshots instead. Claude in Chrome is not available in cloud sessions.
