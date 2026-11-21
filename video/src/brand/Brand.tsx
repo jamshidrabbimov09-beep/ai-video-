@@ -90,7 +90,7 @@ const OrolScene: React.FC = () => (
 );
 
 export const BrandCoverOrol: React.FC = () => (
-  <BrandCover l0="TASAVVUR QIL:" l1="DENGIZ" l2="QAYERGA KETDI?">
+  <BrandCover l1="DENGIZ" l2="QAYERGA KETDI?">
     <OrolScene />
   </BrandCover>
 );

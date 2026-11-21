@@ -216,3 +216,7 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   Orol dengizi ("1960-yil Mo'ynoqda baliqchisan"). Awaiting the user's yes.
 - English long-form YouTube idea: postponed. YPP is not available in Uzbekistan (talks with Google, Sep 2026); a fake foreign
   AdSense address breaks the rules. In Uzbekistan income comes from Instagram ads/sponsors.
+- 2026-11-21 user decision: the words "Tasavvur qil" are DROPPED from covers AND from the voice opening (this replaces the chat-6 rule
+  that every episode opens with "Tasavvur qil"). Still: a strong hook in the first 3 s and an open question to the end. "Tasavvur qil"
+  stays only in the bio. New identity: avatar `video/instagram/avatar_bek.png` (Bek, happy, blue rays), cover template `BrandCover`
+  in `video/src/brand/Brand.tsx` (big white + yellow question over a Bek scene), sample `instagram/cover_namuna_orol.png` (2x).
