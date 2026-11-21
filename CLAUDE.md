@@ -226,3 +226,8 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   `serial/toshkent-1994/2-qism.md` (voice text in Latin, no "x" words).
 - Composio Instagram connector is linked to @unutilgan_qissalar only (linking @90.yillar kept picking the logged-in account); the user
   sends insight screenshots instead. Claude in Chrome is not available in cloud sessions.
+- Ep.2 "Kalit egasi" final 2026-11-21: `video/exports/toshkent1994_2qism_1080p.mp4` (70 s, composition `src/serial/T94b.tsx` T94B, frames `public/t94b/`,
+  sfx `edit/t94b_sfx.py`), cover `instagram/cover_t94_2.png`, caption `instagram/post_t94_2.md`. User feedback: fast jitter shake and brightness
+  flicker looked cheap ("bijir-bijir") -> use only slow smooth drift, no flicker. An "Oldingi qismda" recap (T94Recap) was tried and REJECTED
+  (kills interest); no recap and no extra labels. Continuity instead: each next part starts exactly where the previous one ended (ep.3 opens
+  on the empty hole under the floorboard / missing key, 6 a.m. deadline).
