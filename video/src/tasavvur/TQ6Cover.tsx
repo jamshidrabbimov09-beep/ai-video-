@@ -10,7 +10,7 @@ export const TQ6Cover: React.FC = () => {
   const T: React.CSSProperties = {position: 'absolute', width: '100%', textAlign: 'center', fontFamily: 'Oswald', fontWeight: 700, WebkitTextStroke: '4px #1a120c', textShadow: '0 8px 0 #1a120c', lineHeight: 1.0};
   return (
     <AbsoluteFill style={{background: '#000'}}>
-      <TQ6 at={110} />
+      <TQ6 at={3} />
       <div style={{position: 'absolute', left: 0, top: 0, width: '100%', height: 760, background: 'linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0) 100%)'}} />
       <div style={{position: 'absolute', top: 250, width: '100%', display: 'flex', justifyContent: 'center'}}>
         <div style={{background: '#ffc94a', color: '#1a120c', fontFamily: 'Oswald', fontWeight: 700, fontSize: 58, padding: '6px 34px', borderRadius: 18, border: '5px solid #1a120c', letterSpacing: 3}}>TASAVVUR QIL #6</div>
