@@ -3,8 +3,10 @@
 Temur bo'yicha har bir chat shu faylni o'qiydi (CLAUDE.md dagi umumiy qismdan keyin). "Tasavvur qil" seriyasi bu yerda yo'q:
 u CLAUDE.md da alohida turadi, Temur ishida unga tegilmaydi va uning qoidalari Temurga qo'llanilmaydi.
 
-- Holat (2026-11-17): 1-5-qismlar tayyor va Instagramga qo'yilgan. 6-qism "Fillar hujumi" va 7-qism "Dehli qulaydi" TAYYOR
-  (8-chat, 2026-11-18, branch `claude/amir-temur-part-6-kuhisy`): pastda "Parts 6-7". Keyingisi: 8-qism Anqara (Boyazid). Batafsil pastda: "Part 5 status" bo'limining oxiridagi NEXT.
+- Holat (2026-11-17): 1-5-qismlar tayyor va Instagramga qo'yilgan. 1-8-qismlar TAYYOR (8-qism "Asir sulton" 2026-11-21, branch `claude/amir-temur-part-6-kuhisy`).
+  SERIAL PAUZADA (foydalanuvchi, 2026-11-21). Davom etsa: 9-qism ssenariysi `prompts/9-seriya_ssenariy.md` (tasdiqlanmagan; boshini
+  8-qism oxirgi kadri, Samarqand darvozasidagi elchi p32 dan boshlanadigan qilib qayta yozish kerak), keyin 10 Oxirgi yurish, 11 Shohruh va
+  Ulug'bek (11 yoki 13 qism: foydalanuvchi hali tanlamagan). 8-qism montaji `edit/edit_p8.py`, `src/Part8.tsx` (FORMAT v2 + serial ulanishi). Batafsil pastda: "Part 5 status" bo'limining oxiridagi NEXT.
 - Temur chatlari (`suhbat/`): `1-chat_amir-temur-1-qism.md`, `3-chat_amir-temur-2-qism.md`, `4-chat_amir-temur-3-qism.md`,
   `5-chat_amir-temur-4-qism.md`, `7-chat_amir-temur-5-qism-render.md` (5-qismning ovoz/rasm/montaj chati foydalanuvchining
   kompyuterida bo'lgan, eksport qilinmagan). Fayl raqamlari "Tasavvur qil" chatlari bilan aralashgan; Temurnikilarida "amir-temur" bor.
