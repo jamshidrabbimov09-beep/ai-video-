@@ -205,3 +205,52 @@ export const T94BWithAudio: React.FC = () => (
     <Audio src={staticFile('t94b/mix.wav')} />
   </AbsoluteFill>
 );
+
+// "Oldingi qismda" recap (prepended in ffmpeg)
+const RECAP: [string, string][] = [
+  ['03', "Sardor tunda yo'lovchi oldi"],
+  ['08', "Yo'lovchi yo'lda o'ldi"],
+  ['12', "Sumkada pul va 14-raqamli kalit bor edi"],
+  ['14', 'Kimdir uning ismini bilardi'],
+];
+export const RECAP_SECONDS = 5;
+const RecapShot: React.FC<{img: string; text: string}> = ({img, text}) => {
+  const f = useCurrentFrame();
+  const sc = interpolate(f, [0, 36], [1.12, 1.04]);
+  const o = interpolate(f, [0, 6], [0, 1], {extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill style={{opacity: o}}>
+      <AbsoluteFill style={{transform: `scale(${sc})`, filter: 'saturate(0.6) brightness(0.8)'}}>
+        <Img src={staticFile(`t94/${img}.jpg`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{justifyContent: 'flex-start', alignItems: 'center', top: 1260}}>
+        <div style={{maxWidth: 900, textAlign: 'center', color: '#f4ecd8', fontFamily: 'Liberation Sans, Arial, sans-serif',
+          fontSize: 56, fontWeight: 700, lineHeight: 1.25, textShadow: '0 2px 8px #000, 0 0 20px rgba(0,0,0,0.9)'}}>{text}</div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+export const T94Recap: React.FC = () => {
+  const f = useCurrentFrame();
+  const end = interpolate(f, [RECAP_SECONDS * FPS - 8, RECAP_SECONDS * FPS], [1, 0], {extrapolateLeft: 'clamp'});
+  return (
+    <AbsoluteFill style={{background: '#000'}}>
+      <AbsoluteFill style={{opacity: end}}>
+        {RECAP.map(([img, text], i) => (
+          <Sequence key={i} from={Math.round(i * 1.2 * FPS)} durationInFrames={Math.round(1.25 * FPS)}>
+            <RecapShot img={img} text={text} />
+          </Sequence>
+        ))}
+        <AbsoluteFill style={{background: 'linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 78%)'}} />
+        <Vignette s={0.7} />
+        <Grain o={0.15} />
+        <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: 70, background: '#000'}} />
+        <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 70, background: '#000'}} />
+        <AbsoluteFill style={{alignItems: 'center', top: 190}}>
+          <div style={{fontFamily: 'Liberation Serif, serif', color: '#c7372e', fontSize: 60, letterSpacing: 14, fontWeight: 700,
+            textShadow: '0 0 24px rgba(0,0,0,0.9)'}}>OLDINGI QISMDA</div>
+        </AbsoluteFill>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
