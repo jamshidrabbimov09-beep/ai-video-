@@ -1,7 +1,7 @@
 # "Tasavvur qil": strategiya v2 (foydalanuvchi, 2026-11-20). Har yangi qismdan oldin o'qing. v1 (2026-11-18) bekor.
 
 ## Maqsad
-Har kuni 1 reel. Vazifa: ko'p odamga yetish va ularni Temur serialiga olib o'tish. Raqamlarga qarab har kuni to'g'rilaymiz.
+Kuniga 2 video (foydalanuvchi, 2026-11-21): "Tasavvur qil" kunduzi (taxminan 12:00-13:00), Temur seriali 17:30. Vazifa: ko'p odamga yetish va ularni Temur serialiga olib o'tish. Raqamlarga qarab har kuni to'g'rilaymiz.
 
 ## Raqamlar
 - Temurga avtomat 133K (uzun video; uzunlik muammo emas). Askarisan 14.1K, Chingizxonning o'ng qo'li 21.2K, Qanotli askarlar 14.9K.

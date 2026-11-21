@@ -35,4 +35,4 @@ Pin izoh ostiga (izohlarni sanab): "Natija: 1 - __ ta, 2 - __ ta, 3 - __ ta. Ko'
 
 ## Sozlamalar
 Audio nomi: "Tasavvur qil #6: Sen Boyazidsan | Unutilgan Qissalar". Muqova: Edit cover -> camera roll -> cover_tasavvur6.png.
-AI label ON, highest quality ON, Trial OFF. Joylashuv: Anqara (Ankara). Vaqt: 17:15-17:45, oxirgi postdan kamida 6 soat o'tib.
+AI label ON, highest quality ON, Trial OFF. Joylashuv: Anqara (Ankara). Vaqt: kunduzi (Temur seriali 17:30 da chiqadi).
