@@ -202,3 +202,17 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   `claude/zen-curie-3dlfy5`, possibly without git). There: install Node.js LTS, ffmpeg and Python 3 (numpy, Pillow) if missing, run
   `npm install` in `video/`, let Remotion use its own downloaded browser (the `/opt/pw-browsers/chromium` path is only for cloud
   sessions), render with `--concurrency=2`, and deliver files from the local `video/exports/` folder (no GitHub link needed).
+
+## Chat 8 (2026-11-21): channel direction rethink
+
+- Temur series is COMPLETE (8 parts posted). Later parts did worse: the user and Claude agree that a chain of conquests
+  ("where he conquered next") bored viewers. Competitor @historyofuzb (876k, cinematic AI) wins with single emotional/human
+  moments (Temur and Ulug'bek, Navoiy and Guli, father/son) as standalone videos with strong hooks. Any future Temur/history
+  content: one human moment per video, no conquest lists.
+- Compared pages: birfoiz (360k, everyday Uzbek relevance: passport, army, codes; mixed AI/animation/real photos),
+  egrivoy (2D, modern life + choice dilemmas, millions of views but only 12.7k followers).
+- Proposed new direction on the SAME account (no new account, no archiving): "Tasavvur qil: bugungi narsaning tarixi"
+  (today's familiar thing -> its real history, Bek mascot, hook in 3 s, ends "Sen nima qilarding?"). First topic offered:
+  Orol dengizi ("1960-yil Mo'ynoqda baliqchisan"). Awaiting the user's yes.
+- English long-form YouTube idea: postponed. YPP is not available in Uzbekistan (talks with Google, Sep 2026); a fake foreign
+  AdSense address breaks the rules. In Uzbekistan income comes from Instagram ads/sponsors.
