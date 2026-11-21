@@ -36,24 +36,95 @@ Kalit esa... yo'q edi.
 
 On screen only at the end: "KALITNI KIM OLDI? Izohga yozing 👇" + "DAVOMI 3-QISMDA".
 
-## Flow promptlari
+## Flow promptlari (to'liq, nusxalab qo'yish uchun)
 
-STYLE (har promptning oxiriga): `1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16`
+### 0. Hoji aka portreti
+Model: Pro, referens yo'q
+```
+Cinematic portrait of Hoji aka, 60-year-old Uzbek crime boss, short white hair, trimmed white beard, cold calm grey eyes, expensive dark cashmere coat over black turtleneck, gold watch, sitting in a dim restaurant back room, cigarette smoke, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
 
-Referenslar: Sardor = `public/t94/sardor_portret.jpg` (1-qismdagi portret). Hoji aka portreti avval yasaladi.
+### 1. Stulga bog'langan Sardor
+Model: Pro, Sardor referensi
+```
+the young man from the reference image tied to a wooden chair in a dark restaurant back room, a single bare light bulb above, harsh light on his bruised face, sweat, darkness around, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
 
-0. HOJI AKA portreti (Pro): `Cinematic portrait of Hoji aka, 60-year-old Uzbek crime boss, short white hair, trimmed white beard, cold calm grey eyes, expensive dark cashmere coat over black turtleneck, gold watch, sitting in a dim restaurant back room, cigarette smoke` + STYLE
-1. ⭐ Sardor (Pro): `the young man from the reference image tied to a wooden chair in a dark restaurant back room, a single bare light bulb above, harsh light on his bruised face, sweat, darkness around` + STYLE
-2. ⭐ Sardor (Pro): `dawn in a modest Soviet apartment, the young man from the reference image kneeling on the floor, lifting a wooden floorboard, hiding a black sports bag underneath, cold blue morning light from the window` + STYLE
-3. (Lite): `close-up of a man's hand taking one bundle of US dollars from a black bag, medicine bottles on a wooden table in the background, morning light` + STYLE
-4. (Lite): `1990s Soviet pharmacy counter, a suspicious middle-aged pharmacist woman in a white coat holding a 100 dollar bill up to the light, glass shelves with medicine boxes behind her` + STYLE
-5. ⭐ (Pro): `courtyard of Soviet apartment blocks in daytime, an elderly Uzbek neighbor in a doppi hat and old jacket whispering worriedly to the young man from the reference image, laundry hanging on balconies` + STYLE
-6. (Lite): `a black 1990s Mercedes W124 sedan with tinted windows slowly driving through a Soviet apartment courtyard, two silhouettes inside, overcast sky` + STYLE
-7. (Lite): `night street, a black Mercedes W124 blocking a white Lada taxi at a corner, blinding headlights, rain, wet asphalt reflections` + STYLE
-8. (Lite): `night, two men in black leather jackets pulling a cloth sack over a young man's head next to a white Lada taxi, motion blur, harsh headlights` + STYLE
-9. ⭐ Hoji aka (Pro, Hoji referensi): `the man from the reference image sitting at a table in a dim restaurant back room, tea glasses and an ashtray on the table, smoke, looking directly at the camera with cold calm eyes` + STYLE
-10. ⭐ Ikkalasi (Pro, Sardor + Hoji referensi): `the older white-haired man from the second reference image leaning forward across a table, talking quietly, the young man from the first reference image sitting opposite him, frightened, dim restaurant back room, single lamp` + STYLE
-11. (Lite): `close-up of an old instant photo lying on a dark wooden table, in the photo an elderly Uzbek woman in a white headscarf sleeping in her bed at night, a man's hand with a gold watch pushing the photo forward` + STYLE
-12. ⭐ (Pro): `night, the young man from the reference image thrown out onto a wet empty street from a black car, falling on the asphalt, red tail lights driving away, rain` + STYLE
-13. ⭐ (Pro): `the young man from the reference image running up the dark concrete stairs of a Soviet apartment block at night, flickering light bulb, panic on his face` + STYLE
-14. (Lite): `top-down view of an open hole under a lifted wooden floorboard, bundles of US dollars inside, an empty dusty outline where a key used to be, a flashlight beam, darkness` + STYLE
+### 2. Sumkani yashirish
+Model: Pro, Sardor referensi
+```
+dawn in a modest Soviet apartment, the young man from the reference image kneeling on the floor, lifting a wooden floorboard, hiding a black sports bag underneath, cold blue morning light from the window, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 3. Bir dasta pul
+Model: Lite
+```
+close-up of a man's hand taking one bundle of US dollars from a black bag, medicine bottles on a wooden table in the background, morning light, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 4. Dorixona
+Model: Lite
+```
+1990s Soviet pharmacy counter, a suspicious middle-aged pharmacist woman in a white coat holding a 100 dollar bill up to the light, glass shelves with medicine boxes behind her, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 5. Qo'shni Salim aka
+Model: Pro, Sardor referensi
+```
+courtyard of Soviet apartment blocks in daytime, an elderly Uzbek neighbor in a doppi hat and old jacket whispering worriedly to the young man from the reference image, laundry hanging on balconies, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 6. Qora mashina hovlida
+Model: Lite
+```
+a black 1990s Mercedes W124 sedan with tinted windows slowly driving through a Soviet apartment courtyard, two silhouettes inside, overcast sky, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 7. Yo'lni to'sish
+Model: Lite
+```
+night street, a black Mercedes W124 blocking a white Lada taxi at a corner, blinding headlights, rain, wet asphalt reflections, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 8. Boshiga qop
+Model: Lite
+```
+night, two men in black leather jackets pulling a cloth sack over a young man's head next to a white Lada taxi, motion blur, harsh headlights, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 9. Hoji aka
+Model: Pro, Hoji aka referensi
+```
+the man from the reference image sitting at a table in a dim restaurant back room, tea glasses and an ashtray on the table, smoke, looking directly at the camera with cold calm eyes, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 10. Hoji aka va Sardor
+Model: Pro, 1-Sardor, 2-Hoji aka referensi
+```
+the older white-haired man from the second reference image leaning forward across a table, talking quietly, the young man from the first reference image sitting opposite him, frightened, dim restaurant back room, single lamp, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 11. Onaning rasmi
+Model: Lite
+```
+close-up of an old instant photo lying on a dark wooden table, in the photo an elderly Uzbek woman in a white headscarf sleeping in her bed at night, a man's hand with a gold watch pushing the photo forward, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 12. Ko'chaga tashlash
+Model: Pro, Sardor referensi
+```
+night, the young man from the reference image thrown out onto a wet empty street from a black car, falling on the asphalt, red tail lights driving away, rain, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 13. Zinada yugurish
+Model: Pro, Sardor referensi
+```
+the young man from the reference image running up the dark concrete stairs of a Soviet apartment block at night, flickering light bulb, panic on his face, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
+### 14. Kalit yo'q
+Model: Lite
+```
+top-down view of an open hole under a lifted wooden floorboard, bundles of US dollars inside, an empty dusty outline where a key used to be, a flashlight beam, darkness, 1994 post-Soviet Tashkent, shot on ARRI Alexa, anamorphic lens, 35mm film grain, teal and amber color grade, low-key moody lighting, single frame, photorealistic, vertical 9:16
+```
+
