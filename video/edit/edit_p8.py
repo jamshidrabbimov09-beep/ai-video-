@@ -57,8 +57,11 @@ spec = [  # (anchor, img | "mo:<scene>", move, transition, grade). FORMAT v2: no
     (('s', 2), '01', 'in', 'fade', 'warm'),                    # Bu - Usmonli sultoni Boyazid
     (('w', wi(2, 'laqabi')), '05', 'in2', 'fade', 'cold'),     # Yildirim (lightning)
     (('s', 3), '03', 'faceT', 'fade', 'warm'),                 # Endi Temur uni nima qiladi? (Temur's face)
-    (('s', 4), 'o15', 'in2', 'dip', 'warm'),                   # Oldingi qismda (moving shot, 7-qism)
-    (('s', 5), '06', 'in', 'fade', 'warm'),                    # g'arbda Boyazid kuchayib
+    # recap (user, 2026-11-21: parts must feel like one series): three quick frames from Part 7, ending on Part 7's last shot,
+    # which carries the same words as Part 7's last line ("G'arbda Usmonli sultoni Boyazid kuchayib borardi")
+    (('s', 4), 'o03', 'in2', 'dip', 'mem'),                    # Oldingi qismda: Pir Muhammad strikes an elephant
+    (('w', wi(4, 'hindistondan')), 'o15', 'in2', 'fade', 'mem'),  # fillar bilan qaytdi: elephants enter Samarqand
+    (('s', 5), 'o18', 'in2', 'fade', 'warm'),                  # g'arbda Boyazid kuchayib: Part 7's last frame
     (('s', 6), '07', 'in', 'fade', 'warm'),                    # maktub
     (('w', wi(7, 'boyazid')), '08', 'in2', 'fade', 'warm'),    # kibr bilan javob
     (('s', 8), 'mo:threat', 'none', 'fade', 'warm'),           # Tabrizgacha boraman
@@ -105,6 +108,8 @@ over = []
 HOOK_END = W(wi(1, 'temurning')) - 0.1
 over.append(dict(k='tag', t0=0.0, t1=round(SE(1) + 0.2, 3), text="8-QISM · 1402"))
 over.append(dict(k='hook', t0=0.2, t1=round(HOOK_END, 3), text="SULTON", sub="ASIRDA", y=760))
+over.append(dict(k='timeline', t0=0.0, t1=round(HOOK_END + 0.4, 3), year=1402))
+over.append(dict(k='countdown', t0=round(SS(38), 3), t1=round(SE(39) + 0.3, 3), text="2 YIL 7 OY"))   # July 1402 -> Feb 1405 (Manz 73)
 q0 = SS(40)
 over.append(dict(k='q', t0=round(q0 - 0.2, 3), t1=round(ASK_END, 3), pop=round((W(wi(40, 'boyazidni')) - q0 + 0.4) * 30)))
 over.append(dict(k='subend', t0=round(ASK_END, 3), t1=round(TOTAL, 3), text="KEYINGI QISM: ELCHI"))

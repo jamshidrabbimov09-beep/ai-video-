@@ -281,6 +281,45 @@ const NextPart: React.FC<{o: Over}> = ({o}) => {
   return <div style={{position: 'absolute', left: 0, right: 0, top: 330, textAlign: 'center', opacity: a, fontFamily: font, color: GOLD, fontSize: 76, fontWeight: 700, letterSpacing: 8, textShadow: '0 4px 30px #000'}}>{o.text}</div>;
 };
 
+/* series mark (user, 2026-11-21): the same timeline in every part, 1336 -> 1405, the dot on this part's year */
+const Timeline: React.FC<{o: Over & {year?: number}; d: number}> = ({o, d}) => {
+  const fr = useCurrentFrame();
+  const a = Math.min(interpolate(fr, [0, 10], [0, 1], {extrapolateRight: 'clamp'}), interpolate(fr, [d - 10, d], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}));
+  const y0 = 1336, y1 = 1405, yr = o.year ?? 1402, X0 = 150, X1 = 930;
+  const x = X0 + ((yr - y0) / (y1 - y0)) * (X1 - X0) * interpolate(fr, [4, 30], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: (t) => 1 - (1 - t) ** 3});
+  const pulse = (fr % 30) / 30;
+  return (
+    <AbsoluteFill style={{opacity: a}}>
+      <svg width={1080} height={1920} style={{position: 'absolute'}}>
+        <rect x={X0 - 40} y={292} width={X1 - X0 + 80} height={108} rx={16} fill="rgba(0,0,0,0.5)" />
+        <line x1={X0} y1={352} x2={X1} y2={352} stroke={CREAM} strokeOpacity={0.5} strokeWidth={4} />
+        <line x1={X0} y1={352} x2={x} y2={352} stroke={GOLD} strokeWidth={6} />
+        <text x={X0} y={388} textAnchor="middle" fontFamily={font} fontSize={28} fill={CREAM} opacity={0.85}>1336</text>
+        <text x={X1} y={388} textAnchor="middle" fontFamily={font} fontSize={28} fill={CREAM} opacity={0.85}>1405</text>
+        <circle cx={x} cy={352} r={14 + pulse * 18} fill="none" stroke={GOLD} strokeWidth={3} opacity={1 - pulse} />
+        <circle cx={x} cy={352} r={12} fill={GOLD} />
+        <text x={x} y={330} textAnchor="middle" fontFamily={font} fontWeight={700} fontSize={36} fill={GOLD}>{yr}</text>
+      </svg>
+    </AbsoluteFill>
+  );
+};
+/* running countdown at the end of every part: how much of Temur's life is left (he died 17/18 Feb 1405, Manz 73) */
+const Countdown: React.FC<{o: Over; d: number}> = ({o, d}) => {
+  const fr = useCurrentFrame();
+  const a = useFade(d);
+  const sc = interpolate(fr, [0, 16], [1.1, 1], {extrapolateRight: 'clamp'});
+  return (
+    <AbsoluteFill>
+      <TopShade o={a} />
+      <div style={{position: 'absolute', left: 40, right: 40, top: 330, textAlign: 'center', opacity: a, fontFamily: font, transform: `scale(${sc})`}}>
+        <div style={{color: CREAM, fontSize: 50, letterSpacing: 6, fontWeight: 700, textShadow: '0 3px 18px #000'}}>TEMURNING UMRIGA</div>
+        <div style={{color: GOLD, fontSize: 116, letterSpacing: 8, fontWeight: 700, lineHeight: 1.1, textShadow: '0 4px 30px #000, 0 0 60px #000'}}>{o.text}</div>
+        <div style={{color: CREAM, fontSize: 50, letterSpacing: 6, fontWeight: 700, textShadow: '0 3px 18px #000'}}>QOLGAN EDI</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 const renderOver = (o: Over) => {
   const d = Math.max(1, f(o.t1) - f(o.t0));
   switch (o.k) {
@@ -294,6 +333,8 @@ const renderOver = (o: Over) => {
     case 'q': return <QuestionCard d={d} pop={(o as any).pop} v="C" />;
     case 'subend': return <><SubscribeEnd d={d} centered /><NextPart o={o} /></>;
     case 'hook': return <Hook o={o} d={d} />;
+    case 'timeline': return <Timeline o={o as any} d={d} />;
+    case 'countdown': return <Countdown o={o} d={d} />;
     case 'tag': return <Tag o={o} />;
     case 'map': return <MapOv />;
     case 'end': return <EndCard o={o} />;

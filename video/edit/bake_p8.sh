@@ -4,9 +4,11 @@
 cd "$(dirname "$0")/../public" || exit 1
 mkdir -p p8g/warm p8g/cold
 UP="scale=1296:2322:force_original_aspect_ratio=increase:flags=lanczos,crop=1296:2322,unsharp=5:5:0.6:5:5:0.0"
-for f in p8img/p*.jpg p7img/o15.jpg; do
+mkdir -p p8g/mem
+for f in p8img/p*.jpg p7img/o03.jpg p7img/o15.jpg p7img/o18.jpg; do
   b=$(basename "$f")
   ffmpeg -v error -y -i "$f" -vf "$UP,curves=all='0/0.03 0.25/0.29 0.5/0.53 1/1',eq=contrast=1.06:saturation=1.05" -q:v 2 p8g/warm/$b
   ffmpeg -v error -y -i "$f" -vf "$UP,curves=all='0/0.03 0.25/0.29 0.5/0.53 1/1',eq=contrast=1.08:saturation=0.8:brightness=-0.02,hue=h=-8" -q:v 2 p8g/cold/$b
+  ffmpeg -v error -y -i "$f" -vf "$UP,colorchannelmixer=.393:.769:.189:0:.349:.686:.168:0:.272:.534:.131,eq=contrast=1.05:brightness=0.02" -q:v 2 p8g/mem/$b
 done
 echo baked $(ls p8g/warm | wc -l) images
