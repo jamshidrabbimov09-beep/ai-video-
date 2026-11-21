@@ -1,0 +1,16 @@
+# 8-qism "Asir sulton": ElevenLabs matni (2026-11-21)
+
+Sozlamalar 5-7-qismlar kabi: o'sha ovoz, v4, Stability "Robust", Language: Uzbek. Raqamlar so'z bilan.
+FORMAT v2: ovoz hissiyotli bo'lsin: boshida past va sirli, jangda baland, Temurning so'zlarida sokin va qat'iy.
+Teg ovozda o'qilib ketsa, o'sha tegni o'chirib qayta yozing. Hammasini bitta faylga yozsa ham bo'ladi (savol oxirida).
+Eshitib ko'ring: **Yildirim, Boyazid, Usmonli, Anado'lu, Anqara, yo'l-yo'lakay, qurshovni, ro'parasiga, Ispaniyadan**.
+
+## 1) ASOSIY MATN
+```
+[low, tense] Ming to'rt yuz ikkinchi yil, iyul. [short pause] [whispers] Kechqurun Temurning chodiriga... qo'llari bog'langan bir odamni olib kirishadi. [pause] [dramatic] Bu — Usmonli sultoni Boyazid. [short pause] Laqabi Yildirim, ya'ni Chaqmoq. [pause] [slow, mysterious] Endi Temur uni nima qiladi? [long pause] [storytelling] Oldingi qismda Temur Hindistondan fillar bilan qaytdi. [short pause] Endi g'arbda Boyazid kuchayib borardi. [pause] [firm] Temur unga maktub yozadi: "Chegarangdan oshma." [short pause] [arrogant, loud] Boyazid kibr bilan javob qaytaradi: "Agar u kelmasa, men o'zim Tabrizgacha boraman!" [long pause] [serious] Temurning amirlari Anado'luga yurishga ikkilanardi. [short pause] [determined] Lekin Temur baribir yo'lga chiqadi. [pause] [tense] Boyazid katta qo'shin bilan o'rmonli tor yo'llarda uni kutib turardi. [short pause] [sly] Temur esa u yerga bormaydi. [short pause] U aylanib o'tib, to'g'ri Anqaraga yuradi. [pause] [calm, confident] Temur deydi: "Uning askarlari ko'pi piyoda. Ortimizdan yetib kelguncha holdan toyadi." [long pause] [storytelling] Qo'shin yo'l-yo'lakay quduq qazib boradi. [short pause] Anqara yonida Temur qarorgoh quradi. [pause] [low, cunning] Dushman tomondagi kichik buloqni esa... yog'och bilan to'ldirib tashlashni buyuradi. [pause] [heavy] Jazirama iyul. [short pause] Charchagan Usmonli qo'shini yetib keladi. [long pause] [dramatic, rising] Ertalab ikki qo'shin saf tortadi. [short pause] Temur fillariga sovut kiydiradi, ustiga kamonchilarni o'tqazadi. [pause] [tense] Boyazid tomonida boshdan-oyoq qora temir sovutdagi yevropalik otliqlar turardi. [short pause] [whispers] Ulardan faqat ko'zlari ko'rinardi. [pause] [intense, loud] Ular qattiq turadi! [short pause] Lekin oxiri ular ham chekinadi. [pause] [shocked] Boyazid tepalikka chiqib qaraydi: qo'shini tarqalib ketgan edi. [pause] [fast, intense] U kechgacha jang qiladi, keyin qurshovni yorib qochadi! [short pause] Temurning bahodirlaridan biri uni quvib yetadi. [long pause] [calm, commanding] Temur buyuradi: "Qo'llarini yeching. Hurmat bilan olib kiring." [pause] [slow, firm] Uni ro'parasiga o'tqazadi: "Seni necha marta ogohlantirdim. Quloq solmading. [short pause] [softer] Lekin menga g'alaba berildi. Senga yaxshilikdan boshqa hech narsa qilmayman." [pause] [quiet] Boyazid xatosini tan oladi. [short pause] [warm] Temur unga shohona to'n kiydiradi va yo'qolgan o'g'lini topib, oldiga olib keladi. [long pause] [sad, slow] Lekin Boyazid bir necha oydan keyin asirlikda vafot etdi. [long pause] [mysterious] Ertaga: uzoq Ispaniyadan bir elchi Samarqandga yetib keladi. [short pause] [inviting] U Temurni o'z ko'zi bilan ko'radi.
+```
+
+## 2) YAKUNIY SAVOL
+```
+[warm, curious] Siz-chi? [short pause] Temurning o'rnida Boyazidni kechirarmidingiz? [short pause] [inviting] Ha yoki yo'q: izohda yozing.
+```

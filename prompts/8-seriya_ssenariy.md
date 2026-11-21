@@ -1,6 +1,6 @@
 # 8-seriya: "Amir Temur #8: Asir sulton" (Anqara, 1402) — ssenariy va fakt tekshiruvi
 
-Holat: TASDIQLASH KUTILMOQDA (2026-11-20). Yazdiy va Manz bo'yicha tekshirilgan. Ovoz hali yozilmagan.
+Holat: TASDIQLANDI (2026-11-21). Yazdiy va Manz bo'yicha tekshirilgan. Ovoz hali yozilmagan.
 Format: foydalanuvchining 2026-11-20 qoidalari (TEMUR.md, "FORMAT v2"): 1:30-2:30, bitta odam, bitta qaror, bitta bosh savol,
 javob faqat oxirida, har 15-20 s da burilish, "Oldingi qismda" 12-soniyadan keyin.
 Hajm: ~245 so'z, taxminan 2:00. Bosh savol: "Temur asir sultonni nima qiladi?" Javob oxirida.
@@ -22,7 +22,7 @@ Temurning amirlari Anado'luga yurishga ikkilanardi. Lekin Temur baribir yo'lga c
 Qo'shin yo'l-yo'lakay quduq qazib boradi. Anqara yonida Temur qarorgoh quradi. Dushman tomondagi kichik buloqni esa yog'och bilan to'ldirib tashlashni buyuradi. Jazirama iyul. Charchagan Usmonli qo'shini yetib keladi.
 
 **E (65-90 s, burilish 3: jang)**
-Ertalab ikki qo'shin saf tortadi. Temur fillariga sovut kiydiradi, ustiga kamonchilarni o'tqazadi. Boyazid tomonida boshdan-oyoq qora temir sovutdagi yevropalik suvoriylar turardi: ulardan faqat ko'zlari ko'rinardi. Ular qattiq turadi. Lekin oxiri ular ham chekinadi. Boyazid tepalikka chiqib qaraydi: qo'shini tarqalib ketgan edi. U kechgacha jang qiladi, keyin qamalni yorib qochadi. Temurning bahodirlaridan biri uni quvib yetadi.
+Ertalab ikki qo'shin saf tortadi. Temur fillariga sovut kiydiradi, ustiga kamonchilarni o'tqazadi. Boyazid tomonida boshdan-oyoq qora temir sovutdagi yevropalik otliqlar turardi: ulardan faqat ko'zlari ko'rinardi. Ular qattiq turadi. Lekin oxiri ular ham chekinadi. Boyazid tepalikka chiqib qaraydi: qo'shini tarqalib ketgan edi. U kechgacha jang qiladi, keyin qurshovni yorib qochadi. Temurning bahodirlaridan biri uni quvib yetadi.
 
 **F (90-110 s, javob)**
 Temur buyuradi: "Qo'llarini yeching. Hurmat bilan olib kiring." Uni ro'parasiga o'tqazadi: "Seni necha marta ogohlantirdim. Quloq solmading. Lekin menga g'alaba berildi. Senga yaxshilikdan boshqa hech narsa qilmayman." Boyazid xatosini tan oladi. Temur unga shohona to'n kiydiradi va yo'qolgan o'g'lini topib, oldiga olib keladi. Lekin Boyazid bir necha oydan keyin asirlikda vafot etdi.
@@ -48,7 +48,7 @@ Siz-chi? Temurning o'rnida Boyazidni kechirarmidingiz? Ha yoki yo'q: izohda yozi
 | Quduq qazish | Yazdiy 263a: "Если в двух остановках не будет воды - рыть колодцы" | tasdiq |
 | Dushman tomondagi buloqni yog'och bilan to'ldirish | Yazdiy 263b: "небольшой родник ... заполнить воду пнями" | tasdiq |
 | Fillarga sovut, ustida kamonchilar | Yazdiy 264a | tasdiq |
-| Qora temir sovutli yevropalik suvoriylar, faqat ko'zlari ko'rinadi, qattiq turadi, keyin chekinadi | Yazdiy 264b-265a (Boyazidning qaynog'asi boshchiligidagi "franklar") | tasdiq (Yazdiydagi 20 ming raqami aytilmadi) |
+| Qora temir sovutli yevropalik otliqlar, faqat ko'zlari ko'rinadi, qattiq turadi, keyin chekinadi | Yazdiy 264b-265a (Boyazidning qaynog'asi boshchiligidagi "franklar") | tasdiq (Yazdiydagi 20 ming raqami aytilmadi) |
 | Tepalikdan qo'shini tarqalganini ko'radi, kechgacha jang, yorib chiqadi | Yazdiy 265b | tasdiq |
 | Bahodirlardan biri quvib yetadi | Yazdiy 266a (Sulton Mahmudxon) | tasdiq |
 | "Qo'llarini yeching, hurmat bilan", Temurning so'zlari | Yazdiy 266a | tasdiq (qisqartirilgan) |
