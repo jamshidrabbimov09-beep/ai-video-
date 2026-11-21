@@ -9,6 +9,7 @@ import {Part4, PART4_FRAMES} from './Part4';
 import {Part5, PART5_FRAMES} from './Part5';
 import {Part6, PART6_FRAMES} from './Part6';
 import {Part7, PART7_FRAMES} from './Part7';
+import {Part8, PART8_FRAMES} from './Part8';
 import {QPreview} from './p4outro';
 import {LoyJangi, LOY_FRAMES} from './LoyJangi';
 import {BekSheet} from './tasavvur/BekSheet';
@@ -51,6 +52,7 @@ export const Root: React.FC = () => (
   <Composition id="Part5" component={Part5} durationInFrames={PART5_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="Part6" component={Part6} durationInFrames={PART6_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="Part7" component={Part7} durationInFrames={PART7_FRAMES} fps={30} width={1080} height={1920} />
+  <Composition id="Part8" component={Part8} durationInFrames={PART8_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="QPreview" component={QPreview} durationInFrames={60} fps={30} width={1080} height={1920} defaultProps={{v: 'A'}} />
   <Composition id="LoyJangi" component={LoyJangi} durationInFrames={LOY_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="TQ1" component={TQ1} durationInFrames={TQ1_FRAMES} fps={30} width={1080} height={1920} />
