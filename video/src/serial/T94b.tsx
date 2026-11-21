@@ -72,15 +72,15 @@ const ShotView: React.FC<{s: Shot; next?: Shot}> = ({s}) => {
   const x = s.from[1] + (s.to[1] - s.from[1]) * p;
   const y = s.from[2] + (s.to[2] - s.from[2]) * p;
   const sh = s.shake ?? 0;
-  const sx = sh ? Math.sin(f * 1.7) * sh + Math.sin(f * 0.53) * sh * 0.6 : 0;
-  const sy = sh ? Math.cos(f * 1.3) * sh * 0.7 + Math.sin(f * 0.71) * sh * 0.5 : 0;
-  const fl = s.flicker ? 0.94 + 0.06 * Math.sin(f * 0.9) * Math.sin(f * 0.31) : 1;
+  const sx = sh ? Math.sin(f * 0.11) * sh * 1.2 + Math.sin(f * 0.047) * sh : 0;
+  const sy = sh ? Math.cos(f * 0.09) * sh * 0.8 + Math.sin(f * 0.037) * sh * 0.6 : 0;
+  const fl = 1;
   const op = interpolate(f, [0, XF * FPS], [0, 1], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill style={{opacity: s.t0 === 0 ? 1 : op}}>
       <AbsoluteFill
         style={{
-          transform: `translate(${x + sx / 10.8}%, ${y + sy / 19.2}%) scale(${sc})`,
+          transform: `translate3d(${x + sx / 10.8}%, ${y + sy / 19.2}%, 0) scale(${sc})`, willChange: 'transform',
           filter: `brightness(${fl}) contrast(1.06) saturate(0.92)`,
         }}
       >
