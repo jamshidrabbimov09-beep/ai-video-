@@ -220,3 +220,5 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   that every episode opens with "Tasavvur qil"). Still: a strong hook in the first 3 s and an open question to the end. "Tasavvur qil"
   stays only in the bio. New identity: avatar `video/instagram/avatar_bek.png` (Bek, happy, blue rays), cover template `BrandCover`
   in `video/src/brand/Brand.tsx` (big white + yellow question over a Bek scene), sample `instagram/cover_namuna_orol.png` (2x).
+- 2026-11-21: the user ARCHIVED all Temur posts on Instagram (new bio options given). First new-direction script:
+  `prompts/orol_elevenlabs.md` ("Dengiz qayerga ketdi?", Mo'ynoq, Cyrillic TTS text without "ғ", fact table, 12-scene plan). Awaiting approval.
