@@ -7,6 +7,7 @@ Muqova: `instagram/cover_part8.png` (p04, Real-ESRGAN x4, shablon `edit/insta_co
 1402-yil, iyul. Temurning chodiriga qo'llari bog'langan bir odamni olib kirishadi. Bu — Usmonli sultoni Boyazid.
 
 Amir Temur hikoyasi, 8-qism: «Asir sulton» (1402)
+7-qism «Dehli qulaydi»ning davomi. Temurning umriga 2 yil 7 oy qolgan edi.
 
 Manbalar: Sharafuddin Ali Yazdiy, «Zafarnoma»; Beatrice F. Manz, «The Rise and Rule of Tamerlane»
 

@@ -24,6 +24,11 @@ u CLAUDE.md da alohida turadi, Temur ishida unga tegilmaydi va uning qoidalari T
 - Qorong'i sahnalar telefonda ko'rinsin; sarlavha va subtitr ustma-ust tushmasin.
 - Oxiri: keyingi qismdan 1 kadr + bitta gap; "Ertaga N+1-qism" faqat rost bo'lsa; obuna tugmasi qoladi.
 - Muqova va taglavha, pin izoh, izohlarga javob: "YANGI FORMAT"dagidek (shablon `edit/insta_cover_temur.py`).
+- SERIAL ULANISHI (foydalanuvchi, 2026-11-21: qismlar alohida film bo'lib qolmasin): (1) har qism oldingi qism tugagan kadrdan / oxirgi
+  gapdan davom etadi (8-qism: 7-qismning oxirgi kadri o18 "G'arbda Boyazid kuchayib borardi" ustida); (2) "Oldingi qismda" = oldingi
+  qismdan 3 ta tez kadr, sepiya ('mem' grade), bitta gap; (3) boshida doimiy vaqt chizig'i 1336 —●— 1405 (overlay 'timeline', year);
+  (4) oxirida "TEMURNING UMRIGA ... QOLGAN EDI" hisobi (overlay 'countdown'; Temur 17/18 fevral 1405 vafot, Manz 73);
+  (5) taglavhada "N-1-qism «...»ning davomi" qatori. Komponentlar `src/Part8.tsx` (Timeline, Countdown, Hook).
 - HAR YAKSHANBA: oxirgi 7 qismdan eng yaxshi 2 tasi nimasi bilan ajralganini yozish, keyingi haftada takrorlash.
 - Qismlar tartibi (Claude taklifi, 2026-11-20): 8 Anqara 1402 (Boyazid asirligi), 9 Klavixo Samarqandda 1404, 10 Samarqand qurilishi,
   11 shaxsiy qarorlar (shaxmat, ilm davralari: Yazdiy/Manzda tekshirish kerak), 12 oxirgi yurish 1404-1405 (Manz 73: kuz 1404 O'trorga,
