@@ -471,8 +471,8 @@ const SCENES: [number, number, React.FC<{t: number}>][] = [
   [55.6, 60.4, SceneSpring],
   [60.4, 65.8, SceneFlee],
   [65.8, 72.5, SceneTwist],
-  [72.5, 81.8, SceneRobe],
-  [81.8, BRIDGE_AT, SceneVote],
+  [72.5, 81.45, SceneRobe],
+  [81.45, BRIDGE_AT, SceneVote],
   [BRIDGE_AT, 999, SceneBridge],
 ];
 
@@ -515,7 +515,7 @@ export const TQ6: React.FC<{at?: number}> = ({at}) => {
         {t < BRIDGE_AT && <rect width={W} height={470} fill="url(#capband6)" />}
         <rect width={W} height={H} fill="#fff" opacity={flash} />
       </svg>
-      {at === undefined && t < VOICE_END + 0.3 && <Caption t={t} chunks={chunks} hl={HL} />}
+      {at === undefined && t < VOICE_END + 0.3 && !(t > 72.3 && t < 81.8) && <Caption t={t} chunks={chunks} hl={HL} />}
       <AbsoluteFill style={{background: '#000', opacity: endFade}} />
     </AbsoluteFill>
   );

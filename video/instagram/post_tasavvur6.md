@@ -1,6 +1,6 @@
 # "Tasavvur qil" #6: Sen Boyazidsan
 
-Video: video/exports/tasavvur6_sen_boyazidsan_1080p.mp4 (93 s). Muqova: instagram/cover_tasavvur6.png (2160x3840, `TQ6Cover`).
+Video: video/exports/tasavvur6_sen_boyazidsan_1080p.mp4 (84 s; v2: to'n kiydirish javobi olib tashlandi, ko'prik Temur 8-qismiga). Muqova: instagram/cover_tasavvur6.png (2160x3840, `TQ6Cover`).
 Strategiya v2, 1-kun. Manba: Sharafuddin Ali Yazdiy, "Zafarnoma". Variantlar taxmin; haqiqiy tarix videoning oxirida.
 
 ## Caption
@@ -12,16 +12,16 @@ Tasavvur qil: sen sulton Boyazidsan. Yurtingga Temur kirdi, uning qo'shini 3 kun
 
 Izohga raqam yoz 👇
 
-Variantlar taxmin. Tarix qanday bo'lganini videoning oxirida ko'rasan.
+Variantlar taxmin. Tarixda sulton qaysi yo'lni tanlaganini videoning oxirida ko'rasan.
 📜 Manba: Sharafuddin Ali Yazdiy, "Zafarnoma"
 
-Haqiqiy tarix profilda 👆 Temur seriali, 1-qismdan boshlang.
+Temur asir sultonni nima qildi? Javob Temur serialining 8-qismida, profilda 👆
 
 #tasavvurqil #tarix #unutilganqissalar #amirtemur #anqara
 
 ## Pin qilinadigan birinchi izoh
 Men 2-ni tanlardim! Siz-chi? 👇
-Temurning butun hayoti Temur serialida: profilda 1-qismdan boshlang 🎬
+Temur asir sultonni nima qildi? Javob Temur serialining 8-qismida, profilda 🎬
 
 ## Izohlarga javob (birinchi soatda 10 ta, har birida yangi savol)
 - "1": Jasur tanlov! Lekin jazirama va fillar-chi, qo'rqmasmiding? 🐘
