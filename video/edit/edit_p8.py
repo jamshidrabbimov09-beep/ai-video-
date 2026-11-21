@@ -51,11 +51,12 @@ def bound(a):
         return pe + 0.5 * (SS(v) - 0.12 - pe)
     return W(v) - 0.10
 spec = [  # (anchor, img | "mo:<scene>", move, transition, grade). FORMAT v2: no shot over ~4 s, a new frame every 3-4 s.
-    (('t', 0), '02', 'in2', 'none', 'warm'),                   # hook: Boyazid led in with tied hands
-    (('w', wi(1, 'temurning')), '04', 'push', 'fade', 'warm'), # close-up of his face
+    (('t', 0), '02', 'in2', 'none', 'warm'),                   # hook: Boyazid led in with tied hands (only the big hook text on screen)
+    (('w', wi(1, 'temurning')), '03', 'in', 'fade', 'warm'),   # "Temurning chodiriga": Temur in his tent
+    (('w', wi(1, "qo'llari")), '02', 'push', 'fade', 'warm'),  # "qo'llari bog'langan": the tied hands, closer
     (('s', 2), '01', 'in', 'fade', 'warm'),                    # Bu - Usmonli sultoni Boyazid
     (('w', wi(2, 'laqabi')), '05', 'in2', 'fade', 'cold'),     # Yildirim (lightning)
-    (('s', 3), '03', 'push', 'fade', 'warm'),                  # Endi Temur uni nima qiladi?
+    (('s', 3), '03', 'faceT', 'fade', 'warm'),                 # Endi Temur uni nima qiladi? (Temur's face)
     (('s', 4), 'o15', 'in2', 'dip', 'warm'),                   # Oldingi qismda (moving shot, 7-qism)
     (('s', 5), '06', 'in', 'fade', 'warm'),                    # g'arbda Boyazid kuchayib
     (('s', 6), '07', 'in', 'fade', 'warm'),                    # maktub
@@ -101,10 +102,9 @@ shots = [dict(t0=round(bounds[k], 3), t1=round(bounds[k + 1], 3), img=img, mv=mv
 assert all(s['t1'] > s['t0'] for s in shots)
 
 over = []
-over.append(dict(k='tag', t0=0.0, t1=round(SE(1) + 0.2, 3), text="8-QISM"))
-over.append(dict(k='hook', t0=0.2, t1=round(SE(1) + 0.2, 3), text="SULTON", sub="ASIRDA", y=760))
-over.append(dict(k='name', t0=round(W(wi(2, 'boyazid')), 3), t1=round(SE(2) + 0.3, 3), text="BOYAZID", sub="YILDIRIM", sub_t=round(W(wi(2, 'yildirim')) - W(wi(2, 'boyazid')), 3)))
-over.append(dict(k='name', t0=round(SS(17), 3), t1=round(SE(17) + 0.3, 3), text="ANQARA", sub="1402", sub_t=0.3))
+HOOK_END = W(wi(1, 'temurning')) - 0.1
+over.append(dict(k='tag', t0=0.0, t1=round(SE(1) + 0.2, 3), text="8-QISM · 1402"))
+over.append(dict(k='hook', t0=0.2, t1=round(HOOK_END, 3), text="SULTON", sub="ASIRDA", y=760))
 q0 = SS(40)
 over.append(dict(k='q', t0=round(q0 - 0.2, 3), t1=round(ASK_END, 3), pop=round((W(wi(40, 'boyazidni')) - q0 + 0.4) * 30)))
 over.append(dict(k='subend', t0=round(ASK_END, 3), t1=round(TOTAL, 3), text="KEYINGI QISM: ELCHI"))
@@ -112,7 +112,7 @@ for a, b in ((0, SE(3) + 0.3), (SS(29), SE(34) + 0.3), (SS(37), SE(37) + 0.4)):
     over.append(dict(k='bars', t0=round(max(0, a), 3), t1=round(b, 3)))
 
 FIXW = (("usmonli", "Usmonli"), ("chaqmoq", "Chaqmoq"), ("amrlari", "amirlari"), ("Anadoluga", "Anado'luga"), ("Chegaringdan", "Chegarangdan"), ("Ankara", "Anqara"), ("bahodirlardan", "bahodirlaridan"), ("Sizchi", "Siz-chi,"), ("o'tkazadi", "o'tqazadi"), ("Tabriz", "Tabrizgacha"), ("gacha", ""), ("ming", "1402-yil,"))
-SKIP = set(range(wi(1, "to'rt"), wi(1, 'iyul')))   # '1402-yil, iyul' replaces the spoken year
+SKIP = set(range(0, wi(1, 'temurning')))   # the hook text alone carries the first 3.5 s (user, 2026-11-21: too much text)
 toks = []
 for i, x in enumerate(words):
     if i in SKIP: continue
