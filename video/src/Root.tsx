@@ -10,6 +10,7 @@ import {Part5, PART5_FRAMES} from './Part5';
 import {QPreview} from './p4outro';
 import {LoyJangi, LOY_FRAMES} from './LoyJangi';
 import {BekSheet} from './tasavvur/BekSheet';
+import {BrandAvatar, BrandCoverOrol} from './brand/Brand';
 import {TQ1, TQ1_FRAMES} from './tasavvur/TQ1';
 import {TQ1Cover} from './tasavvur/TQ1Cover';
 import {MapTest} from './tasavvur/MapTest';
@@ -62,6 +63,8 @@ export const Root: React.FC = () => (
   <Composition id="TQ3CoverC" component={TQ3Cover} defaultProps={{v: 'c' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ2Cover" component={TQ2Cover} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="MapTest" component={MapTest} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="BrandAvatar" component={BrandAvatar} durationInFrames={1} fps={30} width={1080} height={1080} />
+  <Composition id="BrandCoverOrol" component={BrandCoverOrol} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="BekSheet" component={BekSheet} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="Test" component={Test} durationInFrames={60} fps={30} width={1920} height={1080} />
   </>
