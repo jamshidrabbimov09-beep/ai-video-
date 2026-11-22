@@ -5,6 +5,7 @@ Taxminiy uzunlik: 70-80 s.
 
 ## ElevenLabs uchun matn (kirill)
 
+[mysterious] Бу кемалар денгизда эмас... чўлнинг ўртасида турибди. Нега?
 [curious] 1960 йил. Сен Мўйноқдасан. Уйинг денгиз бўйида, отанг балиқчи.
 Ҳар тонг кемалар денгизга чиқади. Балиқ заводи кечаю кундуз ишлайди. Бу ерда тутилган балиқ бутун Иттифоққа кетади.
 [excited] Орол денгизи ўша пайтда дунёдаги энг катта кўллардан бири. Тўртинчи ўринда!
@@ -24,7 +25,7 @@ Taxminiy uzunlik: 70-80 s.
 
 ## Lotincha (tekshirish uchun)
 
-Yil 1960. Sen Mo'ynoqdasan. Uying dengiz bo'yida, otang baliqchi. Har tong kemalar dengizga chiqadi. Baliq zavodi kechayu
+Bu kemalar dengizda emas... cho'lning o'rtasida turibdi. Nega? Yil 1960. Sen Mo'ynoqdasan. Uying dengiz bo'yida, otang baliqchi. Har tong kemalar dengizga chiqadi. Baliq zavodi kechayu
 kunduz ishlaydi. Bu yerda tutilgan baliq butun Ittifoqqa ketadi. Orol dengizi o'sha paytda dunyodagi eng katta ko'llardan biri.
 To'rtinchi o'rinda! Lekin bir kuni... suv chekina boshlaydi. Har yili suv uzoqlashadi. Avval yuz metr. Keyin bir kilometr.
 Keyin o'n kilometr. Nega? Dengizni ikkita daryo to'ydirib turardi: Amudaryo va Sirdaryo. Ularning suvi kanallar orqali paxta
@@ -60,7 +61,8 @@ aniq kilometr va gektar raqamlari, aybdorlarni nomlash.
 - "1960 йил" so'zini birinchi bo'lib alohida sinab ko'ring ("бир минг тўққиз юз олтмишинчи йил" deb o'qisa ham bo'ladi).
 
 ## Sahnalar rejasi (qisqa)
-1. Hook: Bek dengiz bo'yida, ko'k dengiz, kemalar, yozuv "1960".
+0. Hook (0-3 s): qum ichida zang bosgan kemalar, Bek hayron, "?".
+1. Bek dengiz bo'yida, ko'k dengiz, kemalar, yozuv "1960".
 2. Baliq zavodi, baliq qutilari, xaritada Ittifoq bo'ylab strelkalar.
 3. Dunyo xaritasi: 4 ta katta ko'l, Orol "4" belgisi.
 4. Suv chekinadi: hisoblagich 100 m -> 1 km -> 10 km, Bek kuzatadi.
