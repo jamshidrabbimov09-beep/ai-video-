@@ -231,3 +231,9 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   flicker looked cheap ("bijir-bijir") -> use only slow smooth drift, no flicker. An "Oldingi qismda" recap (T94Recap) was tried and REJECTED
   (kills interest); no recap and no extra labels. Continuity instead: each next part starts exactly where the previous one ended (ep.3 opens
   on the empty hole under the floorboard / missing key, 6 a.m. deadline).
+- Ep.2 stats after 1 day: 2,662 views (4x ep.1), 58 follows, skip 28.2%, avg 34 s of 70 s, 5 comments, likes peak at the very end.
+- SERIAL RULE (user, 2026-11-22): every new part OPENS with the real last ~4 s of the previous part (same footage + same voice,
+  small "OLDINGI QISMDA" label, subtitles on), then flows without a cut into the new part. That tail doubles as the 3-second hook.
+  Every part ENDS on a strong cliffhanger. Ep.3 starts with ep.2's tail (62.4-66.4 s: "Pul joyida edi. Kalit esa... yo'q edi").
+  Proposed ep.3 "Soat oltigacha" (23:00 -> 06:00 countdown; militia button; neighbour Salim aka confesses a militiaman opened the door;
+  05:59 knock; final: Afghan comrade Jasur in militia uniform holding key 14). Awaiting the user's yes.
