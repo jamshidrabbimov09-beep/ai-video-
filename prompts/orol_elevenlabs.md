@@ -6,7 +6,7 @@ Taxminiy uzunlik: 70-80 s.
 ## ElevenLabs uchun matn (kirill)
 
 [mysterious] Бу кемалар денгизда эмас... чўлнинг ўртасида турибди. Нега?
-[curious] 1960 йил. Сен Мўйноқдасан. Сен денгиз бўйида яшайсан, отанг балиқчи.
+[curious] 1960 йил. Сен Мўйноқдасан. Денгиз бўйида яшайсан, отанг балиқчи.
 Ҳар тонг кемалар денгизга чиқади. Балиқ заводи кечаю кундуз ишлайди. Бу ерда тутилган балиқ бутун Иттифоққа кетади.
 [excited] Орол денгизи ўша пайтда дунёдаги энг катта кўллардан бири. Тўртинчи ўринда!
 [serious] Лекин бир куни... сув чекина бошлайди.
@@ -25,7 +25,7 @@ Taxminiy uzunlik: 70-80 s.
 
 ## Lotincha (tekshirish uchun)
 
-Bu kemalar dengizda emas... cho'lning o'rtasida turibdi. Nega? Yil 1960. Sen Mo'ynoqdasan. Sen dengiz bo'yida yashaysan, otang baliqchi. Har tong kemalar dengizga chiqadi. Baliq zavodi kechayu
+Bu kemalar dengizda emas... cho'lning o'rtasida turibdi. Nega? Yil 1960. Sen Mo'ynoqdasan. Dengiz bo'yida yashaysan, otang baliqchi. Har tong kemalar dengizga chiqadi. Baliq zavodi kechayu
 kunduz ishlaydi. Bu yerda tutilgan baliq butun Ittifoqqa ketadi. Orol dengizi o'sha paytda dunyodagi eng katta ko'llardan biri.
 To'rtinchi o'rinda! Lekin bir kuni... suv chekina boshlaydi. Har yili suv uzoqlashadi. Avval yuz metr. Keyin bir kilometr.
 Keyin o'n kilometr. Nega? Dengizni ikkita daryo to'ydirib turardi: Amudaryo va Sirdaryo. Ularning suvi kanallar orqali paxta
