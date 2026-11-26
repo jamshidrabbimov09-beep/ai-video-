@@ -105,11 +105,10 @@ const Body: React.FC<{top: Top; topColor: string; pants: string; skin: string; s
         <path d={`M${128 - w} 330 C${104 - w} 340 ${98 - w} 420 ${102 - w} 498 L${134 - w} 498 C${134 - w} 440 138 380 146 352 Z`} fill={topColor} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
         <circle cx={118 - w} cy={512} r={18} fill={skin} stroke={INK} strokeWidth={SW} />
       </g>
-      <g transform={`rotate(${armR} ${272 + w} 340)`}>
+      {!phone && <g transform={`rotate(${armR} ${272 + w} 340)`}>
         <path d={`M${272 + w} 330 C${296 + w} 340 ${302 + w} 420 ${298 + w} 498 L${266 + w} 498 C${266 + w} 440 262 380 254 352 Z`} fill={topColor} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
         <circle cx={282 + w} cy={512} r={18} fill={skin} stroke={INK} strokeWidth={SW} />
-        {phone && <rect x={262 + w} y={500} width={40} height={74} rx={8} fill="#111" stroke={INK} strokeWidth={4} transform={`rotate(180 ${282 + w} 520)`} />}
-      </g>
+      </g>}
       <path d={`M${136 - w} 326 C160 314 240 314 ${264 + w} 326 C${272 + w} 380 ${270 + w} 460 ${262 + w} 520 L${138 - w} 520 C${130 - w} 460 ${128 - w} 380 ${136 - w} 326 Z`} fill={topColor} stroke={INK} strokeWidth={SW} strokeLinejoin="round" />
       {top === 'hoodie' && <g><path d="M150 318 C170 344 230 344 250 318 C240 306 160 306 150 318 Z" fill={dark} stroke={INK} strokeWidth={4} /><path d="M160 440 L240 440 L252 490 L148 490 Z" fill="none" stroke={INK} strokeWidth={4} /></g>}
       {top === 'shirt' && <g><path d="M170 318 L200 360 L230 318" fill="#fff" stroke={INK} strokeWidth={4} /><path d="M200 360 V510" stroke={INK} strokeWidth={3} />{[390, 430, 470].map((y) => <circle key={y} cx={200} cy={y} r={4} fill={INK} />)}</g>}
@@ -121,6 +120,18 @@ const Body: React.FC<{top: Top; topColor: string; pants: string; skin: string; s
     </g>
   );
 };
+
+// bent right arm holding a phone to the right ear (same 400x800 space); draw it after the head
+export const PhoneArm: React.FC<{color: string; skin: string}> = ({color, skin}) => (
+  <g>
+    <path d="M262 338 C300 360 318 420 312 470" fill="none" stroke={INK} strokeWidth={46} strokeLinecap="round" />
+    <path d="M262 338 C300 360 318 420 312 470" fill="none" stroke={color} strokeWidth={36} strokeLinecap="round" />
+    <path d="M312 470 C330 400 322 320 300 268" fill="none" stroke={INK} strokeWidth={44} strokeLinecap="round" />
+    <path d="M312 470 C330 400 322 320 300 268" fill="none" stroke={color} strokeWidth={34} strokeLinecap="round" />
+    <rect x={272} y={150} width={38} height={92} rx={9} fill="#111" stroke={INK} strokeWidth={4} transform="rotate(10 291 196)" />
+    <circle cx={300} cy={252} r={21} fill={skin} stroke={INK} strokeWidth={5} />
+  </g>
+);
 
 export const PersonG: React.FC<PersonProps & {shadow?: boolean}> = (p) => {
   const z = p.zombie ?? 0;
@@ -141,6 +152,7 @@ export const PersonG: React.FC<PersonProps & {shadow?: boolean}> = (p) => {
       <Face mood={p.mood ?? 'neutral'} blink={p.blink ?? 0} lookX={p.lookX ?? 0} hairColor={hair === 'scarf' ? '#3a2418' : hc} skinSh={skinSh} zombie={z} eyeGlow={p.eyeGlow ?? 0} />
       {p.glasses && <g fill="none" stroke={INK} strokeWidth={5}><circle cx={163} cy={214} r={26} /><circle cx={237} cy={214} r={26} /><path d="M189 212 H211" /></g>}
       {p.mustache && <path d="M168 248 Q200 236 232 248 Q216 258 200 250 Q184 258 168 248 Z" fill={p.hairColor ?? '#555'} stroke={INK} strokeWidth={3} />}
+      {p.phone && <PhoneArm color={p.topColor ?? '#3d6fa8'} skin={skin} />}
       {p.sweat && <path d="M286 170 Q296 186 286 196 Q276 186 286 170 Z" fill="#bfe3ff" stroke={INK} strokeWidth={3} />}
     </g>
   );

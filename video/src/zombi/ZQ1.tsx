@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {BekAt, blinkAt, FPS, H, lerp, W} from '../tasavvur/common';
-import {CAST, PersonAt} from './Person';
+import {CAST, PersonAt, PhoneArm} from './Person';
 import words from './zq1_words.json';
 
 // Zombie series part 1 "Orzu ushaldi" (v2: every character drawn in Bek's style, lighter grade, dialogue-only subtitles).
@@ -142,11 +142,13 @@ const SWindow: S = ({t}) => {
         <rect width={W} height={H} fill="#d8c8a8" />
         <rect x={60} y={480} width={960} height={980} fill="#a9c4dc" />
         <rect x={60} y={480} width={960} height={980} fill="#e9f3fb" opacity={0.25} />
-        <PersonAt x={250} y={1640} s={0.95} {...CAST.doniyor} mood="scared" blink={blinkAt(t, 3)} />
-        <BekAt x={540} y={1620} s={0.95} mood="surprised" blink={blinkAt(t, 1)} />
-        <PersonAt x={830} y={1640} s={0.95} {...CAST.malika} mood="scared" blink={blinkAt(t, 4)} />
-        <path d="M60 970 H1020 M540 480 V1460" stroke="#7d6a55" strokeWidth={26} />
-        <rect x={60} y={480} width={960} height={980} fill="none" stroke="#7d6a55" strokeWidth={34} />
+        <PersonAt x={250} y={1340} s={0.95} {...CAST.doniyor} mood="scared" blink={blinkAt(t, 3)} lookX={0.8} />
+        <BekAt x={540} y={1320} s={0.95} mood="surprised" blink={blinkAt(t, 1)} lookX={0.9} />
+        <PersonAt x={830} y={1340} s={0.95} {...CAST.malika} mood="scared" blink={blinkAt(t, 4)} lookX={0.8} />
+        <rect x={0} y={1230} width={1080} height={700} fill="#d8c8a8" />
+        <rect x={40} y={1215} width={1000} height={34} fill="#b8a888" stroke="#2b1e16" strokeWidth={5} />
+        <path d="M60 610 H1020 M540 480 V610" stroke="#7d6a55" strokeWidth={26} />
+        <rect x={60} y={480} width={960} height={750} fill="none" stroke="#7d6a55" strokeWidth={34} />
         <path d="M160 560 L360 520 M700 600 L900 560" stroke="#fff" strokeWidth={10} opacity={0.35} />
         <Siren t={t} />
       </g>
@@ -193,7 +195,7 @@ const SGate: S = ({t}) => {
       <rect width={W} height={H} fill="#9fb3c6" />
       <rect x={60} y={420} width={960} height={600} fill="#d9c9a3" stroke="#2b1e16" strokeWidth={8} />
       {[0, 1, 2, 3, 4, 5].map((i) => <rect key={i} x={130 + i * 150} y={500} width={90} height={130} fill="#7aa0c4" stroke="#2b1e16" strokeWidth={5} />)}
-      <text x={540} y={760} fontSize={60} fill="#5a4630" textAnchor="middle" fontFamily="Liberation Sans" fontWeight={700}>MAKTAB №21</text>
+      <text x={540} y={760} fontSize={60} fill="#5a4630" textAnchor="middle" fontFamily="Liberation Sans" fontWeight={700}>MAKTAB №41</text>
       <rect y={1020} width={W} height={900} fill="#8a8d92" />
       {[[300, CAST.jasur], [540, CAST.malika], [780, CAST.doniyor]].map(([x, cc], i) => <PersonAt key={i} x={x as number} y={1560} s={0.6} {...(cc as object)} mood="scared" blink={blinkAt(t, i)} />)}
       {[-1, 1].map((d) => (
@@ -255,7 +257,7 @@ const SSplit: S = ({t}) => {
         <rect width={W} height={960} fill="#c9d2c4" />
         <rect x={0} y={250} width={170} height={520} fill="#a9c4dc" stroke="#7d6a55" strokeWidth={14} />
         <BekAt x={540} y={1560} s={1.5} mood={t > 53 ? 'worried' : 'surprised'} blink={blinkAt(t)} lookX={0.3} />
-        <rect x={690} y={690} width={64} height={140} rx={14} fill="#0b0d10" stroke="#2b1e16" strokeWidth={5} transform="rotate(12 722 760)" />
+        <g transform="translate(540 1560) scale(1.5) translate(-200 -730)"><PhoneArm color="#e0a526" skin="#f2c39b" /></g>
         <rect width={W} height={960} fill="#000" opacity={sp === 'B' ? 0 : 0.25} />
         <rect width={W} height={960} fill="#ff2030" opacity={0.12 * red(t)} />
       </g>
