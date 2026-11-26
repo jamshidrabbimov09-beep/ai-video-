@@ -24,7 +24,7 @@ qahramonlari, sahnalari va burilishlari ko'chirilmaydi, voqea O'zbekistondagi sh
 
 ## 1-fasl (8 qism)
 1. **Orzu ushaldi.** "Bek har kuni zombi apokalipsisini orzu qilardi. Bugun orzusi ushaldi." Dars paytida sirena, shahar evakuatsiya,
-   maktab darvozasi yopiladi. Sardor qo'lini yashiradi. Cliffhanger: Sardorning ko'zlari o'zgaradi.
+   maktab darvozasi yopiladi. Bek oilasidan xavotir olib qo'ng'iroq qiladi: javob yo'q, keyin ona: "Bizni evakuatsiya qilishdi, sen qayerdasan?" Aloqa uziladi. Sardor qo'lini yashiradi. Cliffhanger: Sardorning ko'zlari o'zgaradi.
 2. **Sinf xonasi.** Sardor zombiga aylanadi, vahima. Bek o'yindagi qoidani eslaydi: "shovqin qilmang". Malikaning qo'lidan tortib
    sport zaliga qochadi. Cliffhanger: zal eshigini kimdir taqillatadi.
 3. **Omon qolganlar.** Zalda 6 kishi. Ovqat yo'q, oshxonaga borish kerak. Cliffhanger: guruhdan kimdir yolg'on gapiryapti.
