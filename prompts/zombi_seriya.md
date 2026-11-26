@@ -1,8 +1,10 @@
 # Yangi akkaunt seriyasi: "Bek va zombi apokalipsis" (jiddiy, kulgisiz)
 
 G'oya muallifi: foydalanuvchi (2026-11-26). Instagram Reels seriya, har qism 45-60 s, har qism oxirida cliffhanger
-va izoh uchun savol ("Sen bo'lsang nima qilarding?"). Qon va dahshatli tafsilotlarsiz (auditoriya 13-24, Instagram qoidalari):
-tishlash va o'zgarish soya, ovoz, ko'z rangi bilan ko'rsatiladi. Maktabdagi zombi janri umumiy janr; mashhur seriallarning
+va izoh uchun savol ("Sen bo'lsang nima qilarding?"). JANR (foydalanuvchi, 2026-11-26): qo'rqinchli, shok, kutilmagan burilishlar,
+"Taxtlar o'yini" kabi hech kim xavfsiz emas: tomoshabin "bu qahramon o'lmaydi" deb o'ylagan asosiy qahramonlar ham zombiga aylanadi
+yoki halok bo'ladi, Bek yangi do'stlar topadi. Qo'rquv, o'lim va shok BOR; faqat qonli/tana a'zolari ko'rinadigan tafsilotlar yo'q
+(Instagram buni 13-17 yoshlilarga cheklaydi): tishlash va o'zgarish soya, tovush, ko'z rangi, keskin kesim bilan ko'rsatiladi. Maktabdagi zombi janri umumiy janr; mashhur seriallarning
 qahramonlari, sahnalari va burilishlari ko'chirilmaydi, voqea O'zbekistondagi shahar va maktabda.
 
 ## Qahramonlar
@@ -10,7 +12,15 @@ qahramonlari, sahnalari va burilishlari ko'chirilmaydi, voqea O'zbekistondagi sh
 - **Malika**: Bek yashirincha yaxshi ko'radigan sinfdoshi. Jasur, aqlli, Bekni avval jiddiy qabul qilmaydi.
 - **Sardor**: sinfning "kattasi", birinchi qismda tishlangan qo'lini yashiradi.
 - **Jasur**: qo'rqoq, o'zini qutqarish uchun boshqalarni sotadi.
-- **Ustoz**: omon qolganlarni tartibga solmoqchi bo'ladi, keyin yo'qoladi.
+- **Doniyor**: Bekning eng yaqin do'sti, hazilkash, tomoshabin uni "doimiy yordamchi, o'lmaydi" deb o'ylaydi.
+- **Ustoz (Rustam aka)**: kattalardan yagona qolgan, hamma unga ishonadi ("u bizni qutqaradi").
+
+## Kutilmagan o'limlar va burilishlar (asosiy shoklar)
+- 3-qism: Ustoz guruhni qutqarib, o'zi tishlanadi va eshikni ichkaridan yopib qoladi (birinchi katta shok: "kattalar ham qutqarmaydi").
+- 5-qism: Doniyor Bekni qutqarish uchun o'zini zombilarga tashlaydi; keyingi qismda u zombi bo'lib qaytadi (eng katta shok).
+- 6-qism: Malika tishlandimi? Tomoshabin bir qism davomida bilmaydi (aniq javob 7-qismda).
+- Qo'rqoq Jasur esa hammadan uzoq tirik qoladi (adolatsizlik hissi, muhokama uchun).
+- 7-8-qism: yangi qahramonlar (boshqa sinfdan Nilufar va Azamat), Bek yetakchiga aylanadi.
 
 ## 1-fasl (8 qism)
 1. **Orzu ushaldi.** "Bek har kuni zombi apokalipsisini orzu qilardi. Bugun orzusi ushaldi." Dars paytida sirena, shahar evakuatsiya,
