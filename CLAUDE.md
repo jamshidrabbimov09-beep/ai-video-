@@ -229,3 +229,9 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   Next videos: <=60 s, a surprising line + motion within 1.5 s, a "send this to a friend" angle, livelier tone.
 - ElevenLabs speech-to-text via api.elevenlabs.io spends the USER'S ElevenLabs credits (used 2 transcriptions on 2026-11-22, 23 credits
   left then). Do not use it again without asking; Orol word timings were built from the two takes' timings instead.
+- 2026-11-26: the Instagram audience on @unutilgan_qissalar stays low; the user wants a NEW Instagram account (old page left as is) with a
+  SERIOUS (not funny) 2D zombie-apocalypse series, the user's own idea: Bek (character may be changed) and classmates trapped in school,
+  he worries about his family (phone call: two unanswered rings, then mum: "we were evacuated, where are you?"), loves classmate Malika,
+  later builds his own "empire". Outline `prompts/zombi_seriya.md`, part 1 script `prompts/zombi_1-qism_elevenlabs.md` (3 voices:
+  narrator, Bek, mum). No gore (13-17 audience). Funny ideas ("ghost meets Uzbek mum") were rejected. English YouTube: the user knows people
+  who run US-region channels from Uzbekistan; Claude warned once (AdSense needs a real address) and said ad money follows the VIEWER's country.
