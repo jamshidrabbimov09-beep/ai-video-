@@ -12,6 +12,7 @@ import {LoyJangi, LOY_FRAMES} from './LoyJangi';
 import {BekSheet} from './tasavvur/BekSheet';
 import {BrandAvatar, BrandCoverOrol} from './brand/Brand';
 import {ORL, ORL_FRAMES} from './orol/ORL';
+import {ZQ1, ZQ1_FRAMES} from './zombi/ZQ1';
 import {TQ1, TQ1_FRAMES} from './tasavvur/TQ1';
 import {TQ1Cover} from './tasavvur/TQ1Cover';
 import {MapTest} from './tasavvur/MapTest';
@@ -64,6 +65,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ3CoverC" component={TQ3Cover} defaultProps={{v: 'c' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ2Cover" component={TQ2Cover} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="MapTest" component={MapTest} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="ZQ1" component={ZQ1} durationInFrames={ZQ1_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="ORL" component={ORL} durationInFrames={ORL_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="BrandAvatar" component={BrandAvatar} durationInFrames={1} fps={30} width={1080} height={1080} />
   <Composition id="BrandCoverOrol" component={BrandCoverOrol} durationInFrames={1} fps={30} width={1080} height={1920} />
