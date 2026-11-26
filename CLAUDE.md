@@ -237,3 +237,8 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   Every part ENDS on a strong cliffhanger. Ep.3 starts with ep.2's tail (62.4-66.4 s: "Pul joyida edi. Kalit esa... yo'q edi").
   Proposed ep.3 "Soat oltigacha" (23:00 -> 06:00 countdown; militia button; neighbour Salim aka confesses a militiaman opened the door;
   05:59 knock; final: Afghan comrade Jasur in militia uniform holding key 14). Awaiting the user's yes.
+- Ep.3 "Soat oltigacha" DONE 2026-11-24 (`video/exports/toshkent1994_3qism_1080p.mp4`, 84 s, opens with ep.2 tail 62.4-66.4 s + "OLDINGI QISMDA",
+  xfade 0.12 s; T94C in `src/serial/T94c.tsx`, frames `public/t94c/`, sfx `edit/t94c_sfx.py`; cover `instagram/cover_t94_3.png` "DO'STMI?",
+  caption `instagram/post_t94_3.md`). Characters: Jasur portrait `public/t94c/jasur_portret.jpg`, Salim aka crop `public/t94b/salim_portret.jpg`.
+  Stats after 2 days: 5,497 views (ep.2 2,662), 228 follows, skip 20.2%, avg 49 s of 84 s, retention ~48% flat to the end, saves/reposts
+  above average, shares 0.1% and comments 0.2% below average; audience 79% male, 35-54 main, 84% Uzbekistan. Next: ep.4 "Militsioner".
