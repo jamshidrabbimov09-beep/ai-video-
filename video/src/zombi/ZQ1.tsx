@@ -263,8 +263,37 @@ const SSplit: S = ({t}) => {
       </g>
       <g>
         <rect y={960} width={W} height={960} fill="#5a6474" />
-        <rect x={60} y={1040} width={960} height={360} rx={30} fill="#8fb0cc" />
-        {[0, 1, 2, 3].map((i) => <rect key={i} x={((t * 500 + i * 330) % 1300) - 200} y={1150} width={140} height={250} fill={['#7d8ea0', '#6b7a8a'][i % 2]} />)}
+        <defs>
+          <clipPath id="buswin"><rect x={60} y={1040} width={960} height={360} rx={30} /></clipPath>
+          <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#3b3f63" /><stop offset="70%" stopColor="#c8644a" /><stop offset="100%" stopColor="#f0a060" /></linearGradient>
+        </defs>
+        <g clipPath="url(#buswin)">
+          <rect x={60} y={1040} width={960} height={360} fill="url(#dusk)" />
+          {/* smoke columns and fire glow far away */}
+          <ellipse cx={780} cy={1330} rx={220} ry={60} fill="#ff7a2a" opacity={0.5 + 0.15 * Math.sin(t * 5)} />
+          {[0, 1, 2].map((i) => <ellipse key={i} cx={760 + i * 30 + Math.sin(t + i) * 10} cy={1250 - i * 60 - ((t * 20) % 40)} rx={70 + i * 25} ry={45 + i * 12} fill="#2a2a30" opacity={0.55} />)}
+          {/* far skyline, slow */}
+          {Array.from({length: 12}).map((_, i) => {
+            const x = ((i * 130 - t * 40) % 1560 + 1560) % 1560 - 200;
+            const h = 120 + ((i * 47) % 110);
+            return <g key={i}><rect x={x} y={1400 - h} width={110} height={h} fill="#2c3048" />{Array.from({length: 6}).map((__, j) => <rect key={j} x={x + 14 + (j % 3) * 30} y={1400 - h + 18 + Math.floor(j / 3) * 34} width={14} height={18} fill="#ffd27a" opacity={(i + j) % 3 ? 0.8 : 0.15} />)}</g>;
+          })}
+          {/* near buildings and street lamps, fast */}
+          {Array.from({length: 5}).map((_, i) => {
+            const x = ((i * 320 - t * 520) % 1600 + 1600) % 1600 - 300;
+            return (
+              <g key={i}>
+                <rect x={x} y={1180} width={190} height={240} fill="#1c1f2c" />
+                {Array.from({length: 8}).map((__, j) => <rect key={j} x={x + 20 + (j % 4) * 42} y={1205 + Math.floor(j / 4) * 60} width={24} height={34} fill="#ffcf6a" opacity={(i * 3 + j) % 4 ? 0.85 : 0.1} />)}
+                <rect x={x + 250} y={1150} width={10} height={260} fill="#111" /><circle cx={x + 255} cy={1150} r={14} fill="#fff2b0" />
+              </g>
+            );
+          })}
+          {/* police light flashes on the glass */}
+          <rect x={60} y={1040} width={960} height={360} fill="#ff2030" opacity={0.18 * red(t)} />
+          <rect x={60} y={1040} width={960} height={360} fill="#2050ff" opacity={0.18 * blue(t)} />
+          <path d="M140 1060 L300 1040 M640 1060 L820 1040" stroke="#fff" strokeWidth={8} opacity={0.25} />
+        </g>
         <path d="M60 1220 H1020" stroke="#3a4250" strokeWidth={14} />
         <rect x={40} y={1600} width={1000} height={320} fill="#3f6e8f" />
         <PersonAt x={560} y={1960 + Math.sin(t * 6) * 4} s={1.0} {...CAST.ona} mood="worried" phone blink={blinkAt(t, 2)} />
