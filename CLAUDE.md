@@ -222,3 +222,10 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   in `video/src/brand/Brand.tsx` (big white + yellow question over a Bek scene), sample `instagram/cover_namuna_orol.png` (2x).
 - 2026-11-21: the user ARCHIVED all Temur posts on Instagram (new bio options given). First new-direction script:
   `prompts/orol_elevenlabs.md` ("Dengiz qayerga ketdi?", Mo'ynoq, Cyrillic TTS text without "ғ", fact table, 12-scene plan). Awaiting approval.
+- Orol video posted 2026-11-22 18:30 (export `video/exports/orol_dengiz_qayerga_ketdi_1080p.mp4`, 95 s, caption `video/instagram/post_orol.md`).
+  Stats after ~3.5 days: 2,289 views vs the page's TYPICAL reel ~10-16k (Instagram's own comparison line), skip rate 32% (higher),
+  avg watch 26 s of 95 s, ~half of viewers gone in the first ~5 s, shares 0, likes 3.7% (lower), comments 0.6% (normal), 98% non-followers.
+  Lessons: hook too slow and calm (4 s of sad static desert); sad, well-known topic gives nobody a reason to share; 95 s too long.
+  Next videos: <=60 s, a surprising line + motion within 1.5 s, a "send this to a friend" angle, livelier tone.
+- ElevenLabs speech-to-text via api.elevenlabs.io spends the USER'S ElevenLabs credits (used 2 transcriptions on 2026-11-22, 23 credits
+  left then). Do not use it again without asking; Orol word timings were built from the two takes' timings instead.
