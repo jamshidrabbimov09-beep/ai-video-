@@ -1,6 +1,7 @@
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {BekAt} from '../tasavvur/common';
+import {BekG} from '../tasavvur/Bek';
 import {ZQ1} from './ZQ1';
 import {useOswald} from '../tasavvur/common';
 
@@ -46,6 +47,32 @@ export const ZLogo: React.FC = () => {
         <path d="M330 300 Q330 262 364 280 L610 420 Q642 440 610 460 L364 600 Q330 618 330 580 Z" fill="#e63946" />
         {[0, 1, 2].map((i) => <circle key={i} cx={680 + i * 70} cy={440} r={24 - i * 3} fill="#ffffff" opacity={1 - i * 0.3} />)}
         <text x={540} y={800} fontSize={128} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={6}>DAVOMI BOR</text>
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
+// Channel logo "BEK OLAMI": Bek's head and shoulders as a planet with a mustard ring (olam = world), name below.
+export const ZLogoBek: React.FC = () => {
+  useOswald();
+  const ring = <ellipse cx={540} cy={470} rx={420} ry={92} fill="none" stroke="#e0a526" strokeWidth={26} />;
+  return (
+    <AbsoluteFill style={{background: '#0d1530'}}>
+      <svg viewBox="0 0 1080 1080" width={1080} height={1080}>
+        <defs>
+          <radialGradient id="bg2" cx="50%" cy="42%" r="65%"><stop offset="0%" stopColor="#24366e" /><stop offset="100%" stopColor="#0b1128" /></radialGradient>
+          <clipPath id="planet"><circle cx={540} cy={440} r={270} /></clipPath>
+          <clipPath id="front"><rect x={-200} y={470} width={1480} height={700} transform="rotate(-12 540 470)" /></clipPath>
+        </defs>
+        <rect width={1080} height={1080} fill="url(#bg2)" />
+        {Array.from({length: 40}).map((_, i) => <circle key={i} cx={(i * 263) % 1080} cy={(i * 151) % 1080} r={2 + (i % 3)} fill="#fff" opacity={0.25 + (i % 4) * 0.15} />)}
+        <g transform="rotate(-12 540 470)">{ring}</g>
+        <circle cx={540} cy={440} r={270} fill="#3d78c4" stroke="#0b1128" strokeWidth={10} />
+        <g clipPath="url(#planet)">
+          <g transform="translate(540 455) scale(1.35) translate(-200 -250)"><BekG outfit="modern" mood="happy" shadow={false} /></g>
+        </g>
+        <g clipPath="url(#front)"><g transform="rotate(-12 540 470)">{ring}</g></g>
+        <text x={540} y={900} fontSize={132} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={6}>BEK OLAMI</text>
       </svg>
     </AbsoluteFill>
   );

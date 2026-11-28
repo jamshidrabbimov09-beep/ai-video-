@@ -14,7 +14,7 @@ import {BrandAvatar, BrandCoverOrol} from './brand/Brand';
 import {ORL, ORL_FRAMES} from './orol/ORL';
 import {ZQ1, ZQ1_FRAMES} from './zombi/ZQ1';
 import {ZCast} from './zombi/ZCast';
-import {ZAvatar, ZCover1, ZLogo} from './zombi/ZBrand';
+import {ZAvatar, ZCover1, ZLogo, ZLogoBek} from './zombi/ZBrand';
 import {TQ1, TQ1_FRAMES} from './tasavvur/TQ1';
 import {TQ1Cover} from './tasavvur/TQ1Cover';
 import {MapTest} from './tasavvur/MapTest';
@@ -67,6 +67,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ3CoverC" component={TQ3Cover} defaultProps={{v: 'c' as const}} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="TQ2Cover" component={TQ2Cover} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="MapTest" component={MapTest} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="ZLogoBek" component={ZLogoBek} durationInFrames={1} fps={30} width={1080} height={1080} />
   <Composition id="ZLogo" component={ZLogo} durationInFrames={1} fps={30} width={1080} height={1080} />
   <Composition id="ZAvatar" component={ZAvatar} durationInFrames={1} fps={30} width={1080} height={1080} />
   <Composition id="ZCover1" component={ZCover1} durationInFrames={1} fps={30} width={1080} height={1920} />
