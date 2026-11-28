@@ -235,3 +235,10 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   later builds his own "empire". Outline `prompts/zombi_seriya.md`, part 1 script `prompts/zombi_1-qism_elevenlabs.md` (3 voices:
   narrator, Bek, mum). No gore (13-17 audience). Funny ideas ("ghost meets Uzbek mum") were rejected. English YouTube: the user knows people
   who run US-region channels from Uzbekistan; Claude warned once (AdSense needs a real address) and said ad money follows the VIEWER's country.
+- Zombie part 1 "Orzu ushaldi" BUILT (2026-11-28, v3): composition `video/src/zombi/ZQ1.tsx` (82 s), cast in Bek's style
+  `video/src/zombi/Person.tsx` (Malika, Sardor, Doniyor, Jasur, girl2, boy3, ustoz, ona; zombie skin + glowing eyes, PhoneArm, tears),
+  voices `video/public/zq1/` (narrator `hikoyachi.mp3` + `fix.mp3`, `ona.mp3`, `bek.mp3`; word timings by local faster-whisper, free),
+  sound `edit/zq1_sfx.py`, synthesised score `edit/zq1_music.py` (times in `public/zq1/timeline.json`), export
+  `video/exports/zombi_1-qism_orzu_ushaldi_1080p.mp4`. History of feedback: v1 (silhouettes, heavy grain, many subtitles) got 1/10;
+  v2 (everyone drawn clearly, lighter, dialogue-only subtitles, school №41, phone held to the ear) was "normal but not heart-touching";
+  v3 adds music, close-ups with tears during the call and a silent beat after the call drops. The user declined re-recording extra lines.
