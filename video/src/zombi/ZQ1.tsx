@@ -454,8 +454,9 @@ const Subs: React.FC<{t: number}> = ({t}) => {
   );
 };
 
-export const ZQ1: React.FC = () => {
-  const real = useCurrentFrame() / FPS;
+export const ZQ1: React.FC<{at?: number}> = ({at}) => {
+  const cur = useCurrentFrame();
+  const real = (at ?? cur) / FPS;
   // real 62.4-63.6: call dropped screen; 63.6-66.5: Bek alone in silence; later scenes run on the old timebase (real - GAP)
   const t = real >= 66.5 ? real - GAP : real;
   const idx = SCENES.findIndex(([a, b]) => t >= a && t < b);
