@@ -26,6 +26,7 @@ import {NoirTest} from './serial/NoirTest';
 import {T94, T94_FRAMES} from './serial/T94';
 import {T94B, T94B_FRAMES, T94Recap} from './serial/T94b';
 import {T94C, T94C_FRAMES} from './serial/T94c';
+import {T94D, T94D_FRAMES} from './serial/T94d';
 import {Composition, AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 
 const Test: React.FC = () => {
@@ -40,6 +41,7 @@ const Test: React.FC = () => {
 
 export const Root: React.FC = () => (
   <>
+  <Composition id="T94D" component={T94D} durationInFrames={T94D_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="T94C" component={T94C} durationInFrames={T94C_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="T94Recap" component={T94Recap} durationInFrames={150} fps={30} width={1080} height={1920} />
   <Composition id="T94B" component={T94B} durationInFrames={T94B_FRAMES} fps={30} width={1080} height={1920} />
