@@ -242,3 +242,7 @@ Temur notes there; do not mix Temur work into the "Tasavvur qil" sections below,
   `video/exports/zombi_1-qism_orzu_ushaldi_1080p.mp4`. History of feedback: v1 (silhouettes, heavy grain, many subtitles) got 1/10;
   v2 (everyone drawn clearly, lighter, dialogue-only subtitles, school №41, phone held to the ear) was "normal but not heart-touching";
   v3 adds music, close-ups with tears during the call and a silent beat after the call drops. The user declined re-recording extra lines.
+- NEW Instagram account opened 2026-11-28: **@bek_olami** ("Bek olami | 2D seriallar", Creator, category "Автор видео Reels"), for
+  several 2D drama series; first series "Maktab 41" (zombie). Avatar = the user's own Google Flow logo, cropped to its circle:
+  `video/instagram/avatar_bek_olami.png` (source `logo_bek_olami_flow.png`). Code-drawn logos (planet, A/B/C variants) were all rejected.
+  "Davomi bor" and other dictionary names were taken. Part 1 caption `video/instagram/post_zombi_1.md`, cover `instagram/cover_zombi_1.png`.
