@@ -77,3 +77,26 @@ export const ZLogoBek: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// "BEK OLAMI" in the clean style of the "Davomi bor" logo: dark background, flat red planet with a play sign and a ring, bold name.
+export const ZLogoBek2: React.FC = () => {
+  useOswald();
+  const ring = <ellipse cx={540} cy={430} rx={300} ry={70} fill="none" stroke="#ffffff" strokeWidth={20} />;
+  return (
+    <AbsoluteFill style={{background: '#0e0f12'}}>
+      <svg viewBox="0 0 1080 1080" width={1080} height={1080}>
+        <defs>
+          <radialGradient id="lg2" cx="50%" cy="45%" r="60%"><stop offset="0%" stopColor="#23262d" /><stop offset="100%" stopColor="#0e0f12" /></radialGradient>
+          <clipPath id="front2"><rect x={-200} y={430} width={1480} height={700} transform="rotate(-16 540 430)" /></clipPath>
+        </defs>
+        <rect width={1080} height={1080} fill="url(#lg2)" />
+        <g transform="rotate(-16 540 430)">{ring}</g>
+        <circle cx={540} cy={430} r={190} fill="#e63946" />
+        <g clipPath="url(#front2)"><g transform="rotate(-16 540 430)">{ring}</g></g>
+        <path d="M498 352 Q498 330 518 342 L610 418 Q626 430 610 442 L518 518 Q498 530 498 508 Z" fill="#ffffff" stroke="#e63946" strokeWidth={14} paintOrder="stroke" />
+        <text x={540} y={790} fontSize={128} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={6}>BEK OLAMI</text>
+        <text x={540} y={860} fontSize={40} fill="#9aa0aa" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={14}>2D SERIALLAR</text>
+      </svg>
+    </AbsoluteFill>
+  );
+};
