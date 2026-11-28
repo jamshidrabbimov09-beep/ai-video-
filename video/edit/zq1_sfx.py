@@ -1,8 +1,9 @@
 # Sound design for zombie series part 1 (cinematic: hum, heartbeat, two-tone siren, phone rings, call drop).
 import numpy as np, wave
-SR = 48000; DUR = 80.0
+SR = 48000; DUR = 82.0; GAP = 1.5
 out = np.zeros(int(SR * DUR)); rng = np.random.default_rng(7)
 def add(sig, t, g=1.0):
+    t = t + GAP if t >= 63.0 else t
     i = int(t * SR); n = min(len(sig), len(out) - i); out[i:i + n] += sig[:n] * g
 def env(n, a=0.005, d=0.2):
     t = np.arange(n) / SR; return np.minimum(t / a, 1) * np.exp(-t / d)

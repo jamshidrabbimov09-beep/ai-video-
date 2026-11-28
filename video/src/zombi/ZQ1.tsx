@@ -5,7 +5,8 @@ import {CAST, PersonAt, PhoneArm} from './Person';
 import words from './zq1_words.json';
 
 // Zombie series part 1 "Orzu ushaldi" (v2: every character drawn in Bek's style, lighter grade, dialogue-only subtitles).
-export const ZQ1_FRAMES = Math.round(80 * FPS);
+export const ZQ1_FRAMES = Math.round(82 * FPS);
+const GAP = 1.5; // silence inserted after the call drops (real time 62.4 + ...)
 type WW = [string, number, number, string];
 type S = React.FC<{t: number}>;
 const red = (t: number) => Math.max(0, Math.sin(t * 9));
@@ -354,10 +355,87 @@ const SEnd: S = ({t}) => (
   </g>
 );
 
+
+// tears in a face's own 400x800 space (eyes at x 163/237, y 214)
+const Tears: React.FC<{t: number; k?: number}> = ({t, k = 1}) => (
+  <g opacity={k}>
+    {[163, 237].map((x, i) => {
+      const p = ((t * 0.45 + i * 0.5) % 1);
+      return (
+        <g key={x}>
+          <path d={`M${x - 14} 232 Q${x} 240 ${x + 14} 232`} fill="none" stroke="#bfe6ff" strokeWidth={5} opacity={0.9} />
+          <path d={`M${x + (i ? 8 : -8)} ${236 + p * 70} q8 14 0 22 q-8 -8 0 -22 Z`} fill="#bfe6ff" stroke="#6aa8d0" strokeWidth={2} opacity={1 - p * 0.6} />
+          <path d={`M${x + (i ? 8 : -8)} 236 L${x + (i ? 8 : -8)} ${236 + p * 70}`} stroke="#bfe6ff" strokeWidth={4} opacity={0.5} />
+        </g>
+      );
+    })}
+  </g>
+);
+const At: React.FC<{x: number; y: number; s: number; children: React.ReactNode}> = ({x, y, s, children}) => (
+  <g transform={`translate(${x} ${y}) scale(${s}) translate(-200 -730)`}>{children}</g>
+);
+const BusBokeh: React.FC<{t: number}> = ({t}) => (
+  <g>
+    <rect width={W} height={H} fill="#1d2433" />
+    {Array.from({length: 14}).map((_, i) => {
+      const x = ((i * 170 - t * 260) % 1700 + 1700) % 1700 - 300;
+      return <circle key={i} cx={x} cy={500 + (i * 97) % 700} r={50 + (i * 23) % 60} fill={['#ffcf6a', '#ff6a4a', '#7aa0ff'][i % 3]} opacity={0.18} />;
+    })}
+    <rect width={W} height={H} fill="#ff2030" opacity={0.08 * red(t)} />
+    <rect width={W} height={H} fill="#2050ff" opacity={0.08 * blue(t)} />
+  </g>
+);
+const ClassBlur: React.FC = () => (<g style={{filter: 'blur(16px)'}}><Board /></g>);
+// mum close-up, crying, phone to her ear
+const SMomClose: S = ({t}) => {
+  const z = lerp(t, 47.1, 62.4, 1.0, 1.12);
+  return (
+    <g>
+      <BusBokeh t={t} />
+      <g transform={`translate(540 960) scale(${z}) translate(-540 -960)`}>
+        <PersonAt x={540} y={2600 + Math.sin(t * 6) * 6} s={3.2} {...CAST.ona} mood="worried" phone blink={blinkAt(t, 2)} shadow={false} />
+        <At x={540} y={2600 + Math.sin(t * 6) * 6} s={3.2}><Tears t={t} /></At>
+      </g>
+    </g>
+  );
+};
+// Bek close-up, phone to his ear, tears
+const SBekClose: S = ({t}) => {
+  const z = lerp(t, 53.0, 58.8, 1.0, 1.1);
+  return (
+    <g>
+      <rect width={W} height={H} fill="#c9d2c4" />
+      <ClassBlur />
+      <rect width={W} height={H} fill="#000" opacity={0.25} />
+      <g transform={`translate(540 960) scale(${z}) translate(-540 -960)`}>
+        <BekAt x={540} y={2600} s={3.2} mood="worried" blink={blinkAt(t, 1)} />
+        <At x={540} y={2600} s={3.2}><PhoneArm color="#e0a526" skin="#f2c39b" /><Tears t={t} k={lerp(t, 54, 55, 0, 1)} /></At>
+      </g>
+      <rect width={W} height={H} fill="#ff2030" opacity={0.1 * red(t)} />
+    </g>
+  );
+};
+// after the call drops: Bek alone, silent, phone lowered
+const SAlone: S = ({t}) => {
+  const z = lerp(t, 63.6, 66.5, 1.0, 1.08);
+  return (
+    <g>
+      <rect width={W} height={H} fill="#c9d2c4" />
+      <ClassBlur />
+      <rect width={W} height={H} fill="#000" opacity={0.4} />
+      <g transform={`translate(540 960) scale(${z}) translate(-540 -960)`}>
+        <BekAt x={540} y={2500} s={3.0} mood="worried" blink={blinkAt(t, 3)} lookX={0} />
+        <At x={540} y={2500} s={3.0}><Tears t={t} /></At>
+      </g>
+      <rect width={W} height={H} fill="#ff2030" opacity={0.08 * red(t)} />
+    </g>
+  );
+};
+
 const SCENES: [number, number, S][] = [
   [0, 3.6, SRoom], [3.6, 6.1, SToday], [6.1, 9.8, SClass], [9.8, 14.4, SPhones], [14.4, 19.7, SWindow],
-  [19.7, 23.3, STeacher], [23.3, 26.7, SGate], [26.7, 32.5, SFreeze], [32.5, 41.1, SCall], [41.1, 62.4, SSplit],
-  [62.4, 64.5, SDropped], [64.5, 70.1, SSardor], [70.1, 73.55, SEyes], [73.55, 999, SEnd],
+  [19.7, 23.3, STeacher], [23.3, 26.7, SGate], [26.7, 32.5, SFreeze], [32.5, 41.1, SCall], [41.1, 47.1, SSplit], [47.1, 53.0, SMomClose], [53.0, 58.8, SBekClose], [58.8, 62.4, SMomClose],
+  [62.4, 65.0, SDropped], [65.0, 70.1, SSardor], [70.1, 73.55, SEyes], [73.55, 999, SEnd],
 ];
 
 // subtitles only for the phone dialogue (mum and Bek), one short line at a time
@@ -370,23 +448,27 @@ const Subs: React.FC<{t: number}> = ({t}) => {
   const sp = ws[i][3];
   const text = ws.slice(a, i + 1).map((w) => w[0]).join(' ');
   return (
-    <div style={{position: 'absolute', top: sp === 'B' ? 180 : 1000, width: '100%', textAlign: 'center', fontFamily: 'Liberation Sans, Arial', fontWeight: 700, fontSize: 54, color: '#fff', textShadow: '0 3px 0 #000, 0 0 14px #000'}}>
+    <div style={{position: 'absolute', top: t < 47.1 ? (sp === 'B' ? 180 : 1000) : 1560, width: '100%', textAlign: 'center', fontFamily: 'Liberation Sans, Arial', fontWeight: 700, fontSize: 54, color: '#fff', textShadow: '0 3px 0 #000, 0 0 14px #000'}}>
       {text}
     </div>
   );
 };
 
 export const ZQ1: React.FC = () => {
-  const t = useCurrentFrame() / FPS;
+  const real = useCurrentFrame() / FPS;
+  // real 62.4-63.6: call dropped screen; 63.6-66.5: Bek alone in silence; later scenes run on the old timebase (real - GAP)
+  const t = real >= 66.5 ? real - GAP : real;
   const idx = SCENES.findIndex(([a, b]) => t >= a && t < b);
-  const [, , Sc] = SCENES[Math.max(0, idx)];
+  let Sc = SCENES[Math.max(0, idx)][2];
+  if (real >= 62.4 && real < 63.6) Sc = SDropped;
+  else if (real >= 63.6 && real < 66.5) Sc = SAlone;
   return (
     <AbsoluteFill style={{background: '#000'}}>
       <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H}>
-        <Sc t={t} />
+        <Sc t={real >= 62.4 && real < 66.5 ? real : t} />
         <Grade t={t} />
       </svg>
-      {t > 41 && t < 62.6 && <Subs t={t} />}
+      {real > 41 && real < 62.6 && <Subs t={real} />}
     </AbsoluteFill>
   );
 };
