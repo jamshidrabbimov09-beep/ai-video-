@@ -100,3 +100,44 @@ export const ZLogoBek2: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// three logo variants for "BEK OLAMI" in the "Davomi bor" style
+const LBg: React.FC = () => (
+  <>
+    <defs><radialGradient id="lg3" cx="50%" cy="45%" r="60%"><stop offset="0%" stopColor="#23262d" /><stop offset="100%" stopColor="#0e0f12" /></radialGradient></defs>
+    <rect width={1080} height={1080} fill="url(#lg3)" />
+  </>
+);
+export const ZLogoV: React.FC<{v: 'a' | 'b' | 'c'}> = ({v}) => {
+  useOswald();
+  return (
+    <AbsoluteFill style={{background: '#0e0f12'}}>
+      <svg viewBox="0 0 1080 1080" width={1080} height={1080}>
+        <LBg />
+        {v === 'a' && (
+          <g>
+            <path d="M330 300 Q330 262 364 280 L610 420 Q642 440 610 460 L364 600 Q330 618 330 580 Z" fill="#e63946" />
+            {[0, 1, 2].map((i) => <circle key={i} cx={680 + i * 70} cy={440} r={24 - i * 3} fill="#ffffff" opacity={1 - i * 0.3} />)}
+            <text x={540} y={800} fontSize={128} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={6}>BEK OLAMI</text>
+          </g>
+        )}
+        {v === 'b' && (
+          <g>
+            <text x={540} y={500} fontSize={300} fill="#e63946" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={10}>BEK</text>
+            <text x={540} y={700} fontSize={150} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={30}>OLAMI</text>
+            <path d="M470 760 L470 830 L530 795 Z" fill="#e63946" />
+            {[0, 1, 2].map((i) => <circle key={i} cx={565 + i * 34} cy={795} r={11 - i * 2} fill="#fff" opacity={1 - i * 0.3} />)}
+          </g>
+        )}
+        {v === 'c' && (
+          <g>
+            <rect x={340} y={200} width={400} height={400} rx={90} fill="#e63946" />
+            <text x={540} y={500} fontSize={300} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700}>B</text>
+            <path d="M640 250 L640 320 L700 285 Z" fill="#ffffff" />
+            <text x={540} y={800} fontSize={128} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={6}>BEK OLAMI</text>
+          </g>
+        )}
+      </svg>
+    </AbsoluteFill>
+  );
+};
