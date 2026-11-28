@@ -31,7 +31,7 @@ const Grade: React.FC<{t: number}> = ({t}) => (
     <rect y={H - 120} width={W} height={120} fill="#000" />
   </>
 );
-const Board: React.FC = () => (
+export const Board: React.FC = () => (
   <g>
     <rect x={0} y={120} width={W} height={900} fill="#c9d2c4" />
     <rect x={250} y={300} width={640} height={320} fill="#24453a" stroke="#6a5038" strokeWidth={16} />
@@ -357,7 +357,7 @@ const SEnd: S = ({t}) => (
 
 
 // tears in a face's own 400x800 space (eyes at x 163/237, y 214)
-const Tears: React.FC<{t: number; k?: number}> = ({t, k = 1}) => (
+export const Tears: React.FC<{t: number; k?: number}> = ({t, k = 1}) => (
   <g opacity={k}>
     {[163, 237].map((x, i) => {
       const p = ((t * 0.45 + i * 0.5) % 1);
@@ -371,7 +371,7 @@ const Tears: React.FC<{t: number; k?: number}> = ({t, k = 1}) => (
     })}
   </g>
 );
-const At: React.FC<{x: number; y: number; s: number; children: React.ReactNode}> = ({x, y, s, children}) => (
+export const At: React.FC<{x: number; y: number; s: number; children: React.ReactNode}> = ({x, y, s, children}) => (
   <g transform={`translate(${x} ${y}) scale(${s}) translate(-200 -730)`}>{children}</g>
 );
 const BusBokeh: React.FC<{t: number}> = ({t}) => (

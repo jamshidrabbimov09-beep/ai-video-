@@ -14,7 +14,7 @@ import {BrandAvatar, BrandCoverOrol} from './brand/Brand';
 import {ORL, ORL_FRAMES} from './orol/ORL';
 import {ZQ1, ZQ1_FRAMES} from './zombi/ZQ1';
 import {ZCast} from './zombi/ZCast';
-import {ZAvatar, ZCover1, ZLogo, ZLogoBek, ZLogoBek2, ZLogoV} from './zombi/ZBrand';
+import {ZAvatar, ZCover1, ZLogo, ZLogoBek, ZLogoBek2, ZLogoV, ZCoverV} from './zombi/ZBrand';
 import {TQ1, TQ1_FRAMES} from './tasavvur/TQ1';
 import {TQ1Cover} from './tasavvur/TQ1Cover';
 import {MapTest} from './tasavvur/MapTest';
@@ -68,6 +68,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ2Cover" component={TQ2Cover} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="MapTest" component={MapTest} durationInFrames={1} fps={30} width={1080} height={1920} />
   {(['a', 'b', 'c'] as const).map((v) => <Composition key={v} id={`ZLogoV${v.toUpperCase()}`} component={ZLogoV} defaultProps={{v}} durationInFrames={1} fps={30} width={1080} height={1080} />)}
+  {(['a', 'b', 'c'] as const).map((v) => <Composition key={'c' + v} id={`ZCoverV${v.toUpperCase()}`} component={ZCoverV} defaultProps={{v}} durationInFrames={1} fps={30} width={1080} height={1920} />)}
   <Composition id="ZLogoBek2" component={ZLogoBek2} durationInFrames={1} fps={30} width={1080} height={1080} />
   <Composition id="ZLogoBek" component={ZLogoBek} durationInFrames={1} fps={30} width={1080} height={1080} />
   <Composition id="ZLogo" component={ZLogo} durationInFrames={1} fps={30} width={1080} height={1080} />
