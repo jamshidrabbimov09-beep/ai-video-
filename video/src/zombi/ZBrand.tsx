@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {BekAt} from '../tasavvur/common';
 import {ZQ1} from './ZQ1';
+import {useOswald} from '../tasavvur/common';
 
 // New account identity for the zombie series: avatar (Bek under siren light) and a cover from a real video frame.
 export const ZAvatar: React.FC = () => (
@@ -31,3 +32,21 @@ export const ZCover1: React.FC = () => (
     </div>
   </AbsoluteFill>
 );
+
+// Umbrella channel logo for several drama series: "DAVOMI BOR" (to be continued). A red play sign that trails off into dots.
+export const ZLogo: React.FC = () => {
+  useOswald();
+  return (
+    <AbsoluteFill style={{background: '#0e0f12'}}>
+      <svg viewBox="0 0 1080 1080" width={1080} height={1080}>
+        <defs>
+          <radialGradient id="lg" cx="50%" cy="45%" r="60%"><stop offset="0%" stopColor="#23262d" /><stop offset="100%" stopColor="#0e0f12" /></radialGradient>
+        </defs>
+        <rect width={1080} height={1080} fill="url(#lg)" />
+        <path d="M330 300 Q330 262 364 280 L610 420 Q642 440 610 460 L364 600 Q330 618 330 580 Z" fill="#e63946" />
+        {[0, 1, 2].map((i) => <circle key={i} cx={680 + i * 70} cy={440} r={24 - i * 3} fill="#ffffff" opacity={1 - i * 0.3} />)}
+        <text x={540} y={800} fontSize={128} fill="#ffffff" textAnchor="middle" fontFamily="Oswald" fontWeight={700} letterSpacing={6}>DAVOMI BOR</text>
+      </svg>
+    </AbsoluteFill>
+  );
+};
