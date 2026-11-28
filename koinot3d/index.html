@@ -1,0 +1,775 @@
+<title>Koinot 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;600&display=swap">
+<style>
+/* Layout: one full-screen WebGL view; HUD floats on the edges, info sheet at the bottom. Single dark look by choice (space). */
+:root {
+  --bg: #02030a; --ink: #eef2ff; --muted: #9aa6c8; --accent: #ffd23f; --panel: rgba(10,14,30,0.82); --line: rgba(160,180,255,0.18);
+  --display: 'Oswald', 'Arial Narrow', sans-serif; --body: 'Inter', system-ui, sans-serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+#view { position: fixed; inset: 0; }
+#view canvas { display: block; width: 100%; height: 100%; }
+#labels { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.lbl { position: absolute; transform: translate(-50%, -100%); pointer-events: auto; background: none; border: 0; color: var(--ink);
+  font: 600 13px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; padding: 10px 8px 14px; cursor: pointer; white-space: nowrap;
+  text-shadow: 0 1px 3px #000, 0 0 8px #000; }
+.lbl::after { content: ""; position: absolute; left: 50%; bottom: 4px; width: 1px; height: 7px; background: currentColor; opacity: .6; }
+.lbl.here { color: var(--accent); font-size: 15px; }
+.lbl:focus-visible { outline: 2px solid var(--accent); border-radius: 4px; }
+#top { position: fixed; top: 0; left: 0; right: 0; padding-top: calc(env(safe-area-inset-top, 0px) + 14px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  pointer-events: none; text-align: center; background: linear-gradient(rgba(2,3,10,.7), rgba(2,3,10,0)); padding-bottom: 28px; }
+#scale { font: 700 clamp(26px, 7vw, 44px)/1 var(--display); letter-spacing: .04em; text-wrap: balance; min-height: 1em; }
+#dist { margin-top: 6px; font: 500 14px var(--display); letter-spacing: .06em; color: var(--muted); font-variant-numeric: tabular-nums; }
+#side { position: fixed; right: max(12px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
+.btn { appearance: none; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 12px; min-width: 52px; height: 52px; padding: 0 12px;
+  font: 600 15px var(--display); letter-spacing: .05em; cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.btn.big { font-size: 26px; }
+.btn:active { background: rgba(60,80,150,.6); }
+.btn:focus-visible { outline: 2px solid var(--accent); }
+#card { position: fixed; left: 0; right: 0; bottom: 0; padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); pointer-events: none; }
+#cardIn { pointer-events: auto; max-width: 560px; margin: 0 auto; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); max-height: 40vh; overflow-y: auto; }
+#cName { font: 700 28px/1.05 var(--display); letter-spacing: .03em; }
+#cType { color: var(--accent); font: 500 13px var(--display); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
+#cFacts { margin: 12px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 14px; }
+#cFacts dt { color: var(--muted); }
+#cFacts dd { margin: 0; font-variant-numeric: tabular-nums; min-width: 0; }
+#cLayers { margin-top: 12px; display: grid; gap: 8px; font-size: 13.5px; line-height: 1.35; }
+.lay { display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: start; }
+.sw { width: 14px; height: 14px; border-radius: 50%; margin-top: 2px; }
+.lay b { font-weight: 600; }
+.note { color: var(--muted); font-size: 12.5px; }
+#cBtns { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+#cBtns .btn { height: 44px; flex: 1 1 auto; }
+#cBtns .primary { background: var(--accent); color: #1a1400; border-color: transparent; }
+#list { position: fixed; inset: 0; background: rgba(2,3,10,.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); overflow-y: auto;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 20px); padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+#listIn { max-width: 560px; margin: 0 auto; display: grid; gap: 18px; }
+#listIn h2 { font: 700 15px var(--display); letter-spacing: .12em; color: var(--accent); margin: 0 0 8px; text-transform: uppercase; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.grid .btn { height: 46px; text-align: left; }
+#hint { position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 96px); transform: translateX(-50%); width: min(92vw, 460px);
+  text-align: center; font-size: 13.5px; line-height: 1.45; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px;
+  transition: opacity .6s; pointer-events: none; }
+[hidden] { display: none !important; }
+#load { position: fixed; inset: 0; display: grid; place-items: center; font: 600 16px var(--display); letter-spacing: .1em; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { #hint { transition: none; } }
+</style>
+
+<div id="view"></div>
+<div id="labels"></div>
+<div id="load">KOINOT YUKLANMOQDA…</div>
+<div id="top"><div id="scale"></div><div id="dist"></div></div>
+<div id="side">
+  <button class="btn big" id="zin" aria-label="Yaqinlashtirish">+</button>
+  <button class="btn big" id="zout" aria-label="Uzoqlashtirish">−</button>
+  <button class="btn" id="home">YER</button>
+  <button class="btn" id="menu">RO'YXAT</button>
+</div>
+<div id="card" hidden><div id="cardIn">
+  <div id="cName"></div><div id="cType"></div>
+  <dl id="cFacts"></dl>
+  <div id="cLayers" hidden></div>
+  <div id="cBtns">
+    <button class="btn primary" id="cCut">ICHINI KO'R</button>
+    <button class="btn" id="cClose">YOPISH</button>
+  </div>
+</div></div>
+<div id="list" hidden><div id="listIn"></div></div>
+<div id="hint">Bir barmoq bilan aylantiring, ikki barmoq bilan yaqinlashtiring yoki uzoqlashtiring. Nomni bossangiz, o'sha joyga uchib borasiz.</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+
+const TEX = (f) => 'textures/' + f;
+
+// ---------- units: km, ecliptic = XZ plane, y up ----------
+const LY = 9.4607e12, AU = 1.496e8, RSUN = 696000;
+const TANF = Math.tan(25 * Math.PI / 180);
+const rng = (seed) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+const gauss = (r) => Math.sqrt(-2 * Math.log(Math.max(1e-9, r()))) * Math.cos(2 * Math.PI * r());
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const band = (a, b, c, d, x) => smooth(a, b, x) * (1 - smooth(c, d, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const lerp3 = (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const len3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+const GAL_TILT = 60 * Math.PI / 180;
+const fromGal = (p) => [p[0], p[1] * Math.cos(GAL_TILT) - p[2] * Math.sin(GAL_TILT), p[1] * Math.sin(GAL_TILT) + p[2] * Math.cos(GAL_TILT)];
+const SUN = [0, 0, 0];
+const GAL_C = [-26000 * LY, 0, 0];
+const ANDRO = [GAL_C[0] + 2.5e6 * LY * 0.62, GAL_C[1] + 2.5e6 * LY * 0.35, GAL_C[2] + 2.5e6 * LY * 0.70];
+const TRI = [GAL_C[0] + 2.7e6 * LY * 0.50, GAL_C[1] + 2.7e6 * LY * 0.37, GAL_C[2] + 2.7e6 * LY * 0.78];
+const LMC = (() => { const p = fromGal([26000 * LY + 30000 * LY, -60000 * LY, -150000 * LY]); return [p[0] - 26000 * LY * 0 + GAL_C[0] + 0, p[1], p[2]]; })();
+const SMC = (() => { const p = fromGal([10000 * LY, -90000 * LY, -190000 * LY]); return [GAL_C[0] + p[0], p[1], p[2]]; })();
+const LG_C = lerp3(GAL_C, ANDRO, 0.5);
+const fmtN = (n, d = 0) => n.toFixed(d).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const fmt = (km) => {
+  const ly = km / LY;
+  if (ly < 0.05) {
+    if (km < 1e6) return `${fmtN(km)} km`;
+    if (km < 1e9) return `${fmtN(km / 1e6, km < 1e7 ? 1 : 0)} mln km`;
+    return `${fmtN(km / 1e9, km < 1e10 ? 1 : 0)} mlrd km`;
+  }
+  if (ly < 1000) return `${fmtN(ly, ly < 10 ? 1 : 0)} yorug'lik yili`;
+  if (ly < 1e6) return `${fmtN(ly / 1000)} ming yorug'lik yili`;
+  if (ly < 1e9) return `${fmtN(ly / 1e6, ly < 1e7 ? 1 : 0)} mln yorug'lik yili`;
+  return `${fmtN(ly / 1e9, 1)} mlrd yorug'lik yili`;
+};
+
+// ---------- renderer ----------
+const view = document.getElementById('view');
+const renderer = new THREE.WebGLRenderer({antialias: true, logarithmicDepthBuffer: true, powerPreference: 'high-performance'});
+const DPR = Math.min(2, window.devicePixelRatio || 1);
+renderer.setPixelRatio(DPR);
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.localClippingEnabled = true;
+view.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x02030a);
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 1, 1e25);
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.55, 0.72);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight);
+});
+scene.add(new THREE.AmbientLight(0xffffff, 0.09));
+const sunLight = new THREE.PointLight(0xfff4e6, 2.6, 0, 0);
+scene.add(sunLight);
+
+// ---------- procedural textures ----------
+const canvasTex = (w, h, paint) => {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  paint(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+};
+const noiseBlobs = (g, w, h, n, rmin, rmax, cols, alpha, r) => {
+  for (let i = 0; i < n; i++) {
+    const x = r() * w, y = r() * h, rad = rmin + r() * (rmax - rmin);
+    g.globalAlpha = alpha * (0.4 + r() * 0.6); g.fillStyle = cols[Math.floor(r() * cols.length)];
+    g.beginPath(); g.ellipse(x, y, rad * 1.6, rad, 0, 0, Math.PI * 2); g.fill();
+    if (x < rmax * 2) { g.beginPath(); g.ellipse(x + w, y, rad * 1.6, rad, 0, 0, Math.PI * 2); g.fill(); }
+    if (x > w - rmax * 2) { g.beginPath(); g.ellipse(x - w, y, rad * 1.6, rad, 0, 0, Math.PI * 2); g.fill(); }
+  }
+  g.globalAlpha = 1;
+};
+const rocky = (base, cols, seed, extra) => canvasTex(2048, 1024, (g, w, h) => {
+  const r = rng(seed); g.fillStyle = base; g.fillRect(0, 0, w, h);
+  noiseBlobs(g, w, h, 900, 20, 160, cols, 0.18, r);
+  noiseBlobs(g, w, h, 4000, 2, 18, cols, 0.25, r);
+  for (let i = 0; i < 700; i++) { // craters
+    const x = r() * w, y = h * 0.08 + r() * h * 0.84, rad = 2 + Math.pow(r(), 3) * 40;
+    g.globalAlpha = 0.35; g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = Math.max(1, rad * 0.25);
+    g.beginPath(); g.ellipse(x, y, rad * 1.5, rad, 0, 0.3, Math.PI * 1.3); g.stroke();
+    g.strokeStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.ellipse(x, y, rad * 1.5, rad, 0, Math.PI * 1.3, Math.PI * 2.3); g.stroke();
+  }
+  g.globalAlpha = 1; if (extra) extra(g, w, h, r);
+});
+const banded = (stops, seed, extra) => canvasTex(2048, 1024, (g, w, h) => {
+  const r = rng(seed);
+  for (let y = 0; y < h; y++) {
+    const t = y / h, k = t * (stops.length - 1), i = Math.min(stops.length - 2, Math.floor(k)), f = k - i;
+    const a = stops[i], b = stops[i + 1];
+    const wob = Math.sin(y * 0.11 + r() * 0.2) * 6;
+    g.fillStyle = `rgb(${lerp(a[0], b[0], f) + wob | 0},${lerp(a[1], b[1], f) + wob | 0},${lerp(a[2], b[2], f) + wob | 0})`;
+    g.fillRect(0, y, w, 1);
+  }
+  // turbulent streaks
+  for (let i = 0; i < 2500; i++) {
+    const y = r() * h, x = r() * w, L = 30 + r() * 220;
+    g.globalAlpha = 0.07; g.strokeStyle = r() < 0.5 ? '#ffffff' : '#3a2a1a'; g.lineWidth = 1 + r() * 4;
+    g.beginPath(); g.moveTo(x, y); g.bezierCurveTo(x + L * 0.3, y + 4 * gauss(r), x + L * 0.7, y + 4 * gauss(r), x + L, y); g.stroke();
+  }
+  g.globalAlpha = 1; if (extra) extra(g, w, h, r);
+});
+const glowTex = (inner, mid = 0.25) => canvasTex(256, 256, (g) => {
+  const gr = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  gr.addColorStop(0, inner); gr.addColorStop(mid, inner.replace(/[\d.]+\)$/, '0.35)')); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 256, 256);
+});
+const rimTex = (col) => canvasTex(256, 256, (g) => {
+  const gr = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(0.40, 'rgba(0,0,0,0)'); gr.addColorStop(0.43, col); gr.addColorStop(0.62, 'rgba(0,0,0,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 256, 256);
+});
+const loader = new THREE.TextureLoader();
+let pending = 0;
+const loadTex = (f, srgb = true) => { pending++; const t = loader.load(TEX(f), () => { if (--pending === 0) document.getElementById('load').hidden = true; }, undefined, () => { if (--pending === 0) document.getElementById('load').hidden = true; }); if (srgb) t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; };
+const earthTex = loadTex('earth_day.jpg');
+const nightTex = loadTex('earth_night.jpg');
+const cloudTex = loadTex('clouds.jpg', false);
+const GLOW_SUN = glowTex('rgba(255,210,140,1)');
+const GLOW_WHITE = glowTex('rgba(235,240,255,1)');
+const GLOW_CORE = glowTex('rgba(255,215,165,1)', 0.18);
+
+// ---------- points material ----------
+const pointsMat = (px = 1) => new THREE.ShaderMaterial({
+  uniforms: {uOpacity: {value: 1}, uPx: {value: px * DPR}},
+  vertexShader: `attribute vec3 aCol; attribute float aSize; uniform float uPx; varying vec3 vC;
+    void main(){ vC=aCol; vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv; gl_PointSize = mv.z<0. ? aSize*uPx : 0.; }`,
+  fragmentShader: `uniform float uOpacity; varying vec3 vC;
+    void main(){ float r=length(gl_PointCoord-.5); if(r>.5) discard; float a=pow(1.-r*2.,1.6); gl_FragColor=vec4(vC*a*uOpacity,1.); }`,
+  blending: THREE.AdditiveBlending, depthTest: false, depthWrite: false, transparent: false,
+});
+const makePoints = (pos, col, size, px) => {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('aCol', new THREE.Float32BufferAttribute(col, 3));
+  g.setAttribute('aSize', new THREE.Float32BufferAttribute(size, 1));
+  const p = new THREE.Points(g, pointsMat(px)); p.frustumCulled = false; p.renderOrder = -1; return p;
+};
+
+// sky at infinity
+const sky = (() => {
+  const r = rng(7), P = [], C = [], S = [];
+  for (let i = 0; i < 4000; i++) {
+    const z = r() * 2 - 1, t = r() * Math.PI * 2, s = Math.sqrt(1 - z * z), b = Math.pow(r(), 4);
+    P.push(s * Math.cos(t), z, s * Math.sin(t));
+    const w = r(), k = 0.25 + b * 0.9;
+    C.push((w < 0.2 ? 1 : 0.85) * k, (w < 0.2 ? 0.85 : 0.9) * k, (w < 0.2 ? 0.7 : 1) * k);
+    S.push(1.5 + b * 3.5);
+  }
+  // the Milky Way band: many faint stars near the galactic plane (same orientation as the galaxy below)
+  const n = new THREE.Vector3(0, Math.cos(GAL_TILT), Math.sin(GAL_TILT)), e1 = new THREE.Vector3(1, 0, 0), e2 = new THREE.Vector3().crossVectors(n, e1);
+  const toC = new THREE.Vector3(-1, 0, 0);
+  for (let i = 0; i < 14000; i++) {
+    const t = r() * Math.PI * 2, off = gauss(r) * (0.06 + 0.05 * r());
+    const v = e1.clone().multiplyScalar(Math.cos(t)).addScaledVector(e2, Math.sin(t)).addScaledVector(n, off).normalize();
+    const core = Math.pow(Math.max(0, v.dot(toC)), 3);
+    if (r() > 0.45 + 0.55 * core) continue;
+    P.push(v.x, v.y, v.z);
+    const k = (0.12 + 0.25 * r()) * (1 + core);
+    C.push(k, k * 0.95, k * 0.88); S.push(1.2 + r() * 1.6);
+  }
+  const p = makePoints(P, C, S, 1); p.renderOrder = -2; scene.add(p); return p;
+})();
+
+// nearby stars (ly units around the Sun)
+const near = (() => {
+  const r = rng(11), P = [], C = [], S = [];
+  const cols = [[1, .82, .63], [1, .96, .88], [1, 1, 1], [.8, .88, 1], [1, .7, .54]];
+  for (let i = 0; i < 3000; i++) {
+    const rr = 60 * Math.cbrt(r()), z = r() * 2 - 1, t = r() * Math.PI * 2, s = Math.sqrt(1 - z * z);
+    if (rr < 6) continue;
+    P.push(rr * s * Math.cos(t), rr * z, rr * s * Math.sin(t));
+    const b = Math.pow(r(), 2.5), c = cols[Math.floor(r() * cols.length)];
+    C.push(c[0] * (0.4 + b), c[1] * (0.4 + b), c[2] * (0.4 + b)); S.push(2 + b * 4);
+  }
+  const p = makePoints(P, C, S, 1); p.scale.setScalar(LY); scene.add(p); return p;
+})();
+
+// galaxy template: plane XZ, radius 1
+const makeGalaxy = (seed, n, arms, bulge) => {
+  const r = rng(seed), P = [], C = [], S = [];
+  const pitch = Math.tan(13 * Math.PI / 180);
+  for (let i = 0; i < n; i++) {
+    const k = r(); let x, y, z, c;
+    if (k < bulge) {
+      const bx = gauss(r) * 0.09, bz = gauss(r) * 0.035, a = 0.45;
+      x = bx * Math.cos(a) - bz * Math.sin(a); z = bx * Math.sin(a) + bz * Math.cos(a); y = gauss(r) * 0.03; c = [1, .78, .5];
+      const b = 0.5 + r() * 0.5; c = c.map((v) => v * b * 0.55);
+    } else if (k < bulge + 0.2) {
+      const rr = -Math.log(1 - r() * 0.98) * 0.3, t = r() * Math.PI * 2;
+      x = rr * Math.cos(t); z = rr * Math.sin(t); y = gauss(r) * 0.012; c = [.75, .7, .62].map((v) => v * (0.3 + r() * 0.4));
+    } else {
+      const arm = Math.floor(r() * arms);
+      const rr = Math.min(1, 0.08 + -Math.log(1 - r() * 0.95) * 0.27);
+      const th = Math.log(rr / 0.08) / pitch + arm * 2 * Math.PI / arms + gauss(r) * 0.22 * (0.4 + rr);
+      x = rr * Math.cos(th) + gauss(r) * 0.02; z = rr * Math.sin(th) + gauss(r) * 0.02; y = gauss(r) * 0.008;
+      const pink = r() < 0.04; const b = 0.35 + r() * 0.6;
+      c = pink ? [.9, .3, .5] : [.5 * b, .6 * b, .85 * b];
+    }
+    P.push(x, y, z); C.push(c[0] * 0.55, c[1] * 0.55, c[2] * 0.55); S.push(1.4 + r() * 1.4);
+  }
+  return {P, C, S};
+};
+const irregular = (seed, n) => {
+  const r = rng(seed), P = [], C = [], S = [];
+  for (let i = 0; i < n; i++) {
+    P.push(gauss(r) * 0.5, gauss(r) * 0.12, gauss(r) * 0.3);
+    const b = 0.4 + r() * 0.6; C.push(.7 * b, .8 * b, 1 * b); S.push(1.5 + r() * 2);
+  }
+  return {P, C, S};
+};
+const MW_R = 52000;
+const mwT = makeGalaxy(3, 90000, 4, 0.15);
+const mw = makePoints(mwT.P, mwT.C, mwT.S, 1);
+const mwGroup = new THREE.Group(); mwGroup.add(mw);
+mw.scale.setScalar(MW_R * LY); mw.rotation.y = 0.55;
+mwGroup.rotation.x = GAL_TILT;
+scene.add(mwGroup);
+const coreSprite = (R, color = GLOW_CORE) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({map: color, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true})); s.scale.setScalar(R); return s; };
+const mwCore = coreSprite(16000 * LY); mwGroup.add(mwCore);
+const smallT = makeGalaxy(5, 14000, 2, 0.25);
+const galObjs = [];
+const addGal = (pos, Rly, tilt, az, tpl, glowR) => {
+  const g = new THREE.Group(); const p = makePoints(tpl.P, tpl.C, tpl.S, 1);
+  p.scale.setScalar(Rly * LY); p.rotation.y = az; g.add(p); g.rotation.x = tilt; g.rotation.z = az * 0.5;
+  if (glowR) { const s = coreSprite(glowR * LY); g.add(s); g.userData.glow = s; }
+  scene.add(g); galObjs.push({g, p, pos}); return g;
+};
+addGal(ANDRO, 110000, 1.25, 0.6, smallT, 40000);
+addGal(TRI, 30000, 0.7, 2.0, makeGalaxy(9, 6000, 2, 0.12), 6000);
+addGal(LMC, 7000, 0.5, 1.0, irregular(13, 3000));
+addGal(SMC, 3500, 0.9, 2.1, irregular(17, 1500));
+const dwarfs = (() => {
+  const r = rng(21), P = [], C = [], S = [];
+  for (let i = 0; i < 46; i++) {
+    const host = r() < 0.5 ? GAL_C : ANDRO, rr = (0.12 + r() * 0.6) * 1e6, z = r() * 2 - 1, t = r() * Math.PI * 2, s = Math.sqrt(1 - z * z);
+    for (let k = 0; k < 40; k++) {
+      P.push((host[0] - GAL_C[0]) / LY + rr * s * Math.cos(t) + gauss(r) * 2500, (host[1] - GAL_C[1]) / LY + rr * z + gauss(r) * 2500, (host[2] - GAL_C[2]) / LY + rr * s * Math.sin(t) + gauss(r) * 2500);
+      C.push(.5, .55, .7); S.push(1.6);
+    }
+  }
+  const p = makePoints(P, C, S, 1); p.scale.setScalar(LY); scene.add(p); return p;
+})();
+// cosmic web in Mly units around the Local Group
+const web = (() => {
+  const r = rng(99), Sz = 1400, P = [], C = [], S = [];
+  const nodes = [[0, 0, 0], [54 * 0.8, 54 * 0.33, -54 * 0.5]];
+  for (let i = 0; i < 120; i++) nodes.push([(r() - 0.5) * Sz, (r() - 0.5) * Sz * 0.8, (r() - 0.5) * Sz]);
+  const put = (x, y, z, b) => {
+    P.push(x, y, z); const c = b > 0.85 ? [1, .9, .8] : b > 0.4 ? [.62, .7, 1] : [.75, .5, 1];
+    C.push(...c.map((v) => v * (0.12 + 0.35 * b))); S.push(1.4 + b * 1.4);
+  };
+  nodes.forEach((a, i) => {
+    const nb = nodes.map((b, j) => ({j, d: len3(a, b)})).filter((x) => x.j !== i).sort((x, y) => x.d - y.d).slice(0, 3);
+    nb.forEach(({j, d}) => { if (j > i) { const b = nodes[j], n = Math.floor(d / Sz * 2600); for (let k = 0; k < n; k++) { const t = r(); put(lerp(a[0], b[0], t) + gauss(r) * 15, lerp(a[1], b[1], t) + gauss(r) * 15, lerp(a[2], b[2], t) + gauss(r) * 15, r()); } } });
+    const rich = i < 2 ? 300 : 40 + Math.floor(r() * 520), cw = 4 + r() * 10;
+    for (let k = 0; k < rich; k++) put(a[0] + gauss(r) * cw, a[1] + gauss(r) * cw, a[2] + gauss(r) * cw, 0.4 + r() * 0.6);
+  });
+  const p = makePoints(P, C, S, 1); p.scale.setScalar(1e6 * LY); scene.add(p); return p;
+})();
+
+// ---------- bodies ----------
+const SPH = new THREE.SphereGeometry(1, 128, 96);
+const L = (name, r, color, text) => ({name, r, color, text});
+const BODIES = [];
+const addBody = (o) => { BODIES.push(o); return o; };
+const planet = (id, name, a, ang, R, tex, info, layers, extra = {}) => addBody({id, name, kind: 'planet', a, pos: [a * AU * Math.cos(ang), 0, a * AU * Math.sin(ang)], R, tex, info, layers, ...extra});
+planet('merkuriy', 'Merkuriy', 0.387, 0.8, 2440, () => loadTex('mercury-1024.webp'),
+  {type: 'Sayyora', facts: [['Diametri', '4 879 km'], ['Quyoshdan', '57,9 mln km'], ['Bir yili', '88 Yer kuni']]},
+  [L('Yadro (temir)', 0.83, '#c9793b', 'Sayyora radiusining qariyb 85 foizi yadro.'), L('Mantiya', 0.985, '#9b5a3a', 'Tosh qatlam.'), L('Qobiq', 1, '#8d8580', 'Kraterlarga to\'la sirt.')]);
+planet('venera', 'Venera', 0.723, 4.1, 6052, () => loadTex('venus-1024.webp'),
+  {type: 'Sayyora', facts: [['Diametri', '12 104 km'], ['Quyoshdan', '108,2 mln km'], ['Bir yili', '225 Yer kuni'], ['Sirtida', 'qariyb 465 °C']]},
+  [L('Yadro (temir-nikel)', 0.5, '#d9893b', 'O\'lchami taxminiy.'), L('Mantiya', 0.99, '#a8553a', 'Issiq tosh qatlam.'), L('Qobiq', 1, '#c9a46a', 'Qalin bulutlar ostidagi vulqonli sirt.')]);
+const earth = planet('yer', 'Yer', 1, 2.2, 6371, null,
+  {type: 'Bizning sayyoramiz', facts: [['Diametri', '12 742 km'], ['Quyoshdan', '149,6 mln km'], ['Bir yili', '365 kun'], ['Yoshi', '~4,5 mlrd yil']]},
+  [L('Ichki yadro', 0.192, '#e8b85a', 'Qattiq temir-nikel shar, harorati qariyb 5 400 °C.'), L('Tashqi yadro', 0.546, '#ff9a3c', 'Suyuq temir. Yerning magnit maydoni shu yerda hosil bo\'ladi.'), L('Mantiya', 0.995, '#c4452c', 'Qalinligi ~2 900 km, sekin oqadigan issiq tosh.'), L('Qobiq', 1, '#5b8f4a', 'Biz yashaydigan yupqa qatlam: 5–70 km.')], {tilt: 23.4});
+planet('mars', 'Mars', 1.524, 5.3, 3390, () => loadTex('mars-1024.webp'),
+  {type: 'Sayyora', facts: [['Diametri', '6 779 km'], ['Quyoshdan', '227,9 mln km'], ['Bir yili', '687 Yer kuni'], ['Yo\'ldoshlari', 'Fobos va Deymos']]},
+  [L('Yadro (suyuq temir)', 0.54, '#d9893b', 'InSight zondi o\'lchovlari bo\'yicha radiusi ~1 830 km.'), L('Mantiya', 0.985, '#9b4a2a', 'Tosh qatlam.'), L('Qobiq', 1, '#b5532e', 'Temir oksidi uni qizil qiladi.')], {tilt: 25});
+planet('yupiter', 'Yupiter', 5.203, 1.2, 69911, () => loadTex('jupiter-1024.webp'),
+  {type: 'Gaz giganti', facts: [['Diametri', '139 820 km'], ['Quyoshdan', '778,5 mln km'], ['Bir yili', '11,9 Yer yili'], ['Hajmi', '1 300 dan ortiq Yer sig\'adi']]},
+  [L('Yadro', 0.3, '#d9893b', 'Aniq chegarasi yo\'q, o\'lchami olimlarning taxmini.'), L('Metall vodorod', 0.8, '#7a8fb5', 'Ulkan bosimda vodorod metall kabi tok o\'tkazadi.'), L('Suyuq vodorod', 0.99, '#c9b08a', ''), L('Bulutlar', 1, '#e0cdb0', 'Mashhur Katta qizil dog\' shu qatlamda.')], {tilt: 3});
+planet('saturn', 'Saturn', 9.537, 3.4, 58232, () => loadTex('saturn-1024.webp'),
+  {type: 'Gaz giganti', facts: [['Diametri', '116 460 km'], ['Quyoshdan', '1,43 mlrd km'], ['Bir yili', '29,5 Yer yili'], ['Halqalari', 'muz va tosh bo\'laklari']]},
+  [L('Yadro', 0.25, '#d9893b', 'O\'lchami taxminiy.'), L('Metall vodorod', 0.5, '#7a8fb5', ''), L('Suyuq vodorod', 0.99, '#d8c79a', ''), L('Bulutlar', 1, '#e6d6a8', '')], {tilt: 26.7, ring: true});
+planet('uran', 'Uran', 19.19, 0.2, 25362, () => loadTex('uranus-1024.webp'),
+  {type: 'Muz giganti', facts: [['Diametri', '50 724 km'], ['Quyoshdan', '2,87 mlrd km'], ['Bir yili', '84 Yer yili'], ['Qiziq fakt', 'yonboshlab aylanadi']]},
+  [L('Tosh yadro', 0.22, '#a07a55', 'O\'lchami taxminiy.'), L('Muzli mantiya', 0.78, '#4fa0b8', 'Suv, ammiak va metandan iborat issiq "muz".'), L('Atmosfera', 1, '#b0e0e6', 'Vodorod, geliy va metan.')], {tilt: 97.8});
+planet('neptun', 'Neptun', 30.07, 4.9, 24622, () => loadTex('neptune-1024.webp'),
+  {type: 'Muz giganti', facts: [['Diametri', '49 244 km'], ['Quyoshdan', '4,5 mlrd km'], ['Bir yili', '165 Yer yili'], ['Shamollari', 'Quyosh tizimidagi eng kuchli']]},
+  [L('Tosh yadro', 0.25, '#a07a55', 'O\'lchami taxminiy.'), L('Muzli mantiya', 0.8, '#3a6fb8', 'Suv, ammiak va metan.'), L('Atmosfera', 1, '#5b80e0', '')], {tilt: 28.3});
+const moon = addBody({id: 'oy', name: 'Oy', kind: 'moon', pos: [earth.pos[0] + 384400 * Math.cos(1.0), 0, earth.pos[2] + 384400 * Math.sin(1.0)], R: 1737,
+  tex: () => loadTex('moon-1024.webp'), info: {type: 'Yerning yo\'ldoshi', facts: [['Diametri', '3 474 km'], ['Yerdan', '384 400 km'], ['Aylanishi', '27,3 kun']]},
+  layers: [L('Yadro', 0.2, '#d9893b', 'Kichik temir yadro (taxminan).'), L('Mantiya', 0.977, '#8a7a6a', ''), L('Qobiq', 1, '#9a9a9e', 'O\'rtacha qalinligi ~40 km.')]});
+const sun = addBody({id: 'quyosh', name: 'Quyosh', kind: 'sun', pos: SUN, R: RSUN,
+  info: {type: 'Bizning yulduzimiz', facts: [['Diametri', '1 392 700 km'], ['Yoshi', '~4,6 mlrd yil'], ['Sirtida', '~5 500 °C'], ['Massasi', 'Quyosh tizimining 99,8 %i']]},
+  layers: [L('Yadro', 0.25, '#fff3b0', 'Harorati ~15 mln °C. Bu yerda vodorod geliyga aylanib, energiya chiqadi.'), L('Nurlanish zonasi', 0.7, '#ffb347', 'Energiya bu qatlamdan nur sifatida juda sekin o\'tadi.'), L('Konvektiv zona', 1, '#ff6a1a', 'Issiq gaz qaynayotgan suvdek ko\'tarilib tushadi.')]});
+const alpha = addBody({id: 'alfa', name: 'Alfa Sentavr', kind: 'star', pos: [-1.2 * LY, -1.6 * LY, -4.0 * LY], R: 1.22 * RSUN, color: '#fff1d6',
+  info: {type: 'Eng yaqin yulduzlar', facts: [['Masofa', '4,37 yorug\'lik yili'], ['Tarkibi', '3 yulduz: A, B va Proksima'], ['Proksimagacha', '4,24 yorug\'lik yili']]},
+  layers: [L('Yadro', 0.25, '#fff3b0', 'Alfa Sentavr A Quyoshga o\'xshash yulduz.'), L('Nurlanish zonasi', 0.7, '#ffb347', ''), L('Konvektiv zona', 1, '#ff8a3a', '')]});
+addBody({id: 'sirius', name: 'Sirius', kind: 'star', pos: [5.2 * LY, -2.1 * LY, 6.5 * LY], R: 1.71 * RSUN, color: '#dfe9ff',
+  info: {type: 'Yulduz', facts: [['Masofa', '8,6 yorug\'lik yili'], ['Mashhurligi', 'tungi osmondagi eng yorqin yulduz'], ['Massasi', '~2 Quyosh']]}});
+addBody({id: 'markaz', name: 'Somon yo\'li markazi', kind: 'bh', pos: GAL_C, R: 1.2e7, view: 2600 * LY,
+  info: {type: 'Qora tuynuk Sagittarius A*', facts: [['Bizdan', '~26 000 yorug\'lik yili'], ['Massasi', '~4 mln Quyosh'], ['Atrofida', 'zich yulduzlar to\'dasi']]}});
+addBody({id: 'somon', name: 'Somon yo\'li', kind: 'galaxy', pos: GAL_C, R: MW_R * LY, view: 2.5 * MW_R * LY, pitch: 1.0,
+  info: {type: 'Bizning galaktikamiz', facts: [['Diametri', '~100 000 yorug\'lik yili'], ['Yulduzlari', '100–400 mlrd'], ['Quyosh', 'markazdan ~26 000 yorug\'lik yili']]}});
+addBody({id: 'katta-magellan', name: 'Katta Magellan buluti', kind: 'galaxy', pos: LMC, R: 7000 * LY, view: 26000 * LY,
+  info: {type: 'Yo\'ldosh galaktika', facts: [['Masofa', '~160 000 yorug\'lik yili'], ['Ko\'rinishi', 'janubiy osmonda oddiy ko\'zga ko\'rinadi']]}});
+addBody({id: 'kichik-magellan', name: 'Kichik Magellan buluti', kind: 'galaxy', pos: SMC, R: 3500 * LY, view: 14000 * LY,
+  info: {type: 'Yo\'ldosh galaktika', facts: [['Masofa', '~200 000 yorug\'lik yili']]}});
+addBody({id: 'andromeda', name: 'Andromeda', kind: 'galaxy', pos: ANDRO, R: 110000 * LY, view: 2.6 * 110000 * LY, pitch: 0.5,
+  info: {type: 'Eng yaqin yirik galaktika', facts: [['Masofa', '~2,5 mln yorug\'lik yili'], ['Ko\'rinishi', 'qorong\'i osmonda oddiy ko\'zga xira dog\''], ['Kelajakda', 'Somon yo\'li bilan to\'qnashishi kutiladi']]}});
+addBody({id: 'uchburchak', name: 'Uchburchak galaktikasi', kind: 'galaxy', pos: TRI, R: 30000 * LY, view: 80000 * LY, pitch: 0.6,
+  info: {type: 'Spiral galaktika', facts: [['Masofa', '~2,7 mln yorug\'lik yili'], ['O\'rni', 'Mahalliy guruhdagi 3-katta galaktika']]}});
+
+// meshes for planets, moon, sun, stars
+const earthSunView = {value: new THREE.Vector3(1, 0, 0)};
+const solidOf = (b) => {
+  if (b.kind === 'sun') {
+    const m = new THREE.MeshBasicMaterial({map: loadTex('sun-1024.webp')}); m.color.setScalar(1.12); return m;
+  }
+  if (b.kind === 'star') { const m = new THREE.MeshBasicMaterial({color: b.color}); m.color.multiplyScalar(1.6); return m; }
+  if (b.id === 'yer') {
+    const m = new THREE.MeshStandardMaterial({map: earthTex, roughness: 0.8, metalness: 0, emissiveMap: nightTex, emissive: new THREE.Color(1, 0.85, 0.6), emissiveIntensity: 1.4});
+    m.onBeforeCompile = (sh) => {
+      sh.uniforms.uSunView = earthSunView;
+      sh.fragmentShader = 'uniform vec3 uSunView;\n' + sh.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\n totalEmissiveRadiance *= smoothstep(0.12, -0.2, dot(normal, uSunView));');
+    };
+    return m;
+  }
+  return new THREE.MeshStandardMaterial({map: b.tex(), roughness: 0.9, metalness: 0});
+};
+for (const b of BODIES) {
+  if (!['planet', 'moon', 'sun', 'star'].includes(b.kind)) continue;
+  const g = new THREE.Group();
+  const spin = new THREE.Group(); g.add(spin);
+  b.mat = solidOf(b);
+  const mesh = new THREE.Mesh(SPH, b.mat); spin.add(mesh); b.mesh = mesh; b.spin = spin;
+  if (b.tilt) g.rotation.z = b.tilt * Math.PI / 180;
+  if (b.id === 'yer') {
+    const cl = new THREE.Mesh(SPH, new THREE.MeshStandardMaterial({color: 0xffffff, alphaMap: cloudTex, transparent: true, depthWrite: false, roughness: 1}));
+    cl.scale.setScalar(1.008); spin.add(cl); b.clouds = cl;
+    const atm = new THREE.Sprite(new THREE.SpriteMaterial({map: rimTex('rgba(110,175,255,0.85)'), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true}));
+    atm.scale.setScalar(2 / 0.86); g.add(atm); b.atm = atm;
+  }
+  if (b.ring) {
+    const rg = new THREE.RingGeometry(1.24, 2.27, 256, 1);
+    const uv = rg.attributes.uv, pos = rg.attributes.position;
+    for (let i = 0; i < uv.count; i++) { const rr = Math.hypot(pos.getX(i), pos.getY(i)); uv.setXY(i, (rr - 1.24) / (2.27 - 1.24), 0.5); }
+    const rt = loadTex('saturn_ring.png');
+    const ring = new THREE.Mesh(rg, new THREE.MeshStandardMaterial({map: rt, transparent: true, side: THREE.DoubleSide, roughness: 1, depthWrite: false}));
+    ring.rotation.x = -Math.PI / 2; g.add(ring); b.ringMesh = ring;
+  }
+  // glow + far-away dot
+  const glowMap = b.kind === 'sun' ? GLOW_SUN : b.kind === 'star' ? GLOW_WHITE : null;
+  if (glowMap) {
+    const near = new THREE.Sprite(new THREE.SpriteMaterial({map: glowMap, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true}));
+    near.scale.setScalar(b.kind === 'sun' ? 7 : 9); g.add(near); b.glowNear = near;
+  }
+  b.dotCol = new THREE.Color(b.kind === 'sun' ? '#ffd9a0' : b.kind === 'star' ? (b.color || '#ffffff') : b.id === 'yer' ? '#8cc6ff' : '#f2f2f2');
+  b.dotSize = b.kind === 'sun' ? 22 : b.kind === 'star' ? 16 : 9;
+  g.scale.setScalar(b.R);
+  scene.add(g); b.group = g;
+}
+// far-away markers for bodies (fixed pixel size)
+const dots = (() => {
+  const list = BODIES.filter((b) => b.dotCol);
+  const P = new Float32Array(list.length * 3), C = new Float32Array(list.length * 3), S = list.map((b) => b.dotSize);
+  const pts = makePoints(P, C, S, 1); pts.renderOrder = 1; scene.add(pts);
+  const idx = {}; list.forEach((b, i) => (idx[b.id] = i));
+  return {pts, idx, pos: pts.geometry.attributes.position, col: pts.geometry.attributes.aCol};
+})();
+// orbits
+const orbitLine = (R, color) => {
+  const pts = []; for (let i = 0; i < 512; i++) { const t = i / 512 * Math.PI * 2; pts.push(new THREE.Vector3(R * Math.cos(t), 0, R * Math.sin(t))); }
+  const l = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color, transparent: true, depthWrite: false}));
+  scene.add(l); return l;
+};
+const orbits = BODIES.filter((b) => b.kind === 'planet').map((b) => ({b, line: orbitLine(b.a * AU, b.id === 'yer' ? 0x6fb6ff : 0x7d86b0)}));
+const moonOrbit = orbitLine(384400, 0x9aa3c0);
+
+// ---------- cut-away view ----------
+const cut = {on: false, body: null, group: null, planes: [new THREE.Plane(), new THREE.Plane()], dirs: null};
+const buildCut = (b) => {
+  const g = new THREE.Group();
+  const dirsLocal = cut.dirs; // world-space horizontal unit vectors d1, d2
+  const up = new THREE.Vector3(0, 1, 0);
+  b.layers.forEach((ly, i) => {
+    const col = new THREE.Color(ly.color);
+    const outer = i === b.layers.length - 1;
+    let m;
+    if (b.kind === 'sun' || b.kind === 'star') m = new THREE.MeshBasicMaterial({color: col.clone().multiplyScalar(0.95), side: THREE.DoubleSide, clippingPlanes: cut.planes, clipIntersection: true});
+    else if (outer) { m = b.mat.clone(); m.side = THREE.DoubleSide; m.clippingPlanes = cut.planes; m.clipIntersection = true; }
+    else m = new THREE.MeshStandardMaterial({color: col, emissive: col, emissiveIntensity: 0.22, roughness: 0.8, side: THREE.DoubleSide, clippingPlanes: cut.planes, clipIntersection: true});
+    const s = new THREE.Mesh(SPH, m); s.scale.setScalar(ly.r); g.add(s);
+    // flat faces of the cut on both planes
+    dirsLocal.forEach((d, k) => {
+      const other = dirsLocal[1 - k];
+      const inner = i === 0 ? 0 : b.layers[i - 1].r;
+      const rg = new THREE.RingGeometry(inner, ly.r, 128, 1, -Math.PI / 2, Math.PI);
+      const fm = b.kind === 'sun' || b.kind === 'star' ? new THREE.MeshBasicMaterial({color: col.clone().multiplyScalar(0.9), side: THREE.DoubleSide})
+        : new THREE.MeshStandardMaterial({color: col, emissive: col, emissiveIntensity: 0.3, roughness: 0.85, side: THREE.DoubleSide});
+      const face = new THREE.Mesh(rg, fm);
+      const side = new THREE.Vector3().crossVectors(up, d).normalize();
+      if (side.dot(other) < 0) side.negate();
+      const n = new THREE.Vector3().crossVectors(side, up);
+      face.matrixAutoUpdate = false; face.matrix.makeBasis(side, up, n); g.add(face);
+    });
+  });
+  return g;
+};
+const setCut = (on) => {
+  if (cut.group) { scene.remove(cut.group); cut.group = null; }
+  if (cut.body) { cut.body.mesh.visible = true; if (cut.body.clouds) cut.body.clouds.visible = true; if (cut.body.ringMesh) cut.body.ringMesh.visible = true; }
+  cut.on = false; cut.body = null;
+  if (!on || !sel || !sel.layers || !sel.group) return renderCard();
+  // wedge faces the camera
+  const toCam = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
+  const d1 = toCam.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 4);
+  const d2 = toCam.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 4);
+  cut.dirs = [d1, d2];
+  cut.on = true; cut.body = sel;
+  cut.group = buildCut(sel); scene.add(cut.group);
+  sel.mesh.visible = false; if (sel.clouds) sel.clouds.visible = false; if (sel.ringMesh) sel.ringMesh.visible = false;
+  logdT = Math.log10(fitDist(sel.R, 1.6));
+  pitchT = 0.35;
+  renderCard();
+};
+
+// ---------- focus chain (what the camera looks at when you zoom far out) ----------
+const chain = (b) => {
+  const st = [];
+  if (b.kind === 'moon') st.push([earth.pos, 5.6, 6.6], [SUN, Math.log10(AU) - 0.2, Math.log10(AU) + 0.9]);
+  if (b.kind === 'planet') st.push([SUN, Math.log10(b.a * AU) - 0.2, Math.log10(b.a * AU) + 0.9]);
+  if (['planet', 'moon', 'sun', 'star', 'bh'].includes(b.kind) || b.id === 'somon') st.push([GAL_C, 15.6, 17.4]);
+  if (b.id === 'katta-magellan' || b.id === 'kichik-magellan') st.push([GAL_C, 17.0, 18.0]);
+  st.push([LG_C, b.id === 'andromeda' || b.id === 'uchburchak' ? 19.0 : 18.4, b.id === 'andromeda' || b.id === 'uchburchak' ? 19.7 : 19.4]);
+  return st;
+};
+const focusFor = (b, lv) => { let T = b.pos; for (const [p, a, c] of chain(b)) T = lerp3(T, p, smooth(a, c, lv)); return T; };
+const fitDist = (R, k) => R / Math.sin(Math.atan(TANF * Math.min(1, innerWidth / innerHeight))) * k;
+const viewDist = (b) => b.view || (b.kind === 'star' ? fitDist(b.R, 3) : b.ring ? fitDist(b.R * 2.3, 1.15) : fitDist(b.R, 1.45));
+const sunYaw = (b) => { if (!['planet', 'moon'].includes(b.kind)) return null; const d = [-b.pos[0], -b.pos[2]]; return Math.atan2(d[0], d[1]) + 0.55; };
+const minDist = (b) => b.kind === 'galaxy' ? b.R * 0.25 : b.kind === 'bh' ? 30 * LY : b.R * 1.25;
+
+// ---------- state ----------
+let sel = earth, yaw = sunYaw(earth), pitch = 0.18, pitchT = 0.18, logd = Math.log10(viewDist(earth)), logdT = logd, flight = null;
+let T = earth.pos.slice();
+const MAXL = 22.5;
+const flyTo = (b) => {
+  if (cut.on) setCut(false);
+  const l0 = logd, l1 = Math.log10(viewDist(b));
+  const p0 = T.slice(), p1 = focusFor(b, l1 + Math.log10(TANF));
+  const sep = len3(p0, p1);
+  const peak = Math.max(l0, l1, sep > 0 ? Math.log10(sep * 2.2) : -99);
+  const dur = Math.min(6, 2 + Math.abs(peak - l0) * 0.18 + Math.abs(peak - l1) * 0.18);
+  let y1 = sunYaw(b); if (y1 === null) y1 = yaw; else { while (y1 - yaw > Math.PI) y1 -= 2 * Math.PI; while (y1 - yaw < -Math.PI) y1 += 2 * Math.PI; }
+  flight = {b, l0, l1, p0, p1, peak, t0: performance.now(), dur: dur * 1000, pitch0: pitch, pitch1: b.pitch ?? (b.ring ? 0.62 : 0.2), yaw0: yaw, yaw1: y1};
+  sel = b; renderCard();
+};
+
+// ---------- labels ----------
+const labelsEl = document.getElementById('labels');
+const LBL = {
+  oy: [5.0, 7.3], yer: [5.0, 9.7], merkuriy: [7.4, 9.3], venera: [7.4, 9.4], mars: [7.4, 9.6],
+  yupiter: [8.4, 11.4], saturn: [8.6, 11.6], uran: [9.0, 11.8], neptun: [9.2, 12],
+  quyosh: [9.0, 18.8], alfa: [13.2, 15.4], sirius: [13.4, 15.6], markaz: [16.4, 19.2], somon: [18.6, 20.8],
+  'katta-magellan': [17.4, 18.7], 'kichik-magellan': [17.5, 18.6], andromeda: [18.4, 20.9], uchburchak: [18.8, 20.6],
+};
+for (const b of BODIES) {
+  const el = document.createElement('button'); el.className = 'lbl'; el.textContent = b.name; el.hidden = true;
+  el.addEventListener('click', (e) => { e.stopPropagation(); hideHint(); flyTo(b); });
+  labelsEl.appendChild(el); b.lbl = el;
+}
+
+// ---------- UI ----------
+const $ = (id) => document.getElementById(id);
+const card = $('card'), cName = $('cName'), cType = $('cType'), cFacts = $('cFacts'), cLayers = $('cLayers'), cCut = $('cCut');
+let cardHidden = false;
+function renderCard() {
+  if (!sel || cardHidden) { card.hidden = true; return; }
+  card.hidden = false;
+  cName.textContent = sel.name; cType.textContent = sel.info.type;
+  cFacts.innerHTML = '';
+  for (const [k, v] of sel.info.facts) { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; cFacts.append(dt, dd); }
+  cCut.hidden = !sel.layers;
+  cCut.textContent = cut.on ? 'BUTUN HOLDA' : 'ICHINI KO\'R';
+  cLayers.hidden = !cut.on;
+  cLayers.innerHTML = '';
+  if (cut.on) {
+    [...sel.layers].reverse().forEach((ly) => {
+      const row = document.createElement('div'); row.className = 'lay';
+      const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = ly.color;
+      const tx = document.createElement('div'); tx.innerHTML = `<b></b> <span class="note"></span>`; tx.querySelector('b').textContent = ly.name; tx.querySelector('.note').textContent = ly.text;
+      row.append(sw, tx); cLayers.appendChild(row);
+    });
+  }
+}
+cCut.addEventListener('click', () => setCut(!cut.on));
+$('cClose').addEventListener('click', () => { setCut(false); cardHidden = true; renderCard(); });
+$('home').addEventListener('click', () => { hideHint(); cardHidden = false; flyTo(earth); });
+const listEl = $('list'), listIn = $('listIn');
+const groups = [['Quyosh tizimi', ['quyosh', 'merkuriy', 'venera', 'yer', 'oy', 'mars', 'yupiter', 'saturn', 'uran', 'neptun']], ['Yulduzlar', ['alfa', 'sirius']],
+  ['Galaktikalar', ['markaz', 'somon', 'katta-magellan', 'kichik-magellan', 'andromeda', 'uchburchak']]];
+for (const [title, ids] of groups) {
+  const sec = document.createElement('section'); const h = document.createElement('h2'); h.textContent = title; const grid = document.createElement('div'); grid.className = 'grid';
+  for (const id of ids) { const b = BODIES.find((x) => x.id === id); const bt = document.createElement('button'); bt.className = 'btn'; bt.textContent = b.name; bt.addEventListener('click', () => { listEl.hidden = true; cardHidden = false; hideHint(); flyTo(b); }); grid.appendChild(bt); }
+  sec.append(h, grid); listIn.appendChild(sec);
+}
+const closeList = document.createElement('button'); closeList.className = 'btn'; closeList.textContent = 'YOPISH'; closeList.addEventListener('click', () => (listEl.hidden = true)); listIn.appendChild(closeList);
+$('menu').addEventListener('click', () => (listEl.hidden = false));
+const hint = $('hint'); let hinted = false; setTimeout(() => hideHint(), 9000);
+function hideHint() { if (!hinted) { hinted = true; hint.style.opacity = 0; } }
+let zoomHold = 0;
+const hold = (el, dir) => {
+  el.addEventListener('pointerdown', (e) => { e.preventDefault(); zoomHold = dir; hideHint(); });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => el.addEventListener(ev, () => (zoomHold = 0)));
+};
+hold($('zin'), -1); hold($('zout'), 1);
+
+// gestures
+const cv = renderer.domElement, ptrs = new Map();
+let pinch0 = 0, moved = 0;
+cv.addEventListener('pointerdown', (e) => { cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, {x: e.clientX, y: e.clientY}); moved = 0; if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a.x - b.x, a.y - b.y); } });
+cv.addEventListener('pointermove', (e) => {
+  const p = ptrs.get(e.pointerId); if (!p) return;
+  const dx = e.clientX - p.x, dy = e.clientY - p.y; moved += Math.abs(dx) + Math.abs(dy);
+  p.x = e.clientX; p.y = e.clientY;
+  if (flight) return;
+  if (ptrs.size === 1) { yaw -= dx * 0.006; pitchT = pitch = Math.max(-1.45, Math.min(1.45, pitch + dy * 0.006)); hideHint(); }
+  else if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y); if (pinch0 > 0) { logdT -= Math.log10(d / pinch0) * 1.6; } pinch0 = d; hideHint(); }
+});
+const up = (e) => {
+  ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = 0;
+  if (moved < 8 && e.type === 'pointerup') { // tap: nearest visible label
+    let best = null, bd = 48;
+    for (const b of BODIES) { if (b.lbl.hidden) continue; const d = Math.hypot(b.sx - e.clientX, b.sy - e.clientY); if (d < bd) { bd = d; best = b; } }
+    if (best) { cardHidden = false; flyTo(best); }
+  }
+};
+cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+cv.addEventListener('wheel', (e) => { e.preventDefault(); if (!flight) logdT += e.deltaY * 0.0016; hideHint(); }, {passive: false});
+
+// ---------- frame loop ----------
+const scaleEl = $('scale'), distEl = $('dist');
+const v3 = new THREE.Vector3(), XAX = new THREE.Vector3(1, 0, 0);
+const place = (obj, p) => obj.position.set(p[0] - T[0], p[1] - T[1], p[2] - T[2]);
+let last = performance.now(), lastScale = '', viewLift = 0;
+window.__k = {zoom: (l) => { logdT = l; }, fly: (id) => flyTo(BODIES.find((b) => b.id === id))};
+const SCALES = [[-99, ''], [7.2, 'QUYOSH TIZIMI'], [12.3, 'YAQIN YULDUZLAR'], [15.4, 'SOMON YO\'LI'], [18.4, 'MAHALLIY GURUH'], [20.3, 'KOINOT · GALAKTIKALAR TO\'RI']];
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (flight) {
+    const t = clamp01((now - flight.t0) / flight.dur);
+    const f = flight;
+    if (f.peak > Math.max(f.l0, f.l1) + 0.05) logd = t < 0.5 ? lerp(f.l0, f.peak, ease(t * 2)) : lerp(f.peak, f.l1, ease((t - 0.5) * 2));
+    else logd = lerp(f.l0, f.l1, ease(t));
+    const w = smooth(0.15, 0.85, t);
+    T = lerp3(f.p0, f.p1, w);
+    pitch = lerp(f.pitch0, f.pitch1, ease(t)); pitchT = pitch; yaw = lerp(f.yaw0, f.yaw1, ease(t));
+    logdT = logd;
+    if (t >= 1) { flight = null; logdT = logd = f.l1; }
+  } else {
+    logdT += zoomHold * dt * 1.4;
+    logdT = Math.max(Math.log10(minDist(sel)), Math.min(MAXL, logdT));
+    logd += (logdT - logd) * Math.min(1, dt * 8);
+    pitch += (pitchT - pitch) * Math.min(1, dt * 4);
+  }
+  const dist = Math.pow(10, logd), lv = logd + Math.log10(TANF);
+  if (!flight) T = focusFor(sel, lv);
+  // camera around focus (scene is drawn relative to the focus)
+  const pe = lerp(pitch, Math.max(pitch, 0.95), smooth(15.2, 17.0, lv) * (1 - smooth(19.2, 20.5, lv)));
+  const tilt = GAL_TILT * smooth(12.5, 16.0, lv);
+  camera.position.set(dist * Math.cos(pe) * Math.sin(yaw), dist * Math.sin(pe), dist * Math.cos(pe) * Math.cos(yaw)).applyAxisAngle(XAX, tilt);
+  camera.up.set(0, 1, 0).applyAxisAngle(XAX, tilt);
+  camera.lookAt(0, 0, 0);
+  // lift the scene centre above the info card
+  const lift = card.hidden || card.style.opacity === '0' ? 0 : Math.min(innerHeight * 0.2, $('cardIn').offsetHeight * 0.5);
+  viewLift += (lift - viewLift) * Math.min(1, dt * 5);
+  camera.setViewOffset(innerWidth, innerHeight, 0, viewLift, innerWidth, innerHeight);
+  camera.near = Math.max(1e-3, dist * 1e-4); camera.far = 1e25; camera.updateProjectionMatrix();
+
+  sky.position.copy(camera.position); sky.scale.setScalar(dist * 50);
+  sky.material.uniforms.uOpacity.value = 1 - smooth(13.2, 14.8, lv);
+  place(near, SUN); near.material.uniforms.uOpacity.value = band(12.4, 13.6, 16.0, 17.0, lv);
+  place(mwGroup, GAL_C);
+  const galA = smooth(15.0, 16.6, lv);
+  const webFade = 1 - smooth(19.6, 20.8, lv) * 0.97;
+  mw.material.uniforms.uOpacity.value = galA * 0.7 * webFade;
+  mwCore.material.opacity = galA * 0.3 * webFade * (1 - smooth(18, 19, lv) * 0.6);
+  bloom.strength = lerp(0.9, 0.35, smooth(13.5, 16, lv));
+  const lgA = smooth(17.6, 18.6, lv);
+  for (const o of galObjs) {
+    place(o.g, o.pos); o.p.material.uniforms.uOpacity.value = Math.max(lgA, o.pos === LMC || o.pos === SMC ? smooth(16.6, 17.6, lv) : 0) * 0.8 * webFade;
+    if (o.g.userData.glow) o.g.userData.glow.material.opacity = lgA * 0.25 * webFade;
+  }
+  place(dwarfs, GAL_C); dwarfs.material.uniforms.uOpacity.value = lgA * 0.8;
+  place(web, LG_C); web.material.uniforms.uOpacity.value = smooth(19.8, 21.2, lv);
+
+  // light from the Sun
+  place(sunLight, SUN);
+  const orbA = band(6.4, 7.4, 11.6, 12.6, lv);
+  for (const {b, line} of orbits) { place(line, SUN); line.material.opacity = orbA * (b.id === 'yer' ? 0.85 : 0.45); line.visible = orbA > 0.01; }
+  place(moonOrbit, earth.pos); moonOrbit.material.opacity = band(4.9, 5.5, 7.6, 8.4, lv) * 0.5; moonOrbit.visible = moonOrbit.material.opacity > 0.01;
+
+  for (const b of BODIES) {
+    if (b.group) {
+      place(b.group, b.pos);
+      const camD0 = Math.hypot(b.pos[0] - T[0] - camera.position.x, b.pos[1] - T[1] - camera.position.y, b.pos[2] - T[2] - camera.position.z);
+      const px0 = b.R / camD0 * (innerHeight / 2) / TANF;
+      const vis = px0 > 0.4 && lv < 13;
+      b.group.visible = vis;
+      if (true) {
+        if (!(cut.on && cut.body === b) && b.spin) b.spin.rotation.y += dt * (b.id === 'yer' ? 0.05 : 0.03);
+        if (b.clouds) b.clouds.rotation.y += dt * 0.006;
+        // apparent size in px
+        const d = Math.max(1, len3(b.pos, T) || 0) ;
+        const camD = Math.hypot(b.pos[0] - T[0] - camera.position.x, b.pos[1] - T[1] - camera.position.y, b.pos[2] - T[2] - camera.position.z);
+        const px = b.R / camD * (innerHeight / 2) / TANF;
+        let dotA;
+        if (b.kind === 'sun') dotA = 1 - smooth(16.0, 17.6, lv) * 0.7;
+        else if (b.kind === 'star') dotA = band(11.5, 12.5, 16.0, 17.0, lv);
+        else dotA = (1 - smooth(1.5, 4, px)) * (1 - smooth(11.6, 12.6, lv)) * (b.kind === 'moon' ? 1 - smooth(7.4, 8.2, lv) : 1);
+        if (b.kind === 'sun' || b.kind === 'star') dotA *= 1 - smooth(6, 30, px);
+        const di = dots.idx[b.id];
+        dots.pos.setXYZ(di, b.pos[0] - T[0], b.pos[1] - T[1], b.pos[2] - T[2]);
+        dots.col.setXYZ(di, b.dotCol.r * dotA, b.dotCol.g * dotA, b.dotCol.b * dotA);
+      }
+      if (vis) {
+        if (b.glowNear) b.glowNear.material.opacity = 0.6;
+      }
+    }
+    // label
+    const r = LBL[b.id]; let a = r ? band(r[0], r[0] + 0.3, r[1] - 0.3, r[1], lv) : 0;
+    if (b === sel && !flight && lv < (r ? r[0] + 1.5 : 0) && b.kind !== 'galaxy') a = 0;
+    if (cut.on) a = 0;
+    if (a > 0.05) {
+      v3.set(b.pos[0] - T[0], b.pos[1] - T[1], b.pos[2] - T[2]).project(camera);
+      if (v3.z < 1 && Math.abs(v3.x) < 1.1 && Math.abs(v3.y) < 1.1) {
+        b.sx = (v3.x + 1) / 2 * innerWidth; b.sy = (1 - v3.y) / 2 * innerHeight;
+        const offset = b.kind === 'galaxy' && b.id !== 'somon' ? 0 : 8;
+        const hw = (b.lbl.offsetWidth || 80) / 2; b.lbl.style.left = Math.max(hw + 6, Math.min(innerWidth - hw - 70, b.sx)) + 'px'; b.lbl.style.top = (b.sy - offset) + 'px'; b.lbl.style.opacity = a; b.lbl.hidden = false;
+        const here = b.id === 'quyosh' && lv > 15.6;
+        b.lbl.classList.toggle('here', here);
+        b.lbl.textContent = here ? 'Quyosh · biz shu yerdamiz' : b.name;
+        continue;
+      }
+    }
+    b.lbl.hidden = true;
+  }
+  dots.pos.needsUpdate = true; dots.col.needsUpdate = true;
+  if (cut.on) {
+    const c = new THREE.Vector3(cut.body.pos[0] - T[0], cut.body.pos[1] - T[1], cut.body.pos[2] - T[2]);
+    cut.group.position.copy(c); cut.group.scale.setScalar(cut.body.R);
+    cut.dirs.forEach((d, i) => { cut.planes[i].normal.copy(d).negate(); cut.planes[i].constant = d.dot(c); });
+  }
+  // card auto-hide when far away from the selection
+  const far = sel && lv > Math.log10(viewDist(sel) * TANF) + 2.6;
+  card.style.opacity = far ? 0 : 1; card.style.pointerEvents = far ? 'none' : '';
+  // HUD
+  let s = ''; for (const [k, name] of SCALES) if (lv >= k) s = name;
+  if (!flight && lv < Math.log10(viewDist(sel) * TANF) + 1.0) s = '';
+  if (s !== lastScale) { scaleEl.textContent = s; lastScale = s; }
+  const surf = Math.max(0, dist - (sel.kind === 'galaxy' || sel.kind === 'bh' ? 0 : sel.R));
+  distEl.textContent = `${sel.name.toUpperCase()}GACHA: ${fmt(surf).toUpperCase()}`;
+  camera.updateMatrixWorld();
+  v3.set(-earth.pos[0], -earth.pos[1], -earth.pos[2]).normalize().transformDirection(camera.matrixWorldInverse); earthSunView.value.copy(v3);
+  composer.render();
+  requestAnimationFrame(frame);
+}
+renderCard();
+requestAnimationFrame(frame);
+</script>
