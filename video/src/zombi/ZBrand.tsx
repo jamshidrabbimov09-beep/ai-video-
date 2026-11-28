@@ -154,12 +154,12 @@ export const ZCoverV: React.FC<{v: 'a' | 'b' | 'c'}> = ({v}) => {
         {v === 'a' && (
           <g>
             <g style={{filter: 'blur(6px)'}}><Board /></g>
-            <rect x={640} y={560} width={360} height={430} fill="#2a2f36" stroke="#5a3f2a" strokeWidth={18} />
-            <clipPath id="dw"><rect x={660} y={580} width={320} height={390} /></clipPath>
-            <g clipPath="url(#dw)"><PersonAt x={820} y={1700} s={1.55} {...CAST.sardor} zombie={1} eyeGlow={1} mood="determined" shadow={false} /></g>
+            <rect x={640} y={640} width={360} height={430} fill="#2a2f36" stroke="#5a3f2a" strokeWidth={18} />
+            <clipPath id="dw"><rect x={660} y={660} width={320} height={390} /></clipPath>
+            <g clipPath="url(#dw)"><PersonAt x={820} y={1780} s={1.55} {...CAST.sardor} zombie={1} eyeGlow={1} mood="determined" shadow={false} /></g>
             <rect width={540} height={1920} fill="#ff2030" opacity={0.28} />
             <rect x={540} width={540} height={1920} fill="#2050ff" opacity={0.28} />
-            <BekAt x={430} y={2620} s={2.6} mood="surprised" lookX={0.8} shadow={false} />
+            <BekAt x={430} y={2640} s={2.5} mood="surprised" lookX={0.8} shadow={false} />
           </g>
         )}
         {v === 'b' && (
@@ -183,10 +183,10 @@ export const ZCoverV: React.FC<{v: 'a' | 'b' | 'c'}> = ({v}) => {
           </g>
         )}
       </svg>
-      {v === 'a' && <><div style={{...T, top: 260, fontSize: 190, color: '#fff'}}>MAKTAB 41</div><div style={{...T, top: 470, fontSize: 70, color: '#ffc94a'}}>ZOMBILAR ICHKARIDA...</div></>}
+      {v === 'a' && <><div style={{...T, top: 330, fontSize: 180, color: '#fff'}}>MAKTAB 41</div><div style={{...T, top: 535, fontSize: 70, color: '#ffc94a'}}>ZOMBILAR ICHKARIDA...</div></>}
       {v === 'b' && <><div style={{...T, top: 280, fontSize: 150, color: '#fff'}}>OYI...</div><div style={{...T, top: 440, fontSize: 130, color: '#ff4b4b'}}>JAVOB BER!</div><div style={{...T, top: 1540, fontSize: 64, color: '#ffc94a'}}>MAKTAB 41 · 1-QISM</div></>}
       {v === 'c' && <><div style={{...T, top: 270, fontSize: 120, color: '#fff'}}>U ENDI</div><div style={{...T, top: 400, fontSize: 150, color: '#6dff6d'}}>ODAM EMAS...</div><div style={{...T, top: 1540, fontSize: 64, color: '#ffc94a'}}>MAKTAB 41 · 1-QISM</div></>}
-      {v === 'a' && <div style={{position: 'absolute', top: 1560, left: 60, padding: '10px 30px', background: '#e63946', color: '#fff', fontFamily: 'Oswald', fontWeight: 700, fontSize: 60, border: '5px solid #000'}}>1-QISM</div>}
+      {v === 'a' && <div style={{position: 'absolute', top: 1480, left: 780, padding: '10px 30px', background: '#e63946', color: '#fff', fontFamily: 'Oswald', fontWeight: 700, fontSize: 60, border: '5px solid #000'}}>1-QISM</div>}
     </AbsoluteFill>
   );
 };
