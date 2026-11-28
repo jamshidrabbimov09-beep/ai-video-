@@ -22,6 +22,7 @@ import {TQ4Cover} from './tasavvur/TQ4Cover';
 import {Part1V3, PART1_V3_FRAMES} from './Part1V3';
 import {Part1V2, PART1_V2_FRAMES} from './Part1V2';
 import {Part1Rough, PART1_FRAMES} from './Part1Rough';
+import {Koinot, KOINOT_FRAMES} from './koinot/Koinot';
 import {Composition, AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 
 const Test: React.FC = () => {
@@ -63,6 +64,7 @@ export const Root: React.FC = () => (
   <Composition id="TQ2Cover" component={TQ2Cover} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="MapTest" component={MapTest} durationInFrames={1} fps={30} width={1080} height={1920} />
   <Composition id="BekSheet" component={BekSheet} durationInFrames={1} fps={30} width={1080} height={1920} />
+  <Composition id="Koinot" component={Koinot} durationInFrames={KOINOT_FRAMES} fps={30} width={1080} height={1920} />
   <Composition id="Test" component={Test} durationInFrames={60} fps={30} width={1920} height={1080} />
   </>
 );
